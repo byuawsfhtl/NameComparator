@@ -10,7 +10,7 @@ class NameComparator():
     """The class used for fuzzy comparing two names.
     """    
     def __init__(self) -> None:
-        """Sets up the necessary attributes needed for most name comparisons
+        """Sets up the necessary attributes needed for most name comparisons.
         """        
         self.namesToIpa:dict = self._getDataFromJson('_ipa_all_names.json')
         self.syllableToIpa:dict = self._getDataFromJson('_ipa_common_word_parts.json')
@@ -52,7 +52,7 @@ class NameComparator():
                     self.nicknameToNicknameSetNum[name] = [i]
     
     def _getDataFromJson(self, fileName:str) -> dict|list:
-        """Accesses data stored in the specified file 
+        """Accesses data stored in the specified file.
 
         Args:
             fileName (str): the specified json file
@@ -66,7 +66,7 @@ class NameComparator():
             return json.load(file)
 
     def compareTwoNames(self, name0:str, name1:str) -> dict:
-        """Compares two names to identify whether they are a fuzzy match
+        """Compares two names to identify whether they are a fuzzy match.
 
         Args:
             name0 (str): a name
@@ -138,7 +138,7 @@ class NameComparator():
             return data
 
     def _cleanNameByItself(self, name:str) -> str:
-        """Cleans a singular name to get rid of extra or unhelpful data, or to standardize surnames
+        """Cleans a singular name to get rid of extra or unhelpful data, or to standardize surnames.
 
         Args:
             name (str): the name being cleaned
@@ -218,7 +218,7 @@ class NameComparator():
         return name
 
     def _cleanNamesTogether(self, name0:str, name1:str) -> tuple[str, str]:
-        """Cleans names by comparing them to one another, fixing common errors to standardize
+        """Cleans names by comparing them to one another, fixing common errors to standardize.
 
         Args:
             name0 (str): a name
@@ -239,7 +239,7 @@ class NameComparator():
         name0, name1 = self._fixMcMac(name0, name1)
 
         # Deal with just Irish names
-        o_names = [
+        oNames = [
             'beirne', 'berry', 'boyle', 'bryant', 'brian', 'brien', 'bryan', 'ceallaigh', 'conner',
             'connor', 'conor', 'daniel', 'day', 'dean', 'dea', 'doherty', 'donnell', 'donnel', 'donoghue',
             'donohue', 'donovan', 'dowd', 'driscoll', 'fallon', 'farrell', 'flaherty', 'flanagan', 'flynn',
@@ -251,7 +251,7 @@ class NameComparator():
             'reilly', 'riley', 'riordan', 'roark', 'rorke', 'rourke', 'ryan', 'shaughnessy', 'shea',
             'shields', 'sullivan', 'toole', 'tool',
         ]
-        for surname in o_names:
+        for surname in oNames:
             name0, name1 = self._removeIrishO(name0, name1, surname)
 
         # Deal with prefixes and optional intros that make the match worse
@@ -331,7 +331,7 @@ class NameComparator():
         return name0Edited, name1Edited
     
     def _calculateEditImprovement(self, name0:str, name1:str, name0Edited:str, name1Edited:str) -> tuple[float, tuple, tuple]:
-        """Calculates how much editing a name or both names improved the score in comparison to the original names
+        """Calculates how much editing a name or both names improved the score in comparison to the original names.
 
         Args:
             name0 (str): the original first name
@@ -351,7 +351,7 @@ class NameComparator():
         return diff, ogWordCombo, editedWordCombo
 
     def _getPairIndicesAndWords(self, name0:str, name1:str) -> list[tuple[int, int, str, str]]:
-        """Identifies which words in the names match
+        """Identifies which words in the names match.
 
         Args:
             name0 (str): a name
@@ -407,7 +407,7 @@ class NameComparator():
             return ' '.join(self.words0), ' '.join(self.words1)
     
     def _fixRelatedPrefixes(self, name0:str, name1:str, prefixA:str, prefixB:str) -> tuple[str, str]:
-        """Cleans names to deal with prefixes that are different by spelling, but functionally the same
+        """Cleans names to deal with prefixes that are different by spelling, but functionally the same.
 
         Args:
             name0 (str): a name
@@ -438,7 +438,7 @@ class NameComparator():
         return name0, name1
     
     def _fixMcMac(self, name0:str, name1:str) -> tuple[str, str]:
-        """Modified names to fix problems where mc or mac are in either names and don't match when they should
+        """Modified names to fix problems where mc or mac are in either names and don't match when they should.
 
         Args:
             name0 (str): a name
@@ -496,7 +496,7 @@ class NameComparator():
         return ne.getModifiedNames()
 
     def _removeIrishO(self, name0:str, name1:str, surname:str) -> tuple[str, str]:
-        """Removes the irish O if needed for easier name comparison
+        """Removes the irish O if needed for easier name comparison.
 
         Args:
             name0 (str): a name
@@ -527,7 +527,7 @@ class NameComparator():
         return name0, name1
 
     def _removeUnnecessaryPrefixes(self, name0:str, name1:str, prefix:str) -> tuple[str,str]:
-        """Removes an unnecessary prefix from either or both of the names
+        """Removes an unnecessary prefix from either or both of the names.
 
         Args:
             name0 (str): a name
@@ -595,7 +595,7 @@ class NameComparator():
         return name0, name1
 
     def _combinePrefixWithSurnameifInBoth(self, name0:str, name1:str, prefix:str) -> tuple[str, str]:
-        """Combines the prefix with the surname in both of the names if the prefix exists in both
+        """Combines the prefix with the surname in both of the names if the prefix exists in both.
 
         Args:
             name0 (str): a name
@@ -620,7 +620,7 @@ class NameComparator():
         return name0, name1
 
     def _combineSplitWords(self, name0:str, name1:str) -> tuple[str, str]:
-        """Combines words within one of the names if that combination is one word in the other name
+        """Combines words within one of the names if that combination is one word in the other name.
 
         Args:
             name0 (str): a name
@@ -710,7 +710,7 @@ class NameComparator():
         return False, name0, name1
 
     def _eitherNameTooShort(self, name0:str, name1:str) -> bool:
-        """Identifies if either of the names is too short
+        """Identifies if either of the names is too short.
 
         Args:
             name0 (str): a name
@@ -727,7 +727,7 @@ class NameComparator():
             return False
 
     def _findWhichWordsMatchAndHowWell(self, name0:str, name1:str) -> list[tuple[str, str, int]]:
-        """Identifies which words in either name are a match, and how well they match
+        """Identifies which words in either name are a match, and how well they match.
 
         Args:
             name0 (str): a name
@@ -807,7 +807,7 @@ class NameComparator():
         return bestCombo
 
     def _eitherNameTooGeneric(self, name0:str, name1:str) -> bool:
-        """Identifies if either name is too generic
+        """Identifies if either name is too generic.
 
         Args:
             name0 (str): a name
@@ -843,7 +843,7 @@ class NameComparator():
             return False
 
     def _hasRareSurname(self, name:str) -> bool:
-        """Identifies if a name has a rare surname
+        """Identifies if a name has a rare surname.
 
         Args:
             name (str): a name
@@ -862,7 +862,7 @@ class NameComparator():
             return False
 
     def _removeNicknames(self, name0:str, name1:str) -> tuple[str, str]:
-        """Replaces the nickname in one name for the official name found in the other
+        """Replaces the nickname in one name for the official name found in the other.
 
         Args:
             name0 (str): a name
@@ -902,7 +902,7 @@ class NameComparator():
         return name0, name1
 
     def _spellingComparison(self, name0:str, name1:str) -> tuple[bool, list]:
-        """Identifies if two names are a match according to a comparison based soley on spelling
+        """Identifies if two names are a match according to a comparison based soley on spelling.
 
         Args:
             name0 (str): a name
@@ -931,7 +931,7 @@ class NameComparator():
         return False, wordCombo
 
     def _consonantComparison(self, name0:str, name1:str) -> bool:
-        """Identifies if two names are a match according to consonant comparison
+        """Identifies if two names are a match according to consonant comparison.
 
         Args:
             name0 (str): a name
@@ -990,7 +990,7 @@ class NameComparator():
             return False
 
     def _isWorthContinuing(self, name0:str, name1:str) -> bool:
-        """Identifies if a name comparison will always prove false
+        """Identifies if a name comparison will always prove false.
 
         Args:
             name0 (str): _description_
@@ -1015,7 +1015,7 @@ class NameComparator():
             return True
 
     def _modifyNamesTogether(self, name0:str, name1:str) -> tuple[str,str]:
-        """Modifies the name together (changing them in a way that is much more intense than simply cleaning together)
+        """Modifies the name together (changing them in a way that is much more intense than simply cleaning together).
 
         Args:
             name0 (str): a name
@@ -1055,7 +1055,7 @@ class NameComparator():
 
     def _removeOrInNames(self, name0:str, name1:str) -> tuple[str, str]:
         """Removes the word 'or' from a name (assuming that the name could have been 
-        poorly indexed so that the indexer's guesses for a specific word of the name is still within the string)
+        poorly indexed so that the indexer's guesses for a specific word of the name is still within the string).
 
         Args:
             name0 (str): a name
@@ -1109,7 +1109,7 @@ class NameComparator():
 
     def _fixVowelMistakes(self, name0:str, name1:str) -> tuple[str, str]:
         """Modifies two matching words in a name so that they are the same if 
-        they are only different by one vowel and 5 letters or more
+        they are only different by one vowel and 5 letters or more.
 
         Args:
             name0 (str): a name
@@ -1163,7 +1163,7 @@ class NameComparator():
         return ne.getModifiedNames()
 
     def _fixSwappedChars(self, name0:str, name1:str) -> tuple[str, str]:
-        """If two matching words (of 5 letters of more) for the two names are the same barring swapped letters (typo), makes the words the same
+        """If two matching words (of 5 letters of more) for the two names are the same barring swapped letters (typo), makes the words the same.
 
         Args:
             name0 (str): a name
@@ -1214,7 +1214,7 @@ class NameComparator():
         return ne.getModifiedNames()
                     
     def _dealWithWrongFirstChar(self, name0, name1):
-        """If two matching words (of 5 letters or more) are the same barring the first letter, makes the same
+        """If two matching words (of 5 letters or more) are the same barring the first letter, makes the same.
 
         Args:
             name0 (_type_): _description_
@@ -1233,7 +1233,7 @@ class NameComparator():
         return name0, name1
 
     def _replaceSubstringSandwichMeatIfMatchingBread(self, name0:str, name1:str, meatOption1:str, meatOption2:str, bottomBreadOptions:list[str], topBreadOptions:list[str], minRequiredLetters:int) -> tuple[str,str]:
-        """For any given matching word pair, replaces a specific substring in one of the words, with a similar substring found in the other word
+        """For any given matching word pair, replaces a specific substring in one of the words, with a similar substring found in the other word.
 
         Args:
             name0 (str): a name
@@ -1330,7 +1330,7 @@ class NameComparator():
         return name0, name1
 
     def _pronunciationComparison(self, name0:str, name1:str) -> tuple[bool, list, str, str]:
-        """Identifies whether two names are a match according to a pronunciation comparison
+        """Identifies whether two names are a match according to a pronunciation comparison.
 
         Args:
             name0 (str): a name
@@ -1418,7 +1418,7 @@ class NameComparator():
             return False, cleanedMaxCombination, ipaOfName0, ipaOfName1
 
     def _getPronunciation(self, name:str) -> str:
-        """Gets the pronunciation of the name
+        """Gets the pronunciation of the name.
 
         Args:
             name (str): a name
@@ -1434,7 +1434,7 @@ class NameComparator():
 
     @lru_cache(maxsize=1000)
     def _getIpaOfOneWord(self, word:str) -> str:
-        """Gets the pronunciation of one word
+        """Gets the pronunciation of one word.
 
         Args:
             word (str): a word
@@ -1524,7 +1524,7 @@ class NameComparator():
         return pronunciation
 
     def _pronunciationHailMary(self, word:str) -> str:
-        """Tries to get the pronunciation from the predefined ipa dictionary
+        """Tries to get the pronunciation from the predefined ipa dictionary.
 
         Args:
             word (str): the regular word
@@ -1538,13 +1538,14 @@ class NameComparator():
         return word + "*"
 
     def _convert(self, word:str) -> str:
-        """_summary_
+        """Helper function of _getIpaOfOneWord.
+        Gets the ipa of a word (with more than one letter).
 
         Args:
-            word (str): _description_
+            word (str): a word (with more than one letter)
 
         Returns:
-            str: _description_
+            str: the ipa of that word
         """        
         ipaPronunciation = self.syllableToIpa.get(word)
         if ipaPronunciation != None:
@@ -1552,7 +1553,7 @@ class NameComparator():
         return word + "*"
 
     def _cleanIpa(self, ipa:str) -> str:
-        """cleans ipa to get rid of double ipa-consonants and other mistakes
+        """cleans ipa to get rid of double ipa-consonants and other mistakes.
 
         Args:
             ipa (str): the ipa of a word
