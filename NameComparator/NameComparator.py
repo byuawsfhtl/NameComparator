@@ -111,7 +111,7 @@ class NameComparator():
         if self._isWorthContinuing(name0, name1) is False:
             return data
 
-        # 2nd attempt: Modify names via spelling rules, then check again if matcha according to string comparison
+        # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
         modifiedName0, modifiedName1 = self._modifyNamesTogether(name0, name1)
         match, wordCombo = self._spellingComparison(modifiedName0, modifiedName1)
         data['attempt2'] = (modifiedName0, modifiedName1, wordCombo)
