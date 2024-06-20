@@ -368,10 +368,10 @@ class NameComparator():
         return matchIndicesWithWords
 
     class NameEditor():
-        """ A class used for ease of editing specific words in names. TODO implement more where possible
+        """ A class used for ease of editing specific words in names. TODO implement more where possible.
         """        
         def __init__(self, name0:str, name1:str) -> None:
-            """Splits the words for later editing
+            """Splits the words for later editing.
 
             Args:
                 name0 (str): a name
@@ -381,7 +381,7 @@ class NameComparator():
             self.words1 = name1.split()
         
         def updateName0(self, index:int, updatedWord:str) -> None:
-            """Replaces the stored word for name0 at the specified index
+            """Replaces the stored word for name0 at the specified index.
 
             Args:
                 index (int): the specified index
@@ -390,7 +390,7 @@ class NameComparator():
             self.words0[index] = updatedWord
 
         def updateName1(self, index:int, updatedWord:str) -> None:
-            """Replaces the stored word for name1 at the specified index
+            """Replaces the stored word for name1 at the specified index.
 
             Args:
                 index (int): the specified index
@@ -399,7 +399,7 @@ class NameComparator():
             self.words1[index] = updatedWord
 
         def getModifiedNames(self) -> tuple[str, str]:
-            """Retrieves the modified names
+            """Retrieves the modified names.
 
             Returns:
                 tuple[str, str]: the modified names
@@ -945,7 +945,7 @@ class NameComparator():
         minRequiredMatches = len(wordCombo)
         numWordConsonantMatches = 0
         def reduceToSimpleConsonants(string:str) -> str:
-            """Reduces a string to the simple consonant componants
+            """Reduces a string to the simple consonant componants.
 
             Args:
                 string (str): a string
@@ -1213,15 +1213,15 @@ class NameComparator():
         # Return the modified (or not) names
         return ne.getModifiedNames()
                     
-    def _dealWithWrongFirstChar(self, name0, name1):
+    def _dealWithWrongFirstChar(self, name0:str, name1:str) -> tuple[str, str]:
         """If two matching words (of 5 letters or more) are the same barring the first letter, makes the same.
 
         Args:
-            name0 (_type_): _description_
-            name1 (_type_): _description_
+            name0 (str): a name
+            name1 (str): a name
 
         Returns:
-            _type_: _description_
+            tuple[str, str]: the modified names
         """        
         ne = self.NameEditor(name0, name1)
         for index1, _, word1, word2 in self._getPairIndicesAndWords(name0, name1):
@@ -1249,7 +1249,7 @@ class NameComparator():
         """        
         # Setup
         def overwriteWithSubstring(string:str, replacement:str, startIndex:int, endIndex:int) -> str:
-            """Overwrites a specific index range of a string with the replacement string
+            """Overwrites a specific index range of a string with the replacement string.
 
             Args:
                 string (str): the string to replace
@@ -1448,7 +1448,7 @@ class NameComparator():
         word = word.lower()
         pronunciationList = [""] * len(word)
         def substringSplitsTh(substring:str, word:str, i:int, j:int) -> bool:
-            """Helps to identify poor substring choices for words for ipa
+            """Helps to identify poor substring choices for words for ipa.
 
             Args:
                 substring (str): the ipa dissection
