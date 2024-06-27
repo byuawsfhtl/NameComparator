@@ -1068,6 +1068,8 @@ class NameComparator():
         """        
         if (not name0) or (not name1):
             return name0, name1
+        name0 = name0.strip()
+        name1 = name1.strip()
         name0, name1 = name0.lower(), name1.lower()
         # if or in neither
         if (not " or " in name0) and (not " or " in name1):
