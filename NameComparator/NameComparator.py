@@ -345,6 +345,8 @@ class NameComparator():
         """        
         ogWordCombo = self._findWhichWordsMatchAndHowWell(name0, name1)
         editedWordCombo = self._findWhichWordsMatchAndHowWell(name0Edited, name1Edited)
+        if (not ogWordCombo) or (not editedWordCombo):
+            return 0, ogWordCombo, editedWordCombo
         ogAverageScore = sum(tup[2] for tup in ogWordCombo) / len(ogWordCombo)
         editedAverageScore = sum(tup[2] for tup in editedWordCombo) / len(editedWordCombo)
         diff = editedAverageScore - ogAverageScore
@@ -1064,6 +1066,10 @@ class NameComparator():
         Returns:
             tuple[str, str]: the modified names
         """        
+        if (not name0) or (not name1):
+            return name0, name1
+        name0 = name0.strip()
+        name1 = name1.strip()
         name0, name1 = name0.lower(), name1.lower()
         # if or in neither
         if (not " or " in name0) and (not " or " in name1):
