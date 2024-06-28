@@ -6,6 +6,7 @@ import itertools
 import json
 import os
 
+
 class NameComparator():
     """The class used for fuzzy comparing two names.
     """    
