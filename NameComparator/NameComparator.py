@@ -1,6 +1,9 @@
 from unidecode import unidecode
 from functools import lru_cache
 from fuzzywuzzy import fuzz
+from scipy.optimize import linear_sum_assignment
+from typing import Callable
+import numpy as np
 import re
 import itertools
 import json
@@ -740,74 +743,57 @@ class NameComparator():
             list[tuple[str, str, int]]: a list of tuples idenifying the index of the word in the first name,
               the index of the word in the second name, and the score of how well they match
         """
-        # Split strings into lists of words
+        # Initialize empty list to store scores
         words0 = name0.split()
         words1 = name1.split()
-
-        # Initialize empty list to store scores
-        scores = []
-
-        # Loops through each word in words1 and compare to each word in words2
+        if len(words0) != len(words1):
+            if len(words0) < len(words1):
+                words0 += [None] * (len(words1) - len(words0))
+            else:
+                words1 += [None] * (len(words0) - len(words1))
+        
+        # Score each matchup
+        scores = np.zeros((len(words0), len(words1)))
         for i, word0 in enumerate(words0):
             for j, word1 in enumerate(words1):
-                # Gets the score for how well the words match by using fuzzywuzzy
-                rScore = fuzz.ratio(word0, word1)
-                prScore = fuzz.partial_ratio(word0, word1)
-                score = max(rScore, prScore)
-                if word0[0] != word1[0]:
-                    score = rScore
-
-                # Unless word1 or word2 is only an initial,
+                # Assign a very low finite score to dummy pairings
+                score = scores[i, j] = -1e9 
+                if (word0 is None) or (word1 is None):
+                    continue
+                # Assign the score this way if either is initial
                 if (len(word0) == 1) or (len(word1) == 1):
-                    # If the initial matches the first letter of the other word, give it a near perfect score
                     if (word0[0] == word1[0]):
                         score = 100
-                    # Otherwise the score is 0
                     else:
                         score = 0
-
-                # Add the score to scores
-                scores.append((f"{i} words1", f"{j} words2", score))
-
-        # Gets the length of the shortest word
-        minLength = min(len(words0), len(words1))
-
-        # Generate all combinations of tuples with length equal to the number of words in string2
-        combinations = itertools.combinations(scores, minLength)
-
-        # Filter the combinations to include only valid combinations
-        validCombinations = [c for c in combinations if len(set(x[0] for x in c)) == len(c) and len(set(x[1] for x in c)) == len(c)]
-
-        # Cleans the valid combinations
-        cleanedValidCombinations = []
-        for validCombo in validCombinations:
-            cleanedValidCombo = []
-            for tup in validCombo:
-                cleanedTup = tuple([s.replace(' words1', '').replace(' words2', '') for s in tup[:2]] + [tup[2]])
-                cleanedValidCombo.append(cleanedTup)
-            cleanedValidCombinations.append(cleanedValidCombo)
-
-        # Find the combination(s) with the maximum sum
-        maxSum = sum(y[2] for y in max(cleanedValidCombinations, key=lambda x: sum(y[2] for y in x)))
-        maxCombinations = []
-        for combo in cleanedValidCombinations:
-            if (sum(y[2] for y in combo)) == maxSum:
-                maxCombinations.append(combo)
-
-        # Assigns the max score combination with the most letters to be best_combo
-        bestCombo = []
-        maxLetterCount = 0
-        for combo in maxCombinations:
-            letterCount = 0
-            for tup in combo:
-                x, y, _ = map(int, (tup[0], tup[1], tup[2]))
-                letterCount += len(words0[x]) + len(words1[y])
-            if letterCount > maxLetterCount:
-                maxLetterCount = letterCount
-                bestCombo = combo
-
-        # Returns the combination of word matches that are the closest match
-        return bestCombo
+                # For words longer than 2, either use ratio or partial ratio
+                # for score as shown below.
+                else:
+                    ratio = fuzz.ratio(word0, word1)
+                    if (word0[0] == word1[0]) and (ratio < 80):
+                        prScore = fuzz.partial_ratio(word0, word1)
+                        score = max(ratio, prScore)
+                    else:
+                        score = ratio
+                # Add the score
+                scores[i, j] = score
+        
+        # Identify the best matchups
+        listA = [str(i) for i in range(len(words0))]
+        listB = [str(i) for i in range(len(words1))]
+        return self._identifyBestMatchups(scores=scores, listA=listA, listB=listB)
+    
+    def _identifyBestMatchups(self, scores:np.ndarray, listA:list, listB:list):    
+        # Use the Hungarian algorithm to find the optimal assignments
+        rowInd, colInd = linear_sum_assignment(-scores)
+        
+        # Prepare the best combination
+        bestCombination = []
+        for i, j in zip(rowInd, colInd):
+            if listA[i] is not None and listB[j] is not None:
+                matchupScore = scores[i, j]
+                bestCombination.append((listA[i], listB[j], matchupScore))
+        return bestCombination
 
     def _eitherNameTooGeneric(self, name0:str, name1:str) -> bool:
         """Identifies if either name is too generic.
@@ -1593,3 +1579,4 @@ class NameComparator():
         for rule in self.ipaRules:
             ipa0, ipa1 = self._replaceSubstringSandwichMeatIfMatchingBread(ipa0, ipa1, rule[0], rule[1], rule[2], rule[3], rule[4])
         return ipa0, ipa1
+    

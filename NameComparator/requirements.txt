@@ -1,3 +1,5 @@
 unidecode
 fuzzywuzzy
 python-Levenshtein
+numpy
+scipy
