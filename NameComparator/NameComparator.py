@@ -770,7 +770,7 @@ class NameComparator():
                 # for score as shown below.
                 else:
                     ratio = fuzz.ratio(word0, word1)
-                    if (word0[0] == word1[0]) and (ratio < 80):
+                    if (word0[0] == word1[0]):
                         prScore = fuzz.partial_ratio(word0, word1)
                         score = max(ratio, prScore)
                     else:
