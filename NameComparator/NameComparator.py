@@ -779,18 +779,18 @@ class NameComparator():
                 scores[i, j] = score
         
         # Identify the best matchups
-        listA = [str(i) for i in range(len(words0))]
-        listB = [str(i) for i in range(len(words1))]
-        return self._identifyBestMatchups(scores=scores, listA=listA, listB=listB)
+        words0 = [str(i) if word is not None else None for i, word in enumerate(words0)]
+        words1 = [str(i) if word is not None else None for i, word in enumerate(words1)]
+        return self._identifyBestMatchups(scores=scores, listA=words0, listB=words1)
     
-    def _identifyBestMatchups(self, scores:np.ndarray, listA:list, listB:list):    
+    def _identifyBestMatchups(self, scores:np.ndarray, listA:list, listB:list):
         # Use the Hungarian algorithm to find the optimal assignments
         rowInd, colInd = linear_sum_assignment(-scores)
         
         # Prepare the best combination
         bestCombination = []
         for i, j in zip(rowInd, colInd):
-            if listA[i] is not None and listB[j] is not None:
+            if (listA[i] is not None) and (listB[j] is not None):
                 matchupScore = scores[i, j]
                 bestCombination.append((listA[i], listB[j], matchupScore))
         return bestCombination
