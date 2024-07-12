@@ -756,7 +756,7 @@ class NameComparator():
         for i, word0 in enumerate(words0):
             for j, word1 in enumerate(words1):
                 # Assign a very low finite score to dummy pairings
-                score = scores[i, j] = -1e9 
+                scores[i, j] = -1e9 
                 if (word0 is None) or (word1 is None):
                     continue
                 # Assign the score this way if either is initial
@@ -1331,9 +1331,6 @@ class NameComparator():
         Returns:
             tuple[bool, list, str, str]: whether the name was a match, the word combo, the ipa of name0, the ipa of name1
         """        
-        # Necessary for pronunciation comparison
-        wordCombo = self._findWhichWordsMatchAndHowWell(name0, name1)
-
         # Gets Ipas
         ipaOfName0 = self._getPronunciation(name0)
         ipaOfName1 = self._getPronunciation(name1)
@@ -1343,14 +1340,9 @@ class NameComparator():
         ipaOfName1 = self._cleanIpa(ipaOfName1)
         ipaOfName0, ipaOfName1 = self._modifyIpasTogether(ipaOfName0, ipaOfName1)
 
-        # Matches the ipa words within the two names
-        # Splits strings into lists of words
+        # Initialize empty list to store scores
         words0 = ipaOfName0.split()
         words1 = ipaOfName1.split()
-
-        # Initialize empty list to store scores
-        words0 = name0.split()
-        words1 = name1.split()
         if len(words0) != len(words1):
             if len(words0) < len(words1):
                 words0 += [None] * (len(words1) - len(words0))
@@ -1359,10 +1351,11 @@ class NameComparator():
         scores = np.zeros((len(words0), len(words1)))
 
         # Score each matchup
+        wordCombo = self._findWhichWordsMatchAndHowWell(name0, name1)
         for i, word0 in enumerate(words0):
             for j, word1 in enumerate(words1):
                 # Assign a very low finite score to dummy pairings
-                score = scores[i, j] = -1e9 
+                scores[i, j] = -1e9 
                 if (word0 is None) or (word1 is None):
                     continue
                 # Use fuzz.ratio to compare the words and store the score
@@ -1380,10 +1373,10 @@ class NameComparator():
         words0 = [str(i) if word is not None else None for i, word in enumerate(words0)]
         words1 = [str(i) if word is not None else None for i, word in enumerate(words1)]
         wordCombo = self._identifyBestMatchups(scores=scores, listA=words0, listB=words1)
-        lowestScore = min(tup[2] for tup in wordCombo)
+        lowestScore = min(wordCombo, key=lambda tuple: tuple[2])[2]
 
         # If the shortest name is two words in length
-        minLength = min(len(words0), len(words1))
+        minLength = min(len(ipaOfName0.split()), len(ipaOfName1.split()))
         if minLength <= 2:
             # If the lowest score match is greater than or equal to 80, it's a good pronunciation match
             if lowestScore >= 80:
