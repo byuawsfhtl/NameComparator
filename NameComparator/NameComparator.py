@@ -783,10 +783,17 @@ class NameComparator():
         return self._identifyBestMatchups(scores=scores, listA=words0, listB=words1)
     
     def _identifyBestMatchups(self, scores:np.ndarray, listA:list[str|None], listB:list[str|None]) -> list[tuple[str, str, int]]:
-        # Use the Hungarian algorithm to find the optimal assignments
+        """Uses the Hungarian algorithm to find the optimal assignments
+
+        Args:
+            scores (np.ndarray): the scores of a certain matchup
+            listA (list[str | None]): a list of indices as strings or None
+            listB (list[str | None]): a list of indices as strings or None
+
+        Returns:
+            list[tuple[str, str, int]]: the word combo
+        """        
         rowInd, colInd = linear_sum_assignment(-scores)
-        
-        # Prepare the best combination
         bestCombination = []
         for i, j in zip(rowInd, colInd):
             if (listA[i] is not None) and (listB[j] is not None):
