@@ -783,7 +783,7 @@ class NameComparator():
         return self._identifyBestMatchups(scores=scores, listA=words0, listB=words1)
     
     def _identifyBestMatchups(self, scores:np.ndarray, listA:list[str|None], listB:list[str|None]) -> list[tuple[str, str, int]]:
-        """Uses the Hungarian algorithm to find the optimal assignments
+        """Uses the Hungarian algorithm to find the optimal assignments.
 
         Args:
             scores (np.ndarray): the scores of a certain matchup
