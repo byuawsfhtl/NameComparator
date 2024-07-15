@@ -4,7 +4,6 @@ from fuzzywuzzy import fuzz
 from scipy.optimize import linear_sum_assignment
 import numpy as np
 import re
-import itertools
 import json
 import os
 
@@ -91,9 +90,9 @@ class NameComparator():
 
         # Do defensive programming
         if not isinstance(name0, str):
-            raise ValueError(f'name0 was {type(name0)}. Must be str.')
+            raise TypeError(f'name0 was {type(name0)}. Must be str.')
         if not isinstance(name1, str):
-            raise ValueError(f'name1 was {type(name1)}. Must be str.')
+            raise TypeError(f'name1 was {type(name1)}. Must be str.')
 
         # Clean names
         name0 = self._cleanNameByItself(name0)
