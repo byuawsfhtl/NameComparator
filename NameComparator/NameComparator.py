@@ -4,7 +4,6 @@ from fuzzywuzzy import fuzz
 from scipy.optimize import linear_sum_assignment
 import numpy as np
 import re
-import itertools
 import json
 import os
 
@@ -89,6 +88,12 @@ class NameComparator():
             'attempt4': None
         }
 
+        # Do defensive programming
+        if not isinstance(name0, str):
+            raise TypeError(f'name0 was {type(name0)}. Must be str.')
+        if not isinstance(name1, str):
+            raise TypeError(f'name1 was {type(name1)}. Must be str.')
+
         # Clean names
         name0 = self._cleanNameByItself(name0)
         name1 = self._cleanNameByItself(name1)
@@ -96,6 +101,12 @@ class NameComparator():
 
         # Check if either name is too short (one word or less)
         data['tooShort'] = self._eitherNameTooShort(name0, name1)
+        if not name0:
+            name0 = '_'
+        if not name1:
+            name1 = '_'
+        if (name0 == '_') or (name1 == '_'):
+            return data
 
         # Check if either name is too generic
         data['tooGeneric'] = self._eitherNameTooGeneric(name0, name1)
@@ -218,6 +229,8 @@ class NameComparator():
         # Deal with whitespace one last time, then return
         name = re.sub(r" +", " ", name)
         name = name.strip()
+        if not name:
+            name = '_'
         return name
 
     def _cleanNamesTogether(self, name0:str, name1:str) -> tuple[str, str]:
@@ -230,8 +243,12 @@ class NameComparator():
         Returns:
             tuple[str, str]: the two cleaned names
         """        
-        # Returns if either name is blank
-        if (name0 == "" or name1 == ""):
+        # Return if either name is blank
+        if not name0:
+            name0 = '_'
+        if not name1:
+            name1 = '_'
+        if (name0 == "_") or (name1 == "_"):
             return name0, name1
         
         # Deal with dashes
@@ -298,6 +315,10 @@ class NameComparator():
         name1 = re.sub(r'\s+', ' ', name1)
         name0 = name0.strip()
         name1 = name1.strip()
+        if not name0:
+            name0 = '_'
+        if not name1:
+            name1 = '_'
 
         # Return the cleaned names
         return name0, name1
@@ -323,6 +344,10 @@ class NameComparator():
         # Try replacing the dash with a space, and combine words if necessary
         name0Edited = name0.replace('-', ' ')
         name1Edited = name1.replace('-', ' ')
+        if not name0Edited:
+            name0Edited = '_'
+        if not name1Edited:
+            name1Edited = '_'
         _, name0Edited, name1Edited = self._combineSplitWords(name0Edited, name1Edited)
 
         # Return old if the score did not improve
@@ -409,7 +434,13 @@ class NameComparator():
             Returns:
                 tuple[str, str]: the modified names
             """            
-            return ' '.join(self.words0), ' '.join(self.words1)
+            name0 = ' '.join(self.words0)
+            name1 = ' '.join(self.words1)
+            if not name0:
+                name0 = '_'
+            if not name1:
+                name1 = '_'
+            return name0, name1
     
     def _fixRelatedPrefixes(self, name0:str, name1:str, prefixA:str, prefixB:str) -> tuple[str, str]:
         """Cleans names to deal with prefixes that are different by spelling, but functionally the same.
@@ -485,11 +516,11 @@ class NameComparator():
 
                 # Skip pair if the prefix is removed and not a good fuzzy match
                 if word0.startswith(prefix):
-                    updatedWord0 = word0.replace(prefix, "", 1)
+                    updatedWord0 = word0.replace(prefix, '', 1)
                     updatedWord1 = word1
                 else:
                     updatedWord0 = word0
-                    updatedWord1 = word1.replace(prefix, "", 1)
+                    updatedWord1 = word1.replace(prefix, '', 1)
                 if fuzz.ratio(updatedWord0, updatedWord1) < 75:
                     continue
 
@@ -581,6 +612,10 @@ class NameComparator():
                 length = len(matchedWord)
                 if length > len(prefix) + 4:
                     name1Edited = name1.replace(spacePrefix, " ")
+        if not name0Edited:
+            name0Edited = '_'
+        if not name1Edited:
+            name1Edited = '_'
 
         # If the edits were significantly beneficial (or pass spell), return the edited versions
         improvement, _, _= self._calculateEditImprovement(name0, name1, name0Edited, name1Edited)
@@ -1074,11 +1109,15 @@ class NameComparator():
         elif " or " in name0:
             # Gets the score for if the word before 'or' is removed
             name0EditedA = re.sub("[a-z]+ or ", " ", name0)
+            if not name0EditedA:
+                name0EditedA = '_'
             wordComboA = self._findWhichWordsMatchAndHowWell(name0EditedA, name1)
             averageScoreA = sum(tup[2] for tup in wordComboA) / len(wordComboA)
 
             # Gets the score for if the word after 'or' is removed
             name0EditedB = re.sub(" or [a-z]+", " ", name0)
+            if not name0EditedB:
+                name0EditedB = '_'
             wordComboB =  self._findWhichWordsMatchAndHowWell(name0EditedB, name1)
             averageScoreB = sum(tup[2] for tup in wordComboB) / len(wordComboB)
 
@@ -1091,11 +1130,15 @@ class NameComparator():
         # if or in 2, not 1
         elif " or " in name1:
             name1EditedA = re.sub("[a-z]+ or ", " ", name1)
+            if not name1EditedA:
+                name1EditedA = '_'
             wordComboA = self._findWhichWordsMatchAndHowWell(name1EditedA, name0)
             averageScoreA = sum(tup[2] for tup in wordComboA) / len(wordComboA)
 
             # Gets the score for if the word after 'or' is removed
             name1EditedB = re.sub(" or [a-z]+", " ", name1)
+            if not name1EditedB:
+                name1EditedB = '_'
             wordComboB =  self._findWhichWordsMatchAndHowWell(name1EditedB, name0)
             averageScoreB = sum(tup[2] for tup in wordComboB) / len(wordComboB)
 
@@ -1425,7 +1468,7 @@ class NameComparator():
             str: the ipa of the word
         """
         # Setup
-        word = word.replace(" ", "")
+        word = word.strip()
         word = unidecode(word)
         word = word.lower()
         pronunciationList = [""] * len(word)
@@ -1553,6 +1596,8 @@ class NameComparator():
         ipa = ipa.replace("iɪ", "i")
         ipa = ipa.replace("ŋg", "ŋ")
         ipa = ipa.replace(",", "")
+        if not ipa:
+            ipa = '_'
         return ipa
 
     def _modifyIpasTogether(self, ipa0:str, ipa1:str) -> tuple[str,str]:
