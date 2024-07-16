@@ -575,7 +575,9 @@ class NameComparator():
         """        
         # If the prefix is not in either names, return the names
         name0 = re.sub(r"\s+", " ", name0)
+        name0 = name0.strip()
         name1 = re.sub(r"\s+", " ", name1)
+        name1 = name1.strip()
         if (f" {prefix}" not in name0) and (f" {prefix}" not in name1):
             return name0, name1
 
@@ -597,21 +599,27 @@ class NameComparator():
         name0Edited = re.sub(r"\s+", " ", name0Edited)
         name1Edited = re.sub(r"\s+", " ", name1Edited)
 
-        # If no edits were made, try removing spacePrefix if in just one name and it's a long word
-        if (name0 == name0Edited) and (name1 == name1Edited):
-            pattern = r'\b{}\w*\b'.format(spacePrefix)
-            if (spacePrefix in name0) and (spacePrefix not in name1):
-                match = re.search(pattern, name0)
-                matchedWord = match.group()
-                length = len(matchedWord)
-                if length > len(prefix) + 4:
-                    name0Edited = name0.replace(spacePrefix, " ")
-            elif(spacePrefix in name1) and (spacePrefix not in name0):
-                match = re.search(pattern, name1)
-                matchedWord = match.group()
-                length = len(matchedWord)
-                if length > len(prefix) + 4:
-                    name1Edited = name1.replace(spacePrefix, " ")
+        # If no edits were made, try removing spacePrefix if only in name0 and it's a long word
+        pattern = r'\b{}\w*\b'.format(spacePrefix)
+        noEditsMade = (name0 == name0Edited) and (name1 == name1Edited) 
+        spPreOnlyInName0 = (spacePrefix in name0) and (spacePrefix not in name1) 
+        matchOf0 = re.search(pattern, name0)
+        if (noEditsMade) and (spPreOnlyInName0) and (matchOf0 is not None):
+            matchedWord = matchOf0.group()
+            if len(matchedWord) > len(prefix) + 4:
+                name0Edited = name0.replace(spacePrefix, " ")
+
+        # If no edits were made, try removing spacePrefix if only in name1 and it's a long word
+        pattern = r'\b{}\w*\b'.format(spacePrefix)
+        noEditsMade = (name0 == name0Edited) and (name1 == name1Edited) 
+        spPreOnlyInName1 = (spacePrefix in name1) and (spacePrefix not in name0)
+        matchOf1 = re.search(pattern, name1)
+        if (noEditsMade) and (spPreOnlyInName1) and (matchOf1 is not None):
+            matchedWord = matchOf1.group()
+            if len(matchedWord) > len(prefix) + 4:
+                name1Edited = name1.replace(spacePrefix, " ")
+
+        # Safety
         if not name0Edited:
             name0Edited = '_'
         if not name1Edited:
@@ -630,8 +638,6 @@ class NameComparator():
             elif (word1.startswith(prefix)) and (word1[len(prefix):] == word0) and (len(word0) > 2):
                 ne.updateName1(index1, word1[len(prefix):])
         name0, name1 = ne.getModifiedNames()
-
-        # Otherwise, return originals
         return name0, name1
 
     def _combinePrefixWithSurnameifInBoth(self, name0:str, name1:str, prefix:str) -> tuple[str, str]:
