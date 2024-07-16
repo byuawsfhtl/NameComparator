@@ -638,6 +638,8 @@ class NameComparator():
             elif (word1.startswith(prefix)) and (word1[len(prefix):] == word0) and (len(word0) > 2):
                 ne.updateName1(index1, word1[len(prefix):])
         name0, name1 = ne.getModifiedNames()
+
+        # Whatever happened, just return
         return name0, name1
 
     def _combinePrefixWithSurnameifInBoth(self, name0:str, name1:str, prefix:str) -> tuple[str, str]:
