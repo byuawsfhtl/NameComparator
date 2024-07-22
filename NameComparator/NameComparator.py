@@ -845,7 +845,7 @@ class NameComparator():
         return bestCombination
 
     def _eitherNameTooGeneric(self, name0:str, name1:str) -> bool:
-        """Identifies if either name is too generic.
+        """Identifies if either name is too generic using lastname.
 
         Args:
             name0 (str): a name
@@ -854,27 +854,25 @@ class NameComparator():
         Returns:
             bool: whether the name is too generic
         """        
-        # Finds the length of the shortest of the two words
-        combo = self._findWhichWordsMatchAndHowWell(name0, name1)
-        shortestWordCount = len(combo)
+        # Return False if either name is missing a lastname
+        shortestWordCount = min(len(name0.split()), len(name1.split()))
+        if shortestWordCount <= 1:
+        # TODO consider checking how generic the firstname is if lastname is missing
+            return False
 
         # If both last names are very rare, returns False
         if self._hasRareSurname(name0) and self._hasRareSurname(name1):
+            print('doubt')
             return False
 
-        # Checks if the initials between the two names make a match too uncertain
-        words0 = name0.split()
-        words2 = name1.split()
+        # Check if the numbers of initials in all pairs makes a word match too uncertain
         nonInitialMatchCount = 0
-        for match in combo:
-            index1, index2, _ = match
-            word0 = words0[int(index1)]
-            word1 = words2[int(index2)]
-            initialInWord1 = len(word0) == 1
-            initialInWord2 = len(word1) == 1
-            if initialInWord1 or initialInWord2:
-                nonInitialMatchCount += 1
-
+        for _, _, word0, word1 in self._getPairIndicesAndWords(name0, name1):
+            initialInWord0 = (len(word0) == 1)
+            initialInWord1 = (len(word1) == 1)
+            if initialInWord0 or initialInWord1:
+                continue
+            nonInitialMatchCount += 1
         if shortestWordCount <= nonInitialMatchCount + 1:
             return True
         else:
@@ -890,7 +888,6 @@ class NameComparator():
             bool: whether the name's surname is rare
         """        
         # Isolates the last name
-        name = name.lower()
         surname = name.split()[-1]
 
         # If the last name is not in the list of surnames, returns true
