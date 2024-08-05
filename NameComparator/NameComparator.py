@@ -862,7 +862,6 @@ class NameComparator():
 
         # If both last names are very rare, returns False
         if self._hasRareSurname(name0) and self._hasRareSurname(name1):
-            print('doubt')
             return False
 
         # Check if the numbers of initials in all pairs makes a word match too uncertain
