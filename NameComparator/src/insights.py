@@ -1,21 +1,21 @@
 import NameComparator.src.usefulTools as usefulToolsMod
 import NameComparator.data.topSurnames as topSurnames
 
-def isWorthContinuing(name0:str, name1:str) -> bool:
+def isWorthContinuing(name0:str, nameB:str) -> bool:
     """Identifies if a name comparison will always prove false.
 
     Args:
         name0 (str): _description_
-        name1 (str): _description_
+        nameB (str): _description_
 
     Returns:
         bool: whether the names are worth working on further
     """        
-    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, name1)
+    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, nameB)
     oneLetterMatchFailCount = 0
     for match in wordCombo:
         word0 = name0[int(match[0])]
-        word1 = name1[int(match[1])]
+        word1 = nameB[int(match[1])]
         score = match[2]
         if (score == 0) and ((len(word0) == 1) or ((len(word1) == 1))):
             oneLetterMatchFailCount += 1
@@ -23,42 +23,42 @@ def isWorthContinuing(name0:str, name1:str) -> bool:
         return False
     return True
 
-def eitherNameTooShort(name0:str, name1:str) -> bool:
+def eitherNameTooShort(name0:str, nameB:str) -> bool:
     """Identifies if either of the names is too short.
 
     Args:
         name0 (str): a name
-        name1 (str): a name
+        nameB (str): a name
 
     Returns:
         bool: whether either was too short
     """        
-    combo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, name1)
+    combo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, nameB)
     shortestWordCount = len(combo)
     if shortestWordCount < 2:
         return True
     return False
 
-def eitherNameTooGeneric(name0:str, name1:str) -> bool:
+def eitherNameTooGeneric(name0:str, nameB:str) -> bool:
     """Identifies if either name is too generic using lastname.
 
     Args:
         name0 (str): a name
-        name1 (str): a name
+        nameB (str): a name
 
     Returns:
         bool: whether the name is too generic
     """        
     # Return False if either name is missing a lastname
-    shortestWordCount = min(len(name0.split()), len(name1.split()))
+    shortestWordCount = min(len(name0.split()), len(nameB.split()))
     if shortestWordCount <= 1:
         return False
     # If both last names are very rare, returns False
-    if _hasRareSurname(name0) and _hasRareSurname(name1):
+    if _hasRareSurname(name0) and _hasRareSurname(nameB):
         return False
     # Check if the numbers of initials in all pairs makes a word match too uncertain
     nonInitialMatchCount = 0
-    for _, _, word0, word1 in usefulToolsMod.getPairIndicesAndWords(name0, name1):
+    for _, _, word0, word1 in usefulToolsMod.getPairIndicesAndWords(name0, nameB):
         initialInWord0 = (len(word0) == 1)
         initialInWord1 = (len(word1) == 1)
         if initialInWord0 or initialInWord1:

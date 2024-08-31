@@ -4,37 +4,37 @@ from fuzzywuzzy import fuzz
 
 import NameComparator.src.usefulTools as usefulToolsMod
 
-def spellingComparison(name0:str, name1:str) -> tuple[bool, list]:
+def spellingComparison(name0:str, nameB:str) -> tuple[bool, list]:
     """Identifies if two names are a match according to a comparison based soley on spelling.
 
     Args:
         name0 (str): a name
-        name1 (str): a name
+        nameB (str): a name
 
     Returns:
         tuple[bool, list]: whether the names are a match, and the resulting word combo
     """        
-    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, name1)
+    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, nameB)
     count = sum(1 for tup in wordCombo if tup[2] > 80)
-    minLength = min(len(name0.split()), len(name1.split()))
+    minLength = min(len(name0.split()), len(nameB.split()))
     if (count >= 3) or (count == minLength):
         return True, wordCombo
-    if _consonantComparison(name0, name1):
+    if _consonantComparison(name0, nameB):
         return True, wordCombo
     return False, wordCombo
 
-def _consonantComparison(name0:str, name1:str) -> bool:
+def _consonantComparison(name0:str, nameB:str) -> bool:
     """Identifies if two names are a match according to consonant comparison.
 
     Args:
         name0 (str): a name
-        name1 (str): a name
+        nameB (str): a name
 
     Returns:
         bool: whether the two names are a match according to consonant comparison
     """        
     # Setup
-    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, name1)
+    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, nameB)
     minRequiredMatches = len(wordCombo)
     numWordConsonantMatches = 0
 
@@ -42,19 +42,19 @@ def _consonantComparison(name0:str, name1:str) -> bool:
     for tup in wordCombo:
         # Get the matching word data
         word0:str = name0.split()[int(tup[0])]
-        word1:str = name1.split()[int(tup[1])]
+        word1:str = nameB.split()[int(tup[1])]
         originalScoreForWords:int = int(tup[2])
 
         # Get the words as consonants
         consonantsName0 = _reduceToSimpleConsonants(word0)
-        consonantsName1 = _reduceToSimpleConsonants(word1)
-        consonantsRatio = fuzz.ratio(consonantsName0, consonantsName1)
+        consonantsNameB = _reduceToSimpleConsonants(word1)
+        consonantsRatio = fuzz.ratio(consonantsName0, consonantsNameB)
 
         # Continue if bad match
         if originalScoreForWords <= 30:
             continue
         if (len(word0) != 1) and (len(word1) != 1): #if neither word is initial
-            lowestSyllableCount = min(consonantsName0.count("*"), consonantsName1.count("*"))
+            lowestSyllableCount = min(consonantsName0.count("*"), consonantsNameB.count("*"))
             if lowestSyllableCount < 2:
                 continue
         if (consonantsRatio <= 80 or originalScoreForWords <= 60) and consonantsRatio != 100:
@@ -66,8 +66,7 @@ def _consonantComparison(name0:str, name1:str) -> bool:
     # If enough matches, return true. Otherwise return false.
     if (numWordConsonantMatches > minRequiredMatches) or (numWordConsonantMatches >= 3):
         return True
-    else:
-        return False
+    return False
     
 def _reduceToSimpleConsonants(string:str) -> str:
     """Reduces a string to the simple consonant componants.

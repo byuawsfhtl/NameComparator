@@ -16,14 +16,11 @@ def removeNicknames(nameA:str, nameB:str) -> tuple[str, str]:
     wordsInA = nameA.split()
     wordsInB = nameB.split()
     for wordA in wordsInA:
-        # Skip if the word is also a word in name1
         if wordA in wordsInB:
             continue
-        # Skip if the word does not have an nickname
         setOfIds = nicknameToId.data.get(wordA)
         if setOfIds is None:
             continue
-        # Replace the word with a nickname if the nickname is in name1 (and nickname not also in nameA)
         breaking = False
         for id in setOfIds:
             nicknames = idToNicknameSet.data[id].copy()
