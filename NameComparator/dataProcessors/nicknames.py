@@ -1,0 +1,40 @@
+import re
+
+import NameComparator.data.idToNicknameSet as idToNicknameSet
+import NameComparator.data.nicknameToId as nicknameToId
+
+def removeNicknames(nameA:str, nameB:str) -> tuple[str, str]:
+    """Replaces the nickname in one name for the official name found in the other.
+
+    Args:
+        nameA (str): a name
+        nameB (str): a name
+
+    Returns:
+        tuple[str, str]: the names (possibly with a nickname replaced)
+    """        
+    wordsInA = nameA.split()
+    wordsInB = nameB.split()
+    for wordA in wordsInA:
+        # Skip if the word is also a word in name1
+        if wordA in wordsInB:
+            continue
+        # Skip if the word does not have an nickname
+        setOfIds = nicknameToId.data.get(wordA)
+        if setOfIds is None:
+            continue
+        # Replace the word with a nickname if the nickname is in name1 (and nickname not also in nameA)
+        breaking = False
+        for id in setOfIds:
+            nicknames = idToNicknameSet.data[id].copy()
+            nicknames.remove(wordA)
+            for nickname in nicknames:
+                if (nickname in wordsInA) and (nickname in wordsInB):
+                    continue
+                if nickname in wordsInB:
+                    nameA = re.sub(rf"\b{wordA}\b", nickname, nameA, flags=re.IGNORECASE)
+                    breaking = True
+                    break
+            if breaking:
+                break
+    return nameA, nameB
