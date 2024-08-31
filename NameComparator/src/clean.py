@@ -2,8 +2,8 @@ import re
 from unidecode import unidecode
 from fuzzywuzzy import fuzz
 
-from NameComparator.src.usefulTools import NameEditor, calculateEditImprovement, getPairIndicesAndWords
-from NameComparator.src.comparisons import spellingComparison
+import NameComparator.src.usefulTools as usefulTools
+import NameComparator.src.comparisons as comparisonsMod
 
 def cleanName(name:str) -> str:
     """Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.
@@ -205,7 +205,7 @@ def _dealWithDashes(name0:str, name1:str) -> tuple[str, str]:
     _, name0Edited, name1Edited = _combineSplitWords(name0Edited, name1Edited)
 
     # Return old if the score did not improve
-    diff, _, _ = calculateEditImprovement(name0, name1, name0Edited, name1Edited)
+    diff, _, _ = usefulTools.calculateEditImprovement(name0, name1, name0Edited, name1Edited)
     if diff <= 0:
         return name0, name1
     
@@ -229,10 +229,10 @@ def _combineSplitWords(name0:str, name1:str) -> tuple[str, str]:
         return False, name0, name1
     
     # Do not combine words that are already a good spelling match
-    if spellingComparison(name0, name1)[0]:
+    if comparisonsMod.spellingComparison(name0, name1)[0]:
         return False, name0, name1
     
-    for index0, _, word0, word1 in getPairIndicesAndWords(name0, name1):
+    for index0, _, word0, word1 in usefulTools.getPairIndicesAndWords(name0, name1):
         # Skip if word0 and word1 are not a good match
         if (fuzz.partial_ratio(word0, word1) < 75):
             continue
@@ -289,13 +289,13 @@ def _combineSplitWords(name0:str, name1:str) -> tuple[str, str]:
             continue
 
         # If the compound was a better match, use a name editor to create an edited name0 where the words are combined
-        ne = NameEditor(name0, name1)
+        ne = usefulTools.NameEditor(name0, name1)
         ne.updateName0(index0, compound)
         ne.updateName0(indexN, '')
         name0Edited, _ = ne.getModifiedNames()
 
         # If the edited name0 is better (or only slightly worse), go with the edited version
-        improvement = calculateEditImprovement(name0, name1, name0Edited, name1)[0]
+        improvement = usefulTools.calculateEditImprovement(name0, name1, name0Edited, name1)[0]
         if improvement > -1:
             return True, name0Edited, name1
 
@@ -351,9 +351,9 @@ def _fixMcMac(name0:str, name1:str) -> tuple[str, str]:
     _, name0, name1 = _combineSplitWords(name0, name1)
     
     # Edit the names, if necessary
-    ne = NameEditor(name0, name1)
+    ne = usefulTools.NameEditor(name0, name1)
     for prefix in ['mc', 'mac']:
-        for index0, index1, word0, word1 in getPairIndicesAndWords(name0, name1):
+        for index0, index1, word0, word1 in usefulTools.getPairIndicesAndWords(name0, name1):
             # Skip pair if the prefix is in both words
             if (word0.startswith(prefix)) and (word1.startswith(prefix)):
                 continue
@@ -442,6 +442,10 @@ def _removeUnnecessaryPrefixes(name0:str, name1:str, prefix:str) -> tuple[str,st
     name1 = name1.strip()
     if (f" {prefix}" not in name0) and (f" {prefix}" not in name1):
         return name0, name1
+    
+    # If the names are already a good match, return the names
+    if comparisonsMod.spellingComparison(name0, name1)[0]:
+        return name0, name1
 
     # Setup
     name0Edited = name0
@@ -488,20 +492,18 @@ def _removeUnnecessaryPrefixes(name0:str, name1:str, prefix:str) -> tuple[str,st
         name1Edited = '_'
 
     # If the edits were significantly beneficial (or pass spell), return the edited versions
-    improvement, _, _= calculateEditImprovement(name0, name1, name0Edited, name1Edited)
-    if (improvement >= 10) or (spellingComparison(name0Edited, name1Edited)[0] and not spellingComparison(name0, name1)[0]):
+    improvement, _, _= usefulTools.calculateEditImprovement(name0, name1, name0Edited, name1Edited)
+    if (improvement >= 10) or comparisonsMod.spellingComparison(name0Edited, name1Edited)[0]:
         return name0Edited, name1Edited
     
     # Finally, if the words are identical other than the prefix, remove the prefix
-    ne = NameEditor(name0, name1)
-    for index0, index1, word0, word1 in getPairIndicesAndWords(name0, name1):
+    ne = usefulTools.NameEditor(name0, name1)
+    for index0, index1, word0, word1 in usefulTools.getPairIndicesAndWords(name0, name1):
         if (word0.startswith(prefix)) and (word0[len(prefix):] == word1) and (len(word1) > 2):
             ne.updateName0(index0, word0[len(prefix):])
         elif (word1.startswith(prefix)) and (word1[len(prefix):] == word0) and (len(word0) > 2):
             ne.updateName1(index1, word1[len(prefix):])
     name0, name1 = ne.getModifiedNames()
-
-    # Whatever happened, just return
     return name0, name1
 
 def _combinePrefixWithSurnameifInBoth(name0:str, name1:str, prefix:str) -> tuple[str, str]:
