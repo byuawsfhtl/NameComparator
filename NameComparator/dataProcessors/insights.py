@@ -1,4 +1,4 @@
-from NameComparator.dataProcessors.usefulTools import findWhichWordsMatchAndHowWell, getPairIndicesAndWords
+import NameComparator.dataProcessors.usefulTools as usefulToolsMod
 import NameComparator.data.topSurnames as topSurnames
 
 def isWorthContinuing(name0:str, name1:str) -> bool:
@@ -11,7 +11,7 @@ def isWorthContinuing(name0:str, name1:str) -> bool:
     Returns:
         bool: whether the names are worth working on further
     """        
-    wordCombo = findWhichWordsMatchAndHowWell(name0, name1)
+    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, name1)
     oneLetterMatchFailCount = 0
     for match in wordCombo:
         word0 = name0[int(match[0])]
@@ -33,7 +33,7 @@ def eitherNameTooShort(name0:str, name1:str) -> bool:
     Returns:
         bool: whether either was too short
     """        
-    combo = findWhichWordsMatchAndHowWell(name0, name1)
+    combo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, name1)
     shortestWordCount = len(combo)
     if shortestWordCount < 2:
         return True
@@ -58,7 +58,7 @@ def eitherNameTooGeneric(name0:str, name1:str) -> bool:
         return False
     # Check if the numbers of initials in all pairs makes a word match too uncertain
     nonInitialMatchCount = 0
-    for _, _, word0, word1 in getPairIndicesAndWords(name0, name1):
+    for _, _, word0, word1 in usefulToolsMod.getPairIndicesAndWords(name0, name1):
         initialInWord0 = (len(word0) == 1)
         initialInWord1 = (len(word1) == 1)
         if initialInWord0 or initialInWord1:

@@ -1,13 +1,8 @@
 import re
 import numpy as np
-from functools import lru_cache
 from fuzzywuzzy import fuzz
-from unidecode import unidecode
 
-from NameComparator.dataProcessors.modify import modifyIpasTogether
-from NameComparator.dataProcessors.usefulTools import findWhichWordsMatchAndHowWell, identifyBestMatchups
-import NameComparator.data.ipaAllNames as ipaAllNames
-import NameComparator.data.ipaCommonWordParts as ipaCommonWordParts
+import NameComparator.dataProcessors.usefulTools as usefulToolsMod
 
 def spellingComparison(name0:str, name1:str) -> tuple[bool, list]:
     """Identifies if two names are a match according to a comparison based soley on spelling.
@@ -19,7 +14,7 @@ def spellingComparison(name0:str, name1:str) -> tuple[bool, list]:
     Returns:
         tuple[bool, list]: whether the names are a match, and the resulting word combo
     """        
-    wordCombo = findWhichWordsMatchAndHowWell(name0, name1)
+    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, name1)
     count = sum(1 for tup in wordCombo if tup[2] > 80)
     minLength = min(len(name0.split()), len(name1.split()))
     if (count >= 3) or (count == minLength):
@@ -39,7 +34,7 @@ def _consonantComparison(name0:str, name1:str) -> bool:
         bool: whether the two names are a match according to consonant comparison
     """        
     # Setup
-    wordCombo = findWhichWordsMatchAndHowWell(name0, name1)
+    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, name1)
     minRequiredMatches = len(wordCombo)
     numWordConsonantMatches = 0
 
@@ -88,231 +83,57 @@ def _reduceToSimpleConsonants(string:str) -> str:
     string = re.sub(r'(.)\1+', r'\1', string)
     return string
 
-def pronunciationComparison(name0:str, name1:str) -> tuple[bool, list, str, str]:
+def pronunciationComparison(ipaOfNameA:str, ipaOfNameB:str, nameA:str, nameB:str) -> tuple[bool, list]:
     """Identifies whether two names are a match according to a pronunciation comparison.
 
     Args:
-        name0 (str): a name
-        name1 (str): a name
+        ipaOfNameA (str): the ipa of a name
+        ipaOfNameB (str): the ipa of a name
+        nameA (str): a name
+        nameB (str): a name
 
     Returns:
-        tuple[bool, list, str, str]: whether the name was a match, the word combo, the ipa of name0, the ipa of name1
+        tuple[bool, list]: whether the name was a match, and the word combo
     """        
-    # Gets Ipas
-    ipaOfName0 = _getIpa(name0)
-    ipaOfName1 = _getIpa(name1)
-
-    # Cleans Ipas
-    ipaOfName0 = _standardizeIpa(ipaOfName0)
-    ipaOfName1 = _standardizeIpa(ipaOfName1)
-    ipaOfName0, ipaOfName1 = modifyIpasTogether(ipaOfName0, ipaOfName1)
-
     # Initialize empty list to store scores
-    words0 = ipaOfName0.split()
-    words1 = ipaOfName1.split()
-    if len(words0) != len(words1):
-        if len(words0) < len(words1):
-            words0 += [None] * (len(words1) - len(words0))
-        else:
-            words1 += [None] * (len(words0) - len(words1))
-    scores = np.zeros((len(words0), len(words1)))
+    ipaWordsA = ipaOfNameA.split()
+    ipaWordsB = ipaOfNameB.split()
+    if len(ipaWordsA) < len(ipaWordsB):
+        ipaWordsA += [None] * (len(ipaWordsB) - len(ipaWordsA))
+    elif len(ipaWordsA) > len(ipaWordsB):
+        ipaWordsB += [None] * (len(ipaWordsA) - len(ipaWordsB))
+    scores = np.zeros((len(ipaWordsA), len(ipaWordsB)))
 
     # Score each matchup
-    wordCombo = findWhichWordsMatchAndHowWell(name0, name1)
-    for i, word0 in enumerate(words0):
-        for j, word1 in enumerate(words1):
-            # Assign a very low finite score to dummy pairings
+    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(nameA, nameB)
+    for i, word0 in enumerate(ipaWordsA):
+        for j, word1 in enumerate(ipaWordsB):
+            # Assign a default very low score for dummy pairings
             scores[i, j] = -1e9 
             if (word0 is None) or (word1 is None):
                 continue
-            # Use fuzz.ratio to compare the words and store the score
+            # Reassign the default score to all real pairings
             score = fuzz.ratio(word0, word1)
-            # Updates the score if one of the words was an initial
             for k in range(len(wordCombo)):
                 index1, index2, initialScore = wordCombo[k]
+                # Use initial score for initials (bad pun)
                 if i == int(index1) and j == int(index2) and (initialScore == 100 or initialScore == 0):
                     score = initialScore
-
-            # Add the score to scores
             scores[i, j] = score
 
-    # identify the best matchups
-    words0 = [str(i) if word is not None else None for i, word in enumerate(words0)]
-    words1 = [str(i) if word is not None else None for i, word in enumerate(words1)]
-    wordCombo = identifyBestMatchups(scores=scores, listA=words0, listB=words1)
+    # Identify the best matchups
+    ipaWordsA = [str(i) if word is not None else None for i, word in enumerate(ipaWordsA)]
+    ipaWordsB = [str(i) if word is not None else None for i, word in enumerate(ipaWordsB)]
+    wordCombo = usefulToolsMod.identifyBestMatchups(scores=scores, listA=ipaWordsA, listB=ipaWordsB)
     lowestScore = min(wordCombo, key=lambda tuple: tuple[2])[2]
 
-    # If the shortest name is two words in length
-    minLength = min(len(ipaOfName0.split()), len(ipaOfName1.split()))
+    # Return whether pronunciaion match or not
+    minLength = min(len(ipaOfNameA.split()), len(ipaOfNameB.split()))
     if minLength <= 2:
-        # If the lowest score match is greater than or equal to 80, it's a good pronunciation match
         if lowestScore >= 80:
-            return True, wordCombo, ipaOfName0, ipaOfName1
-        # Otherwise, it's probably not a match
-        return False, wordCombo, ipaOfName0, ipaOfName1
-
-    # If the shortest name is more than two words
+            return True, wordCombo
+        return False, wordCombo
     if minLength > 2:
-        # If the lowest score match is greater than 75, it's a good pronunciation match
         if lowestScore > 75:
-            return True, wordCombo, ipaOfName0, ipaOfName1
-        # Otherwise, it's probably not a match
-        return False, wordCombo, ipaOfName0, ipaOfName1
-    
-def _standardizeIpa(ipa:str) -> str:
-    """cleans ipa to get rid of double ipa-consonants and other mistakes.
-
-    Args:
-        ipa (str): the ipa of a word
-
-    Returns:
-        str: the cleaned ipa
-    """        
-    allIpaConsonants = ['l', 'd', 'z', 'b', 't', 'k', 'n', 's', 'w', 'v', 'ð', 'ʒ', 'ʧ', 'θ', 'h', 'g', 'ʤ', 'ŋ', 'p', 'm', 'ʃ', 'f', 'j', 'r']
-    for consonant in allIpaConsonants:
-        doubleConsonant = consonant + consonant
-        if doubleConsonant in ipa:
-            ipa = ipa.replace(doubleConsonant, consonant)
-    ipa = ipa.replace("ɛɛ", "i")
-    ipa = ipa.replace("ɪɪ", "ɪ")
-    ipa = ipa.replace("iɪ", "i")
-    ipa = ipa.replace("ŋg", "ŋ")
-    ipa = ipa.replace(",", "")
-    if not ipa:
-        ipa = '_'
-    return ipa
-
-def _getIpa(name:str) -> str:
-    """Gets the pronunciation of the name.
-
-    Args:
-        name (str): a name
-
-    Returns:
-        str: the ipa of the name
-    """        
-    pList = []
-    for word in name.split():
-        pList.append(_getIpaOfOneWord(word))
-    pronunciationOfName = " ".join(pList)
-    return pronunciationOfName
-
-@lru_cache(maxsize=1000)
-def _getIpaOfOneWord(word:str) -> str:
-    """Gets the pronunciation of one word.
-
-    Args:
-        word (str): a word
-
-    Returns:
-        str: the ipa of the word
-    """
-    # Setup
-    word = word.strip()
-    word = unidecode(word)
-    word = word.lower()
-    pronunciationList = [""] * len(word)
-    def substringSplitsTh(substring:str, word:str, i:int, j:int) -> bool:
-        """Helps to identify poor substring choices for words for ipa.
-
-        Args:
-            substring (str): the ipa dissection
-            word (str): the full word
-            i (int): the start index of the substring
-            j (int): the end index of the substring
-
-        Returns:
-            bool: whether it was a good substring
-        """            
-        if i == j:
-            return False
-        if i >= 0 and substring[0] == 'h' and word[i - 1] == 't':
-            return True
-        if j <= len(word) - 1 and substring[-1] == 't' and word[j] == 'h':
-            return True
-        return False
-
-    # Tries to get the ipa from the plain word
-    firstAttempt, success = _wordPronunciationHailMary(word)
-    if success:
-        return firstAttempt
-
-    # While there are still letters in the word
-    substringAdded = True
-    while substringAdded:
-        # Initialize variables to store the largest matching substring and its length
-        substringAdded = False
-        largestSubstring = ""
-        pronunciationOfLargestSubstring = ""
-        largestSubstringLen = 0
-        beginningIndexOfSubstring = 0
-        endIndexOfSubstring = 0
-
-        # Iterate over every possible substring
-        for i in range(len(word)):
-            for j in range(i + 1, len(word) + 1):
-                substring = word[i:j]
-
-                if len(substring) <= largestSubstringLen:
-                    continue
-                if " " in substring:
-                    continue
-                if len(substring) > 1:
-                    substringIpa, success = _stringPronuncationHailMary(substring)
-                    if (not success) or (len(substringIpa) >= len(substring) * 2) or (substringSplitsTh(substring, word, i, j)):
-                        continue
-                    else:
-                        pronunciationOfLargestSubstring = substringIpa
-                elif len(substring) == 1:
-                    letterToPronunciation = {
-                        "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
-                        "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
-                        "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
-                    }
-                    pronunciationOfLargestSubstring = letterToPronunciation.get(substring, largestSubstring)
-
-                largestSubstring = substring
-                substringAdded = True
-                largestSubstringLen = len(substring)
-                beginningIndexOfSubstring = i
-                endIndexOfSubstring = j
-
-        # Adds the substring to the list
-        if substringAdded:
-            pronunciationList[beginningIndexOfSubstring] = pronunciationOfLargestSubstring
-        spaces = " " * largestSubstringLen
-        word = word.rstrip()
-        word = word[:beginningIndexOfSubstring] + spaces + word[endIndexOfSubstring:]
-
-    # Concatenates the list together at the end to get the pronunciation
-    pronunciation = "".join(pronunciationList)
-    return pronunciation
-
-def _wordPronunciationHailMary(word:str) -> tuple[str, bool]:
-    """Tries to get the pronunciation from the predefined ipa dictionary.
-
-    Args:
-        word (str): the regular word
-
-    Returns:
-        tuple[str, bool]: the ipa of the word (or the original word if not found), and whether it was found.
-    """        
-    wordPronuncation = ipaAllNames.data.get(word)
-    if wordPronuncation != None:
-        return wordPronuncation, True
-    return word, False
-
-def _stringPronuncationHailMary(string:str) -> tuple[str, bool]:
-    """Helper function of _getIpaOfOneWord.
-    Tries to get the ipa of a string (with more than one letter).
-
-    Args:
-        string (str): a string that is longer than one letter
-
-    Returns:
-        tuple[str, bool]: the ipa of the string (or the original string if not found), and whether it was found.
-    """        
-    ipaPronunciation = ipaCommonWordParts.data.get(string)
-    if ipaPronunciation != None:
-        return ipaPronunciation, True
-    return string, False
+            return True, wordCombo
+        return False, wordCombo

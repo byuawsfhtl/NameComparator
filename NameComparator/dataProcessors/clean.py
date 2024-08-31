@@ -528,3 +528,26 @@ def _combinePrefixWithSurnameifInBoth(name0:str, name1:str, prefix:str) -> tuple
         name0 = name0.replace(f' {prefix} ', f' {prefix}')
         name1 = name1.replace(f' {prefix} ', f' {prefix}')
     return name0, name1
+
+def cleanIpa(ipa:str) -> str:
+    """cleans ipa to get rid of double ipa-consonants and other mistakes.
+
+    Args:
+        ipa (str): the ipa of a word
+
+    Returns:
+        str: the cleaned ipa
+    """        
+    allIpaConsonants = ['l', 'd', 'z', 'b', 't', 'k', 'n', 's', 'w', 'v', 'ð', 'ʒ', 'ʧ', 'θ', 'h', 'g', 'ʤ', 'ŋ', 'p', 'm', 'ʃ', 'f', 'j', 'r']
+    for consonant in allIpaConsonants:
+        doubleConsonant = consonant + consonant
+        if doubleConsonant in ipa:
+            ipa = ipa.replace(doubleConsonant, consonant)
+    ipa = ipa.replace("ɛɛ", "i")
+    ipa = ipa.replace("ɪɪ", "ɪ")
+    ipa = ipa.replace("iɪ", "i")
+    ipa = ipa.replace("ŋg", "ŋ")
+    ipa = ipa.replace(",", "")
+    if not ipa:
+        ipa = '_'
+    return ipa

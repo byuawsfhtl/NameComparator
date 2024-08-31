@@ -1,7 +1,7 @@
 import re
 from fuzzywuzzy import fuzz
 
-from NameComparator.dataProcessors.usefulTools import findWhichWordsMatchAndHowWell, getPairIndicesAndWords, NameEditor
+import NameComparator.dataProcessors.usefulTools as usefulToolsMod
 import NameComparator.data.rulesSpelling as rulesSpelling
 import NameComparator.data.rulesIpa as rulesIpa
 
@@ -57,14 +57,14 @@ def _removeOrInNames(name0:str, name1:str) -> tuple[str, str]:
         name0EditedA = re.sub("[a-z]+ or ", " ", name0)
         if not name0EditedA:
             name0EditedA = '_'
-        wordComboA = findWhichWordsMatchAndHowWell(name0EditedA, name1)
+        wordComboA = usefulToolsMod.findWhichWordsMatchAndHowWell(name0EditedA, name1)
         averageScoreA = sum(tup[2] for tup in wordComboA) / len(wordComboA)
 
         # Gets the score for if the word after 'or' is removed
         name0EditedB = re.sub(" or [a-z]+", " ", name0)
         if not name0EditedB:
             name0EditedB = '_'
-        wordComboB =  findWhichWordsMatchAndHowWell(name0EditedB, name1)
+        wordComboB =  usefulToolsMod.findWhichWordsMatchAndHowWell(name0EditedB, name1)
         averageScoreB = sum(tup[2] for tup in wordComboB) / len(wordComboB)
 
         # If the before score is greater, returns A
@@ -78,14 +78,14 @@ def _removeOrInNames(name0:str, name1:str) -> tuple[str, str]:
         name1EditedA = re.sub("[a-z]+ or ", " ", name1)
         if not name1EditedA:
             name1EditedA = '_'
-        wordComboA = findWhichWordsMatchAndHowWell(name1EditedA, name0)
+        wordComboA = usefulToolsMod.findWhichWordsMatchAndHowWell(name1EditedA, name0)
         averageScoreA = sum(tup[2] for tup in wordComboA) / len(wordComboA)
 
         # Gets the score for if the word after 'or' is removed
         name1EditedB = re.sub(" or [a-z]+", " ", name1)
         if not name1EditedB:
             name1EditedB = '_'
-        wordComboB =  findWhichWordsMatchAndHowWell(name1EditedB, name0)
+        wordComboB =  usefulToolsMod.findWhichWordsMatchAndHowWell(name1EditedB, name0)
         averageScoreB = sum(tup[2] for tup in wordComboB) / len(wordComboB)
 
         # If the before score is greater, returns A
@@ -106,8 +106,8 @@ def _fixVowelMistakes(name0:str, name1:str) -> tuple[str, str]:
     Returns:
         tuple[str, str]: the two modified names
     """        
-    ne = NameEditor(name0, name1)
-    for index0, _, word0, word1 in getPairIndicesAndWords(name0, name1):
+    ne = usefulToolsMod.NameEditor(name0, name1)
+    for index0, _, word0, word1 in usefulToolsMod.getPairIndicesAndWords(name0, name1):
         # Continue if either word is less than 5 chars or not same length
         len0 = len(word0)
         len1 = len(word1)
@@ -153,8 +153,8 @@ def _fixSwappedChars(name0:str, name1:str) -> tuple[str, str]:
     Returns:
         tuple[str, str]: the modified names
     """        
-    ne = NameEditor(name0, name1)
-    for index0, _, word0, word1 in getPairIndicesAndWords(name0, name1):
+    ne = usefulToolsMod.NameEditor(name0, name1)
+    for index0, _, word0, word1 in usefulToolsMod.getPairIndicesAndWords(name0, name1):
         # Skip if the words are not 5 long, are different length, or not fuzzy 80
         if len(word0) != 5:
             continue
@@ -196,8 +196,8 @@ def _dealWithWrongFirstChar(name0:str, name1:str) -> tuple[str, str]:
     Returns:
         tuple[str, str]: the modified names
     """        
-    ne = NameEditor(name0, name1)
-    for index1, _, word1, word2 in getPairIndicesAndWords(name0, name1):
+    ne = usefulToolsMod.NameEditor(name0, name1)
+    for index1, _, word1, word2 in usefulToolsMod.getPairIndicesAndWords(name0, name1):
         if word1 == word2:
             continue
         if (word1[1:] == word2[1:]) and (len(word1) > 4) and (len(word2) > 4):
@@ -224,8 +224,8 @@ def _replaceSubstringSandwichMeatIfMatchingBread(name0:str, name1:str, meatOptio
     if (meatOption1 not in name0 and meatOption2 not in name0) or (meatOption1 not in name1 and meatOption2 not in name1):
         return name0, name1
 
-    ne = NameEditor(name0, name1)
-    for index0, index1, word0, word1 in getPairIndicesAndWords(name0, name1):
+    ne = usefulToolsMod.NameEditor(name0, name1)
+    for index0, index1, word0, word1 in usefulToolsMod.getPairIndicesAndWords(name0, name1):
         # Skip words that are not long enough for the given rule
         if len(word0) < minRequiredLetters or len(word1) < minRequiredLetters:
             continue
