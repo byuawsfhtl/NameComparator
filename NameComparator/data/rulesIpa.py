@@ -1,4 +1,4 @@
-data:list[tuple[str, str, list[str], list[str], int]] = [
+data = [
     (
         'aʊ',
         'oʊuə',

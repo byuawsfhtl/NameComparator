@@ -1,4 +1,4 @@
-data:list[tuple[str, str, list[str], list[str], int]] = [
+data = [
     (
         'a',
         'o',
@@ -163,7 +163,7 @@ data:list[tuple[str, str, list[str], list[str], int]] = [
     (
         'l',
         'hl',
-        'vowel',
+        ['a', 'e', 'i', 'o', 'u', 'y'],
         ['-'],
         0,
     ),
@@ -436,7 +436,7 @@ data:list[tuple[str, str, list[str], list[str], int]] = [
     (
         'b',
         'p',
-        'vowel',
+        ['a', 'e', 'i', 'o', 'u', 'y'],
         ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'],
         5,
     ),
