@@ -2,8 +2,8 @@ import re
 from unidecode import unidecode
 from fuzzywuzzy import fuzz
 
-from NameComparator.dataProcessors.usefulTools import NameEditor, calculateEditImprovement, getPairIndicesAndWords
-from NameComparator.dataProcessors.comparisons import spellingComparison
+from NameComparator.src.usefulTools import NameEditor, calculateEditImprovement, getPairIndicesAndWords
+from NameComparator.src.comparisons import spellingComparison
 
 def cleanName(name:str) -> str:
     """Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.

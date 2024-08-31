@@ -1,11 +1,11 @@
 from typing import NamedTuple
 
-import NameComparator.dataProcessors.clean as cleanMod
-import NameComparator.dataProcessors.nicknames as nicknameMod
-import NameComparator.dataProcessors.insights as insightMod
-import NameComparator.dataProcessors.comparisons as comparisonMod
-import NameComparator.dataProcessors.modify as modifyMod
-import NameComparator.dataProcessors.ipa as ipaMod
+import NameComparator.src.clean as cleanMod
+import NameComparator.src.nicknames as nicknameMod
+import NameComparator.src.insights as insightMod
+import NameComparator.src.comparisons as comparisonMod
+import NameComparator.src.modify as modifyMod
+import NameComparator.src.ipa as ipaMod
 
 class ResultsOfNameComparison(NamedTuple):
     pass

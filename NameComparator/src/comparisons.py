@@ -2,7 +2,7 @@ import re
 import numpy as np
 from fuzzywuzzy import fuzz
 
-import NameComparator.dataProcessors.usefulTools as usefulToolsMod
+import NameComparator.src.usefulTools as usefulToolsMod
 
 def spellingComparison(name0:str, name1:str) -> tuple[bool, list]:
     """Identifies if two names are a match according to a comparison based soley on spelling.

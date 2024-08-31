@@ -1,4 +1,4 @@
-import NameComparator.dataProcessors.usefulTools as usefulToolsMod
+import NameComparator.src.usefulTools as usefulToolsMod
 import NameComparator.data.topSurnames as topSurnames
 
 def isWorthContinuing(name0:str, name1:str) -> bool:

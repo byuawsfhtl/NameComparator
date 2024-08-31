@@ -1,7 +1,7 @@
 import re
 from fuzzywuzzy import fuzz
 
-import NameComparator.dataProcessors.usefulTools as usefulToolsMod
+import NameComparator.src.usefulTools as usefulToolsMod
 import NameComparator.data.rulesSpelling as rulesSpelling
 import NameComparator.data.rulesIpa as rulesIpa
 
