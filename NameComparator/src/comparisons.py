@@ -122,3 +122,17 @@ def pronunciationComparison(ipaOfNameA:str, ipaOfNameB:str, nameA:str, nameB:str
 
     # Identify the best matchups
     ipaWordsA = [str(i) if word is not None else None for i, word in enumerate(ipaWordsA)]
+    ipaWordsB = [str(i) if word is not None else None for i, word in enumerate(ipaWordsB)]
+    wordCombo = usefulToolsMod.identifyBestMatchups(scores=scores, listA=ipaWordsA, listB=ipaWordsB)
+    lowestScore = min(wordCombo, key=lambda tuple: tuple[2])[2]
+    
+    # Return whether pronunciaion match or not
+    minLength = min(len(ipaOfNameA.split()), len(ipaOfNameB.split()))
+    if minLength <= 2:
+        if lowestScore >= 80:
+            return True, wordCombo
+        return False, wordCombo
+    if minLength > 2:
+        if lowestScore > 75:
+            return True, wordCombo
+        return False, wordCombo
