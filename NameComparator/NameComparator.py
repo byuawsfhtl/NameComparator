@@ -72,8 +72,8 @@ class NameComparator():
             return data
             
         # 3rd attempt: Checks if modified names are a match according to pronunciation
-        ipaOfModNameA = ipaMod.getIpa(modifiedNameA)
-        ipaOfModNameB = ipaMod.getIpa(modifiedNameB)
+        ipaOfModNameA = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameA))
+        ipaOfModNameB = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameB))
         ipaOfModNameA, ipaOfModNameB = modifyMod.modifyIpasTogether(ipaOfModNameA, ipaOfModNameB)
         match, wordCombo = comparisonMod.pronunciationComparison(ipaOfModNameA, ipaOfModNameB, modifiedNameA, modifiedNameB)
         data['attempt3'] = (ipaOfModNameA, ipaOfModNameB, wordCombo)
@@ -82,8 +82,8 @@ class NameComparator():
             return data
 
         # 4th attempt: Check if original names are a match according to pronunciation'
-        ipaOfNameA = ipaMod.getIpa(nameA)
-        ipaOfNameB = ipaMod.getIpa(nameB)
+        ipaOfNameA = cleanMod.cleanIpa(ipaMod.getIpa(nameA))
+        ipaOfNameB = cleanMod.cleanIpa(ipaMod.getIpa(nameB))
         ipaOfNameA, ipaOfNameB = modifyMod.modifyIpasTogether(ipaOfNameA, ipaOfNameB)
         match, wordCombo = comparisonMod.pronunciationComparison(ipaOfNameA, ipaOfNameB, nameA, nameB)
         data['attempt4'] = (ipaOfNameA, ipaOfNameB, wordCombo)

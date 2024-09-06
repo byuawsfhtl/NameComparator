@@ -84,13 +84,11 @@ def _reduceToSimpleConsonants(string:str) -> str:
 
 def pronunciationComparison(ipaOfNameA:str, ipaOfNameB:str, nameA:str, nameB:str) -> tuple[bool, list]:
     """Identifies whether two names are a match according to a pronunciation comparison.
-
     Args:
         ipaOfNameA (str): the ipa of a name
         ipaOfNameB (str): the ipa of a name
         nameA (str): a name
         nameB (str): a name
-
     Returns:
         tuple[bool, list]: whether the name was a match, and the word combo
     """        
@@ -113,8 +111,8 @@ def pronunciationComparison(ipaOfNameA:str, ipaOfNameB:str, nameA:str, nameB:str
                 continue
             # Reassign the default score to all real pairings
             score = fuzz.ratio(wordA, wordB)
-            for k in range(len(wordCombo)):
-                indexX, indexY, initialScore = wordCombo[k]
+            for item in range(len(wordCombo)):
+                indexX, indexY, initialScore = wordCombo[item]
                 # Use initial score for initials (bad pun)
                 if indexA == int(indexX) and indexB == int(indexY) and (initialScore == 100 or initialScore == 0):
                     score = initialScore
