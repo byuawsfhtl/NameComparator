@@ -113,26 +113,12 @@ def pronunciationComparison(ipaOfNameA:str, ipaOfNameB:str, nameA:str, nameB:str
                 continue
             # Reassign the default score to all real pairings
             score = fuzz.ratio(wordA, wordB)
-            for comboIndex in range(len(wordCombo)):
-                strIndexA, strIndexB, initialScore = wordCombo[comboIndex]
+            for k in range(len(wordCombo)):
+                indexX, indexY, initialScore = wordCombo[k]
                 # Use initial score for initials (bad pun)
-                if indexA == int(strIndexA) and indexB == int(strIndexB) and (initialScore == 100 or initialScore == 0):
+                if indexA == int(indexX) and indexB == int(indexY) and (initialScore == 100 or initialScore == 0):
                     score = initialScore
             scores[indexA, indexB] = score
 
     # Identify the best matchups
     ipaWordsA = [str(i) if word is not None else None for i, word in enumerate(ipaWordsA)]
-    ipaWordsB = [str(i) if word is not None else None for i, word in enumerate(ipaWordsB)]
-    wordCombo = usefulToolsMod.identifyBestMatchups(scores=scores, listA=ipaWordsA, listB=ipaWordsB)
-    lowestScore = min(wordCombo, key=lambda tuple: tuple[2])[2]
-
-    # Return whether pronunciaion match or not
-    minLength = min(len(ipaOfNameA.split()), len(ipaOfNameB.split()))
-    if minLength <= 2:
-        if lowestScore >= 80:
-            return True, wordCombo
-        return False, wordCombo
-    if minLength > 2:
-        if lowestScore > 75:
-            return True, wordCombo
-        return False, wordCombo
