@@ -222,10 +222,10 @@ def _combineSplitWords(nameA:str, nameB:str) -> tuple[str, str]:
     Returns:
         tuple[str, str]: the modified names
     """        
-    wordsA = nameA.split()
+    wordsInA = nameA.split()
 
     # Do not combine words that are only two in length
-    if len(wordsA) < 3:
+    if len(wordsInA) < 3:
         return False, nameA, nameB
     
     # Do not combine words that are already a good spelling match
@@ -242,8 +242,8 @@ def _combineSplitWords(nameA:str, nameB:str) -> tuple[str, str]:
             continue
 
         # Find the left and right neighbors
-        leftNeighbor = wordsA[indexA - 1] if indexA - 1 >= 0 else ''
-        rightNeighbor = wordsA[indexA + 1] if indexA + 1 < len(wordsA) else ''
+        leftNeighbor = wordsInA[indexA - 1] if indexA - 1 >= 0 else ''
+        rightNeighbor = wordsInA[indexA + 1] if indexA + 1 < len(wordsInA) else ''
 
         # Skip neighbors if they are initials
         leftNeighbor = leftNeighbor if len(leftNeighbor) > 1 else ''
