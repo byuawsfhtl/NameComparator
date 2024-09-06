@@ -87,30 +87,30 @@ def cleanName(name:str) -> str:
         name = '_'
     return name
 
-def cleanNamesTogether(name0:str, nameB:str) -> tuple[str, str]:
+def cleanNamesTogether(nameA:str, nameB:str) -> tuple[str, str]:
     """Cleans names by comparing them to one another, fixing common errors to standardize.
 
     Args:
-        name0 (str): a name
+        nameA (str): a name
         nameB (str): a name
 
     Returns:
         tuple[str, str]: the two cleaned names
     """        
     # Return if either name is blank
-    if not name0:
-        name0 = '_'
+    if not nameA:
+        nameA = '_'
     if not nameB:
         nameB = '_'
-    if (name0 == "_") or (nameB == "_"):
-        return name0, nameB
+    if (nameA == "_") or (nameB == "_"):
+        return nameA, nameB
     
     # Deal with dashes
-    name0, nameB = _dealWithDashes(name0, nameB)
+    nameA, nameB = _dealWithDashes(nameA, nameB)
     
     # Deal with Scottish and Irish names
-    name0, nameB = _fixRelatedPrefixes(name0, nameB, 'mac', 'mc')
-    name0, nameB = _fixMcMac(name0, nameB)
+    nameA, nameB = _fixRelatedPrefixes(nameA, nameB, 'mac', 'mc')
+    nameA, nameB = _fixMcMac(nameA, nameB)
 
     # Deal with just Irish names
     oNames = [
@@ -126,139 +126,139 @@ def cleanNamesTogether(name0:str, nameB:str) -> tuple[str, str]:
         'shields', 'sullivan', 'toole', 'tool',
     ]
     for surname in oNames:
-        name0, nameB = _removeIrishO(name0, nameB, surname)
+        nameA, nameB = _removeIrishO(nameA, nameB, surname)
 
     # Deal with prefixes and optional intros that make the match worse
-    name0, nameB = _fixRelatedPrefixes(name0, nameB, 'de', 'di')
-    name0, nameB = _fixRelatedPrefixes(name0, nameB, 'del', 'dil')
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "d'")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "de")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "fi")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "santa")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "san")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "de la")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "de los")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "del")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "la")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "le")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "du")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "dela")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "los")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "der")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "den")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "vanden")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "vander")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "vande")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "van")
-    name0, nameB = _removeUnnecessaryPrefixes(name0, nameB, "von")
-    name0, nameB = _combinePrefixWithSurnameifInBoth(name0, nameB, "de")
-    name0, nameB = _combinePrefixWithSurnameifInBoth(name0, nameB, "van")
+    nameA, nameB = _fixRelatedPrefixes(nameA, nameB, 'de', 'di')
+    nameA, nameB = _fixRelatedPrefixes(nameA, nameB, 'del', 'dil')
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "d'")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "de")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "fi")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "santa")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "san")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "de la")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "de los")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "del")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "la")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "le")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "du")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "dela")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "los")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "der")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "den")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "vanden")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "vander")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "vande")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "van")
+    nameA, nameB = _removeUnnecessaryPrefixes(nameA, nameB, "von")
+    nameA, nameB = _combinePrefixWithSurnameifInBoth(nameA, nameB, "de")
+    nameA, nameB = _combinePrefixWithSurnameifInBoth(nameA, nameB, "van")
 
     # Combine words that are one word in the other name
     while True:
-        combined, name0, nameB = _combineSplitWords(name0, nameB)
+        combined, nameA, nameB = _combineSplitWords(nameA, nameB)
         if not combined:
             break
     while True:
-        combined, nameB, name0 = _combineSplitWords(nameB, name0)
+        combined, nameB, nameA = _combineSplitWords(nameB, nameA)
         if not combined:
             break
 
     # Remove extra spaces
-    name0 = re.sub(r'\s+', ' ', name0)
+    nameA = re.sub(r'\s+', ' ', nameA)
     nameB = re.sub(r'\s+', ' ', nameB)
-    name0 = name0.strip()
+    nameA = nameA.strip()
     nameB = nameB.strip()
-    if not name0:
-        name0 = '_'
+    if not nameA:
+        nameA = '_'
     if not nameB:
         nameB = '_'
 
     # Return the cleaned names
-    return name0, nameB
+    return nameA, nameB
 
-def _dealWithDashes(name0:str, nameB:str) -> tuple[str, str]:
+def _dealWithDashes(nameA:str, nameB:str) -> tuple[str, str]:
     """Cleans both names in order to deal with dashes in names.
 
     Args:
-        name0 (str): a name
+        nameA (str): a name
         nameB (str): a name
 
     Returns:
         tuple[str, str]: the cleaned names
     """        
     # Return old if no dash in either
-    if ('-' not in name0) and ('-' not in nameB):
-        return name0, nameB
+    if ('-' not in nameA) and ('-' not in nameB):
+        return nameA, nameB
 
     # Return old if dash in both
-    if ('-' in name0) and ('-' in nameB):
-        return name0, nameB
+    if ('-' in nameA) and ('-' in nameB):
+        return nameA, nameB
     
     # Try replacing the dash with a space, and combine words if necessary
-    name0Edited = name0.replace('-', ' ')
+    nameAEdited = nameA.replace('-', ' ')
     nameBEdited = nameB.replace('-', ' ')
-    if not name0Edited:
-        name0Edited = '_'
+    if not nameAEdited:
+        nameAEdited = '_'
     if not nameBEdited:
         nameBEdited = '_'
-    _, name0Edited, nameBEdited = _combineSplitWords(name0Edited, nameBEdited)
+    _, nameAEdited, nameBEdited = _combineSplitWords(nameAEdited, nameBEdited)
 
     # Return old if the score did not improve
-    diff, _, _ = usefulTools.calculateEditImprovement(name0, nameB, name0Edited, nameBEdited)
+    diff, _, _ = usefulTools.calculateEditImprovement(nameA, nameB, nameAEdited, nameBEdited)
     if diff <= 0:
-        return name0, nameB
+        return nameA, nameB
     
     # Return the edited names
-    return name0Edited, nameBEdited
+    return nameAEdited, nameBEdited
 
-def _combineSplitWords(name0:str, nameB:str) -> tuple[str, str]:
+def _combineSplitWords(nameA:str, nameB:str) -> tuple[str, str]:
     """Combines words within one of the names if that combination is one word in the other name.
 
     Args:
-        name0 (str): a name
+        nameA (str): a name
         nameB (str): a name
 
     Returns:
         tuple[str, str]: the modified names
     """        
-    words0 = name0.split()
+    wordsA = nameA.split()
 
     # Do not combine words that are only two in length
-    if len(words0) < 3:
-        return False, name0, nameB
+    if len(wordsA) < 3:
+        return False, nameA, nameB
     
     # Do not combine words that are already a good spelling match
-    if comparisonsMod.spellingComparison(name0, nameB)[0]:
-        return False, name0, nameB
+    if comparisonsMod.spellingComparison(nameA, nameB)[0]:
+        return False, nameA, nameB
     
-    for index0, _, word0, word1 in usefulTools.getPairIndicesAndWords(name0, nameB):
-        # Skip if word0 and word1 are not a good match
-        if (fuzz.partial_ratio(word0, word1) < 75):
+    for indexA, _, wordA, wordB in usefulTools.getPairIndicesAndWords(nameA, nameB):
+        # Skip if wordA and wordB are not a good match
+        if (fuzz.partial_ratio(wordA, wordB) < 75):
             continue
 
         # Skip if either word is only an initial
-        if (len(word0) == 1) or (len(word1) == 1):
+        if (len(wordA) == 1) or (len(wordB) == 1):
             continue
 
         # Find the left and right neighbors
-        leftNeighbor = words0[index0 - 1] if index0 - 1 >= 0 else ''
-        rightNeighbor = words0[index0 + 1] if index0 + 1 < len(words0) else ''
+        leftNeighbor = wordsA[indexA - 1] if indexA - 1 >= 0 else ''
+        rightNeighbor = wordsA[indexA + 1] if indexA + 1 < len(wordsA) else ''
 
         # Skip neighbors if they are initials
         leftNeighbor = leftNeighbor if len(leftNeighbor) > 1 else ''
         rightNeighbor = rightNeighbor if len(rightNeighbor) > 1 else ''
         if (not leftNeighbor) and (not rightNeighbor):
-            return False, name0, nameB
+            return False, nameA, nameB
 
-        # Choose the neighbor that best matches word0's match (word1)
+        # Choose the neighbor that best matches wordA's match
         if not leftNeighbor:
             leftWasChosen = False
         elif not rightNeighbor:
             leftWasChosen = True
         else:
-            leftScore = fuzz.partial_ratio(leftNeighbor, word1)
-            rightScore = fuzz.partial_ratio(rightNeighbor, word1)
+            leftScore = fuzz.partial_ratio(leftNeighbor, wordB)
+            rightScore = fuzz.partial_ratio(rightNeighbor, wordB)
             if leftScore > rightScore:
                 leftWasChosen = True
             else:
@@ -267,136 +267,136 @@ def _combineSplitWords(name0:str, nameB:str) -> tuple[str, str]:
         # Initialize the chosen neighbor, compound, and neighbor index
         if leftWasChosen:
             chosenNeighbor = leftNeighbor
-            compound = f'{leftNeighbor}{word0}'
-            indexN = index0 - 1
+            compound = f'{leftNeighbor}{wordA}'
+            indexN = indexA - 1
         else:
             chosenNeighbor = rightNeighbor
-            compound = f'{word0}{rightNeighbor}'
-            indexN = index0 + 1
+            compound = f'{wordA}{rightNeighbor}'
+            indexN = indexA + 1
 
-        # Skip if the neighbor is a bad partial match to word0's match
-        if fuzz.partial_ratio(chosenNeighbor, word1) < 65:
+        # Skip if the neighbor is a bad partial match to wordB's match
+        if fuzz.partial_ratio(chosenNeighbor, wordB) < 65:
             continue
 
         # Check if the compound is significantly better than the original
-        ogScore = fuzz.ratio(word0, word1)
-        compoundScore = fuzz.ratio(compound, word1)
+        ogScore = fuzz.ratio(wordA, wordB)
+        compoundScore = fuzz.ratio(compound, wordB)
         if compoundScore < ogScore + 20:
             continue
-        diffLength0 = abs(len(word1) - len(word0))
-        diffLengthCompound = abs(len(word1) - len(compound))
-        if diffLength0 < diffLengthCompound:
+        diffLengthOriginal = abs(len(wordB) - len(wordA))
+        diffLengthCompound = abs(len(wordB) - len(compound))
+        if diffLengthOriginal < diffLengthCompound:
             continue
 
-        # If the compound was a better match, use a name editor to create an edited name0 where the words are combined
-        ne = usefulTools.NameEditor(name0, nameB)
-        ne.updateName0(index0, compound)
-        ne.updateName0(indexN, '')
-        name0Edited, _ = ne.getModifiedNames()
+        # If the compound was a better match, use a name editor to create an edited nameA where the words are combined
+        ne = usefulTools.NameEditor(nameA, nameB)
+        ne.updateNameA(indexA, compound)
+        ne.updateNameA(indexN, '')
+        nameAEdited, _ = ne.getModifiedNames()
 
-        # If the edited name0 is better (or only slightly worse), go with the edited version
-        improvement = usefulTools.calculateEditImprovement(name0, nameB, name0Edited, nameB)[0]
+        # If the edited nameA is better (or only slightly worse), go with the edited version
+        improvement = usefulTools.calculateEditImprovement(nameA, nameB, nameAEdited, nameB)[0]
         if improvement > -1:
-            return True, name0Edited, nameB
+            return True, nameAEdited, nameB
 
     # If no edits were beneficial, just return the original words
-    return False, name0, nameB
+    return False, nameA, nameB
 
-def _fixRelatedPrefixes(name0:str, nameB:str, prefixA:str, prefixB:str) -> tuple[str, str]:
+def _fixRelatedPrefixes(nameA:str, nameB:str, prefixX:str, prefixY:str) -> tuple[str, str]:
     """Cleans names to deal with prefixes that are different by spelling, but functionally the same.
 
     Args:
-        name0 (str): a name
+        nameA (str): a name
         nameB (str): a name
-        prefixA (str): the first related prefix
-        prefixB (str): the second related prefix
+        prefixX (str): the first related prefix
+        prefixY (str): the second related prefix
 
     Returns:
         tuple[str, str]: the two modified names
     """        
-    # Return if prefix1 in neither or prefix2 in neither
-    if (f' {prefixA}' not in name0) and (f' {prefixA}' not in nameB):
-        return name0, nameB
-    if (f' {prefixB}' not in name0) and (f' {prefixB}' not in nameB):
-        return name0, nameB
+    # Return if prefixX in neither or prefixY in neither
+    if (f' {prefixX}' not in nameA) and (f' {prefixX}' not in nameB):
+        return nameA, nameB
+    if (f' {prefixY}' not in nameA) and (f' {prefixY}' not in nameB):
+        return nameA, nameB
 
-    # Return if prefix1 or prefix2 is found in both
-    if (f' {prefixA}' in name0) and (f' {prefixA}' in nameB):
-        return name0, nameB
-    if (f' {prefixB}' in name0) and (f' {prefixB}' in nameB):
-        return name0, nameB
+    # Return if prefixX or prefixY is found in both
+    if (f' {prefixX}' in nameA) and (f' {prefixX}' in nameB):
+        return nameA, nameB
+    if (f' {prefixY}' in nameA) and (f' {prefixY}' in nameB):
+        return nameA, nameB
     
-    # Replace prefix2 with prefix1
-    if f' {prefixB}' in name0:
-        name0 = name0.replace(f' {prefixB}', f' {prefixA}')
+    # Replace prefixY with prefixX
+    if f' {prefixY}' in nameA:
+        nameA = nameA.replace(f' {prefixY}', f' {prefixX}')
     else:
-        nameB = nameB.replace(f' {prefixB}', f' {prefixA}')
-    return name0, nameB
+        nameB = nameB.replace(f' {prefixY}', f' {prefixX}')
+    return nameA, nameB
 
-def _fixMcMac(name0:str, nameB:str) -> tuple[str, str]:
+def _fixMcMac(nameA:str, nameB:str) -> tuple[str, str]:
     """Modified names to fix problems where mc or mac are in either names and don't match when they should.
 
     Args:
-        name0 (str): a name
+        nameA (str): a name
         nameB (str): a name
 
     Returns:
         tuple[str, str]: the two modified names 
     """        
     # Return for most names
-    if ("mc" not in name0) and ("mac" not in name0) and ("mc" not in nameB) and ("mac" not in nameB):
-        return name0, nameB
+    if ("mc" not in nameA) and ("mac" not in nameA) and ("mc" not in nameB) and ("mac" not in nameB):
+        return nameA, nameB
     
     # Combine split words (if any)
-    _, name0, nameB = _combineSplitWords(name0, nameB)
+    _, nameA, nameB = _combineSplitWords(nameA, nameB)
     
     # Edit the names, if necessary
-    ne = usefulTools.NameEditor(name0, nameB)
+    ne = usefulTools.NameEditor(nameA, nameB)
     for prefix in ['mc', 'mac']:
-        for index0, index1, word0, word1 in usefulTools.getPairIndicesAndWords(name0, nameB):
+        for indexA, indexB, wordA, wordB in usefulTools.getPairIndicesAndWords(nameA, nameB):
             # Skip pair if the prefix is in both words
-            if (word0.startswith(prefix)) and (word1.startswith(prefix)):
+            if (wordA.startswith(prefix)) and (wordB.startswith(prefix)):
                 continue
 
             # Skip pair if the prefix is not in either of them
-            if (not word0.startswith(prefix)) and (not word1.startswith(prefix)):
+            if (not wordA.startswith(prefix)) and (not wordB.startswith(prefix)):
                 continue
 
             # Skip pair if either word is a firstname
-            if (index0 < 1) or (index1 < 1):
+            if (indexA < 1) or (indexB < 1):
                 continue
 
             # Skip pair if the shortest word is only 4 long
-            if min(len(word0), len(word1)) < 3:
+            if min(len(wordA), len(wordB)) < 3:
                 continue
 
             # Skip pair if they are already a solid match
-            if fuzz.ratio(word0, word1) > 80:
+            if fuzz.ratio(wordA, wordB) > 80:
                 continue
 
             # Skip pair if the prefix is removed and not a good fuzzy match
-            if word0.startswith(prefix):
-                updatedWord0 = word0.replace(prefix, '', 1)
-                updatedWord1 = word1
+            if wordA.startswith(prefix):
+                updatedWordA = wordA.replace(prefix, '', 1)
+                updatedWordB = wordB
             else:
-                updatedWord0 = word0
-                updatedWord1 = word1.replace(prefix, '', 1)
-            if fuzz.ratio(updatedWord0, updatedWord1) < 75:
+                updatedWordA = wordA
+                updatedWordB = wordB.replace(prefix, '', 1)
+            if fuzz.ratio(updatedWordA, updatedWordB) < 75:
                 continue
 
             # Update the words
-            ne.updateName0(index0, updatedWord0)
-            ne.updateNameB(index1, updatedWord1)
+            ne.updateNameA(indexA, updatedWordA)
+            ne.updateNameB(indexB, updatedWordB)
 
     # Return the edited (or not) names
     return ne.getModifiedNames()
 
 
-def _removeIrishO(name0:str, nameB:str, surname:str) -> tuple[str, str]:
+def _removeIrishO(nameA:str, nameB:str, surname:str) -> tuple[str, str]:
     """Removes the irish O if needed for easier name comparison.
 
     Args:
-        name0 (str): a name
+        nameA (str): a name
         nameB (str): a name
         surname (str): one of the irish surnames that often starts with O'
 
@@ -404,31 +404,31 @@ def _removeIrishO(name0:str, nameB:str, surname:str) -> tuple[str, str]:
         tuple[str, str]: the modified names
     """        
     # Skip non applicable names
-    if (' o ' not in name0) and (" o" not in name0) and (" o" not in nameB) and (' o ' not in nameB):
-        return name0, nameB
-    if (surname not in name0) and (surname not in nameB):
-        return name0, nameB
+    if (' o ' not in nameA) and (" o" not in nameA) and (" o" not in nameB) and (' o ' not in nameB):
+        return nameA, nameB
+    if (surname not in nameA) and (surname not in nameB):
+        return nameA, nameB
     # Edit the names
-    lastname0 = name0.split()[-1]
-    if fuzz.ratio(lastname0, surname) > 75:
-        if lastname0[0] == 'o':
-            name0 = name0.replace(f'{lastname0}', surname)
+    surnameA = nameA.split()[-1]
+    if fuzz.ratio(surnameA, surname) > 75:
+        if surnameA[0] == 'o':
+            nameA = nameA.replace(f'{surnameA}', surname)
         else:
-            name0 = name0.replace(f'o {lastname0}', surname)
-    lastnameB = nameB.split()[-1]
-    if fuzz.ratio(lastnameB, surname) > 75:
-        if lastnameB[0] == 'o':
-            nameB = nameB.replace(f'{lastnameB}', surname)
+            nameA = nameA.replace(f'o {surnameA}', surname)
+    surnameB = nameB.split()[-1]
+    if fuzz.ratio(surnameB, surname) > 75:
+        if surnameB[0] == 'o':
+            nameB = nameB.replace(f'{surnameB}', surname)
         else:
-            nameB = nameB.replace(f'o {lastnameB}', surname)
-    return name0, nameB
+            nameB = nameB.replace(f'o {surnameB}', surname)
+    return nameA, nameB
 
 
-def _removeUnnecessaryPrefixes(name0:str, nameB:str, prefix:str) -> tuple[str,str]:
+def _removeUnnecessaryPrefixes(nameA:str, nameB:str, prefix:str) -> tuple[str,str]:
     """Removes an unnecessary prefix from either or both of the names.
 
     Args:
-        name0 (str): a name
+        nameA (str): a name
         nameB (str): a name
         prefix (str): the prefix to (probably) remove
 
@@ -436,81 +436,81 @@ def _removeUnnecessaryPrefixes(name0:str, nameB:str, prefix:str) -> tuple[str,st
         tuple[str,str]: the modified names
     """        
     # If the prefix is not in either names, return the names
-    name0 = re.sub(r"\s+", " ", name0)
-    name0 = name0.strip()
+    nameA = re.sub(r"\s+", " ", nameA)
+    nameA = nameA.strip()
     nameB = re.sub(r"\s+", " ", nameB)
     nameB = nameB.strip()
-    if (f" {prefix}" not in name0) and (f" {prefix}" not in nameB):
-        return name0, nameB
+    if (f" {prefix}" not in nameA) and (f" {prefix}" not in nameB):
+        return nameA, nameB
     
     # If the names are already a good match, return the names
-    if comparisonsMod.spellingComparison(name0, nameB)[0]:
-        return name0, nameB
+    if comparisonsMod.spellingComparison(nameA, nameB)[0]:
+        return nameA, nameB
 
     # Setup
-    name0Edited = name0
+    nameAEdited = nameA
     nameBEdited = nameB
     spPrefixSp = f" {prefix} "
     spacePrefix = f" {prefix}"
 
     # Make the edited names different
-    if (spPrefixSp in name0) and (spPrefixSp in nameB):
+    if (spPrefixSp in nameA) and (spPrefixSp in nameB):
         pass
-    elif (spPrefixSp in name0) and (spacePrefix in nameB):
-        name0Edited = name0Edited.replace(spPrefixSp, spacePrefix)
-    elif (spacePrefix in name0) and (spPrefixSp in nameB):
+    elif (spPrefixSp in nameA) and (spacePrefix in nameB):
+        nameAEdited = nameAEdited.replace(spPrefixSp, spacePrefix)
+    elif (spacePrefix in nameA) and (spPrefixSp in nameB):
         nameBEdited = nameBEdited.replace(spPrefixSp, spacePrefix)
-    name0Edited = name0Edited.replace(spPrefixSp, " ")
+    nameAEdited = nameAEdited.replace(spPrefixSp, " ")
     nameBEdited = nameBEdited.replace(spPrefixSp, " ")
-    name0Edited = re.sub(r"\s+", " ", name0Edited)
+    nameAEdited = re.sub(r"\s+", " ", nameAEdited)
     nameBEdited = re.sub(r"\s+", " ", nameBEdited)
 
-    # If no edits were made, try removing spacePrefix if only in name0 and it's a long word
+    # If no edits were made, try removing spacePrefix if only in nameA and it's a long word
     pattern = r'\b{}\w*\b'.format(spacePrefix)
-    noEditsMade = (name0 == name0Edited) and (nameB == nameBEdited) 
-    spPreOnlyInName0 = (spacePrefix in name0) and (spacePrefix not in nameB) 
-    matchOf0 = re.search(pattern, name0)
-    if (noEditsMade) and (spPreOnlyInName0) and (matchOf0 is not None):
-        matchedWord = matchOf0.group()
+    noEditsMade = (nameA == nameAEdited) and (nameB == nameBEdited) 
+    spPreOnlyInNameA = (spacePrefix in nameA) and (spacePrefix not in nameB) 
+    matchOfA = re.search(pattern, nameA)
+    if (noEditsMade) and (spPreOnlyInNameA) and (matchOfA is not None):
+        matchedWord = matchOfA.group()
         if len(matchedWord) > len(prefix) + 4:
-            name0Edited = name0.replace(spacePrefix, " ")
+            nameAEdited = nameA.replace(spacePrefix, " ")
 
     # If no edits were made, try removing spacePrefix if only in nameB and it's a long word
     pattern = r'\b{}\w*\b'.format(spacePrefix)
-    noEditsMade = (name0 == name0Edited) and (nameB == nameBEdited) 
-    spPreOnlyInNameB = (spacePrefix in nameB) and (spacePrefix not in name0)
-    matchOf1 = re.search(pattern, nameB)
-    if (noEditsMade) and (spPreOnlyInNameB) and (matchOf1 is not None):
-        matchedWord = matchOf1.group()
+    noEditsMade = (nameA == nameAEdited) and (nameB == nameBEdited) 
+    spPreOnlyInNameB = (spacePrefix in nameB) and (spacePrefix not in nameA)
+    matchOfB = re.search(pattern, nameB)
+    if (noEditsMade) and (spPreOnlyInNameB) and (matchOfB is not None):
+        matchedWord = matchOfB.group()
         if len(matchedWord) > len(prefix) + 4:
             nameBEdited = nameB.replace(spacePrefix, " ")
 
     # Safety
-    if not name0Edited:
-        name0Edited = '_'
+    if not nameAEdited:
+        nameAEdited = '_'
     if not nameBEdited:
         nameBEdited = '_'
 
     # If the edits were significantly beneficial (or pass spell), return the edited versions
-    improvement, _, _= usefulTools.calculateEditImprovement(name0, nameB, name0Edited, nameBEdited)
-    if (improvement >= 10) or comparisonsMod.spellingComparison(name0Edited, nameBEdited)[0]:
-        return name0Edited, nameBEdited
+    improvement, _, _= usefulTools.calculateEditImprovement(nameA, nameB, nameAEdited, nameBEdited)
+    if (improvement >= 10) or comparisonsMod.spellingComparison(nameAEdited, nameBEdited)[0]:
+        return nameAEdited, nameBEdited
     
     # Finally, if the words are identical other than the prefix, remove the prefix
-    ne = usefulTools.NameEditor(name0, nameB)
-    for index0, index1, word0, word1 in usefulTools.getPairIndicesAndWords(name0, nameB):
-        if (word0.startswith(prefix)) and (word0[len(prefix):] == word1) and (len(word1) > 2):
-            ne.updateName0(index0, word0[len(prefix):])
-        elif (word1.startswith(prefix)) and (word1[len(prefix):] == word0) and (len(word0) > 2):
-            ne.updateNameB(index1, word1[len(prefix):])
-    name0, nameB = ne.getModifiedNames()
-    return name0, nameB
+    ne = usefulTools.NameEditor(nameA, nameB)
+    for indexA, indexB, wordA, wordB in usefulTools.getPairIndicesAndWords(nameA, nameB):
+        if (wordA.startswith(prefix)) and (wordA[len(prefix):] == wordB) and (len(wordB) > 2):
+            ne.updateNameA(indexA, wordA[len(prefix):])
+        elif (wordB.startswith(prefix)) and (wordB[len(prefix):] == wordA) and (len(wordA) > 2):
+            ne.updateNameB(indexB, wordB[len(prefix):])
+    nameA, nameB = ne.getModifiedNames()
+    return nameA, nameB
 
-def _combinePrefixWithSurnameifInBoth(name0:str, nameB:str, prefix:str) -> tuple[str, str]:
+def _combinePrefixWithSurnameifInBoth(nameA:str, nameB:str, prefix:str) -> tuple[str, str]:
     """Combines the prefix with the surname in both of the names if the prefix exists in both.
 
     Args:
-        name0 (str): a name
+        nameA (str): a name
         nameB (str): a name
         prefix (str): the prefix to combine with the surname
 
@@ -518,18 +518,18 @@ def _combinePrefixWithSurnameifInBoth(name0:str, nameB:str, prefix:str) -> tuple
         tuple[str, str]: the modified names
     """        
     # Return if ' prefix ' in neither
-    if (not re.search(f' {prefix} .', name0)) or (not re.search(f' {prefix} .', nameB)):
-        return name0, nameB
+    if (not re.search(f' {prefix} .', nameA)) or (not re.search(f' {prefix} .', nameB)):
+        return nameA, nameB
     
     # Get the letter after ' prefix '
-    letter0 = name0[name0.index(f' {prefix} ') + 4]
-    letter1 = nameB[nameB.index(f' {prefix} ') + 4]
+    letterA = nameA[nameA.index(f' {prefix} ') + 4]
+    letterB = nameB[nameB.index(f' {prefix} ') + 4]
 
     # If the letter after matches, replace ' prefix ' with ' prefix'
-    if letter0 == letter1:
-        name0 = name0.replace(f' {prefix} ', f' {prefix}')
+    if letterA == letterB:
+        nameA = nameA.replace(f' {prefix} ', f' {prefix}')
         nameB = nameB.replace(f' {prefix} ', f' {prefix}')
-    return name0, nameB
+    return nameA, nameB
 
 def cleanIpa(ipa:str) -> str:
     """cleans ipa to get rid of double ipa-consonants and other mistakes.

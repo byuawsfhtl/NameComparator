@@ -4,57 +4,57 @@ from fuzzywuzzy import fuzz
 
 import NameComparator.src.usefulTools as usefulToolsMod
 
-def spellingComparison(name0:str, nameB:str) -> tuple[bool, list]:
+def spellingComparison(nameA:str, nameB:str) -> tuple[bool, list]:
     """Identifies if two names are a match according to a comparison based soley on spelling.
 
     Args:
-        name0 (str): a name
+        nameA (str): a name
         nameB (str): a name
 
     Returns:
         tuple[bool, list]: whether the names are a match, and the resulting word combo
     """        
-    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, nameB)
+    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(nameA, nameB)
     count = sum(1 for tup in wordCombo if tup[2] > 80)
-    minLength = min(len(name0.split()), len(nameB.split()))
+    minLength = min(len(nameA.split()), len(nameB.split()))
     if (count >= 3) or (count == minLength):
         return True, wordCombo
-    if _consonantComparison(name0, nameB):
+    if _consonantComparison(nameA, nameB):
         return True, wordCombo
     return False, wordCombo
 
-def _consonantComparison(name0:str, nameB:str) -> bool:
+def _consonantComparison(nameA:str, nameB:str) -> bool:
     """Identifies if two names are a match according to consonant comparison.
 
     Args:
-        name0 (str): a name
+        nameA (str): a name
         nameB (str): a name
 
     Returns:
         bool: whether the two names are a match according to consonant comparison
     """        
     # Setup
-    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(name0, nameB)
+    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(nameA, nameB)
     minRequiredMatches = len(wordCombo)
     numWordConsonantMatches = 0
 
     # Loop through every word match in the combo
     for tup in wordCombo:
         # Get the matching word data
-        word0:str = name0.split()[int(tup[0])]
-        word1:str = nameB.split()[int(tup[1])]
+        wordA = nameA.split()[int(tup[0])]
+        wordB = nameB.split()[int(tup[1])]
         originalScoreForWords:int = int(tup[2])
 
         # Get the words as consonants
-        consonantsName0 = _reduceToSimpleConsonants(word0)
-        consonantsNameB = _reduceToSimpleConsonants(word1)
-        consonantsRatio = fuzz.ratio(consonantsName0, consonantsNameB)
+        consonantsNameA = _reduceToSimpleConsonants(wordA)
+        consonantsNameB = _reduceToSimpleConsonants(wordB)
+        consonantsRatio = fuzz.ratio(consonantsNameA, consonantsNameB)
 
         # Continue if bad match
         if originalScoreForWords <= 30:
             continue
-        if (len(word0) != 1) and (len(word1) != 1): #if neither word is initial
-            lowestSyllableCount = min(consonantsName0.count("*"), consonantsNameB.count("*"))
+        if (len(wordA) != 1) and (len(wordB) != 1): #if neither word is initial
+            lowestSyllableCount = min(consonantsNameA.count("*"), consonantsNameB.count("*"))
             if lowestSyllableCount < 2:
                 continue
         if (consonantsRatio <= 80 or originalScoreForWords <= 60) and consonantsRatio != 100:
@@ -105,20 +105,20 @@ def pronunciationComparison(ipaOfNameA:str, ipaOfNameB:str, nameA:str, nameB:str
 
     # Score each matchup
     wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(nameA, nameB)
-    for i, word0 in enumerate(ipaWordsA):
-        for j, word1 in enumerate(ipaWordsB):
+    for indexA, wordA in enumerate(ipaWordsA):
+        for indexB, wordB in enumerate(ipaWordsB):
             # Assign a default very low score for dummy pairings
-            scores[i, j] = -1e9 
-            if (word0 is None) or (word1 is None):
+            scores[indexA, indexB] = -1e9 
+            if (wordA is None) or (wordB is None):
                 continue
             # Reassign the default score to all real pairings
-            score = fuzz.ratio(word0, word1)
-            for k in range(len(wordCombo)):
-                index1, index2, initialScore = wordCombo[k]
+            score = fuzz.ratio(wordA, wordB)
+            for comboIndex in range(len(wordCombo)):
+                strIndexA, strIndexB, initialScore = wordCombo[comboIndex]
                 # Use initial score for initials (bad pun)
-                if i == int(index1) and j == int(index2) and (initialScore == 100 or initialScore == 0):
+                if indexA == int(strIndexA) and indexB == int(strIndexB) and (initialScore == 100 or initialScore == 0):
                     score = initialScore
-            scores[i, j] = score
+            scores[indexA, indexB] = score
 
     # Identify the best matchups
     ipaWordsA = [str(i) if word is not None else None for i, word in enumerate(ipaWordsA)]
