@@ -52,7 +52,7 @@ class NameComparator():
     """The class used for fuzzy comparing two names.
     """    
     @staticmethod
-    def compareTwoNames(nameA:str, nameB:str) -> dict:
+    def compareTwoNames(nameA:str, nameB:str) -> ResultsOfNameComparison:
         """Compares two names to identify whether they are a fuzzy match.
 
         Args:
