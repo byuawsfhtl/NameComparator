@@ -48,84 +48,80 @@ class ResultsOfNameComparison:
     attempt4NameA: str|None = None
     attempt4NameB: str|None = None
 
-class NameComparator():
-    """The class used for fuzzy comparing two names.
-    """    
-    @staticmethod
-    def compareTwoNames(nameA:str, nameB:str) -> ResultsOfNameComparison:
-        """Compares two names to identify whether they are a fuzzy match.
+def compareTwoNames(nameA:str, nameB:str) -> ResultsOfNameComparison:
+    """Compares two names to identify whether they are a fuzzy match.
 
-        Args:
-            nameA (str): a name
-            nameB (str): a name
+    Args:
+        nameA (str): a name
+        nameB (str): a name
 
-        Returns:
-            dict: the data gleaned from the comparison (whether they are a match, whether one or both names is too generic, whether one or both names is too short, along with the debugging attempt data)
-        """        
-        # Throw an error if an arg isn't right
-        if not isinstance(nameA, str):
-            raise TypeError(f'nameA was {type(nameA)}. Must be str.')
-        if not isinstance(nameB, str):
-            raise TypeError(f'nameB was {type(nameB)}. Must be str.')
+    Returns:
+        dict: the data gleaned from the comparison (whether they are a match, whether one or both names is too generic, whether one or both names is too short, along with the debugging attempt data)
+    """        
+    # Throw an error if an arg isn't right
+    if not isinstance(nameA, str):
+        raise TypeError(f'nameA was {type(nameA)}. Must be str.')
+    if not isinstance(nameB, str):
+        raise TypeError(f'nameB was {type(nameB)}. Must be str.')
 
-        # Get info unrelated to name match
-        results = ResultsOfNameComparison(nameA=nameA, nameB=nameB)
-        nameA = cleanMod.cleanName(nameA)
-        nameB = cleanMod.cleanName(nameB)
-        nameA, nameB = cleanMod.cleanNamesTogether(nameA, nameB)
-        results.tooShort = insightMod.eitherNameTooShort(nameA, nameB)
-        if not nameA:
-            nameA = '_'
-        if not nameB:
-            nameB = '_'
-        if (nameA == '_') or (nameB == '_'):
-            return results
-        results.tooGeneric = insightMod.eitherNameTooGeneric(nameA, nameB)
-        nameA, nameB = nicknameMod.removeNicknames(nameA, nameB)
-
-        # 1st attempt: Checks if names are a match according to string comparison alone
-        match, wordCombo = comparisonMod.spellingComparison(nameA, nameB)
-        results.attempt1WordCombo = wordCombo
-        results.attempt1NameA = nameA
-        results.attempt1NameB = nameB
-        if match:
-            results.match = True
-            return results
-
-        # Failed first attempt. Check if names are even worth continuing
-        if insightMod.isWorthContinuing(nameA, nameB) is False:
-            return results
-
-        # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
-        modifiedNameA, modifiedNameB = modifyMod.modifyNamesTogether(nameA, nameB)
-        match, wordCombo = comparisonMod.spellingComparison(modifiedNameA, modifiedNameB)
-        results.attempt2WordCombo = wordCombo
-        results.attempt2NameA = modifiedNameA
-        results.attempt2NameB = modifiedNameB
-        if match:
-            results.match = True
-            return results
-            
-        # 3rd attempt: Checks if modified names are a match according to pronunciation
-        ipaOfModNameA = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameA))
-        ipaOfModNameB = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameB))
-        ipaOfModNameA, ipaOfModNameB = modifyMod.modifyIpasTogether(ipaOfModNameA, ipaOfModNameB)
-        match, wordCombo = comparisonMod.pronunciationComparison(ipaOfModNameA, ipaOfModNameB, modifiedNameA, modifiedNameB)
-        results.attempt3WordCombo = wordCombo
-        results.attempt3NameA = ipaOfModNameA
-        results.attempt3NameB = ipaOfModNameB
-        if match:
-            results.match = True
-            return results
-
-        # 4th attempt: Check if original names are a match according to pronunciation'
-        ipaOfNameA = cleanMod.cleanIpa(ipaMod.getIpa(nameA))
-        ipaOfNameB = cleanMod.cleanIpa(ipaMod.getIpa(nameB))
-        ipaOfNameA, ipaOfNameB = modifyMod.modifyIpasTogether(ipaOfNameA, ipaOfNameB)
-        match, wordCombo = comparisonMod.pronunciationComparison(ipaOfNameA, ipaOfNameB, nameA, nameB)
-        results.attempt4WordCombo = wordCombo
-        results.attempt4NameA = ipaOfNameA
-        results.attempt4NameB = ipaOfNameB, 
-        if match:
-            results.match = True
+    # Get info unrelated to name match
+    results = ResultsOfNameComparison(nameA=nameA, nameB=nameB)
+    nameA = cleanMod.cleanName(nameA)
+    nameB = cleanMod.cleanName(nameB)
+    nameA, nameB = cleanMod.cleanNamesTogether(nameA, nameB)
+    results.tooShort = insightMod.eitherNameTooShort(nameA, nameB)
+    if not nameA:
+        nameA = '_'
+    if not nameB:
+        nameB = '_'
+    if (nameA == '_') or (nameB == '_'):
         return results
+    results.tooGeneric = insightMod.eitherNameTooGeneric(nameA, nameB)
+    nameA, nameB = nicknameMod.removeNicknames(nameA, nameB)
+
+    # 1st attempt: Checks if names are a match according to string comparison alone
+    match, wordCombo = comparisonMod.spellingComparison(nameA, nameB)
+    results.attempt1WordCombo = wordCombo
+    results.attempt1NameA = nameA
+    results.attempt1NameB = nameB
+    if match:
+        results.match = True
+        return results
+
+    # Failed first attempt. Check if names are even worth continuing
+    if insightMod.isWorthContinuing(nameA, nameB) is False:
+        return results
+
+    # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
+    modifiedNameA, modifiedNameB = modifyMod.modifyNamesTogether(nameA, nameB)
+    match, wordCombo = comparisonMod.spellingComparison(modifiedNameA, modifiedNameB)
+    results.attempt2WordCombo = wordCombo
+    results.attempt2NameA = modifiedNameA
+    results.attempt2NameB = modifiedNameB
+    if match:
+        results.match = True
+        return results
+        
+    # 3rd attempt: Checks if modified names are a match according to pronunciation
+    ipaOfModNameA = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameA))
+    ipaOfModNameB = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameB))
+    ipaOfModNameA, ipaOfModNameB = modifyMod.modifyIpasTogether(ipaOfModNameA, ipaOfModNameB)
+    match, wordCombo = comparisonMod.pronunciationComparison(ipaOfModNameA, ipaOfModNameB, modifiedNameA, modifiedNameB)
+    results.attempt3WordCombo = wordCombo
+    results.attempt3NameA = ipaOfModNameA
+    results.attempt3NameB = ipaOfModNameB
+    if match:
+        results.match = True
+        return results
+
+    # 4th attempt: Check if original names are a match according to pronunciation'
+    ipaOfNameA = cleanMod.cleanIpa(ipaMod.getIpa(nameA))
+    ipaOfNameB = cleanMod.cleanIpa(ipaMod.getIpa(nameB))
+    ipaOfNameA, ipaOfNameB = modifyMod.modifyIpasTogether(ipaOfNameA, ipaOfNameB)
+    match, wordCombo = comparisonMod.pronunciationComparison(ipaOfNameA, ipaOfNameB, nameA, nameB)
+    results.attempt4WordCombo = wordCombo
+    results.attempt4NameA = ipaOfNameA
+    results.attempt4NameB = ipaOfNameB, 
+    if match:
+        results.match = True
+    return results
