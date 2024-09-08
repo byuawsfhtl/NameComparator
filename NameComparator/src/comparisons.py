@@ -84,6 +84,7 @@ def _reduceToSimpleConsonants(string:str) -> str:
 
 def pronunciationComparison(ipaOfNameA:str, ipaOfNameB:str, nameA:str, nameB:str) -> tuple[bool, list]:
     """Identifies whether two names are a match according to a pronunciation comparison.
+    
     Args:
         ipaOfNameA (str): the ipa of a name
         ipaOfNameB (str): the ipa of a name
