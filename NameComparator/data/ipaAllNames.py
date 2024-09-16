@@ -1,4 +1,4 @@
-{
+data = {
     "aaberg": "ɑbərg",
     "aaliyah": "ɑliɑ",
     "aamodt": "ɑmət",
