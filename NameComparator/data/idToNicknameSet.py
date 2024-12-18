@@ -202,7 +202,7 @@ data = {
     195: {'malvin', 'mel', 'melvin', 'melven',},
     196: {'freer', 'freier',},
     197: {'marshel', 'marshall', 'marshal',},
-    198: {'lesly', 'leslie',},
+    198: {'lesly', 'leslie', 'les'},
     199: {'aurthur', 'aurther', 'athur', 'artie', 'art', 'arthor', 'arther', 'arthur', 'arty', 'arter',},
     200: {'alby', 'alburt', 'burt', 'albt', 'abert', 'albert', 'albrt', 'albet', 'al',},
     201: {'marton', 'martie', 'marthin', 'mart', 'marten', 'martain', 'martin', 'marty',},
@@ -417,4 +417,5 @@ data = {
     410: {'bevely', 'beverly', 'beverley',},
     411: {'addison', 'adison',},
     412: {'sal', 'sarah', 'sara', 'sally',},
+    413: {'les', 'lester',},
 }

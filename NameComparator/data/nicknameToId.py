@@ -1205,6 +1205,7 @@ data = {
     'leonhard': {82,},
     'leopold': {169,},
     'lepold': {169,},
+    'les': {198, 413},
     'leslie': {198,},
     'lesly': {198,},
     'leuis': {351,},
