@@ -221,6 +221,7 @@ data = {
     'benard': {399,},
     'benedick': {299,},
     'benedict': {299,},
+    'beng': {223,},
     'bengaman': {223,},
     'bengamin': {223,},
     'bengamine': {223,},
