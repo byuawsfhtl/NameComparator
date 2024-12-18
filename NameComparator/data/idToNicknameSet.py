@@ -213,7 +213,7 @@ data = {
     206: {'michael', 'michle', 'mik', 'mikael', 'mickel', 'mickael', 'micha', 'machael', 'mike', 'mic', 'michal', 'mikle', 'mich', 'michale', 'micael', 'michl', 'michall', 'micle', 'michul', 'mick', 'michel',},
     207: {'ash', 'ashley',},
     208: {'duglas', 'dug', 'douglas', 'douglass', 'duglass',},
-    209: {'marguerite', 'magnolia', 'madge', 'marjory', 'magdalena', 'margaret', 'maggy',},
+    209: {'marguerite', 'magnolia', 'madge', 'marjory', 'magdalena', 'margaret', 'maggy', 'marg',},
     210: {'roberts', 'rbt', 'robbie', 'bobby', 'robart', 'robb', 'robt', 'robert', 'robet', 'robbert', 'robie', 'rubert', 'bob', 'robrt', 'bobbie', 'roby', 'rb', 'rob',},
     211: {'stephen', 'stephin', 'steaven', 'steaphen', 'stephn', 'stephon', 'sephen', 'steve', 'stephan', 'steph', 'stevan',},
     212: {'simson', 'simpson',},

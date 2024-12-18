@@ -1295,6 +1295,7 @@ data = {
     'manuel': {174,},
     'marc': {58,},
     'marcus': {58,},
+    'marg': {209,},
     'margaret': {209,},
     'margery': {409,},
     'marguerite': {209,},
