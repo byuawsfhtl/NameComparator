@@ -1,5 +1,4 @@
 import NameComparator.src.usefulTools as usefulToolsMod
-import NameComparator.data.topSurnames as topSurnames
 
 def isWorthContinuing(nameA:str, nameB:str) -> bool:
     """Identifies if a name comparison will always prove false.
