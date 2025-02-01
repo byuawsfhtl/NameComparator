@@ -55,7 +55,7 @@ def compareTwoNames(nameA:str, nameB:str, frequencyData:FrequencyData|None = Non
     Args:
         nameA (str): a name
         nameB (str): a name
-        frequencyData (FrequencyData | None, optional): the first name and surname frequencies in a chosen population, Defaults to None.
+        frequencyData (FrequencyData | None, optional): the first name and surname frequencies in a chosen population- Defaults to None
 
     Returns:
         ResultsOfNameComparison: the data gleaned from the comparison(whether they are a match, whether one or both names is too generic,
