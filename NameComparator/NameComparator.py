@@ -13,6 +13,13 @@ from NameComparator.data.frequency.surnamesUsaTo1950 import data as usaTo1950Sur
 from NameComparator.data.frequency.firstNamesUsaTo1950 import data as usaTo1950FirstNames
 
 class Attempt(NamedTuple):
+    """Represents an attempt at name comparison (often used for debugging).
+
+    Attributes:
+        nameA (str): the version of nameA for this attempt 
+        nameB (str): the version of nameB for this attempt
+        wordCombo (list[tuple[str, str, int]]): the matchup of words in the names and how well.
+    """
     nameA: str
     nameB: str
     wordCombo: list[tuple[str, str, int]] # TODO make this a model too
@@ -48,12 +55,11 @@ def compareTwoNames(nameA:str, nameB:str, frequencyData:FrequencyData|None = Non
     Args:
         nameA (str): a name
         nameB (str): a name
-        frequencyData (FrequencyData | None, optional): the first name and surname frequencies in a chosen population. Defaults to None.
+        frequencyData (FrequencyData | None, optional): the first name and surname frequencies in a chosen population, Defaults to None.
 
     Returns:
-        ResultsOfNameComparison: the data gleaned from the comparison(whether they are a match,
-        whether one or both names is too generic, whether one or both names is too short,
-        along with the debugging attempt data)
+        ResultsOfNameComparison: the data gleaned from the comparison(whether they are a match, whether one or both names is too generic,
+        whether one or both names is too short, along with the debugging attempt data)
     """        
     # Deal with optional arg
     if frequencyData is None:
