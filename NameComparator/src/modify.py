@@ -2,8 +2,8 @@ import re
 from fuzzywuzzy import fuzz
 
 import NameComparator.src.usefulTools as usefulToolsMod
-import NameComparator.data.rulesSpelling as rulesSpelling
-import NameComparator.data.rulesIpa as rulesIpa
+import NameComparator.data.rules.rulesSpelling as rulesSpelling
+import NameComparator.data.rules.rulesIpa as rulesIpa
 
 def modifyNamesTogether(nameA:str, nameB:str) -> tuple[str,str]:
     """Modifies the name together (changing them in a way that is much more intense than simply cleaning together).
