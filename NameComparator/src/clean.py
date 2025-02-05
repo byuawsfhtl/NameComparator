@@ -75,9 +75,7 @@ def cleanName(name:str) -> str:
     }
     nameAsList = []
     for word in name.split():
-        if commonAbreviations.get(word) is not None:
-            word = commonAbreviations.get(word)
-        nameAsList.append(word)
+        nameAsList.append(commonAbreviations.get(word, word))
     name = ' '.join(nameAsList)
 
     # Remove stuff like 'the 3rd'
