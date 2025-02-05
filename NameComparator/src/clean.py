@@ -61,8 +61,22 @@ def cleanName(name:str) -> str:
     # Removes "head of household"
     name = name.replace("head of household", "")
 
-    # Remove more than one space again
-    name = re.sub(r" +", " ", name)
+    # Remove Common Abbreviations
+    commonAbreviations = {
+        'wm': 'william',
+        'geo': 'george',
+        'chas': 'charles',
+        'thos': 'thomas',
+        'jas': 'james',
+        'jno': 'john',
+        'robt': 'robert',
+        'jos': 'joseph',
+        'benj': 'benjamin'
+    }
+    nameAsList = []
+    for word in name.split():
+        nameAsList.append(commonAbreviations.get(word, word))
+    name = ' '.join(nameAsList)
 
     # Remove stuff like 'the 3rd'
     name = re.sub(r"[1-9][a-z]2,6", "", name).replace(" the ", "")

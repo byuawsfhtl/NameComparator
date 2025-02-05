@@ -1,7 +1,9 @@
 import numpy as np
+from functools import lru_cache
 from scipy.optimize import linear_sum_assignment
 from fuzzywuzzy import fuzz
 
+@lru_cache(maxsize=1_000)
 def findWhichWordsMatchAndHowWell(nameA:str, nameB:str) -> list[tuple[str, str, int]]:
     """Identifies which words in either name are a match, and how well they match.
 
