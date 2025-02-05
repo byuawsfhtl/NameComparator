@@ -1,8 +1,8 @@
 from functools import lru_cache
 from unidecode import unidecode
 
-import NameComparator.data.ipaAllNames as ipaAllNames
-import NameComparator.data.ipaCommonWordParts as ipaCommonWordParts
+import NameComparator.data.pronunciation.ipaAllNames as ipaAllNames
+import NameComparator.data.pronunciation.ipaCommonWordParts as ipaCommonWordParts
 
 def getIpa(name:str) -> str:
     """Gets the pronunciation of the name.
