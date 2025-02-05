@@ -34,12 +34,8 @@ def scoreUniqueness(nameA:str, nameB:str, frequencyData:FrequencyData) -> float:
         frequencyData (FrequencyData): the first name and surname frequencies in a pop
 
     Returns:
-        float: _description_
+        float: the uniqueness score
     """    
-    # Use the chosen frequencies
-    # TODO
-        # TODO expand later to include name freqs from around the globe so this technique can work on any dataset (korean name freqs, for example)
-
     # Get the max frequency of either word in each pair
     wordPairs = getPairIndicesAndWords(nameA, nameB)
     scoresOfWordPairs = [_findWordPairUniqueness(wordA, wordB, frequencyData).value for _, _, wordA, wordB in wordPairs]
