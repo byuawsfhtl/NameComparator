@@ -66,12 +66,10 @@ def compareTwoNames(nameA:str, nameB:str, frequencyData:FrequencyData|None = Non
         frequencyData = FrequencyData(usaTo1950FirstNames, usaTo1950Surnames)
 
     # Data validation
-    if not isinstance(nameA, str):
-        raise TypeError(f'nameA was {type(nameA)}. Must be str.')
-    if not isinstance(nameB, str):
-        raise TypeError(f'nameB was {type(nameB)}. Must be str.')
+    if not isinstance(nameA, str) or not isinstance(nameB, str):
+        raise TypeError(f'nameA was {type(nameA)}. Must be str. nameB was {type(nameB)}. Must be str.')
     if not isinstance(frequencyData, FrequencyData):
-        raise TypeError(f'frequencyData was {type(frequencyData)}. Must be FrequencyData or None.')
+        raise TypeError(f'frequencyData was {type(frequencyData)}. Must be FrequencyData.')
 
     # Create the return object to edit later
     results = ResultsOfNameComparison(nameA=nameA, nameB=nameB)
