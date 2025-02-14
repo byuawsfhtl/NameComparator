@@ -52,7 +52,7 @@ def _removeOrInNames(nameA:str, nameB:str) -> tuple[str, str]:
     
     # if or in both
     elif (" or " in nameA) and (" or " in nameB):
-        return nameA, 
+        return nameA, nameB
 
     # if or in nameA and not nameB
     elif " or " in nameA:
