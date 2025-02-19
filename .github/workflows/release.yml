@@ -35,7 +35,7 @@ jobs:
         with:
           python-version: "3.x"
       - name: TODO Remove this was for debugging
-        run: ls -l NameComparator/
+        run: ls -l .
       - name: Install pypa/build
         run: python3 -m pip install build
       - name: Build a binary wheel and a source tarball
