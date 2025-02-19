@@ -34,12 +34,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: TODO Remove this was for debugging
-        run: ls -l .
       - name: Install pypa/build
         run: python3 -m pip install build
       - name: Build a binary wheel and a source tarball
-        run: python3 -m build
+        run: python3 -m build --no-isolation
       - name: Store the distribution packages
         uses: actions/upload-artifact@v4
         with:
