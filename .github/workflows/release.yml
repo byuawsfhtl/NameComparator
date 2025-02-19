@@ -18,9 +18,10 @@ jobs:
     permissions: write-all
     steps:
       - name: Update Version
-        uses: byuawsfhtl/UpdateVersion@v1.0.4
+        uses: byuawsfhtl/UpdateVersion@v1.0.7
         with:
           token: ${{ secrets.RLL_BOT_PERSONAL_ACCESS_TOKEN }}
+          versionPath: ${{ github.workspace }}/NameComparator/_version.py
 
   build:
     name: Build distribution 📦
@@ -37,7 +38,7 @@ jobs:
       - name: Install pypa/build
         run: python3 -m pip install build
       - name: Build a binary wheel and a source tarball
-        run: python3 -m build --no-isolation
+        run: python3 -m build
       - name: Store the distribution packages
         uses: actions/upload-artifact@v4
         with:
