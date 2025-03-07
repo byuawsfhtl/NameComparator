@@ -12,7 +12,6 @@ from NameComparator.src.uniqueness import FrequencyData
 from NameComparator.data.frequency.surnamesUsaTo1950 import data as usaTo1950Surnames
 from NameComparator.data.frequency.firstNamesUsaTo1950 import data as usaTo1950FirstNames
 
-
 class Attempt(NamedTuple):
     """Represents an attempt at name comparison (often used for debugging).
 
