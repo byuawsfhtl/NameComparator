@@ -18,20 +18,33 @@ from NameComparator import NameComparator
 results = NameComparator.compareTwoNames(nameA='Johnny Christians', nameB='Christian, Jean')
 
 print(results)
-# ResultsOfNameComparison(nameA='Johnny Christians', nameB='Christian, Jean', 
-# tooShort=False, tooGeneric=False, match=True,
-# attempt1WordCombo=[('0', '1', 100.0), ('1', '0', 100.0)], attempt1NameA='jean christians', attempt1NameB='christian jean', 
-# attempt2WordCombo=None, attempt2NameA=None, attempt2NameB=None,
-# attempt3WordCombo=None, attempt3NameA=None, attempt3NameB=None,
-# attempt4WordCombo=None, attempt4NameA=None, attempt4NameB=None)
+# ResultsOfNameComparison(
+#     nameA='Johnny Christians',
+#     nameB='Christian, Jean',
+#     match=True,
+#     uniqueness=100,
+#     tooShort=False,
+#     attempt1=Attempt(nameA='jean christians', nameB='christian jean', wordCombo=[('0', '1', 100.0), ('1', '0', 100.0)]),
+#     attempt2=None,
+#     attempt3=None,
+#     attempt4=None
+# )
 ```
 
 The above code snippet shows possible example usage of the package. The results variable is a dictionary with various attributes. The attributes relevant to most users will be ```match```, ```tooGeneric```, and ```tooShort```. 
 - ```match``` identifies whether the comparison was a match
-- ```tooGeneric``` identifies whether either of the names was too generic (e.g. 'john smith')
+- ```uniqueness``` gives a score out of 100 to the uniqueness of the two names compared to one another. (e.g. 'john smith' compared to 'j smith' would have a very low uniqueness score).
 - ```tooShort``` identifies whether either name was too short in regards to number of words (e.g. 'justin').
 
-If you are interrested in the debugging portion of the returned namedtuple, each attempt is the use of different methods to identify if the names are a match or not. Two names might fail one or two methods but eventually be proven to be a match. A simple spelling comparison would fail for 'Maurice' and 'Morris'. The first attempt is this simple spelling comparison after minimal cleaning. The second attempt is a heavier edit of the tokens in order to try to get a closer spelling comparison. The third attempt checks if the modified tokens from attempt two are a match according to pronunciation. The fourth and last attempt identifies if the original tokens from the attempt one are a match according to pronunciation comparison. (Attempts 2 through 4 will not be undertaken if the names have no chance at matching.)
+If you are interrested in debugging or looking deeper at what factors went into the comparison being a match or not, please see the attempt attributes. Each attempt is the use of different methods to identify if the names are a match or not. These include cleaning names in reference to one another and spelling rules, and using the names' pronunciation instead of spelling. An attempt is None if a previous attempt discovered the names were a match, as there is no further reason to continue the comparison. This is because two names might fail one or two methods but eventually be proven to be a match. 
+
+Let's look at the example of the name comparison of 'Maurice' and 'Morris'. 
+* ```attempt1``` is this simple spelling comparison after minimal cleaning. This would fail to identify a match.
+* ```attempt2``` is a heavier edit of the spelling in reference to the other name and to spelling rules. This would also prove ineffective.
+* ```attempt3``` checks if the modified tokens from attempt two are a match according to pronunciation. This would work!
+* ```attempt4```, the last attempt, (not reached in this scenerio) identifies if the original tokens from the attempt one are a match according to pronunciation comparison.
+
+Finally, when debugging, it is important to understand any attempt after attempt1 will not be undertaken if the names have no chance at matching. This is thanks to the ```isWorthContinuing``` function. If it fails this function or gets through all four attempts without passing any attempt, then match is considered false.
 
 Each attempt's word combo is a list of tuples
 ```python
