@@ -41,19 +41,19 @@ def _consonant_comparison(name_a : str, name_b : str) -> bool:
     # Loop through every word match in the combo
     for tup in word_combo:
         # Get the matching word data
-        wordA = name_a.split()[int(tup[0])]
-        wordB = name_b.split()[int(tup[1])]
+        word_a = name_a.split()[int(tup[0])]
+        word_b = name_b.split()[int(tup[1])]
         original_score_for_words:int = int(tup[2])
 
         # Get the words as consonants
-        consonants_name_a = _reduce_to_simple_consonants(wordA)
-        consonants_name_b = _reduce_to_simple_consonants(wordB)
+        consonants_name_a = _reduce_to_simple_consonants(word_a)
+        consonants_name_b = _reduce_to_simple_consonants(word_b)
         consonants_ratio = fuzz.ratio(consonants_name_a, consonants_name_b)
 
         # Continue if bad match
         if original_score_for_words <= 30:
             continue
-        if (len(wordA) != 1) and (len(wordB) != 1): #if neither word is initial
+        if (len(word_a) != 1) and (len(word_b) != 1): #if neither word is initial
             lowest_syllable_count = min(consonants_name_a.count("*"), consonants_name_b.count("*"))
             if lowest_syllable_count < 2:
                 continue
@@ -82,7 +82,7 @@ def _reduce_to_simple_consonants(string : str) -> str:
     string = re.sub(r'(.)\1+', r'\1', string)
     return string
 
-def pronunciation_comparison(ipa_of_name_a : str, ipa_of_name_b : str, nameA : str, nameB : str) -> tuple[bool, list]:
+def pronunciation_comparison(ipa_of_name_a : str, ipa_of_name_b : str, name_a : str, name_b : str) -> tuple[bool, list]:
     """Identifies whether two names are a match according to a pronunciation comparison.
 
     Args:
@@ -104,7 +104,7 @@ def pronunciation_comparison(ipa_of_name_a : str, ipa_of_name_b : str, nameA : s
     scores = np.zeros((len(ipa_words_a), len(ipa_words_b)))
 
     # Score each matchup
-    word_combo = usefulToolsMod.find_which_words_match_and_how_well(nameA, nameB)
+    word_combo = usefulToolsMod.find_which_words_match_and_how_well(name_a, name_b)
     for index_a, word_a in enumerate(ipa_words_a):
         for index_b, word_b in enumerate(ipa_words_b):
             # Assign a default very low score for dummy pairings
