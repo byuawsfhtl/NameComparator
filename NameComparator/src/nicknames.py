@@ -1,37 +1,37 @@
 import re
 
-import NameComparator.data.nicknames.idToNicknameSet as idToNicknameSet
-import NameComparator.data.nicknames.nicknameToId as nicknameToId
+import NameComparator.data.nicknames.idToNicknameSet as id_to_nickname_set
+import NameComparator.data.nicknames.nicknameToId as nickname_to_id
 
-def removeNicknames(nameA:str, nameB:str) -> tuple[str, str]:
+def remove_nicknames(name_a : str, name_b : str) -> tuple[str, str]:
     """Replaces the nickname in one name for the official name found in the other.
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_a: the name of a person
+        name_b: the name of a person
 
     Returns:
-        tuple[str, str]: the names (possibly with a nickname replaced)
+        the names (possibly with a nickname replaced)
     """        
-    wordsInA = nameA.split()
-    wordsInB = nameB.split()
-    for wordA in wordsInA:
-        if wordA in wordsInB:
+    words_in_a = name_a.split()
+    words_in_b = name_b.split()
+    for word_a in words_in_a:
+        if word_a in words_in_b:
             continue
-        setOfIds = nicknameToId.data.get(wordA)
-        if setOfIds is None:
+        sets_of_ids = nickname_to_id.data.get(word_a)
+        if sets_of_ids is None:
             continue
         breaking = False
-        for id in setOfIds:
-            nicknames = idToNicknameSet.data[id].copy()
-            nicknames.remove(wordA)
-            for nickname in nicknames:
-                if (nickname in wordsInA) and (nickname in wordsInB):
+        for id in sets_of_ids:
+            nickname_pool = id_to_nickname_set.data[id].copy()
+            nickname_pool.remove(word_a)
+            for nickname in nickname_pool:
+                if (nickname in words_in_a) and (nickname in words_in_b):
                     continue
-                if nickname in wordsInB:
-                    nameA = re.sub(rf"\b{wordA}\b", nickname, nameA, flags=re.IGNORECASE)
+                if nickname in words_in_b:
+                    name_a = re.sub(rf"\b{word_a}\b", nickname, name_a, flags=re.IGNORECASE)
                     breaking = True
                     break
             if breaking:
                 break
-    return nameA, nameB
+    return name_a, name_b

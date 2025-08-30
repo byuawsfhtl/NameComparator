@@ -1,16 +1,16 @@
 import NameComparator.src.usefulTools as usefulToolsMod
 
-def isWorthContinuing(nameA:str, nameB:str) -> bool:
+def is_worth_continuing(nameA : str, nameB : str) -> bool:
     """Identifies if a name comparison will always prove false.
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_a: the name of a person
+        name_b: the name of a person
 
     Returns:
         bool: whether the names are worth working on further
     """        
-    wordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(nameA, nameB)
+    wordCombo = usefulToolsMod.find_which_words_match_and_how_well(nameA, nameB)
     oneLetterMatchFailCount = 0
     for match in wordCombo:
         wordA = nameA[int(match[0])]
@@ -22,17 +22,17 @@ def isWorthContinuing(nameA:str, nameB:str) -> bool:
         return False
     return True
 
-def eitherNameTooShort(nameA:str, nameB:str) -> bool:
+def either_name_too_short(nameA : str, nameB : str) -> bool:
     """Identifies if either of the names is too short.
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_a: the name of a person
+        name_b: the name of a person
 
     Returns:
         bool: whether either was too short
     """        
-    combo = usefulToolsMod.findWhichWordsMatchAndHowWell(nameA, nameB)
+    combo = usefulToolsMod.find_which_words_match_and_how_well(nameA, nameB)
     shortestWordCount = len(combo)
     if shortestWordCount < 2:
         return True

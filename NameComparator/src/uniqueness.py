@@ -1,7 +1,7 @@
 from typing import NamedTuple
 from enum import Enum
 
-from NameComparator.src.usefulTools import getPairIndicesAndWords
+from NameComparator.src.usefulTools import get_pair_indices_and_words
 
 class FrequencyData(NamedTuple):
     """Stores the name frequencies for first names and surnames within a given population."""
@@ -24,26 +24,26 @@ class Uniqueness(Enum):
     RARE = 42
     UNSEEN = 65
 
-def scoreUniqueness(nameA:str, nameB:str, frequencyData:FrequencyData) -> float:
+def score_uniqueness(nameA : str, nameB : str, frequencyData:FrequencyData) -> float:
     """Takes two names and gives them an algorithmically calculated uniqueness score
     (between 0 and 100).
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_a: the name of a person
+        name_b: the name of a person
         frequencyData (FrequencyData): the first name and surname frequencies in a pop
 
     Returns:
         float: the uniqueness score
     """    
     # Get the max frequency of either word in each pair
-    wordPairs = getPairIndicesAndWords(nameA, nameB)
+    wordPairs = get_pair_indices_and_words(nameA, nameB)
     scoresOfWordPairs = [_findWordPairUniqueness(wordA, wordB, frequencyData).value for _, _, wordA, wordB in wordPairs]
     
     # Return the sum, maxing out at 100
     return min(100, sum(scoresOfWordPairs))
 
-def _findWordPairUniqueness(wordA:str, wordB:str, frequencyData:FrequencyData) -> Uniqueness:
+def _findWordPairUniqueness(wordA : str, wordB : str, frequencyData:FrequencyData) -> Uniqueness:
     """Given two words paired together, it will identify the least possible uniqueness
     classification to assign the pair, based on which of the two occurs most frequently
     (as either a surname or as a first name- whichever is more frequent).
@@ -78,7 +78,7 @@ def _findWordPairUniqueness(wordA:str, wordB:str, frequencyData:FrequencyData) -
     else:
         raise ValueError("Score is out of range")
 
-def _getMaxFrequency(word:str, frequencyData:FrequencyData) -> float:
+def _getMaxFrequency(word : str, frequencyData:FrequencyData) -> float:
     """Gets the maximum possible frequency for a given word, whether it is found more as a
     first name or surname, given those frequencies for a given population. If the word is not
     found in either dicts, defaults to the default frequency, which is very low.

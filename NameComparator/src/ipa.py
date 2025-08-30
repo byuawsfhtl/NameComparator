@@ -4,7 +4,7 @@ from unidecode import unidecode
 import NameComparator.data.pronunciation.ipaAllNames as ipaAllNames
 import NameComparator.data.pronunciation.ipaCommonWordParts as ipaCommonWordParts
 
-def getIpa(name:str) -> str:
+def get_ipa(name : str) -> str:
     """Gets the pronunciation of the name.
 
     Args:
@@ -20,7 +20,7 @@ def getIpa(name:str) -> str:
     return pronunciationOfName
 
 @lru_cache(maxsize=1_000)
-def _getIpaOfOneWord(word:str) -> str:
+def _getIpaOfOneWord(word : str) -> str:
     """Gets the pronunciation of one word.
 
     Args:
@@ -34,7 +34,7 @@ def _getIpaOfOneWord(word:str) -> str:
     word = unidecode(word)
     word = word.lower()
     pronunciationList = [""] * len(word)
-    def substringSplitsTh(substring:str, word:str, i:int, j:int) -> bool:
+    def substringSplitsTh(substring : str, word : str, i:int, j:int) -> bool:
         """Helps to identify poor substring choices for words for ipa.
 
         Args:
@@ -110,7 +110,7 @@ def _getIpaOfOneWord(word:str) -> str:
     pronunciation = "".join(pronunciationList)
     return pronunciation
 
-def _wordPronunciationHailMary(word:str) -> tuple[str, bool]:
+def _wordPronunciationHailMary(word : str) -> tuple[str, bool]:
     """Tries to get the pronunciation from the predefined ipa dictionary.
 
     Args:
@@ -124,7 +124,7 @@ def _wordPronunciationHailMary(word:str) -> tuple[str, bool]:
         return wordPronuncation, True
     return word, False
 
-def _stringPronuncationHailMary(string:str) -> tuple[str, bool]:
+def _stringPronuncationHailMary(string : str) -> tuple[str, bool]:
     """Helper function of _getIpaOfOneWord.
     Tries to get the ipa of a string (with more than one letter).
 

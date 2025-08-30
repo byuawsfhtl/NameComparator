@@ -5,12 +5,12 @@ import NameComparator.src.usefulTools as usefulToolsMod
 import NameComparator.data.rules.rulesSpelling as rulesSpelling
 import NameComparator.data.rules.rulesIpa as rulesIpa
 
-def modifyNamesTogether(nameA:str, nameB:str) -> tuple[str,str]:
+def modify_names_together(nameA : str, nameB : str) -> tuple[str,str]:
     """Modifies the name together (changing them in a way that is much more intense than simply cleaning together).
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_a: the name of a person
+        name_b: the name of a person
 
     Returns:
         tuple[str,str]: the modified names
@@ -29,13 +29,13 @@ def modifyNamesTogether(nameA:str, nameB:str) -> tuple[str,str]:
     nameB = nameB.strip()
     return nameA, nameB
 
-def _removeOrInNames(nameA:str, nameB:str) -> tuple[str, str]:
+def _removeOrInNames(nameA : str, nameB : str) -> tuple[str, str]:
     """Removes the word 'or' from a name (assuming that the name could have been 
     poorly indexed so that the indexer's guesses for a specific word of the name is still within the string).
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_a: the name of a person
+        name_b: the name of a person
 
     Returns:
         tuple[str, str]: the modified names
@@ -60,13 +60,13 @@ def _removeOrInNames(nameA:str, nameB:str) -> tuple[str, str]:
         rightNameA = re.sub("[a-z]+ or ", " ", nameA)
         if not rightNameA:
             rightNameA = '_'
-        rightWordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(rightNameA, nameB)
+        rightWordCombo = usefulToolsMod.find_which_words_match_and_how_well(rightNameA, nameB)
         rightAverageScore = sum(tup[2] for tup in rightWordCombo) / len(rightWordCombo)
         # Gets the score for if the word after 'or' is removed
         leftNameA = re.sub(" or [a-z]+", " ", nameA)
         if not leftNameA:
             leftNameA = '_'
-        leftWordCombo =  usefulToolsMod.findWhichWordsMatchAndHowWell(leftNameA, nameB)
+        leftWordCombo =  usefulToolsMod.find_which_words_match_and_how_well(leftNameA, nameB)
         leftAverageScore = sum(tup[2] for tup in leftWordCombo) / len(leftWordCombo)
         # Return the higher one
         if rightAverageScore >= leftAverageScore:
@@ -78,32 +78,32 @@ def _removeOrInNames(nameA:str, nameB:str) -> tuple[str, str]:
         rightNameB = re.sub("[a-z]+ or ", " ", nameB)
         if not rightNameB:
             rightNameB = '_'
-        rightWordCombo = usefulToolsMod.findWhichWordsMatchAndHowWell(rightNameB, nameA)
+        rightWordCombo = usefulToolsMod.find_which_words_match_and_how_well(rightNameB, nameA)
         rightAverageScore = sum(tup[2] for tup in rightWordCombo) / len(rightWordCombo)
         # Gets the score for if the word after 'or' is removed
         leftNameB = re.sub(" or [a-z]+", " ", nameB)
         if not leftNameB:
             leftNameB = '_'
-        leftWordCombo =  usefulToolsMod.findWhichWordsMatchAndHowWell(leftNameB, nameA)
+        leftWordCombo =  usefulToolsMod.find_which_words_match_and_how_well(leftNameB, nameA)
         leftAverageScore = sum(tup[2] for tup in leftWordCombo) / len(leftWordCombo)
         # Return the higher one
         if rightAverageScore >= leftAverageScore:
             return nameA, rightNameB
         return nameA, leftNameB
 
-def _fixVowelMistakes(nameA:str, nameB:str) -> tuple[str, str]:
+def _fixVowelMistakes(nameA : str, nameB : str) -> tuple[str, str]:
     """Modifies two matching words in a name so that they are the same if 
     they are only different by one vowel and 5 letters or more.
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_a: the name of a person
+        name_b: the name of a person
 
     Returns:
         tuple[str, str]: the two modified names
     """        
     ne = usefulToolsMod.NameEditor(nameA, nameB)
-    for indexA, _, wordA, wordB in usefulToolsMod.getPairIndicesAndWords(nameA, nameB):
+    for indexA, _, wordA, wordB in usefulToolsMod.get_pair_indices_and_words(nameA, nameB):
         # Continue if either word is less than 5 chars or not same length
         lenA = len(wordA)
         lenB = len(wordB)
@@ -134,23 +134,23 @@ def _fixVowelMistakes(nameA:str, nameB:str) -> tuple[str, str]:
         charWordB = wordB[mismatchedIndex]
         cooresponding = ['ao', 'ea', 'iy']
         if (f'{charWordA}{charWordB}' in cooresponding) or (f'{charWordB}{charWordA}' in cooresponding):
-            ne.updateNameA(indexA, wordB)
+            ne.update_name_a(indexA, wordB)
     
     # Return the modified (or not) names
-    return ne.getModifiedNames()
+    return ne.get_modified_names()
 
-def _fixSwappedChars(nameA:str, nameB:str) -> tuple[str, str]:
+def _fixSwappedChars(nameA : str, nameB : str) -> tuple[str, str]:
     """If two matching words (of 5 letters of more) for the two names are the same barring swapped letters (typo), makes the words the same.
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_a: the name of a person
+        name_b: the name of a person
 
     Returns:
         tuple[str, str]: the modified names
     """        
     ne = usefulToolsMod.NameEditor(nameA, nameB)
-    for indexA, _, wordA, wordB in usefulToolsMod.getPairIndicesAndWords(nameA, nameB):
+    for indexA, _, wordA, wordB in usefulToolsMod.get_pair_indices_and_words(nameA, nameB):
         # Skip if the words are not 5 long, are different length, or not fuzzy 80
         if len(wordA) != 5:
             continue
@@ -177,36 +177,36 @@ def _fixSwappedChars(nameA:str, nameB:str) -> tuple[str, str]:
             continue
 
         # This is the scenerio we are looking for. Make the words identical
-        ne.updateNameA(indexA, wordB)
+        ne.update_name_a(indexA, wordB)
     
     # Return the modified (or not) names
-    return ne.getModifiedNames()
+    return ne.get_modified_names()
 
-def _dealWithWrongFirstChar(nameA:str, nameB:str) -> tuple[str, str]:
+def _dealWithWrongFirstChar(nameA : str, nameB : str) -> tuple[str, str]:
     """If two matching words (of 5 letters or more) are the same barring the first letter, makes the same.
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_a: the name of a person
+        name_b: the name of a person
 
     Returns:
         tuple[str, str]: the modified names
     """        
     ne = usefulToolsMod.NameEditor(nameA, nameB)
-    for indexA, _, wordA, wordB in usefulToolsMod.getPairIndicesAndWords(nameA, nameB):
+    for indexA, _, wordA, wordB in usefulToolsMod.get_pair_indices_and_words(nameA, nameB):
         if wordA == wordB:
             continue
         if (wordA[1:] == wordB[1:]) and (len(wordA) > 4) and (len(wordB) > 4):
-            ne.updateNameA(indexA, wordB)
-    nameA, nameB = ne.getModifiedNames()
+            ne.update_name_a(indexA, wordB)
+    nameA, nameB = ne.get_modified_names()
     return nameA, nameB
 
-def _replaceSubstringSandwichMeatIfMatchingBread(nameA:str, nameB:str, meatOption1:str, meatOption2:str, bottomBreadOptions:list[str], topBreadOptions:list[str], minRequiredLetters:int) -> tuple[str,str]:
+def _replaceSubstringSandwichMeatIfMatchingBread(nameA : str, nameB : str, meatOption1 : str, meatOption2 : str, bottomBreadOptions:list[str], topBreadOptions:list[str], minRequiredLetters:int) -> tuple[str,str]:
     """For any given matching word pair, replaces a specific substring in one of the words, with a similar substring found in the other word.
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_a: the name of a person
+        name_b: the name of a person
         meatOption1 (str): the first possible middle of the substring
         meatOption2 (str): the second possible middle of the substring
         bottomBreadOptions (list[str]): a list of possible beginnings to the substring. Whichever beginning is found in the one must be found in the other in order for the replacement to work
@@ -221,7 +221,7 @@ def _replaceSubstringSandwichMeatIfMatchingBread(nameA:str, nameB:str, meatOptio
         return nameA, nameB
 
     ne = usefulToolsMod.NameEditor(nameA, nameB)
-    for indexA, indexB, wordA, wordB in usefulToolsMod.getPairIndicesAndWords(nameA, nameB):
+    for indexA, indexB, wordA, wordB in usefulToolsMod.get_pair_indices_and_words(nameA, nameB):
         # Skip words that are not long enough for the given rule
         if len(wordA) < minRequiredLetters or len(wordB) < minRequiredLetters:
             continue
@@ -262,14 +262,14 @@ def _replaceSubstringSandwichMeatIfMatchingBread(nameA:str, nameB:str, meatOptio
         # Update the words for that match (though a change may not have occured)
         wordA = wordA.replace("-", "")
         wordB = wordB.replace("-", "")
-        ne.updateNameA(indexA, wordA)
-        ne.updateNameB(indexB, wordB)
+        ne.update_name_a(indexA, wordA)
+        ne.update_name_b(indexB, wordB)
 
     # concatonates the two lists together back into strings
-    nameA, nameB = ne.getModifiedNames()
+    nameA, nameB = ne.get_modified_names()
     return nameA, nameB
 
-def _overwriteWithSubstring(string:str, replacement:str, startIndex:int, endIndex:int) -> str:
+def _overwriteWithSubstring(string : str, replacement : str, startIndex:int, endIndex:int) -> str:
     """Overwrites a specific index range of a string with the replacement string.
 
     Args:
@@ -286,7 +286,7 @@ def _overwriteWithSubstring(string:str, replacement:str, startIndex:int, endInde
     newString = ''.join(stringList)
     return newString
 
-def modifyIpasTogether(ipaA:str, ipaB:str) -> tuple[str,str]:
+def modify_ipas_together(ipaA : str, ipaB : str) -> tuple[str,str]:
     """Modifies two ipas by comparing each to one another.
 
     Args:
