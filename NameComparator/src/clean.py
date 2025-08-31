@@ -546,13 +546,13 @@ def _combine_prefix_with_surname_if_in_both(name_a : str, name_b : str, prefix :
     return name_a, name_b
 
 def clean_ipa(ipa : str) -> str:
-    """cleans ipa to get rid of double ipa-consonants and other mistakes.
+    """Cleans ipa to get rid of double ipa-consonants and other mistakes.
 
     Args:
-        ipa (str): the ipa of a word
+        ipa: the raw ipa of a word
 
     Returns:
-        str: the cleaned ipa
+        the cleaned ipa
     """        
     all_ipa_consonants = ['l', 'd', 'z', 'b', 't', 'k', 'n', 's', 'w', 'v', 'ð', 'ʒ', 'ʧ', 'θ', 'h', 'g', 'ʤ', 'ŋ', 'p', 'm', 'ʃ', 'f', 'j', 'r']
     for consonant in all_ipa_consonants:

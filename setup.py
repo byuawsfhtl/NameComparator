@@ -3,7 +3,7 @@ import os
 from NameComparator._version import __version__ as version
 
 with open("README.md", "r", encoding="utf-8") as fh:
-    longDescription = fh.read()
+    long_description = fh.read()
 
 requirements = ""
 with open("NameComparator/requirements.txt", "r", encoding="utf-8") as fh:
@@ -11,27 +11,27 @@ with open("NameComparator/requirements.txt", "r", encoding="utf-8") as fh:
 
 requirements = requirements.split("\n")
 
-def listFolders(directory: str) -> list:
+def list_folders(directory: str) -> list:
     """Creates a list of all the folders in a directory.
 
     Args:
-        directory (str): the directory to search
+        directory: the directory to search
 
     Returns:
-        list: A list of all the folders in the directory
+        A list of all the folders in the directory
     """
     folders = []
     for item in os.listdir(directory):
-        itemPath = os.path.join(directory, item)
-        if os.path.isdir(itemPath) and item != "__pycache__":
-            folders.append(itemPath)
-    otherFolders = [listFolders(itemPath) for itemPath in folders]
-    for folder in otherFolders:
+        item_path = os.path.join(directory, item)
+        if os.path.isdir(item_path) and item != "__pycache__":
+            folders.append(item_path)
+    other_folders = [list_folders(itemPath) for itemPath in folders]
+    for folder in other_folders:
         folders.extend(folder)
     return folders
 
-folderPath = "NameComparator"
-folders = listFolders(folderPath)
+folder_path = "NameComparator"
+folders = list_folders(folder_path)
 folders.append("NameComparator")
 print(folders)
 
@@ -41,7 +41,7 @@ setuptools.setup(
     author='Record Linking Lab',
     author_email='recordlinkinglab@gmail.com',
     description='This is a library used to make fuzzy name comparisons across census records.',
-    long_description=longDescription,
+    long_description=long_description,
     long_description_content_type="text/markdown",
     url='https://github.com/byuawsfhtl/NameComparator.git',
     project_urls = {

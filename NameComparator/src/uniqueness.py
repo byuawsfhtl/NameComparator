@@ -5,8 +5,8 @@ from NameComparator.src.usefulTools import get_pair_indices_and_words
 
 class FrequencyData(NamedTuple):
     """Stores the name frequencies for first names and surnames within a given population."""
-    firstNameFrequencies: dict[str, str]
-    surnameFrequencies: dict[str, str]
+    first_name_frequencies: dict[str, str]
+    surname_frequencies: dict[str, str]
 
 class FrequencyUpperBound(Enum):
     """Represents the frequency upper bound of each uniqueness classification."""
@@ -24,34 +24,34 @@ class Uniqueness(Enum):
     RARE = 42
     UNSEEN = 65
 
-def score_uniqueness(nameA : str, nameB : str, frequencyData:FrequencyData) -> float:
+def score_uniqueness(name_a : str, name_b : str, frequency_data:FrequencyData) -> float:
     """Takes two names and gives them an algorithmically calculated uniqueness score
     (between 0 and 100).
 
     Args:
         name_a: the name of a person
         name_b: the name of a person
-        frequencyData (FrequencyData): the first name and surname frequencies in a pop
+        frequency_data: the first name and surname frequencies in a pop
 
     Returns:
         float: the uniqueness score
     """    
     # Get the max frequency of either word in each pair
-    wordPairs = get_pair_indices_and_words(nameA, nameB)
-    scoresOfWordPairs = [_findWordPairUniqueness(wordA, wordB, frequencyData).value for _, _, wordA, wordB in wordPairs]
+    word_pairs = get_pair_indices_and_words(name_a, name_b)
+    scores_of_word_pairs = [_findWordPairUniqueness(word_a, word_b, frequency_data).value for _, _, word_a, word_b in word_pairs]
     
     # Return the sum, maxing out at 100
-    return min(100, sum(scoresOfWordPairs))
+    return min(100, sum(scores_of_word_pairs))
 
-def _findWordPairUniqueness(wordA : str, wordB : str, frequencyData:FrequencyData) -> Uniqueness:
+def _findWordPairUniqueness(word_a : str, word_b : str, frequency_data:FrequencyData) -> Uniqueness:
     """Given two words paired together, it will identify the least possible uniqueness
     classification to assign the pair, based on which of the two occurs most frequently
     (as either a surname or as a first name- whichever is more frequent).
 
     Args:
-        wordA (str): a word in a name
-        wordB (str): a word in a name
-        frequencyData (FrequencyData): the first name and surname frequencies in a population
+        word_a: a word in a name
+        word_b: a word in a name
+        frequency_data: the first name and surname frequencies in a population
 
     Raises:
         ValueError: if the frequency is below 0
@@ -60,38 +60,38 @@ def _findWordPairUniqueness(wordA : str, wordB : str, frequencyData:FrequencyDat
     Returns:
         Uniqueness: the uniqueness classification of the word pair
     """    
-    wordAFreq = _getMaxFrequency(wordA, frequencyData)
-    wordBFreq = _getMaxFrequency(wordB, frequencyData)
-    pairFreq = max(wordAFreq, wordBFreq)
-    if pairFreq < 0:
+    word_a_freq = _get_max_frequency(word_a, frequency_data)
+    word_b_freq = _get_max_frequency(word_b, frequency_data)
+    pair_freq = max(word_a_freq, word_b_freq)
+    if pair_freq < 0:
         raise ValueError("Score is out of range")
-    elif pairFreq <= FrequencyUpperBound.UNSEEN.value:
+    elif pair_freq <= FrequencyUpperBound.UNSEEN.value:
         return Uniqueness.UNSEEN
-    elif pairFreq <= FrequencyUpperBound.RARE.value:
+    elif pair_freq <= FrequencyUpperBound.RARE.value:
         return Uniqueness.RARE
-    elif pairFreq <= FrequencyUpperBound.AVERAGE.value:
+    elif pair_freq <= FrequencyUpperBound.AVERAGE.value:
         return Uniqueness.AVERAGE
-    elif pairFreq <= FrequencyUpperBound.COMMON.value:
+    elif pair_freq <= FrequencyUpperBound.COMMON.value:
         return Uniqueness.COMMON
-    elif pairFreq <= FrequencyUpperBound.GENERIC.value:
+    elif pair_freq <= FrequencyUpperBound.GENERIC.value:
         return Uniqueness.GENERIC
     else:
         raise ValueError("Score is out of range")
 
-def _getMaxFrequency(word : str, frequencyData:FrequencyData) -> float:
+def _get_max_frequency(word : str, frequency_data : FrequencyData) -> float:
     """Gets the maximum possible frequency for a given word, whether it is found more as a
     first name or surname, given those frequencies for a given population. If the word is not
     found in either dicts, defaults to the default frequency, which is very low.
 
     Args:
-        word (str): a word in a name
-        frequencyData (FrequencyData): the first name and surname frequencies in a population
+        word: a word in a name
+        frequency_data: the first name and surname frequencies in a population
 
     Returns:
         float: the frequency
     """    
-    defaultFreq = FrequencyUpperBound.UNSEEN.value
-    wordFirstNameFreq = frequencyData.firstNameFrequencies.get(word, defaultFreq)
-    wordSurnameFreq = frequencyData.surnameFrequencies.get(word, defaultFreq)
-    wordInitialFreq = 1/26 if len(word) == 1 else defaultFreq
-    return max(wordFirstNameFreq, wordSurnameFreq, wordInitialFreq)
+    default_freq = FrequencyUpperBound.UNSEEN.value
+    word_first_name_freq = frequency_data.first_name_frequencies.get(word, default_freq)
+    word_surname_freq = frequency_data.surname_frequencies.get(word, default_freq)
+    word_initial_freq = 1/26 if len(word) == 1 else default_freq
+    return max(word_first_name_freq, word_surname_freq, word_initial_freq)

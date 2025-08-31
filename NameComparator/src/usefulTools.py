@@ -4,7 +4,7 @@ from scipy.optimize import linear_sum_assignment
 from fuzzywuzzy import fuzz
 
 @lru_cache(maxsize=1_000)
-def find_which_words_match_and_how_well(nameA : str, nameB : str) -> list[tuple[str, str, int]]:
+def find_which_words_match_and_how_well(name_a : str, name_b : str) -> list[tuple[str, str, int]]:
     """Identifies which words in either name are a match, and how well they match.
 
     Args:
@@ -16,8 +16,8 @@ def find_which_words_match_and_how_well(nameA : str, nameB : str) -> list[tuple[
             the index of the word in the second name, and the score of how well they match
     """
     # Initialize empty list to store scores
-    words_in_a = nameA.split()
-    words_in_b = nameB.split()
+    words_in_a = name_a.split()
+    words_in_b = name_b.split()
     if len(words_in_a) != len(words_in_b):
         if len(words_in_a) < len(words_in_b):
             words_in_a += [None] * (len(words_in_b) - len(words_in_a))
@@ -129,8 +129,11 @@ class NameEditor():
         """Replaces the stored word for nameA at the specified index.
 
         Args:
-            index (int): the specified index
-            updatedWord (str): the replacement string
+            index: the specified index
+            updated_word: the replacement string
+
+        Returns:
+            None
         """
         self.words_in_a[index] = updated_word
 
