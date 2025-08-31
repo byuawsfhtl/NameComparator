@@ -141,8 +141,11 @@ class NameEditor():
         """Replaces the stored word for nameB at the specified index.
 
         Args:
-            index (int): the specified index
-            updatedWord (str): the replacement string
+            index: the specified index
+            updated_word: the replacement string
+
+        Returns:
+            None
         """
         self.words_in_b[index] = updated_word
 

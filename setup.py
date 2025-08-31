@@ -25,7 +25,7 @@ def list_folders(directory: str) -> list:
         item_path = os.path.join(directory, item)
         if os.path.isdir(item_path) and item != "__pycache__":
             folders.append(item_path)
-    other_folders = [list_folders(itemPath) for itemPath in folders]
+    other_folders = [list_folders(item_path) for item_path in folders]
     for folder in other_folders:
         folders.extend(folder)
     return folders

@@ -290,8 +290,8 @@ def modify_ipas_together(ipa_a : str, ipa_b : str) -> tuple[str,str]:
     """Modifies two ipas by comparing each to one another.
 
     Args:
-        ipaA: the ipa of a name
-        ipaB: the ipa of a name
+        ipa_a: the ipa of a name
+        ipa_b: the ipa of a name
 
     Returns:
         the two modified names
