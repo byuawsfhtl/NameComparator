@@ -226,18 +226,19 @@ def _deal_with_dashes(name_a : str, name_b : str) -> tuple[str, str]:
     # Return the edited names
     return name_a_edited, name_b_edited
 
-def _combine_split_words(name_a : str, name_b : str) -> tuple[str, str]:
-    """Combines words within one of the names if that combination is one word in the other name.
 
+def _combine_split_words(name_a: str, name_b: str) -> tuple[str, str]:
+    """Combines words within one of the names if that combination is one word in the other name.
+    
     Args:
         name_a: the name of a person
         name_b: the name of a person
-
+        
     Returns:
         the modified names
-    """        
+    """
     words_in_a = name_a.split()
-
+    
     # Do not combine words that are only two in length
     if len(words_in_a) < 3:
         return False, name_a, name_b
@@ -247,74 +248,96 @@ def _combine_split_words(name_a : str, name_b : str) -> tuple[str, str]:
         return False, name_a, name_b
     
     for index_a, _, word_a, word_b in useful_tools.get_pair_indices_and_words(name_a, name_b):
-        # Skip if wordA and wordB are not a good match
-        if (fuzz.partial_ratio(word_a, word_b) < 75):
-            continue
-
-        # Skip if either word is only an initial
-        if (len(word_a) == 1) or (len(word_b) == 1):
-            continue
-
-        # Find the left and right neighbors
-        left_neighbor = words_in_a[index_a - 1] if index_a - 1 >= 0 else ''
-        right_neighbor = words_in_a[index_a + 1] if index_a + 1 < len(words_in_a) else ''
-
-        # Skip neighbors if they are initials
-        left_neighbor = left_neighbor if len(left_neighbor) > 1 else ''
-        right_neighbor = right_neighbor if len(right_neighbor) > 1 else ''
-        if (not left_neighbor) and (not right_neighbor):
-            return False, name_a, name_b
-
-        # Choose the neighbor that best matches wordA's match
-        if not left_neighbor:
-            left_was_chosen = False
-        elif not right_neighbor:
-            left_was_chosen = True
-        else:
-            score_of_left = fuzz.partial_ratio(left_neighbor, word_b)
-            score_of_right = fuzz.partial_ratio(right_neighbor, word_b)
-            if score_of_left > score_of_right:
-                left_was_chosen = True
-            else:
-                left_was_chosen = False
-
-        # Initialize the chosen neighbor, compound, and neighbor index
-        if left_was_chosen:
-            chosen_neighbor = left_neighbor
-            compound = f'{left_neighbor}{word_a}'
-            index_n = index_a - 1
-        else:
-            chosen_neighbor = right_neighbor
-            compound = f'{word_a}{right_neighbor}'
-            index_n = index_a + 1
-
-        # Skip if the neighbor is a bad partial match to wordB's match
-        if fuzz.partial_ratio(chosen_neighbor, word_b) < 65:
-            continue
-
-        # Check if the compound is significantly better than the original
-        og_score = fuzz.ratio(word_a, word_b)
-        compound_score = fuzz.ratio(compound, word_b)
-        if compound_score < og_score + 20:
-            continue
-        diff_length_original = abs(len(word_b) - len(word_a))
-        diff_length_compound = abs(len(word_b) - len(compound))
-        if diff_length_original < diff_length_compound:
-            continue
-
-        # If the compound was a better match, use a name editor to create an edited nameA where the words are combined
-        ne = useful_tools.NameEditor(name_a, name_b)
-        ne.update_name_a(index_a, compound)
-        ne.update_name_a(index_n, '')
-        name_a_edited, _ = ne.get_modified_names()
-
-        # If the edited nameA is better (or only slightly worse), go with the edited version
-        improvement = useful_tools.calculate_edit_improvement(name_a, name_b, name_a_edited, name_b)[0]
-        if improvement > -1:
-            return True, name_a_edited, name_b
-
+        success, modified_name_a, modified_name_b = _try_combine_words_at_index(name_a, name_b, index_a, word_a, word_b)
+        if success:
+            return True, modified_name_a, modified_name_b
+    
     # If no edits were beneficial, just return the original words
     return False, name_a, name_b
+
+
+def _try_combine_words_at_index(name_a: str, name_b: str, index_a: int, word_a: str, word_b: str) -> tuple[bool, str, str]:
+    """Helper function to try combining words at a specific index.
+    
+    Args:
+        name_a: the name of person A
+        name_b: the name of person B
+        index_a: index of the word in name_a to potentially combine
+        word_a: the word from name_a at index_a
+        word_b: the matching word from name_b
+        
+    Returns:
+        tuple of (success, modified_name_a, modified_name_b)
+    """
+    words_in_a = name_a.split()
+    
+    # Skip if wordA and wordB are not a good match
+    if fuzz.partial_ratio(word_a, word_b) < 75:
+        return False, name_a, name_b
+    
+    # Skip if either word is only an initial
+    if (len(word_a) == 1) or (len(word_b) == 1):
+        return False, name_a, name_b
+    
+    # Find the left and right neighbors
+    left_neighbor = words_in_a[index_a - 1] if index_a - 1 >= 0 else ''
+    right_neighbor = words_in_a[index_a + 1] if index_a + 1 < len(words_in_a) else ''
+    
+    # Skip neighbors if they are initials
+    left_neighbor = left_neighbor if len(left_neighbor) > 1 else ''
+    right_neighbor = right_neighbor if len(right_neighbor) > 1 else ''
+    
+    if (not left_neighbor) and (not right_neighbor):
+        return False, name_a, name_b
+    
+    # Choose the neighbor that best matches wordA's match
+    if not left_neighbor:
+        left_was_chosen = False
+    elif not right_neighbor:
+        left_was_chosen = True
+    else:
+        score_of_left = fuzz.partial_ratio(left_neighbor, word_b)
+        score_of_right = fuzz.partial_ratio(right_neighbor, word_b)
+        left_was_chosen = score_of_left > score_of_right
+    
+    # Initialize the chosen neighbor, compound, and neighbor index
+    if left_was_chosen:
+        chosen_neighbor = left_neighbor
+        compound = f'{left_neighbor}{word_a}'
+        index_n = index_a - 1
+    else:
+        chosen_neighbor = right_neighbor
+        compound = f'{word_a}{right_neighbor}'
+        index_n = index_a + 1
+    
+    # Skip if the neighbor is a bad partial match to wordB's match
+    if fuzz.partial_ratio(chosen_neighbor, word_b) < 65:
+        return False, name_a, name_b
+    
+    # Check if the compound is significantly better than the original
+    og_score = fuzz.ratio(word_a, word_b)
+    compound_score = fuzz.ratio(compound, word_b)
+    if compound_score < og_score + 20:
+        return False, name_a, name_b
+    
+    diff_length_original = abs(len(word_b) - len(word_a))
+    diff_length_compound = abs(len(word_b) - len(compound))
+    if diff_length_original < diff_length_compound:
+        return False, name_a, name_b
+    
+    # If the compound was a better match, use a name editor to create an edited nameA
+    ne = useful_tools.NameEditor(name_a, name_b)
+    ne.update_name_a(index_a, compound)
+    ne.update_name_a(index_n, '')
+    name_a_edited, _ = ne.get_modified_names()
+    
+    # If the edited nameA is better (or only slightly worse), go with the edited version
+    improvement = useful_tools.calculate_edit_improvement(name_a, name_b, name_a_edited, name_b)[0]
+    if improvement > -1:
+        return True, name_a_edited, name_b
+    
+    return False, name_a, name_b
+
 
 def _fix_related_prefixes(name_a : str, name_b : str, prefix_x : str, prefix_y : str) -> tuple[str, str]:
     """Cleans names to deal with prefixes that are different by spelling, but functionally the same.
@@ -368,20 +391,19 @@ def _fix_mc_mac(name_a : str, name_b : str) -> tuple[str, str]:
     ne = useful_tools.NameEditor(name_a, name_b)
     for prefix in ['mc', 'mac']:
         for index_a, index_b, word_a, word_b in useful_tools.get_pair_indices_and_words(name_a, name_b):
-            # Skip pair if the prefix is in both words
-            if (word_a.startswith(prefix)) and (word_b.startswith(prefix)):
-                continue
-
-            # Skip pair if the prefix is not in either of them
-            if (not word_a.startswith(prefix)) and (not word_b.startswith(prefix)):
-                continue
-
             # Skip pair if either word is a firstname
-            if (index_a < 1) or (index_b < 1):
+            either_word_is_firstname = (index_a < 1) or (index_b < 1)
+            if either_word_is_firstname:
                 continue
 
             # Skip pair if the shortest word is only 4 long
             if min(len(word_a), len(word_b)) < 3:
+                continue
+
+            # Skip pair if the prefix is in both words or prefix is not in either
+            prefix_is_in_a = word_a.startswith(prefix)
+            prefix_is_in_b = word_b.startswith(prefix)
+            if prefix_is_in_a == prefix_is_in_b:
                 continue
 
             # Skip pair if they are already a solid match
@@ -389,12 +411,10 @@ def _fix_mc_mac(name_a : str, name_b : str) -> tuple[str, str]:
                 continue
 
             # Skip pair if the prefix is removed and not a good fuzzy match
-            if word_a.startswith(prefix):
-                updated_word_a = word_a.replace(prefix, '', 1)
-                updated_word_b = word_b
-            else:
-                updated_word_a = word_a
-                updated_word_b = word_b.replace(prefix, '', 1)
+            word_a_with_no_prefix = word_a.replace(prefix, '', 1)
+            word_b_with_no_prefix = word_b.replace(prefix, '', 1)
+            updated_word_a = word_a_with_no_prefix if prefix_is_in_a else word_a
+            updated_word_b = word_b_with_no_prefix if prefix_is_in_b else word_b
             if fuzz.ratio(updated_word_a, updated_word_b) < 75:
                 continue
 
