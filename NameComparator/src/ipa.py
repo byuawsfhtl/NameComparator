@@ -1,10 +1,12 @@
 from functools import lru_cache
 from unidecode import unidecode
 
+import NameComparator.src.clean as cleanMod
 import NameComparator.data.pronunciation.ipaAllNames as ipaAllNames
 import NameComparator.data.pronunciation.ipaCommonWordParts as ipaCommonWordParts
 
-def get_ipa(name : str) -> str:
+@lru_cache(maxsize=10_000)
+def get_ipa(name: str) -> str:
     """Gets the pronunciation of the name.
 
     Args:
@@ -15,12 +17,12 @@ def get_ipa(name : str) -> str:
     """        
     ipa_words = []
     for word in name.split():
-        ipa_words.append(_get_ipa_of_one_word(word))
+        ipa_words.append(get_ipa_of_one_word(word))
     pronunciation_of_name = " ".join(ipa_words)
     return pronunciation_of_name
 
-@lru_cache(maxsize=1_000)
-def _get_ipa_of_one_word(word : str) -> str:
+@lru_cache(maxsize=10_000)
+def get_ipa_of_one_word(word: str) -> str:
     """Gets the pronunciation of one word.
 
     Args:
@@ -34,7 +36,7 @@ def _get_ipa_of_one_word(word : str) -> str:
     word = unidecode(word)
     word = word.lower()
     ipa_words = [""] * len(word)
-    def substring_splits_th(substring : str, word : str, i:int, j:int) -> bool:
+    def substring_splits_th(substring: str, word: str, i:int, j:int) -> bool:
         """Helps to identify poor substring choices for words for ipa.
 
         Args:
@@ -57,7 +59,7 @@ def _get_ipa_of_one_word(word : str) -> str:
     # Tries to get the ipa from the plain word
     first_attempt, success = _word_pronunciation_hail_mary(word)
     if success:
-        return first_attempt
+        return cleanMod.clean_ipa(first_attempt)
 
     # While there are still letters in the word
     substring_added = True
@@ -108,9 +110,10 @@ def _get_ipa_of_one_word(word : str) -> str:
 
     # Concatenates the list together at the end to get the pronunciation
     pronunciation = "".join(ipa_words)
+    pronunciation = cleanMod.clean_ipa(pronunciation)
     return pronunciation
 
-def _word_pronunciation_hail_mary(word : str) -> tuple[str, bool]:
+def _word_pronunciation_hail_mary(word: str) -> tuple[str, bool]:
     """Tries to get the pronunciation from the predefined ipa dictionary.
 
     Args:
@@ -124,7 +127,7 @@ def _word_pronunciation_hail_mary(word : str) -> tuple[str, bool]:
         return word_pronuncation, True
     return word, False
 
-def _stringPronuncationHailMary(string : str) -> tuple[str, bool]:
+def _stringPronuncationHailMary(string: str) -> tuple[str, bool]:
     """Helper function of _getIpaOfOneWord.
     Tries to get the ipa of a string (with more than one letter).
 

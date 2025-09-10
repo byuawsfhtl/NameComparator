@@ -1,7 +1,7 @@
 from typing import NamedTuple
 from enum import Enum
 
-from NameComparator.src.usefulTools import get_pair_indices_and_words
+import NameComparator.src.usefulTools as usefulToolsMod
 
 class FrequencyData(NamedTuple):
     """Stores the name frequencies for first names and surnames within a given population."""
@@ -24,7 +24,7 @@ class Uniqueness(Enum):
     RARE = 42
     UNSEEN = 65
 
-def score_uniqueness(name_a : str, name_b : str, frequency_data:FrequencyData) -> float:
+def score_uniqueness(name_a: str, name_b: str, frequency_data: FrequencyData) -> float:
     """Takes two names and gives them an algorithmically calculated uniqueness score
     (between 0 and 100).
 
@@ -36,14 +36,14 @@ def score_uniqueness(name_a : str, name_b : str, frequency_data:FrequencyData) -
     Returns:
         float: the uniqueness score
     """    
-    # Get the max frequency of either word in each pair
-    word_pairs = get_pair_indices_and_words(name_a, name_b)
-    scores_of_word_pairs = [_findWordPairUniqueness(word_a, word_b, frequency_data).value for _, _, word_a, word_b in word_pairs]
-    
-    # Return the sum, maxing out at 100
+    all_matchups = usefulToolsMod.find_which_words_match_and_how_well(name_a, name_b)
+    scores_of_word_pairs = [
+        _findWordPairUniqueness(matchup.word_in_name_a.string, matchup.word_in_name_b.string, frequency_data).value
+        for matchup in all_matchups
+    ]
     return min(100, sum(scores_of_word_pairs))
 
-def _findWordPairUniqueness(word_a : str, word_b : str, frequency_data:FrequencyData) -> Uniqueness:
+def _findWordPairUniqueness(word_a: str, word_b: str, frequency_data: FrequencyData) -> Uniqueness:
     """Given two words paired together, it will identify the least possible uniqueness
     classification to assign the pair, based on which of the two occurs most frequently
     (as either a surname or as a first name- whichever is more frequent).
@@ -78,7 +78,7 @@ def _findWordPairUniqueness(word_a : str, word_b : str, frequency_data:Frequency
     else:
         raise ValueError("Score is out of range")
 
-def _get_max_frequency(word : str, frequency_data : FrequencyData) -> float:
+def _get_max_frequency(word: str, frequency_data: FrequencyData) -> float:
     """Gets the maximum possible frequency for a given word, whether it is found more as a
     first name or surname, given those frequencies for a given population. If the word is not
     found in either dicts, defaults to the default frequency, which is very low.

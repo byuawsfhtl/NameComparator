@@ -49,7 +49,7 @@ class ResultsOfNameComparison:
     attempt_3: Attempt | None = None
     attempt_4: Attempt | None = None
 
-def compare_two_names(name_a : str, name_b : str, frequency_data:FrequencyData|None = None) -> ResultsOfNameComparison:
+def compare_two_names(name_a: str, name_b: str, frequency_data:FrequencyData|None = None) -> ResultsOfNameComparison:
     """Compares two names to identify whether they are a fuzzy match.
 
     Args:
@@ -116,18 +116,16 @@ def compare_two_names(name_a : str, name_b : str, frequency_data:FrequencyData|N
     # 3rd attempt: Checks if modified names are a match according to pronunciation
     ipa_of_modified_name_a = cleanMod.clean_ipa(ipaMod.get_ipa(modified_name_a))
     ipa_of_modified_name_b = cleanMod.clean_ipa(ipaMod.get_ipa(modified_name_b))
-    ipa_of_modified_name_a, ipa_of_modified_name_b = modifyMod.modify_ipas_together(ipa_of_modified_name_a, ipa_of_modified_name_b)
-    match, word_combo = comparisonMod.pronunciation_comparison(ipa_of_modified_name_a, ipa_of_modified_name_b, modified_name_a, modified_name_b)
+    match, word_combo = comparisonMod.pronunciation_comparison(modified_name_a, modified_name_b)
     results.attempt_3 = Attempt(ipa_of_modified_name_a, ipa_of_modified_name_b, word_combo)
     if match:
         results.match = True
         return results
 
     # 4th attempt: Check if original names are a match according to pronunciation'
-    ipa_of_name_a = cleanMod.clean_ipa(ipaMod.get_ipa(name_a))
-    ipa_of_name_b = cleanMod.clean_ipa(ipaMod.get_ipa(name_b))
-    ipa_of_name_a, ipa_of_name_b = modifyMod.modify_ipas_together(ipa_of_name_a, ipa_of_name_b)
-    match, word_combo = comparisonMod.pronunciation_comparison(ipa_of_name_a, ipa_of_name_b, name_a, name_b)
+    ipa_of_name_a = ipaMod.get_ipa(name_a)
+    ipa_of_name_b = ipaMod.get_ipa(name_b)
+    match, word_combo = comparisonMod.pronunciation_comparison(name_a, name_b)
     results.attempt_4 = Attempt(ipa_of_name_a, ipa_of_name_b, word_combo)
     if match:
         results.match = True

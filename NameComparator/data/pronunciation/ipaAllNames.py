@@ -39606,7 +39606,7 @@ data = {
     "rey": "reɪ",
     "reyburn": "reɪbərn",
     "reyer": "reɪər",
-    "reyes": "reɪɪs",
+    "reyes": "reɪs",
     "reyman": "reɪmən",
     "reyna": "reɪnə",
     "reynaga": "rinɑgə",

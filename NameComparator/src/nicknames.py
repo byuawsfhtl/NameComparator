@@ -3,7 +3,7 @@ import re
 import NameComparator.data.nicknames.idToNicknameSet as id_to_nickname_set
 import NameComparator.data.nicknames.nicknameToId as nickname_to_id
 
-def remove_nicknames(name_a : str, name_b : str) -> tuple[str, str]:
+def remove_nicknames(name_a: str, name_b: str) -> tuple[str, str]:
     """Replaces the nickname in one name for the official name found in the other.
 
     Args:
