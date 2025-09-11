@@ -145,28 +145,28 @@ def clean_names_together(name_a: str, name_b: str) -> tuple[str, str]:
     # Deal with prefixes and optional intros that make the match worse
     name_a, name_b = _fix_related_prefixes(name_a, name_b, 'de', 'di')
     name_a, name_b = _fix_related_prefixes(name_a, name_b, 'del', 'dil')
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "d'")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "de")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "fi")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "santa")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "san")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "de la")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "de los")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "del")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "la")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "le")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "du")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "dela")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "los")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "der")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "den")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "vanden")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "vander")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "vande")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "van")
-    name_a, name_b = _remove_unnecessary_prefixes(name_a, name_b, "von")
-    name_a, name_b = _combine_prefix_with_surname_if_in_both(name_a, name_b, "de")
-    name_a, name_b = _combine_prefix_with_surname_if_in_both(name_a, name_b, "van")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "d'")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "de")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "fi")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "santa")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "san")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "de la")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "de los")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "del")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "la")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "le")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "du")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "dela")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "los")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "der")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "den")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "vanden")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "vander")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "vande")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "van")
+    name_a, name_b = remove_unnecessary_prefixes(name_a, name_b, "von")
+    name_a, name_b = combine_prefix_with_surname_if_in_both(name_a, name_b, "de")
+    name_a, name_b = combine_prefix_with_surname_if_in_both(name_a, name_b, "van")
 
     # Combine words that are one word in the other name
     while True:
@@ -467,7 +467,7 @@ def _remove_irish_o(name_a: str, name_b: str, surname: str) -> tuple[str, str]:
     return name_a, name_b
 
 
-def _remove_unnecessary_prefixes(name_a: str, name_b: str, prefix: str) -> tuple[str,str]:
+def remove_unnecessary_prefixes(name_a: str, name_b: str, prefix: str) -> tuple[str, str]:
     """Removes an unnecessary prefix from either or both of the names.
 
     Args:
@@ -477,81 +477,123 @@ def _remove_unnecessary_prefixes(name_a: str, name_b: str, prefix: str) -> tuple
 
     Returns:
         tuple[str,str]: the modified names
-    """        
-    # If the prefix is not in either names, return the names
-    name_a = re.sub(r"\s+", " ", name_a)
-    name_a = name_a.strip()
-    name_b = re.sub(r"\s+", " ", name_b)
-    name_b = name_b.strip()
-    if (f" {prefix}" not in name_a) and (f" {prefix}" not in name_b):
+    """
+    # Normalize input
+    name_a = re.sub(r"\s+", " ", name_a).strip()
+    name_b = re.sub(r"\s+", " ", name_b).strip()
+    
+    # Early exit conditions
+    if _should_skip_processing(name_a, name_b, prefix):
         return name_a, name_b
     
-    # If the names are already a good match, return the names
-    if comparisons_mod.spelling_comparison(name_a, name_b)[0]:
-        return name_a, name_b
+    # Try standard prefix removal
+    name_a_edited, name_b_edited = _remove_standard_prefixes(name_a, name_b, prefix)
+    
+    # Handle long prefix words if no standard edits were made
+    name_a_edited, name_b_edited = _handle_long_prefix_words(name_a, name_b, name_a_edited, name_b_edited, prefix)
+    
+    # Ensure names are valid
+    name_a_edited = name_a_edited if name_a_edited else '_'
+    name_b_edited = name_b_edited if name_b_edited else '_'
+    
+    # Return edited versions if beneficial
+    if _is_edit_beneficial(name_a, name_b, name_a_edited, name_b_edited):
+        return name_a_edited, name_b_edited
+    
+    # Final attempt: remove exact prefix matches
+    return _remove_exact_prefix_matches(name_a, name_b, prefix)
 
-    # Setup
+
+def _should_skip_processing(name_a: str, name_b: str, prefix: str) -> bool:
+    """Check if we should skip processing based on early exit conditions."""
+    # If prefix not in either name, skip
+    if f" {prefix}" not in name_a and f" {prefix}" not in name_b:
+        return True
+    
+    # If names already match well, skip
+    return comparisons_mod.spelling_comparison(name_a, name_b)[0]
+
+
+def _remove_standard_prefixes(name_a: str, name_b: str, prefix: str) -> tuple[str, str]:
+    """Remove standard space-surrounded prefixes from names."""
     name_a_edited = name_a
     name_b_edited = name_b
     sp_prefix_sp = f" {prefix} "
     sp_prefix = f" {prefix}"
 
-    # Make the edited names different
-    if (sp_prefix_sp in name_a) and (sp_prefix_sp in name_b):
-        pass
-    elif (sp_prefix_sp in name_a) and (sp_prefix in name_b):
+    # Handle different prefix patterns between names
+    a_has_surrounded = sp_prefix_sp in name_a
+    b_has_surrounded = sp_prefix_sp in name_b
+    a_has_trailing = sp_prefix in name_a
+    b_has_trailing = sp_prefix in name_b
+
+    if a_has_surrounded and b_has_trailing and not b_has_surrounded:
         name_a_edited = name_a_edited.replace(sp_prefix_sp, sp_prefix)
-    elif (sp_prefix in name_a) and (sp_prefix_sp in name_b):
+    elif a_has_trailing and not a_has_surrounded and b_has_surrounded:
         name_b_edited = name_b_edited.replace(sp_prefix_sp, sp_prefix)
-    name_a_edited = name_a_edited.replace(sp_prefix_sp, " ")
-    name_b_edited = name_b_edited.replace(sp_prefix_sp, " ")
-    name_a_edited = re.sub(r"\s+", " ", name_a_edited)
-    name_b_edited = re.sub(r"\s+", " ", name_b_edited)
 
-    # If no edits were made, try removing spacePrefix if only in nameA and it's a long word
-    pattern = r'\b{}\w*\b'.format(sp_prefix)
-    no_edits_made = (name_a == name_a_edited) and (name_b == name_b_edited) 
-    sp_pre_only_in_name_a = (sp_prefix in name_a) and (sp_prefix not in name_b) 
-    match_of_a = re.search(pattern, name_a)
-    if (no_edits_made) and (sp_pre_only_in_name_a) and (match_of_a is not None):
-        matched_word = match_of_a.group()
-        if len(matched_word) > len(prefix) + 4:
-            name_a_edited = name_a.replace(sp_prefix, " ")
+    # Remove surrounded prefixes and normalize whitespace
+    name_a_edited = re.sub(r"\s+", " ", name_a_edited.replace(sp_prefix_sp, " "))
+    name_b_edited = re.sub(r"\s+", " ", name_b_edited.replace(sp_prefix_sp, " "))
 
-    # If no edits were made, try removing spacePrefix if only in nameB and it's a long word
-    pattern = r'\b{}\w*\b'.format(sp_prefix)
-    no_edits_made = (name_a == name_a_edited) and (name_b == name_b_edited) 
-    sp_pre_only_in_name_b = (sp_prefix in name_b) and (sp_prefix not in name_a)
-    match_of_b = re.search(pattern, name_b)
-    if (no_edits_made) and (sp_pre_only_in_name_b) and (match_of_b is not None):
-        matched_word = match_of_b.group()
-        if len(matched_word) > len(prefix) + 4:
-            name_b_edited = name_b.replace(sp_prefix, " ")
+    return name_a_edited, name_b_edited
 
-    # Safety
-    name_a_edited = name_a_edited if name_a_edited else '_'
-    name_b_edited = name_b_edited if name_b_edited else '_'
 
-    # If the edits were significantly beneficial (or pass spell), return the edited versions
-    improvement, _, _= useful_tools.calculate_edit_improvement(name_a, name_b, name_a_edited, name_b_edited)
-    if (improvement >= 10) or comparisons_mod.spelling_comparison(name_a_edited, name_b_edited)[0]:
+def _handle_long_prefix_words(name_a: str, name_b: str, name_a_edited: str, name_b_edited: str, prefix: str) -> tuple[str, str]:
+    """Handle removal of long words starting with prefix if no other edits were made."""
+    no_edits_made = name_a == name_a_edited and name_b == name_b_edited
+    if not no_edits_made:
         return name_a_edited, name_b_edited
+
+    sp_prefix = f" {prefix}"
     
-    # Finally, if the words are identical other than the prefix, remove the prefix
+    # Try removing from name_a if prefix only in name_a
+    if sp_prefix in name_a and sp_prefix not in name_b:
+        name_a_edited = _try_remove_long_prefix_word(name_a, prefix)
+    
+    # Try removing from name_b if prefix only in name_b and no edit to name_a
+    elif sp_prefix in name_b and sp_prefix not in name_a and name_a_edited == name_a:
+        name_b_edited = _try_remove_long_prefix_word(name_b, prefix)
+
+    return name_a_edited, name_b_edited
+
+
+def _try_remove_long_prefix_word(name: str, prefix: str) -> str:
+    """Try to remove a long word that starts with the prefix."""
+    sp_prefix = f" {prefix}"
+    pattern = r'\b{}\w*\b'.format(re.escape(sp_prefix))
+    match = re.search(pattern, name)
+    
+    if match and len(match.group()) > len(prefix) + 4:
+        return name.replace(sp_prefix, " ")
+    return name
+
+
+def _is_edit_beneficial(original_a: str, original_b: str, edited_a: str, edited_b: str) -> bool:
+    """Check if the edits provide significant benefit."""
+    improvement, _, _ = useful_tools.calculate_edit_improvement(original_a, original_b, edited_a, edited_b)
+    return improvement >= 10 or comparisons_mod.spelling_comparison(edited_a, edited_b)[0]
+
+
+def _remove_exact_prefix_matches(name_a: str, name_b: str, prefix: str) -> tuple[str, str]:
+    """Remove prefixes from words that are identical except for the prefix."""
     ne = useful_tools.NameEditor(name_a, name_b)
+    
     for matchup in useful_tools.find_which_words_match_and_how_well(name_a, name_b):
-        index_a = matchup.word_in_name_a.index
-        index_b = matchup.word_in_name_b.index
         word_a = matchup.word_in_name_a.string
         word_b = matchup.word_in_name_b.string
-        if (word_a.startswith(prefix)) and (word_a[len(prefix):] == word_b) and (len(word_b) > 2):
-            ne.update_name_a(index_a, word_a[len(prefix):])
-        elif (word_b.startswith(prefix)) and (word_b[len(prefix):] == word_a) and (len(word_a) > 2):
-            ne.update_name_b(index_b, word_b[len(prefix):])
-    name_a, name_b = ne.get_modified_names()
-    return name_a, name_b
+        
+        # Check if word_a has prefix and matches word_b without prefix
+        if word_a.startswith(prefix) and word_a[len(prefix):] == word_b and len(word_b) > 2:
+            ne.update_name_a(matchup.word_in_name_a.index, word_a[len(prefix):])
+        # Check if word_b has prefix and matches word_a without prefix  
+        elif word_b.startswith(prefix) and word_b[len(prefix):] == word_a and len(word_a) > 2:
+            ne.update_name_b(matchup.word_in_name_b.index, word_b[len(prefix):])
+    
+    return ne.get_modified_names()
 
-def _combine_prefix_with_surname_if_in_both(name_a: str, name_b: str, prefix: str) -> tuple[str, str]:
+
+def combine_prefix_with_surname_if_in_both(name_a: str, name_b: str, prefix: str) -> tuple[str, str]:
     """Combines the prefix with the surname in both of the names if the prefix exists in both.
 
     Args:
@@ -575,6 +617,7 @@ def _combine_prefix_with_surname_if_in_both(name_a: str, name_b: str, prefix: st
         name_a = name_a.replace(f' {prefix} ', f' {prefix}')
         name_b = name_b.replace(f' {prefix} ', f' {prefix}')
     return name_a, name_b
+
 
 def clean_ipa(ipa: str) -> str:
     """Cleans ipa to get rid of double ipa-consonants and other mistakes.
