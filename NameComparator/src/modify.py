@@ -23,7 +23,7 @@ def modify_names_together(name_a: str, name_b: str) -> tuple[str,str]:
     name_a, name_b = _fix_swapped_chars(name_a, name_b)
     name_a, name_b = _deal_with_wrong_first_char(name_a, name_b)
     for meat_option_1, meat_option_2, bottom_breads, top_breads, min_letters in rulesSpelling.data:
-        name_a, name_b = _replace_substring_sandwich_meat_if_matching_bread(name_a, name_b, meat_option_1, meat_option_2, bottom_breads, top_breads, min_letters)
+        name_a, name_b = use_sandwhich_patterns_on_all_words(name_a, name_b, meat_option_1, meat_option_2, bottom_breads, top_breads, min_letters)
     name_a = re.sub(r'\s+', ' ', name_a)
     name_b = re.sub(r'\s+', ' ', name_b)
     name_a = name_a.strip()
@@ -215,7 +215,7 @@ def _deal_with_wrong_first_char(name_a: str, name_b: str) -> tuple[str, str]:
     name_a, name_b = ne.get_modified_names()
     return name_a, name_b
 
-def _replace_substring_sandwich_meat_if_matching_bread(name_a: str, name_b: str, meat_option_x: str, meat_option_y: str, bottom_bread_options: frozenset[str], top_bread_options: frozenset[str], min_required_letters:int) -> tuple[str,str]:
+def use_sandwhich_patterns_on_all_words(name_a: str, name_b: str, meat_option_x: str, meat_option_y: str, bottom_bread_options: frozenset[str], top_bread_options: frozenset[str], min_required_letters:int) -> tuple[str,str]:
     """For any given matching word pair, replaces a specific substring in one of the words, with a similar substring found in the other word.
 
     Args:
@@ -247,7 +247,7 @@ def _replace_substring_sandwich_meat_if_matching_bread(name_a: str, name_b: str,
             continue
 
         # Update the words according to spelling rules
-        updated_word_a, updated_word_b = helper(word_a, word_b, meat_option_x, meat_option_y, bottom_bread_options, top_bread_options)
+        updated_word_a, updated_word_b = _sandwich_pattern(word_a, word_b, meat_option_x, meat_option_y, bottom_bread_options, top_bread_options)
 
         # Skip if there weren't any changes if there was any change
         if (updated_word_a == word_a) and (updated_word_b == word_b):
@@ -261,70 +261,100 @@ def _replace_substring_sandwich_meat_if_matching_bread(name_a: str, name_b: str,
     name_a, name_b = ne.get_modified_names()
     return name_a, name_b
 
-
-@lru_cache(maxsize=1_000_000)
-def helper(word_a: str, word_b: str, meat_option_x: str, meat_option_y: str, bottom_bread_options: frozenset[str], top_bread_options: frozenset[str]):
-    # Add clear word breaks
-    word_a = f"-{word_a}-"
-    word_b = f"-{word_b}-"
-
-    # Loop through the possible pattern starts
-    for bottom_bread in bottom_bread_options:
-        if bottom_bread not in word_a or bottom_bread not in word_b:
-            continue
-
-        # Loop through the possible pattern ends
-        for top_bread in top_bread_options:
-            if top_bread not in word_a or top_bread not in word_b:
-                continue
-
-            # Skip the bread if the pattern is not found in both, if the middles (meats) are the same, or if the patterns are too far appart
-            pattern = f"{bottom_bread}({meat_option_x}|{meat_option_y}){top_bread}"
-            results_a = re.search(pattern, word_a)
-            results_b = re.search(pattern, word_b)
-            if not results_a or not results_b:
-                continue
-            if results_a.group(0) == results_b.group(0):
-                continue
-            span_a1, span_b1 = results_a.span()
-            span_a2, span_b2 = results_b.span()
-            if not (abs(span_a1 - span_a2) <= 2 and abs(span_b1 - span_b2) <= 2):
-                continue
-
-            # Update the words by replacing matching (different) middles with the meat option 2
-            start_index_string_a, end_index_string_a = results_a.span()
-            start_index_string_b, end_index_string_b = results_b.span()
-            middle_coords_string_a = start_index_string_a + len(bottom_bread), end_index_string_a - len(top_bread)
-            middle_coords_string_b = start_index_string_b + len(bottom_bread), end_index_string_b - len(top_bread)
-            word_a = _overwrite_with_substring(word_a, meat_option_y, middle_coords_string_a[0], middle_coords_string_a[1])
-            word_b = _overwrite_with_substring(word_b, meat_option_y, middle_coords_string_b[0], middle_coords_string_b[1])
-
-            # Remove the dashes
-            word_a = word_a.replace('-', '')
-            word_b = word_b.replace('-', '')
-            return word_a, word_b
-    
-    # Remove the dashes
-    word_a = word_a.replace('-', '')
-    word_b = word_b.replace('-', '')
-    return word_a, word_b
-
-def _overwrite_with_substring(string : str, replacement : str, start_index:int, end_index:int) -> str:
-    """Overwrites a specific index range of a string with the replacement string.
+@lru_cache(maxsize=10_000)
+def _sandwich_pattern(word_a: str, word_b: str, meat_option_x: str, meat_option_y: str, bottom_bread_options: frozenset[str], top_bread_options: frozenset[str]) -> tuple[str, str]:
+    """Modifies two words based on the pattern. Takes a list of potential starts and a list of potential ends (the breads),
+    that a substring within could begin or end with, within two words. The same beginning and ends must be present in each word,
+    even though many beginnings or ends may be in the list. Each word must have one of two middle that matches, one of which
+    will be replaced. If this pattern does not match, or the words are too short or too far apart, then the changes don't happen.
 
     Args:
-        string: the string to replace
-        replacement: the replacement string
-        start_index: the start index for the replacement
-        end_index: the end index for the replacement
+        word_a: a word in a name
+        word_b: a word in a name
+        meat_option_x: one substring middle variant
+        meat_option_y: the other substring middle variant
+        bottom_bread_options: the list of potential starts of the substring. The potential start must be consistent for both
+        top_bread_options: the list of potential ends to the substring. The potential ends must be consistent for both
 
     Returns:
-        the overwritten string
-    """
-    string_as_list = list(string)
-    string_as_list[start_index : end_index] = replacement
-    updated_string = ''.join(string_as_list)
-    return updated_string
+        _description_
+    """    
+    
+    # Early exit if neither word contains any meat options
+    if not any(meat in word_a for meat in [meat_option_x, meat_option_y]) or \
+       not any(meat in word_b for meat in [meat_option_x, meat_option_y]):
+        return word_a, word_b
+    
+    # Add word breaks once
+    padded_a = f"-{word_a}-"
+    padded_b = f"-{word_b}-"
+    
+    # Pre-filter bread options that exist in both words to reduce search space
+    valid_bottom_breads = [b for b in bottom_bread_options if b in padded_a and b in padded_b]
+    valid_top_breads = [t for t in top_bread_options if t in padded_a and t in padded_b]
+    
+    # Early exit if no valid bread combinations
+    if not valid_bottom_breads or not valid_top_breads:
+        return word_a, word_b
+    
+    # Search for patterns more efficiently
+    for bottom_bread in valid_bottom_breads:
+        for top_bread in valid_top_breads:
+            # Use cached compiled pattern
+            compiled_pattern = _get_compiled_regex_pattern(bottom_bread, meat_option_x, meat_option_y, top_bread)
+            
+            # Find matches
+            match_a = compiled_pattern.search(padded_a)
+            match_b = compiled_pattern.search(padded_b)
+            
+            if not match_a or not match_b:
+                continue
+                
+            # Quick check if patterns are identical (skip if so)
+            if match_a.group(0) == match_b.group(0):
+                continue
+            
+            # Check span proximity efficiently
+            span_a = match_a.span()
+            span_b = match_b.span()
+            if abs(span_a[0] - span_b[0]) > 2 or abs(span_a[1] - span_b[1]) > 2:
+                continue
+            
+            # Calculate middle coordinates
+            bottom_len = len(bottom_bread)
+            top_len = len(top_bread)
+            
+            middle_start_a = span_a[0] + bottom_len
+            middle_end_a = span_a[1] - top_len
+            middle_start_b = span_b[0] + bottom_len  
+            middle_end_b = span_b[1] - top_len
+            
+            # Replace middles with meat_option_y and remove dashes in one operation
+            result_a = (padded_a[:middle_start_a] + meat_option_y + padded_a[middle_end_a:]).replace('-', '')
+            result_b = (padded_b[:middle_start_b] + meat_option_y + padded_b[middle_end_b:]).replace('-', '')
+            
+            return result_a, result_b
+    
+    # No matches found, return original words
+    return word_a, word_b
+
+
+@lru_cache(maxsize=10_000)
+def _get_compiled_regex_pattern(bottom_bread: str, meat_x: str, meat_y: str, top_bread: str) -> re.Pattern[str]:
+    """Cache compiled regex patterns to avoid recompilation.
+
+    Args:
+        bottom_bread: the start of the substring
+        meat_x: a possible middle of the substring
+        meat_y: a different possible middle of the substring
+        top_bread: the end of the substring
+
+    Returns:
+        the pattern for identifying modification possibilities
+    """    
+    pattern = f"{re.escape(bottom_bread)}({re.escape(meat_x)}|{re.escape(meat_y)}){re.escape(top_bread)}"
+    return re.compile(pattern)
+
 
 @lru_cache(maxsize=10_000)
 def modify_ipas_together(ipa_a: str, ipa_b: str) -> tuple[str,str]:
@@ -338,5 +368,5 @@ def modify_ipas_together(ipa_a: str, ipa_b: str) -> tuple[str,str]:
         the two modified names
     """
     for meat_option_x, meat_option_y, bottom_breads, top_breads, min_letters in rulesIpa.data:
-        ipa_a, ipa_b = _replace_substring_sandwich_meat_if_matching_bread(ipa_a, ipa_b, meat_option_x, meat_option_y, bottom_breads, top_breads, min_letters)
+        ipa_a, ipa_b = use_sandwhich_patterns_on_all_words(ipa_a, ipa_b, meat_option_x, meat_option_y, bottom_breads, top_breads, min_letters)
     return ipa_a, ipa_b
