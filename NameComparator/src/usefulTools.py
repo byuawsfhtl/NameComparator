@@ -73,7 +73,7 @@ def identifyBestMatchups(scores:np.ndarray, listA:list[str|None], listB:list[str
                 bestCombination.append((listA[i], listB[j], matchupScore))
         return bestCombination
 
-def calculateEditImprovement(nameA:str, nameB:str, nameAEdited:str, nameBEdited:str) -> tuple[float, tuple, tuple]:
+def calculate_edit_improvement(nameA:str, nameB:str, nameAEdited:str, nameBEdited:str) -> tuple[float, tuple, tuple]:
     """Calculates how much editing a name or both names improved the score in comparison to the original names.
 
     Args:
@@ -95,8 +95,8 @@ def calculateEditImprovement(nameA:str, nameB:str, nameAEdited:str, nameBEdited:
     diff = editedAverageScore - ogAverageScore
     return diff, ogWordCombo, editedWordCombo
 
-def getPairIndicesAndWords(nameA:str, nameB:str) -> list[tuple[int, int, str, str]]:
-    """Identifies which words in the names match.
+def get_matching_words_and_indices(nameA:str, nameB:str) -> list[tuple[int, int, str, str]]:
+    """Identifies which words in the names match and finds their indices.
 
     Args:
         nameA (str): a name
@@ -125,7 +125,7 @@ class NameEditor():
         self.wordsInA = nameA.split()
         self.wordsInB = nameB.split()
     
-    def updateNameA(self, index:int, updatedWord:str) -> None:
+    def update_name_one(self, index:int, updatedWord:str) -> None:
         """Replaces the stored word for nameA at the specified index.
 
         Args:
@@ -134,7 +134,7 @@ class NameEditor():
         """
         self.wordsInA[index] = updatedWord
 
-    def updateNameB(self, index:int, updatedWord:str) -> None:
+    def update_name_two(self, index:int, updatedWord:str) -> None:
         """Replaces the stored word for nameB at the specified index.
 
         Args:
@@ -143,7 +143,7 @@ class NameEditor():
         """
         self.wordsInB[index] = updatedWord
 
-    def getModifiedNames(self) -> tuple[str, str]:
+    def get_modified_names(self) -> tuple[str, str]:
         """Retrieves the modified names.
 
         Returns:

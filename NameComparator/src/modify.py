@@ -103,7 +103,7 @@ def _fixVowelMistakes(nameA:str, nameB:str) -> tuple[str, str]:
         tuple[str, str]: the two modified names
     """        
     ne = usefulToolsMod.NameEditor(nameA, nameB)
-    for indexA, _, wordA, wordB in usefulToolsMod.getPairIndicesAndWords(nameA, nameB):
+    for indexA, _, wordA, wordB in usefulToolsMod.get_matching_words_and_indices(nameA, nameB):
         # Continue if either word is less than 5 chars or not same length
         lenA = len(wordA)
         lenB = len(wordB)
@@ -134,10 +134,10 @@ def _fixVowelMistakes(nameA:str, nameB:str) -> tuple[str, str]:
         charWordB = wordB[mismatchedIndex]
         cooresponding = ['ao', 'ea', 'iy']
         if (f'{charWordA}{charWordB}' in cooresponding) or (f'{charWordB}{charWordA}' in cooresponding):
-            ne.updateNameA(indexA, wordB)
+            ne.update_name_one(indexA, wordB)
     
     # Return the modified (or not) names
-    return ne.getModifiedNames()
+    return ne.get_modified_names()
 
 def _fixSwappedChars(nameA:str, nameB:str) -> tuple[str, str]:
     """If two matching words (of 5 letters of more) for the two names are the same barring swapped letters (typo), makes the words the same.
@@ -150,7 +150,7 @@ def _fixSwappedChars(nameA:str, nameB:str) -> tuple[str, str]:
         tuple[str, str]: the modified names
     """        
     ne = usefulToolsMod.NameEditor(nameA, nameB)
-    for indexA, _, wordA, wordB in usefulToolsMod.getPairIndicesAndWords(nameA, nameB):
+    for indexA, _, wordA, wordB in usefulToolsMod.get_matching_words_and_indices(nameA, nameB):
         # Skip if the words are not 5 long, are different length, or not fuzzy 80
         if len(wordA) != 5:
             continue
@@ -177,10 +177,10 @@ def _fixSwappedChars(nameA:str, nameB:str) -> tuple[str, str]:
             continue
 
         # This is the scenerio we are looking for. Make the words identical
-        ne.updateNameA(indexA, wordB)
+        ne.update_name_one(indexA, wordB)
     
     # Return the modified (or not) names
-    return ne.getModifiedNames()
+    return ne.get_modified_names()
 
 def _dealWithWrongFirstChar(nameA:str, nameB:str) -> tuple[str, str]:
     """If two matching words (of 5 letters or more) are the same barring the first letter, makes the same.
@@ -193,12 +193,12 @@ def _dealWithWrongFirstChar(nameA:str, nameB:str) -> tuple[str, str]:
         tuple[str, str]: the modified names
     """        
     ne = usefulToolsMod.NameEditor(nameA, nameB)
-    for indexA, _, wordA, wordB in usefulToolsMod.getPairIndicesAndWords(nameA, nameB):
+    for indexA, _, wordA, wordB in usefulToolsMod.get_matching_words_and_indices(nameA, nameB):
         if wordA == wordB:
             continue
         if (wordA[1:] == wordB[1:]) and (len(wordA) > 4) and (len(wordB) > 4):
-            ne.updateNameA(indexA, wordB)
-    nameA, nameB = ne.getModifiedNames()
+            ne.update_name_one(indexA, wordB)
+    nameA, nameB = ne.get_modified_names()
     return nameA, nameB
 
 def _replaceSubstringSandwichMeatIfMatchingBread(nameA:str, nameB:str, meatOption1:str, meatOption2:str, bottomBreadOptions:list[str], topBreadOptions:list[str], minRequiredLetters:int) -> tuple[str,str]:
@@ -221,7 +221,7 @@ def _replaceSubstringSandwichMeatIfMatchingBread(nameA:str, nameB:str, meatOptio
         return nameA, nameB
 
     ne = usefulToolsMod.NameEditor(nameA, nameB)
-    for indexA, indexB, wordA, wordB in usefulToolsMod.getPairIndicesAndWords(nameA, nameB):
+    for indexA, indexB, wordA, wordB in usefulToolsMod.get_matching_words_and_indices(nameA, nameB):
         # Skip words that are not long enough for the given rule
         if len(wordA) < minRequiredLetters or len(wordB) < minRequiredLetters:
             continue
@@ -262,11 +262,11 @@ def _replaceSubstringSandwichMeatIfMatchingBread(nameA:str, nameB:str, meatOptio
         # Update the words for that match (though a change may not have occured)
         wordA = wordA.replace("-", "")
         wordB = wordB.replace("-", "")
-        ne.updateNameA(indexA, wordA)
-        ne.updateNameB(indexB, wordB)
+        ne.update_name_one(indexA, wordA)
+        ne.update_name_two(indexB, wordB)
 
     # concatonates the two lists together back into strings
-    nameA, nameB = ne.getModifiedNames()
+    nameA, nameB = ne.get_modified_names()
     return nameA, nameB
 
 def _overwriteWithSubstring(string:str, replacement:str, startIndex:int, endIndex:int) -> str:

@@ -1,7 +1,7 @@
 from typing import NamedTuple
 from enum import Enum
 
-from NameComparator.src.usefulTools import getPairIndicesAndWords
+from NameComparator.src.usefulTools import get_matching_words_and_indices
 
 class FrequencyData(NamedTuple):
     """Stores the name frequencies for first names and surnames within a given population."""
@@ -37,7 +37,7 @@ def scoreUniqueness(nameA:str, nameB:str, frequencyData:FrequencyData) -> float:
         float: the uniqueness score
     """    
     # Get the max frequency of either word in each pair
-    wordPairs = getPairIndicesAndWords(nameA, nameB)
+    wordPairs = get_matching_words_and_indices(nameA, nameB)
     scoresOfWordPairs = [_findWordPairUniqueness(wordA, wordB, frequencyData).value for _, _, wordA, wordB in wordPairs]
     
     # Return the sum, maxing out at 100

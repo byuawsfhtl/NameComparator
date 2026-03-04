@@ -4,7 +4,7 @@ from fuzzywuzzy import fuzz
 
 import NameComparator.src.usefulTools as usefulToolsMod
 
-def spellingComparison(nameA:str, nameB:str) -> tuple[bool, list]:
+def compare_spelling(nameA:str, nameB:str) -> tuple[bool, list]:
     """Identifies if two names are a match according to a comparison based soley on spelling.
 
     Args:

@@ -75,9 +75,9 @@ def compareTwoNames(nameA:str, nameB:str, frequencyData:FrequencyData|None = Non
     results = ResultsOfNameComparison(nameA=nameA, nameB=nameB)
 
     # Clean the name
-    nameA = cleanMod.cleanName(nameA)
-    nameB = cleanMod.cleanName(nameB)
-    nameA, nameB = cleanMod.cleanNamesTogether(nameA, nameB)
+    nameA = cleanMod.clean_name(nameA)
+    nameB = cleanMod.clean_name(nameB)
+    nameA, nameB = cleanMod.clean_names_by_comparison(nameA, nameB)
 
     # Deal with too short names
     results.tooShort = insightMod.eitherNameTooShort(nameA, nameB)
@@ -95,7 +95,7 @@ def compareTwoNames(nameA:str, nameB:str, frequencyData:FrequencyData|None = Non
     nameA, nameB = nicknameMod.removeNicknames(nameA, nameB)
 
     # 1st attempt: Checks if names are a match according to string comparison alone
-    match, wordCombo = comparisonMod.spellingComparison(nameA, nameB)
+    match, wordCombo = comparisonMod.compare_spelling(nameA, nameB)
     results.attempt1 = Attempt(nameA, nameB, wordCombo)
     if match:
         results.match = True
@@ -107,15 +107,15 @@ def compareTwoNames(nameA:str, nameB:str, frequencyData:FrequencyData|None = Non
 
     # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
     modifiedNameA, modifiedNameB = modifyMod.modifyNamesTogether(nameA, nameB)
-    match, wordCombo = comparisonMod.spellingComparison(modifiedNameA, modifiedNameB)
+    match, wordCombo = comparisonMod.compare_spelling(modifiedNameA, modifiedNameB)
     results.attempt2 = Attempt(modifiedNameA, modifiedNameB, wordCombo)
     if match:
         results.match = True
         return results
         
     # 3rd attempt: Checks if modified names are a match according to pronunciation
-    ipaOfModNameA = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameA))
-    ipaOfModNameB = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameB))
+    ipaOfModNameA = cleanMod.clean_ipa(ipaMod.getIpa(modifiedNameA))
+    ipaOfModNameB = cleanMod.clean_ipa(ipaMod.getIpa(modifiedNameB))
     ipaOfModNameA, ipaOfModNameB = modifyMod.modifyIpasTogether(ipaOfModNameA, ipaOfModNameB)
     match, wordCombo = comparisonMod.pronunciationComparison(ipaOfModNameA, ipaOfModNameB, modifiedNameA, modifiedNameB)
     results.attempt3 = Attempt(ipaOfModNameA, ipaOfModNameB, wordCombo)
@@ -124,8 +124,8 @@ def compareTwoNames(nameA:str, nameB:str, frequencyData:FrequencyData|None = Non
         return results
 
     # 4th attempt: Check if original names are a match according to pronunciation'
-    ipaOfNameA = cleanMod.cleanIpa(ipaMod.getIpa(nameA))
-    ipaOfNameB = cleanMod.cleanIpa(ipaMod.getIpa(nameB))
+    ipaOfNameA = cleanMod.clean_ipa(ipaMod.getIpa(nameA))
+    ipaOfNameB = cleanMod.clean_ipa(ipaMod.getIpa(nameB))
     ipaOfNameA, ipaOfNameB = modifyMod.modifyIpasTogether(ipaOfNameA, ipaOfNameB)
     match, wordCombo = comparisonMod.pronunciationComparison(ipaOfNameA, ipaOfNameB, nameA, nameB)
     results.attempt4 = Attempt(ipaOfNameA, ipaOfNameB, wordCombo)
