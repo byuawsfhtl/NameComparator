@@ -106,7 +106,7 @@ def compareTwoNames(name_one:str, name_two:str, frequencyData:FrequencyData|None
         return results
 
     # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
-    modifiedname_one, modifiedname_two = modifyMod.modifyNamesTogether(name_one, name_two)
+    modifiedname_one, modifiedname_two = modifyMod.modify_names_together(name_one, name_two)
     match, word_combo = comparisonMod.compare_spelling(modifiedname_one, modifiedname_two)
     results.attempt2 = Attempt(modifiedname_one, modifiedname_two, word_combo)
     if match:
@@ -116,7 +116,7 @@ def compareTwoNames(name_one:str, name_two:str, frequencyData:FrequencyData|None
     # 3rd attempt: Checks if modified names are a match according to pronunciation
     ipaOfModname_one = cleanMod.clean_ipa(ipaMod.getIpa(modifiedname_one))
     ipaOfModname_two = cleanMod.clean_ipa(ipaMod.getIpa(modifiedname_two))
-    ipaOfModname_one, ipaOfModname_two = modifyMod.modifyIpasTogether(ipaOfModname_one, ipaOfModname_two)
+    ipaOfModname_one, ipaOfModname_two = modifyMod.modify_ipas_by_comparison(ipaOfModname_one, ipaOfModname_two)
     match, word_combo = comparisonMod.pronunciation_comparison(ipaOfModname_one, ipaOfModname_two, modifiedname_one, modifiedname_two)
     results.attempt3 = Attempt(ipaOfModname_one, ipaOfModname_two, word_combo)
     if match:
@@ -126,7 +126,7 @@ def compareTwoNames(name_one:str, name_two:str, frequencyData:FrequencyData|None
     # 4th attempt: Check if original names are a match according to pronunciation'
     ipa_of_name_one = cleanMod.clean_ipa(ipaMod.getIpa(name_one))
     ipa_of_name_two = cleanMod.clean_ipa(ipaMod.getIpa(name_two))
-    ipa_of_name_one, ipa_of_name_two = modifyMod.modifyIpasTogether(ipa_of_name_one, ipa_of_name_two)
+    ipa_of_name_one, ipa_of_name_two = modifyMod.modify_ipas_by_comparison(ipa_of_name_one, ipa_of_name_two)
     match, word_combo = comparisonMod.pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
     results.attempt4 = Attempt(ipa_of_name_one, ipa_of_name_two, word_combo)
     if match:
