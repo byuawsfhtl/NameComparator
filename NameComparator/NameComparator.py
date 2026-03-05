@@ -80,7 +80,7 @@ def compareTwoNames(name_one:str, name_two:str, frequencyData:FrequencyData|None
     name_one, name_two = cleanMod.clean_names_by_comparison(name_one, name_two)
 
     # Deal with too short names
-    results.tooShort = insightMod.eitherNameTooShort(name_one, name_two)
+    results.tooShort = insightMod.either_name_too_short(name_one, name_two)
     if not name_one:
         name_one = '_'
     if not name_two:
@@ -102,7 +102,7 @@ def compareTwoNames(name_one:str, name_two:str, frequencyData:FrequencyData|None
         return results
 
     # Failed first attempt. Check if names are even worth continuing
-    if insightMod.isWorthContinuing(name_one, name_two) is False:
+    if insightMod.is_worth_continuing(name_one, name_two) is False:
         return results
 
     # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison

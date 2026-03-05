@@ -44,7 +44,7 @@ Let's look at the example of the name comparison of 'Maurice' and 'Morris'.
 * ```attempt3``` checks if the modified tokens from attempt two are a match according to pronunciation. This would work!
 * ```attempt4```, the last attempt, (not reached in this scenerio) identifies if the original tokens from the attempt one are a match according to pronunciation comparison.
 
-Finally, when debugging, it is important to understand any attempt after attempt1 will not be undertaken if the names have no chance at matching. This is thanks to the ```isWorthContinuing``` function. If it fails this function or gets through all four attempts without passing any attempt, then match is considered false.
+Finally, when debugging, it is important to understand any attempt after attempt1 will not be undertaken if the names have no chance at matching. This is thanks to the ```is_worth_continuing``` function. If it fails this function or gets through all four attempts without passing any attempt, then match is considered false.
 
 Each attempt's word combo is a list of tuples
 ```python
