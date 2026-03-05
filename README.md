@@ -15,16 +15,16 @@ This package attempts to minimize that difficulty. By tokenizing names into thei
 ```python
 from NameComparator import NameComparator
 
-results = NameComparator.compareTwoNames(nameA='Johnny Christians', nameB='Christian, Jean')
+results = NameComparator.compareTwoNames(name_one='Johnny Christians', name_two='Christian, Jean')
 
 print(results)
 # ResultsOfNameComparison(
-#     nameA='Johnny Christians',
-#     nameB='Christian, Jean',
+#     name_one='Johnny Christians',
+#     name_two='Christian, Jean',
 #     match=True,
 #     uniqueness=100,
 #     tooShort=False,
-#     attempt1=Attempt(nameA='jean christians', nameB='christian jean', wordCombo=[('0', '1', 100.0), ('1', '0', 100.0)]),
+#     attempt1=Attempt(name_one='jean christians', name_two='christian jean', word_combo=[('0', '1', 100.0), ('1', '0', 100.0)]),
 #     attempt2=None,
 #     attempt3=None,
 #     attempt4=None
@@ -50,11 +50,11 @@ Each attempt's word combo is a list of tuples
 ```python
 [('0', '0', 80), ('1', '1', 100), ('3', '2', 100)]
 ```
-Each tuple in the list represents the best pairing of one word in nameA, with another word in nameB. Each tuple has three values: a string of the index number of the word in the first provided name, a string of the index number of the word in the second provided name, and a score of how well they matched (0-100). 
+Each tuple in the list represents the best pairing of one word in name_one, with another word in name_two. Each tuple has three values: a string of the index number of the word in the first provided name, a string of the index number of the word in the second provided name, and a score of how well they matched (0-100). 
 In the above example:
-- the 1st word in the nameA matched with the 1st word in the nameB, with a score of 80.
-- the 2nd word in the nameA matched with the 2nd word in the nameB, with a score of 100.
-- the 4th word in the nameA matched with the 3rd word in the nameB, with a score of 100.
+- the 1st word in the name_one matched with the 1st word in the name_two, with a score of 80.
+- the 2nd word in the name_one matched with the 2nd word in the name_two, with a score of 100.
+- the 4th word in the name_one matched with the 3rd word in the name_two, with a score of 100.
 
 The algorithm finds all possible word pairs and chooses the word pairs that result in the highest overall score for the comparison. ```match``` can be ```True``` even if one of the names is only one word long. It is important to note, though, that the requirements for ```match``` to be evaluated as ```True``` changes depending number of words in the name with the shortest words. For example, if the minimum number of words in each name is three or more, the theshold for a good word pair is lower in order to achieve a match, than if there were only two words in the shortest name. This is because there is a much lower chance of a false negative when more words are present that are decent matches. Initials are also taken into account.
 

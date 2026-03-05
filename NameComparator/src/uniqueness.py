@@ -24,33 +24,33 @@ class Uniqueness(Enum):
     RARE = 42
     UNSEEN = 65
 
-def scoreUniqueness(nameA:str, nameB:str, frequencyData:FrequencyData) -> float:
+def scoreUniqueness(name_one:str, name_two:str, frequencyData:FrequencyData) -> float:
     """Takes two names and gives them an algorithmically calculated uniqueness score
     (between 0 and 100).
 
     Args:
-        nameA (str): a name
-        nameB (str): a name
+        name_one (str): a name
+        name_two (str): a name
         frequencyData (FrequencyData): the first name and surname frequencies in a pop
 
     Returns:
         float: the uniqueness score
     """    
     # Get the max frequency of either word in each pair
-    wordPairs = get_matching_words_and_indices(nameA, nameB)
-    scoresOfWordPairs = [_findWordPairUniqueness(wordA, wordB, frequencyData).value for _, _, wordA, wordB in wordPairs]
+    wordPairs = get_matching_words_and_indices(name_one, name_two)
+    scoresOfWordPairs = [_findWordPairUniqueness(word_one, word_two, frequencyData).value for _, _, word_one, word_two in wordPairs]
     
     # Return the sum, maxing out at 100
     return min(100, sum(scoresOfWordPairs))
 
-def _findWordPairUniqueness(wordA:str, wordB:str, frequencyData:FrequencyData) -> Uniqueness:
+def _findWordPairUniqueness(word_one:str, word_two:str, frequencyData:FrequencyData) -> Uniqueness:
     """Given two words paired together, it will identify the least possible uniqueness
     classification to assign the pair, based on which of the two occurs most frequently
     (as either a surname or as a first name- whichever is more frequent).
 
     Args:
-        wordA (str): a word in a name
-        wordB (str): a word in a name
+        word_one (str): a word in a name
+        word_two (str): a word in a name
         frequencyData (FrequencyData): the first name and surname frequencies in a population
 
     Raises:
@@ -60,9 +60,9 @@ def _findWordPairUniqueness(wordA:str, wordB:str, frequencyData:FrequencyData) -
     Returns:
         Uniqueness: the uniqueness classification of the word pair
     """    
-    wordAFreq = _getMaxFrequency(wordA, frequencyData)
-    wordBFreq = _getMaxFrequency(wordB, frequencyData)
-    pairFreq = max(wordAFreq, wordBFreq)
+    word_oneFreq = _getMaxFrequency(word_one, frequencyData)
+    word_twoFreq = _getMaxFrequency(word_two, frequencyData)
+    pairFreq = max(word_oneFreq, word_twoFreq)
     if pairFreq < 0:
         raise ValueError("Score is out of range")
     elif pairFreq <= FrequencyUpperBound.UNSEEN.value:
