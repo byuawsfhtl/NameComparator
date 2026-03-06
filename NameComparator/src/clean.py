@@ -330,7 +330,7 @@ def _fix_related_prefixes(name_one:str, name_two:str, prefix_variant_one:str, pr
 def _choose_best_neighbor_word(word_one: str, index_one: int, word_two: str, left_neighbor: str, right_neighbor: str) -> tuple[str, str, int]:
     """This function looks at the words that are directly to the right and left of a specific word and then
     performs a partial ratio to figure out which word is a better match for the specific word. It then
-    returns the compund
+    returns the compund.
     
     Args:
         word_one: The word that is being checked for matches
@@ -428,6 +428,16 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
     return ne.get_modified_names()
 
 def _determine_if_skip_names_in_fix_mc_and_mac_names(name_one: str, name_two: str) -> bool:
+    """A simple function to determine if the prefixes 'mc' or 'mac' are in two selected names to
+    decide if names should be skipped in the _fix_mc_and_mac_names function.
+    
+    Args:
+        name_one: The first name to be checked
+        name_two: The second name to be checked
+        
+    Returns:
+        True if 'mc' and 'mac' are absent from all of the names, indicating that the function can
+        skip them. Otherwise, returns false indicating that they need further checks"""
 
     if ("mc" not in name_one) and ("mac" not in name_one) and ("mc" not in name_two) and ("mac" not in name_two):
         return True
