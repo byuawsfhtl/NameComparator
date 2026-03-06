@@ -3,7 +3,7 @@ from enum import Enum
 
 from NameComparator.src.usefulTools import get_matching_words_and_indices
 
-class frequency_data(NamedTuple):
+class FrequencyData(NamedTuple):
     """Stores the name frequencies for first names and surnames within a given population."""
     first_name_frequencies: dict[str, str]
     surname_frequencies: dict[str, str]
@@ -24,7 +24,7 @@ class Uniqueness(Enum):
     RARE = 42
     UNSEEN = 65
 
-def score_uniqueness(name_one:str, name_two:str, frequency_data:frequency_data) -> float:
+def score_uniqueness(name_one:str, name_two:str, frequency_data:FrequencyData) -> float:
     """Takes two names and gives them an algorithmically calculated uniqueness score
     (between 0 and 100).
 
@@ -43,7 +43,7 @@ def score_uniqueness(name_one:str, name_two:str, frequency_data:frequency_data) 
     # Return the sum, maxing out at 100
     return min(100, sum(scores_of_word_pairs))
 
-def _find_word_pair_uniqueness(word_one:str, word_two:str, frequency_data:frequency_data) -> Uniqueness:
+def _find_word_pair_uniqueness(word_one:str, word_two:str, frequency_data:FrequencyData) -> Uniqueness:
     """Given two words paired together, it will identify the least possible uniqueness
     classification to assign the pair, based on which of the two occurs most frequently
     (as either a surname or as a first name- whichever is more frequent).
@@ -78,7 +78,7 @@ def _find_word_pair_uniqueness(word_one:str, word_two:str, frequency_data:freque
     else:
         raise ValueError("Score is out of range")
 
-def _get_max_frequency(word:str, frequency_data:frequency_data) -> float:
+def _get_max_frequency(word:str, frequency_data:FrequencyData) -> float:
     """Gets the maximum possible frequency for a given word, whether it is found more as a
     first name or surname, given those frequencies for a given population. If the word is not
     found in either dicts, defaults to the default frequency, which is very low.

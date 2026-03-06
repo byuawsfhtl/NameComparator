@@ -249,9 +249,9 @@ def _replace_substring_centers_if_names_are_similar(name_one:str, name_two:str, 
                     continue
                 if result_list_one.group(0) == result_list_two.group(0):
                     continue
-                spanA1, spanB1 = result_list_one.span()
-                spanA2, spanB2 = result_list_two.span()
-                if not (abs(spanA1 - spanA2) <= 2 and abs(spanB1 - spanB2) <= 2):
+                start_index_of_list_one_span, end_index_of_list_one_span = result_list_one.span()
+                start_index_of_list_two_span, end_index_of_list_two_span = result_list_two.span()
+                if not (abs(start_index_of_list_one_span - start_index_of_list_two_span) <= 2 and abs(end_index_of_list_one_span - end_index_of_list_two_span) <= 2):
                     continue
 
                 # Update the words by replacing matching (different) middles with the meat option 2

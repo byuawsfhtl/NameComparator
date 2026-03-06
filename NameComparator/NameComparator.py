@@ -8,7 +8,7 @@ import NameComparator.src.comparisons as comparisonMod
 import NameComparator.src.modify as modifyMod
 import NameComparator.src.ipa as ipaMod
 import NameComparator.src.uniqueness as uniquenessMod
-from NameComparator.src.uniqueness import frequency_data
+from NameComparator.src.uniqueness import FrequencyData
 from NameComparator.data.frequency.surnamesUsaTo1950 import data as usa_to_1950_surnames
 from NameComparator.data.frequency.firstNamesUsaTo1950 import data as usa_to_1950_first_names
 
@@ -49,7 +49,7 @@ class ResultsOfNameComparison:
     attempt_three: Attempt | None = None
     attempt_four: Attempt | None = None
 
-def compare_two_names(name_one:str, name_two:str, frequency_data:frequency_data|None = None) -> ResultsOfNameComparison:
+def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|None = None) -> ResultsOfNameComparison:
     """Compares two names to identify whether they are a fuzzy match.
 
     Args:

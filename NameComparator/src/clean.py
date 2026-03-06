@@ -464,40 +464,40 @@ def _remove_unnecessary_prefixes(name_one:str, name_two:str, prefix:str) -> tupl
     # Setup
     name_one_edited = name_one
     name_two_edited = name_two
-    spPrefixSp = f" {prefix} "
-    spacePrefix = f" {prefix}"
+    space_then_prefix_then_space = f" {prefix} "
+    space_then_prefix = f" {prefix}"
 
     # Make the edited names different
-    if (spPrefixSp in name_one) and (spPrefixSp in name_two):
+    if (space_then_prefix_then_space in name_one) and (space_then_prefix_then_space in name_two):
         pass
-    elif (spPrefixSp in name_one) and (spacePrefix in name_two):
-        name_one_edited = name_one_edited.replace(spPrefixSp, spacePrefix)
-    elif (spacePrefix in name_one) and (spPrefixSp in name_two):
-        name_two_edited = name_two_edited.replace(spPrefixSp, spacePrefix)
-    name_one_edited = name_one_edited.replace(spPrefixSp, " ")
-    name_two_edited = name_two_edited.replace(spPrefixSp, " ")
+    elif (space_then_prefix_then_space in name_one) and (space_then_prefix in name_two):
+        name_one_edited = name_one_edited.replace(space_then_prefix_then_space, space_then_prefix)
+    elif (space_then_prefix in name_one) and (space_then_prefix_then_space in name_two):
+        name_two_edited = name_two_edited.replace(space_then_prefix_then_space, space_then_prefix)
+    name_one_edited = name_one_edited.replace(space_then_prefix_then_space, " ")
+    name_two_edited = name_two_edited.replace(space_then_prefix_then_space, " ")
     name_one_edited = re.sub(r"\s+", " ", name_one_edited)
     name_two_edited = re.sub(r"\s+", " ", name_two_edited)
 
-    # If no edits were made, try removing spacePrefix if only in name_one and it's a long word
-    pattern = r'\b{}\w*\b'.format(spacePrefix)
-    noEditsMade = (name_one == name_one_edited) and (name_two == name_two_edited) 
-    spPreOnlyInname_one = (spacePrefix in name_one) and (spacePrefix not in name_two) 
-    matchOfA = re.search(pattern, name_one)
-    if (noEditsMade) and (spPreOnlyInname_one) and (matchOfA is not None):
-        matchedWord = matchOfA.group()
-        if len(matchedWord) > len(prefix) + 4:
-            name_one_edited = name_one.replace(spacePrefix, " ")
+    # If no edits were made, try removing space_then_prefix if only in name_one and it's a long word
+    pattern = r'\b{}\w*\b'.format(space_then_prefix)
+    no_edits_made = (name_one == name_one_edited) and (name_two == name_two_edited) 
+    space_then_prefix_only_in_name_one = (space_then_prefix in name_one) and (space_then_prefix not in name_two) 
+    match_in_name_one = re.search(pattern, name_one)
+    if (no_edits_made) and (space_then_prefix_only_in_name_one) and (match_in_name_one is not None):
+        matched_word = match_in_name_one.group()
+        if len(matched_word) > len(prefix) + 4:
+            name_one_edited = name_one.replace(space_then_prefix, " ")
 
-    # If no edits were made, try removing spacePrefix if only in name_two and it's a long word
-    pattern = r'\b{}\w*\b'.format(spacePrefix)
-    noEditsMade = (name_one == name_one_edited) and (name_two == name_two_edited) 
-    spPreOnlyInname_two = (spacePrefix in name_two) and (spacePrefix not in name_one)
-    matchOfB = re.search(pattern, name_two)
-    if (noEditsMade) and (spPreOnlyInname_two) and (matchOfB is not None):
-        matchedWord = matchOfB.group()
-        if len(matchedWord) > len(prefix) + 4:
-            name_two_edited = name_two.replace(spacePrefix, " ")
+    # If no edits were made, try removing space_then_prefix if only in name_two and it's a long word
+    pattern = r'\b{}\w*\b'.format(space_then_prefix)
+    no_edits_made = (name_one == name_one_edited) and (name_two == name_two_edited) 
+    space_then_prefix_only_in_name_two = (space_then_prefix in name_two) and (space_then_prefix not in name_one)
+    match_in_name_two = re.search(pattern, name_two)
+    if (no_edits_made) and (space_then_prefix_only_in_name_two) and (match_in_name_two is not None):
+        matched_word = match_in_name_two.group()
+        if len(matched_word) > len(prefix) + 4:
+            name_two_edited = name_two.replace(space_then_prefix, " ")
 
     # Safety
     if not name_one_edited:
@@ -546,7 +546,7 @@ def _combine_prefix_with_surname_if_in_both(name_one:str, name_two:str, prefix:s
     return name_one, name_two
 
 def clean_ipa(ipa:str) -> str:
-    """cleans ipa to get rid of double ipa-consonants and other mistakes.
+    """Cleans ipa to get rid of double ipa-consonants and other mistakes.
 
     Args:
         ipa (str): the ipa of a word
