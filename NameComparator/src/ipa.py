@@ -4,7 +4,7 @@ from unidecode import unidecode
 import NameComparator.data.pronunciation.ipaAllNames as ipaAllNames
 import NameComparator.data.pronunciation.ipaCommonWordParts as ipaCommonWordParts
 
-def getIpa(name:str) -> str:
+def get_ipa(name:str) -> str:
     """Gets the pronunciation of the name.
 
     Args:

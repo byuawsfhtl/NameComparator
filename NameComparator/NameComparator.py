@@ -8,9 +8,9 @@ import NameComparator.src.comparisons as comparisonMod
 import NameComparator.src.modify as modifyMod
 import NameComparator.src.ipa as ipaMod
 import NameComparator.src.uniqueness as uniquenessMod
-from NameComparator.src.uniqueness import FrequencyData
-from NameComparator.data.frequency.surnamesUsaTo1950 import data as usaTo1950Surnames
-from NameComparator.data.frequency.firstNamesUsaTo1950 import data as usaTo1950FirstNames
+from NameComparator.src.uniqueness import frequency_data
+from NameComparator.data.frequency.surnamesUsaTo1950 import data as usa_to_1950_surnames
+from NameComparator.data.frequency.firstNamesUsaTo1950 import data as usa_to_1950_first_names
 
 class Attempt(NamedTuple):
     """Represents an attempt at name comparison (often used for debugging).
@@ -33,43 +33,43 @@ class ResultsOfNameComparison:
         name_two (str): the original name_two
         match (bool): whether the names are a match. Defaults to False
         uniqueness (float): how unique the names were compared to chosen population. Defaults to 0.0.
-        tooShort (bool): whether either of the names are one word or less. Defaults to True
-        attempt1 (Attempt | None): Debugging data about the first attempt to compare the names. Defaults to None.
-        attempt2 (Attempt | None): Debugging data about the second attempt to compare the names. Defaults to None.
-        attempt3 (Attempt | None): Debugging data about the third attempt to compare the names. Defaults to None.
-        attempt4 (Attempt | None): Debugging data about the fourth attempt to compare the names. Defaults to None.
+        too_short (bool): whether either of the names are one word or less. Defaults to True
+        attempt_one (Attempt | None): Debugging data about the first attempt to compare the names. Defaults to None.
+        attempt_two (Attempt | None): Debugging data about the second attempt to compare the names. Defaults to None.
+        attempt_three (Attempt | None): Debugging data about the third attempt to compare the names. Defaults to None.
+        attempt_four (Attempt | None): Debugging data about the fourth attempt to compare the names. Defaults to None.
     """
     name_one: str
     name_two: str
     match: bool = False
     uniqueness: float = 0.0
-    tooShort: bool = True
-    attempt1: Attempt | None = None
-    attempt2: Attempt | None = None
-    attempt3: Attempt | None = None
-    attempt4: Attempt | None = None
+    too_short: bool = True
+    attempt_one: Attempt | None = None
+    attempt_two: Attempt | None = None
+    attempt_three: Attempt | None = None
+    attempt_four: Attempt | None = None
 
-def compareTwoNames(name_one:str, name_two:str, frequencyData:FrequencyData|None = None) -> ResultsOfNameComparison:
+def compare_two_names(name_one:str, name_two:str, frequency_data:frequency_data|None = None) -> ResultsOfNameComparison:
     """Compares two names to identify whether they are a fuzzy match.
 
     Args:
         name_one (str): a name
         name_two (str): a name
-        frequencyData (FrequencyData | None, optional): the first name and surname frequencies in a chosen population- Defaults to None
+        frequency_data (frequency_data | None, optional): the first name and surname frequencies in a chosen population- Defaults to None
 
     Returns:
         ResultsOfNameComparison: the data gleaned from the comparison(whether they are a match, whether one or both names is too generic,
         whether one or both names is too short, along with the debugging attempt data)
     """        
     # Deal with optional arg
-    if frequencyData is None:
-        frequencyData = FrequencyData(usaTo1950FirstNames, usaTo1950Surnames)
+    if frequency_data is None:
+        frequency_data = frequency_data(usa_to_1950_first_names, usa_to_1950_surnames)
 
     # Data validation
     if not isinstance(name_one, str) or not isinstance(name_two, str):
         raise TypeError(f'name_one was {type(name_one)}. Must be str. name_two was {type(name_two)}. Must be str.')
-    if not isinstance(frequencyData, FrequencyData):
-        raise TypeError(f'frequencyData was {type(frequencyData)}. Must be FrequencyData.')
+    if not isinstance(frequency_data, frequency_data):
+        raise TypeError(f'frequency_data was {type(frequency_data)}. Must be frequency_data.')
 
     # Create the return object to edit later
     results = ResultsOfNameComparison(name_one=name_one, name_two=name_two)
@@ -80,7 +80,7 @@ def compareTwoNames(name_one:str, name_two:str, frequencyData:FrequencyData|None
     name_one, name_two = cleanMod.clean_names_by_comparison(name_one, name_two)
 
     # Deal with too short names
-    results.tooShort = insightMod.either_name_too_short(name_one, name_two)
+    results.too_short = insightMod.either_name_too_short(name_one, name_two)
     if not name_one:
         name_one = '_'
     if not name_two:
@@ -89,14 +89,14 @@ def compareTwoNames(name_one:str, name_two:str, frequencyData:FrequencyData|None
         return results
     
     # Find the uniqueness of this name matchup (ie. hopefully not 'John Smith' and 'J Smith')
-    results.uniqueness = uniquenessMod.scoreUniqueness(name_one, name_two, frequencyData)
+    results.uniqueness = uniquenessMod.score_uniqueness(name_one, name_two, frequency_data)
 
     # Remove nicknames before the actual comparison
-    name_one, name_two = nicknameMod.removeNicknames(name_one, name_two)
+    name_one, name_two = nicknameMod.remove_nicknames(name_one, name_two)
 
     # 1st attempt: Checks if names are a match according to string comparison alone
     match, word_combo = comparisonMod.compare_spelling(name_one, name_two)
-    results.attempt1 = Attempt(name_one, name_two, word_combo)
+    results.attempt_one = Attempt(name_one, name_two, word_combo)
     if match:
         results.match = True
         return results
@@ -106,29 +106,29 @@ def compareTwoNames(name_one:str, name_two:str, frequencyData:FrequencyData|None
         return results
 
     # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
-    modifiedname_one, modifiedname_two = modifyMod.modify_names_together(name_one, name_two)
-    match, word_combo = comparisonMod.compare_spelling(modifiedname_one, modifiedname_two)
-    results.attempt2 = Attempt(modifiedname_one, modifiedname_two, word_combo)
+    modified_name_one, modified_name_two = modifyMod.modify_names_together(name_one, name_two)
+    match, word_combo = comparisonMod.compare_spelling(modified_name_one, modified_name_two)
+    results.attempt_two = Attempt(modified_name_one, modified_name_two, word_combo)
     if match:
         results.match = True
         return results
         
     # 3rd attempt: Checks if modified names are a match according to pronunciation
-    ipaOfModname_one = cleanMod.clean_ipa(ipaMod.getIpa(modifiedname_one))
-    ipaOfModname_two = cleanMod.clean_ipa(ipaMod.getIpa(modifiedname_two))
-    ipaOfModname_one, ipaOfModname_two = modifyMod.modify_ipas_by_comparison(ipaOfModname_one, ipaOfModname_two)
-    match, word_combo = comparisonMod.pronunciation_comparison(ipaOfModname_one, ipaOfModname_two, modifiedname_one, modifiedname_two)
-    results.attempt3 = Attempt(ipaOfModname_one, ipaOfModname_two, word_combo)
+    ipa_of_modified_name_one = cleanMod.clean_ipa(ipaMod.get_ipa(modified_name_one))
+    ipa_of_modified_name_two = cleanMod.clean_ipa(ipaMod.get_ipa(modified_name_two))
+    ipa_of_modified_name_one, ipa_of_modified_name_two = modifyMod.modify_ipas_by_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two)
+    match, word_combo = comparisonMod.pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
+    results.attempt_three = Attempt(ipa_of_modified_name_one, ipa_of_modified_name_two, word_combo)
     if match:
         results.match = True
         return results
 
     # 4th attempt: Check if original names are a match according to pronunciation'
-    ipa_of_name_one = cleanMod.clean_ipa(ipaMod.getIpa(name_one))
-    ipa_of_name_two = cleanMod.clean_ipa(ipaMod.getIpa(name_two))
+    ipa_of_name_one = cleanMod.clean_ipa(ipaMod.get_ipa(name_one))
+    ipa_of_name_two = cleanMod.clean_ipa(ipaMod.get_ipa(name_two))
     ipa_of_name_one, ipa_of_name_two = modifyMod.modify_ipas_by_comparison(ipa_of_name_one, ipa_of_name_two)
     match, word_combo = comparisonMod.pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
-    results.attempt4 = Attempt(ipa_of_name_one, ipa_of_name_two, word_combo)
+    results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, word_combo)
     if match:
         results.match = True
     return results

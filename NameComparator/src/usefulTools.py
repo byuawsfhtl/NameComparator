@@ -16,18 +16,18 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
             the index of the word in the second name, and the score of how well they match
     """
     # Initialize empty list to store scores
-    wordsInA = name_one.split()
-    wordsInB = name_two.split()
-    if len(wordsInA) != len(wordsInB):
-        if len(wordsInA) < len(wordsInB):
-            wordsInA += [None] * (len(wordsInB) - len(wordsInA))
+    words_in_name_one = name_one.split()
+    words_in_name_two = name_two.split()
+    if len(words_in_name_one) != len(words_in_name_two):
+        if len(words_in_name_one) < len(words_in_name_two):
+            words_in_name_one += [None] * (len(words_in_name_two) - len(words_in_name_one))
         else:
-            wordsInB += [None] * (len(wordsInA) - len(wordsInB))
-    scores = np.zeros((len(wordsInA), len(wordsInB)))
+            words_in_name_two += [None] * (len(words_in_name_one) - len(words_in_name_two))
+    scores = np.zeros((len(words_in_name_one), len(words_in_name_two)))
 
     # Score each matchup
-    for i, word_one in enumerate(wordsInA):
-        for j, word_two in enumerate(wordsInB):
+    for i, word_one in enumerate(words_in_name_one):
+        for j, word_two in enumerate(words_in_name_two):
             # Assign a very low finite score to dummy pairings
             scores[i, j] = -1e9 
             if (word_one is None) or (word_two is None):
@@ -42,17 +42,17 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
             else:
                 ratio = fuzz.ratio(word_one, word_two)
                 if (word_one[0] == word_two[0]):
-                    prScore = fuzz.partial_ratio(word_one, word_two)
-                    score = max(ratio, prScore)
+                    partial_ratio_score = fuzz.partial_ratio(word_one, word_two)
+                    score = max(ratio, partial_ratio_score)
                 else:
                     score = ratio
             # Add the score
             scores[i, j] = score
     
     # Identify the best matchups
-    wordsInA = [str(i) if word is not None else None for i, word in enumerate(wordsInA)]
-    wordsInB = [str(i) if word is not None else None for i, word in enumerate(wordsInB)]
-    return identify_best_matches(scores=scores, list_one=wordsInA, list_two=wordsInB)
+    words_in_name_one = [str(i) if word is not None else None for i, word in enumerate(words_in_name_one)]
+    words_in_name_two = [str(i) if word is not None else None for i, word in enumerate(words_in_name_two)]
+    return identify_best_matches(scores=scores, list_one=words_in_name_one, list_two=words_in_name_two)
 
 def identify_best_matches(scores:np.ndarray, list_one:list[str|None], list_two:list[str|None]) -> list[tuple[str, str, int]]:
         """Uses the Hungarian algorithm to find the optimal assignments.
@@ -65,35 +65,35 @@ def identify_best_matches(scores:np.ndarray, list_one:list[str|None], list_two:l
         Returns:
             list[tuple[str, str, int]]: the word combo
         """        
-        rowInd, colInd = linear_sum_assignment(-scores)
-        bestCombination = []
-        for i, j in zip(rowInd, colInd):
+        row_index, column_index = linear_sum_assignment(-scores)
+        best_combination = []
+        for i, j in zip(row_index, column_index):
             if (list_one[i] is not None) and (list_two[j] is not None):
-                matchupScore = scores[i, j]
-                bestCombination.append((list_one[i], list_two[j], matchupScore))
-        return bestCombination
+                matchup_score = scores[i, j]
+                best_combination.append((list_one[i], list_two[j], matchup_score))
+        return best_combination
 
-def calculate_edit_improvement(name_one:str, name_two:str, name_oneEdited:str, name_twoEdited:str) -> tuple[float, tuple, tuple]:
+def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, name_two_edited:str) -> tuple[float, tuple, tuple]:
     """Calculates how much editing a name or both names improved the score in comparison to the original names.
 
     Args:
         name_one (str): the original first name
         name_two (str): the original second name
-        name_oneEdited (str): the edited first name
-        name_twoEdited (str): the edited second name
+        name_one_edited (str): the edited first name
+        name_two_edited (str): the edited second name
 
     Returns:
         tuple[float, tuple, tuple]: the score of how much the edits improved the comparison (can be negative), 
         the word combo of the original, the word combo of the edited verison
     """        
-    ogword_combo = find_word_matches_and_quality(name_one, name_two)
-    editedword_combo = find_word_matches_and_quality(name_oneEdited, name_twoEdited)
-    if (not ogword_combo) or (not editedword_combo):
-        return 0, ogword_combo, editedword_combo
-    ogAverageScore = sum(tup[2] for tup in ogword_combo) / len(ogword_combo)
-    editedAverageScore = sum(tup[2] for tup in editedword_combo) / len(editedword_combo)
-    diff = editedAverageScore - ogAverageScore
-    return diff, ogword_combo, editedword_combo
+    original_word_combo = find_word_matches_and_quality(name_one, name_two)
+    edited_word_combo = find_word_matches_and_quality(name_one_edited, name_two_edited)
+    if (not original_word_combo) or (not edited_word_combo):
+        return 0, original_word_combo, edited_word_combo
+    original_average_score = sum(tup[2] for tup in original_word_combo) / len(original_word_combo)
+    edited_average_score = sum(tup[2] for tup in edited_word_combo) / len(edited_word_combo)
+    diff = edited_average_score - original_average_score
+    return diff, original_word_combo, edited_word_combo
 
 def get_matching_words_and_indices(name_one:str, name_two:str) -> list[tuple[int, int, str, str]]:
     """Identifies which words in the names match and finds their indices.
@@ -106,11 +106,11 @@ def get_matching_words_and_indices(name_one:str, name_two:str) -> list[tuple[int
         list[tuple[int, int, str, str]]: the list of which words match. Tuples of: the index of word in name_one, the index of word in name_two, in word in name_one, the word in name_two
     """        
     combo = find_word_matches_and_quality(name_one, name_two)
-    wordsInA = name_one.split()
-    wordsInB = name_two.split()
-    matchIndices = [(int(tup[0]), int(tup[1])) for tup in combo]
-    matchIndicesWithWords = [(tup[0], tup[1], wordsInA[tup[0]], wordsInB[tup[1]]) for tup in matchIndices]
-    return matchIndicesWithWords
+    words_in_name_one = name_one.split()
+    words_in_name_two = name_two.split()
+    match_indices = [(int(tup[0]), int(tup[1])) for tup in combo]
+    match_indices_with_words = [(tup[0], tup[1], words_in_name_one[tup[0]], words_in_name_two[tup[1]]) for tup in match_indices]
+    return match_indices_with_words
 
 class NameEditor():
     """ A class used for ease of editing specific words in names.
@@ -122,26 +122,26 @@ class NameEditor():
             name_one (str): a name
             name_two (str): a name
         """            
-        self.wordsInA = name_one.split()
-        self.wordsInB = name_two.split()
+        self.words_in_name_one = name_one.split()
+        self.words_in_name_two = name_two.split()
     
-    def update_name_one(self, index:int, updatedWord:str) -> None:
+    def update_name_one(self, index:int, updated_word:str) -> None:
         """Replaces the stored word for name_one at the specified index.
 
         Args:
             index (int): the specified index
-            updatedWord (str): the replacement string
+            updated_word (str): the replacement string
         """
-        self.wordsInA[index] = updatedWord
+        self.words_in_name_one[index] = updated_word
 
-    def update_name_two(self, index:int, updatedWord:str) -> None:
+    def update_name_two(self, index:int, updated_word:str) -> None:
         """Replaces the stored word for name_two at the specified index.
 
         Args:
             index (int): the specified index
-            updatedWord (str): the replacement string
+            updated_word (str): the replacement string
         """
-        self.wordsInB[index] = updatedWord
+        self.words_in_name_two[index] = updated_word
 
     def get_modified_names(self) -> tuple[str, str]:
         """Retrieves the modified names.
@@ -149,8 +149,8 @@ class NameEditor():
         Returns:
             tuple[str, str]: the modified names
         """            
-        name_one = ' '.join(self.wordsInA)
-        name_two = ' '.join(self.wordsInB)
+        name_one = ' '.join(self.words_in_name_one)
+        name_two = ' '.join(self.words_in_name_two)
         if not name_one:
             name_one = '_'
         if not name_two:
