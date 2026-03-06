@@ -390,12 +390,8 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
     ne = usefulTools.NameEditor(name_one, name_two)
     for prefix in ['mc', 'mac']:
         for index_one, index_two, word_one, word_two in usefulTools.get_matching_words_and_indices(name_one, name_two):
-            # Skip pair if the prefix is in both words
-            if (word_one.startswith(prefix)) and (word_two.startswith(prefix)):
-                continue
-
-            # Skip pair if the prefix is not in either of them
-            if (not word_one.startswith(prefix)) and (not word_two.startswith(prefix)):
+            # Skip pair if the prefix is in both words or not in either of them
+            if ((word_one.startswith(prefix)) and (word_two.startswith(prefix))) or ((not word_one.startswith(prefix)) and (not word_two.startswith(prefix))):
                 continue
 
             # Skip pair if either word is a firstname
