@@ -58,14 +58,18 @@ def _get_ipa_of_one_word(word:str) -> str:
     return pronunciation
 
 def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, int]:
-    """
+    """ Iterates through all of the possible substrings of a word to find information
+    about which substrings are going to be the best ipa pronunciation representation
+    of the word.
     
     Args:
+        word: the word that all the possible substrings of are being iterated through
     
     Returns:
-        A tuple containing the following information: A boolean representing if the substring was
-        added, the beginning index of the substring, the end index of the substring, the 
-        pronunciation of the largest substring, and the length of the largest substring
+        A tuple containing the following information: A boolean representing if the 
+        substring was added, the beginning index of the substring, the end index of 
+        the substring, the pronunciation of the largest substring, and the length of 
+        the largest substring
     """
 
 
@@ -88,10 +92,8 @@ def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, in
                 continue
             if len(substring) > 1:
                 ipa_substring, success = _string_pronuncation_ipa_guess(substring)
-                if (not success) or (len(ipa_substring) >= len(substring) * 2) or (substring_splits_th_sound(substring, word, i, j)):
-                    continue
-                else:
-                    pronunciation_of_largest_substring = ipa_substring
+                if (not success) or (len(ipa_substring) >= len(substring) * 2) or (substring_splits_th_sound(substring, word, i, j)): continue
+                else: pronunciation_of_largest_substring = ipa_substring
             elif len(substring) == 1:
                 letter_to_pronunciation = {
                 "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
