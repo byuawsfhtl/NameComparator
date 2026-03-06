@@ -265,28 +265,8 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[str, str]:
         if (not left_neighbor) and (not right_neighbor):
             return False, name_one, name_two
 
-        # Choose the neighbor that best matches word_one's match
-        if not left_neighbor:
-            was_left_chosen = False
-        elif not right_neighbor:
-            was_left_chosen = True
-        else:
-            left_score = fuzz.partial_ratio(left_neighbor, word_two)
-            right_score = fuzz.partial_ratio(right_neighbor, word_two)
-            if left_score > right_score:
-                was_left_chosen = True
-            else:
-                was_left_chosen = False
-
-        # Initialize the chosen neighbor, compound, and neighbor index
-        if was_left_chosen:
-            chosen_neighbor = left_neighbor
-            compound = f'{left_neighbor}{word_one}'
-            neighbor_index = index_one - 1
-        else:
-            chosen_neighbor = right_neighbor
-            compound = f'{word_one}{right_neighbor}'
-            neighbor_index = index_one + 1
+        # Choose the neighbor that best matches word_one's match and return needed variables related to it
+        chosen_neighbor, compound, neighbor_index = _choose_best_neighbor_word(word_one, index_one, word_two, left_neighbor, right_neighbor)
 
         # Skip if the neighbor is a bad partial match to word_two's match
         if fuzz.partial_ratio(chosen_neighbor, word_two) < 65:
@@ -346,6 +326,48 @@ def _fix_related_prefixes(name_one:str, name_two:str, prefix_variant_one:str, pr
     else:
         name_two = name_two.replace(f' {prefix_variant_two}', f' {prefix_variant_one}')
     return name_one, name_two
+
+def _choose_best_neighbor_word(word_one: str, index_one: int, word_two: str, left_neighbor: str, right_neighbor: str) -> tuple[str, str, int]:
+    """This function looks at the words that are directly to the right and left of a specific word and then
+    performs a partial ratio to figure out which word is a better match for the specific word. It then
+    returns the compund
+    
+    Args:
+        word_one: The word that is being checked for matches
+        index_one: The index of the word that is being checked for matches
+        word_two: A word used as a reference point in comparison to the selected word
+        left_neighbor: The word to the left of a selected word
+        right_neighbor: The word to the right of a selected word
+
+    Returns:
+        Three items as a tuple, containing the better neighbor word choice, the compuond of the selected
+        word and the better neighbor, and the index of the word that is selected as a better neighbor
+    """
+
+    # Choose the neighbor that best matches word_one's match
+    if not left_neighbor:
+        was_left_chosen = False
+    elif not right_neighbor:
+        was_left_chosen = True
+    else:
+        left_score = fuzz.partial_ratio(left_neighbor, word_two)
+        right_score = fuzz.partial_ratio(right_neighbor, word_two)
+        if left_score > right_score:
+            was_left_chosen = True
+        else:
+            was_left_chosen = False
+
+    # Initialize the chosen neighbor, compound, and neighbor index
+    if was_left_chosen:
+        chosen_neighbor = left_neighbor
+        compound = f'{left_neighbor}{word_one}'
+        neighbor_index = index_one - 1
+    else:
+        chosen_neighbor = right_neighbor
+        compound = f'{word_one}{right_neighbor}'
+        neighbor_index = index_one + 1
+
+    return chosen_neighbor, compound, neighbor_index
 
 def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
     """Modified names to fix problems where mc or mac are in either names and don't match when they should.
