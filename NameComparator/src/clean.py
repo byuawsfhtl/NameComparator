@@ -379,8 +379,8 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
     Returns:
         tuple[str, str]: the two modified names 
     """        
-    # Return for most names
-    if ("mc" not in name_one) and ("mac" not in name_one) and ("mc" not in name_two) and ("mac" not in name_two):
+    # Return names if no prefixes are in them
+    if _determine_if_skip_names_in_fix_mc_and_mac_names(name_one, name_two):
         return name_one, name_two
     
     # Combine split words (if any)
@@ -390,8 +390,12 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
     ne = usefulTools.NameEditor(name_one, name_two)
     for prefix in ['mc', 'mac']:
         for index_one, index_two, word_one, word_two in usefulTools.get_matching_words_and_indices(name_one, name_two):
-            # Skip pair if the prefix is in both words or not in either of them
-            if ((word_one.startswith(prefix)) and (word_two.startswith(prefix))) or ((not word_one.startswith(prefix)) and (not word_two.startswith(prefix))):
+            # Skip pair if the prefix is in both words
+            if (word_one.startswith(prefix)) and (word_two.startswith(prefix)):
+                continue
+
+            # Skip pair if the prefix is not in either of them
+            if (not word_one.startswith(prefix)) and (not word_two.startswith(prefix)):
                 continue
 
             # Skip pair if either word is a firstname
@@ -423,6 +427,12 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
     # Return the edited (or not) names
     return ne.get_modified_names()
 
+def _determine_if_skip_names_in_fix_mc_and_mac_names(name_one: str, name_two: str) -> bool:
+
+    if ("mc" not in name_one) and ("mac" not in name_one) and ("mc" not in name_two) and ("mac" not in name_two):
+        return True
+    else:
+        return False
 
 def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str]:
     """Removes the irish O if needed for easier name comparison.
