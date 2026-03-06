@@ -142,10 +142,30 @@ def _matchup_scores(word_combo_for_scores: list, scores: np.ndarray, words_from_
             if (word_one is None) or (word_two is None):
                 continue
             # Reassign the default score to all real pairings
-            score = fuzz.ratio(word_one, word_two)
-            for item in range(len(word_combo_for_scores)):
-                word_combo_for_scores_index_one, word_combo_for_scores_index_two, initial_score = word_combo_for_scores[item]
-                # Use initial score for initials (bad pun)
-                if index_one == int(word_combo_for_scores_index_one) and index_two == int(word_combo_for_scores_index_two) and (initial_score == 100 or initial_score == 0):
-                    score = initial_score
+            score = _score_word_combos_helper(word_one, word_two, index_one, index_two, word_combo_for_scores)
             scores[index_one, index_two] = score
+
+def _score_word_combos_helper(word_one: str, word_two: str, index_one: int, index_two: int, word_combo_for_scores: list) -> int:
+    """This function is a helper function to reduce the nesting depth of _matchup_scores.
+    What it does is it compares all of the scores for a word combo and then finds a score
+    that is going to be more accurate for them, as opposed to a default score.
+    
+    Args:
+        word_one: The first word that needs a scoring comparison
+        word_two: The second word, that needs to be compared to the first word for a score
+        index_one: The index of the first word
+        index_two: The index of the second word
+        word_combo_for_scores: A list of word combinations that need to be scored
+
+    Returns:
+        An int representing the score that should be set for a particular word combo
+    """
+
+    score = fuzz.ratio(word_one, word_two)
+    for item in range(len(word_combo_for_scores)):
+        word_combo_for_scores_index_one, word_combo_for_scores_index_two, initial_score = word_combo_for_scores[item]
+        # Use initial score for initials (bad pun)
+        if index_one == int(word_combo_for_scores_index_one) and index_two == int(word_combo_for_scores_index_two) and (initial_score == 100 or initial_score == 0):
+            score = initial_score
+
+    return score
