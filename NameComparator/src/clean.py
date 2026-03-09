@@ -101,7 +101,7 @@ def clean_name(name:str) -> str:
         name = '_'
     return name
 
-def clean_names_by_comparison(name_one:str, name_two:str) -> tuple[str, str]:
+def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[str, str]:
     """Cleans names by comparing them to one another, fixing common errors to standardize.
 
     Args:
@@ -112,11 +112,7 @@ def clean_names_by_comparison(name_one:str, name_two:str) -> tuple[str, str]:
         tuple[str, str]: the two cleaned names
     """        
     # Return if either name is blank
-    if not name_one:
-        name_one = '_'
-    if not name_two:
-        name_two = '_'
-    if (name_one == "_") or (name_two == "_"):
+    if (name_one == '_') or (name_two == '_'):
         return name_one, name_two
     
     # Deal with dashes
@@ -139,34 +135,38 @@ def clean_names_by_comparison(name_one:str, name_two:str) -> tuple[str, str]:
         'reilly', 'riley', 'riordan', 'roark', 'rorke', 'rourke', 'ryan', 'shaughnessy', 'shea',
         'shields', 'sullivan', 'toole', 'tool',
     ]
-    for surname in irish_names_starting_with_o:
-        name_one, name_two = _remove_irish_o(name_one, name_two, surname)
 
-    # Deal with prefixes and optional intros that make the match worse
-    name_one, name_two = _fix_related_prefixes(name_one, name_two, 'de', 'di')
-    name_one, name_two = _fix_related_prefixes(name_one, name_two, 'del', 'dil')
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "d'")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "de")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "fi")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "santa")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "san")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "de la")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "de los")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "del")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "la")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "le")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "du")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "dela")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "los")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "der")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "den")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "vanden")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "vander")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "vande")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "van")
-    name_one, name_two = _remove_unnecessary_prefixes(name_one, name_two, "von")
-    name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "de")
-    name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "van")
+    if (' o ' in name_one) or (" o" in name_one) or (" o" in name_two) or (' o ' in name_two):
+        for surname in irish_names_starting_with_o:
+            if (surname in name_one) or (surname in name_two):
+                name_one, name_two = _remove_irish_o(name_one, name_two, surname)
+
+    # Create a list of prefixes to check
+    possible_prefixes = [
+        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
+        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil'
+    ]
+
+    # Deal with any prefixes and optional intros that make the match worse
+    name_one = re.sub(r"\s+", " ", name_one)
+    name_one = name_one.strip()
+    name_two = re.sub(r"\s+", " ", name_two)
+    name_two = name_two.strip()
+
+    for prefix in possible_prefixes:
+        if (f" {prefix}" in name_one) or (f" {prefix}" in name_two):
+            if (prefix == 'de') or (prefix == 'di'):
+                name_one, name_two = _fix_related_prefixes(name_one, name_two, 'de', 'di')
+                name_one, name_two = _remove_unnecessary_prefixes("de", name_one, name_two)
+                name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "de")
+            elif (prefix == 'del') or (prefix == 'dil'):
+                name_one, name_two = _fix_related_prefixes(name_one, name_two, 'del', 'dil')
+                name_one, name_two = _remove_unnecessary_prefixes("del", name_one, name_two)
+            elif prefix == 'van':
+                name_one, name_two = _remove_unnecessary_prefixes("van", name_one, name_two)
+                name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "van")
+            else:
+                name_one, name_two = _remove_unnecessary_prefixes(prefix, name_one, name_two)
 
     # Combine words that are one word in the other name
     while True:
@@ -183,10 +183,6 @@ def clean_names_by_comparison(name_one:str, name_two:str) -> tuple[str, str]:
     name_two = re.sub(r'\s+', ' ', name_two)
     name_one = name_one.strip()
     name_two = name_two.strip()
-    if not name_one:
-        name_one = '_'
-    if not name_two:
-        name_two = '_'
 
     # Return the cleaned names
     return name_one, name_two
@@ -455,11 +451,6 @@ def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str]:
     Returns:
         tuple[str, str]: the modified names
     """        
-    # Skip non applicable names
-    if (' o ' not in name_one) and (" o" not in name_one) and (" o" not in name_two) and (' o ' not in name_two):
-        return name_one, name_two
-    if (surname not in name_one) and (surname not in name_two):
-        return name_one, name_two
     # Edit the names
     surname_one = name_one.split()[-1]
     if fuzz.ratio(surname_one, surname) > 75:
@@ -476,22 +467,19 @@ def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str]:
     return name_one, name_two
 
 
-def _remove_unnecessary_prefixes(name_one:str, name_two:str, prefix:str) -> tuple[str,str]:
-    """Removes an unnecessary prefix from either or both of the names.
+def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = "_") -> tuple[str,str]:
+    """Removes an unnecessary prefix from either or both of the names if
+    it would make it harder to detect a name match.
 
     Args:
+        prefix (str): the prefix to (probably) remove
         name_one (str): a name
         name_two (str): a name
-        prefix (str): the prefix to (probably) remove
 
     Returns:
         tuple[str,str]: the modified names
     """        
     # If the prefix is not in either names, return the names
-    name_one = re.sub(r"\s+", " ", name_one)
-    name_one = name_one.strip()
-    name_two = re.sub(r"\s+", " ", name_two)
-    name_two = name_two.strip()
     if (f" {prefix}" not in name_one) and (f" {prefix}" not in name_two):
         return name_one, name_two
     
