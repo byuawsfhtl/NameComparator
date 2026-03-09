@@ -516,26 +516,15 @@ def _remove_unnecessary_prefixes(name_one:str, name_two:str, prefix:str) -> tupl
     name_two_edited = name_two_edited.replace(space_then_prefix_then_space, " ")
     name_one_edited = re.sub(r"\s+", " ", name_one_edited)
     name_two_edited = re.sub(r"\s+", " ", name_two_edited)
+    no_edits_made = (name_one == name_one_edited) and (name_two == name_two_edited) 
 
     # If no edits were made, try removing space_then_prefix if only in name_one and it's a long word
-    pattern = r'\b{}\w*\b'.format(space_then_prefix)
-    no_edits_made = (name_one == name_one_edited) and (name_two == name_two_edited) 
-    space_then_prefix_only_in_name_one = (space_then_prefix in name_one) and (space_then_prefix not in name_two) 
-    match_in_name_one = re.search(pattern, name_one)
-    if (no_edits_made) and (space_then_prefix_only_in_name_one) and (match_in_name_one is not None):
-        matched_word = match_in_name_one.group()
-        if len(matched_word) > len(prefix) + 4:
-            name_one_edited = name_one.replace(space_then_prefix, " ")
+    if no_edits_made:
+        name_one, no_edits_made = _remove_space_then_prefix_from_unedited_name(prefix, space_then_prefix, name_one, name_two)
 
     # If no edits were made, try removing space_then_prefix if only in name_two and it's a long word
-    pattern = r'\b{}\w*\b'.format(space_then_prefix)
-    no_edits_made = (name_one == name_one_edited) and (name_two == name_two_edited) 
-    space_then_prefix_only_in_name_two = (space_then_prefix in name_two) and (space_then_prefix not in name_one)
-    match_in_name_two = re.search(pattern, name_two)
-    if (no_edits_made) and (space_then_prefix_only_in_name_two) and (match_in_name_two is not None):
-        matched_word = match_in_name_two.group()
-        if len(matched_word) > len(prefix) + 4:
-            name_two_edited = name_two.replace(space_then_prefix, " ")
+    if no_edits_made:
+        name_two, no_edits_made = _remove_space_then_prefix_from_unedited_name(prefix, space_then_prefix, name_two, name_one)
 
     # Safety
     if not name_one_edited:
@@ -557,6 +546,37 @@ def _remove_unnecessary_prefixes(name_one:str, name_two:str, prefix:str) -> tupl
             ne.update_name_two(index_two, word_two[len(prefix):])
     name_one, name_two = ne.get_modified_names()
     return name_one, name_two
+
+def _remove_space_then_prefix_from_unedited_name(prefix, space_then_prefix, name_to_possibly_change: str, other_name: str) -> tuple[str, bool]:
+    """This is a helper function for _remove_unnecessary_prefixes that is intended to remove
+    the " prefix" pattern from words that may or may not have it, if the same pattern is not
+    present in a second word. The utility of this is to create parity between different name
+    parts so they can be accurately compared later.
+    
+    Args:
+        prefix: The possible prefix that needs to be removed
+        space_then_prefix: A string containing a space before the prefix, used for boolean
+            comparisons and regex matching
+        name_to_possibly_change: The name to check for needed changes
+        other_name: The name to compare the target name to, to check for needed changes 
+        
+    Returns:
+        This returns a tuple containing the end result of the name changes if there were any,
+        or the unchanged name, and a boolean variable indicating if any changes were made to
+        name_to_possibly_change during this function call
+    """
+
+    edit_happened = False
+    pattern = r'\b{}\w*\b'.format(space_then_prefix)
+    space_then_prefix_only_in_name_to_change = (space_then_prefix in name_to_possibly_change) and (space_then_prefix not in other_name)
+    match_in_name_to_change = re.search(pattern, name_to_possibly_change)
+    if (space_then_prefix_only_in_name_to_change) and (match_in_name_to_change is not None):
+        matched_word = match_in_name_to_change.group()
+        if len(matched_word) > len(prefix) + 4:
+            name_to_possibly_change = name_to_possibly_change.replace(space_then_prefix, " ")
+            edit_happened = True
+    
+    return name_to_possibly_change, edit_happened
 
 def _combine_prefix_with_surname_if_in_both(name_one:str, name_two:str, prefix:str) -> tuple[str, str]:
     """Combines the prefix with the surname in both of the names if the prefix exists in both.
