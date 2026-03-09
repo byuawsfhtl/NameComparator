@@ -141,6 +141,42 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
             if (surname in name_one) or (surname in name_two):
                 name_one, name_two = _remove_irish_o(name_one, name_two, surname)
 
+    # Figure out what needs to be done with prefixes in the names and make needed changes
+    name_one, name_two = _handle_prefixes_in_names(name_one, name_two)
+
+    # Combine words that are one word in the other name
+    while True:
+        combined, name_one, name_two = _combine_split_words(name_one, name_two)
+        if not combined:
+            break
+    while True:
+        combined, name_two, name_one = _combine_split_words(name_two, name_one)
+        if not combined:
+            break
+
+    # Remove extra spaces
+    name_one = re.sub(r'\s+', ' ', name_one)
+    name_two = re.sub(r'\s+', ' ', name_two)
+    name_one = name_one.strip()
+    name_two = name_two.strip()
+
+    # Return the cleaned names
+    return name_one, name_two
+
+def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str]:
+    """This is a helper function for clean_names_by_comparison that helps manage its
+    cyclomatic complexity. It takes in two names that are going to be compared later
+    on and figures out what needs to be done with prefixes that might be on them to
+    ensure that later standardization goes smoothly.
+    
+    Args:
+        name_one: The first name to run prefix checks and handling on
+        name_two: The second name to run prefix checks and handling on
+        
+    Returns:
+        A tuple containing the input names, with prefixes modified in a way that lets
+        them be standardized later on"""
+    
     # Create a list of prefixes to check
     possible_prefixes = [
         "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
@@ -168,23 +204,6 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
             else:
                 name_one, name_two = _remove_unnecessary_prefixes(prefix, name_one, name_two)
 
-    # Combine words that are one word in the other name
-    while True:
-        combined, name_one, name_two = _combine_split_words(name_one, name_two)
-        if not combined:
-            break
-    while True:
-        combined, name_two, name_one = _combine_split_words(name_two, name_one)
-        if not combined:
-            break
-
-    # Remove extra spaces
-    name_one = re.sub(r'\s+', ' ', name_one)
-    name_two = re.sub(r'\s+', ' ', name_two)
-    name_one = name_one.strip()
-    name_two = name_two.strip()
-
-    # Return the cleaned names
     return name_one, name_two
 
 def _deal_with_dashes(name_one:str, name_two:str) -> tuple[str, str]:
