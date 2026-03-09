@@ -1,7 +1,9 @@
-__pycache__/
+**/__pycache__/
 .vscode/
 .DS_Store
 **/.DS_Store
 NameComparator/Test Files
 NameComparator/test/
 NameComparator.egg-info/
+.mypy_cache
+.venv

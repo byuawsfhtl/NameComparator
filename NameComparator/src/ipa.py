@@ -4,7 +4,7 @@ from unidecode import unidecode
 import NameComparator.data.pronunciation.ipaAllNames as ipaAllNames
 import NameComparator.data.pronunciation.ipaCommonWordParts as ipaCommonWordParts
 
-def getIpa(name:str) -> str:
+def get_ipa(name:str) -> str:
     """Gets the pronunciation of the name.
 
     Args:
@@ -13,14 +13,14 @@ def getIpa(name:str) -> str:
     Returns:
         str: the ipa of the name
     """        
-    pList = []
+    pronunciation_list = []
     for word in name.split():
-        pList.append(_getIpaOfOneWord(word))
-    pronunciationOfName = " ".join(pList)
-    return pronunciationOfName
+        pronunciation_list.append(_get_ipa_of_one_word(word))
+    pronunciation_of_name = " ".join(pronunciation_list)
+    return pronunciation_of_name
 
 @lru_cache(maxsize=1_000)
-def _getIpaOfOneWord(word:str) -> str:
+def _get_ipa_of_one_word(word:str) -> str:
     """Gets the pronunciation of one word.
 
     Args:
@@ -33,8 +33,8 @@ def _getIpaOfOneWord(word:str) -> str:
     word = word.strip()
     word = unidecode(word)
     word = word.lower()
-    pronunciationList = [""] * len(word)
-    def substringSplitsTh(substring:str, word:str, i:int, j:int) -> bool:
+    pronunciation_list = [""] * len(word)
+    def substring_splits_th_sound(substring:str, word:str, i:int, j:int) -> bool:
         """Helps to identify poor substring choices for words for ipa.
 
         Args:
@@ -55,62 +55,62 @@ def _getIpaOfOneWord(word:str) -> str:
         return False
 
     # Tries to get the ipa from the plain word
-    firstAttempt, success = _wordPronunciationHailMary(word)
+    first_attempt, success = _word_pronunciation_ipa_guess(word)
     if success:
-        return firstAttempt
+        return first_attempt
 
     # While there are still letters in the word
-    substringAdded = True
-    while substringAdded:
+    substring_added = True
+    while substring_added:
         # Initialize variables to store the largest matching substring and its length
-        substringAdded = False
-        largestSubstring = ""
-        pronunciationOfLargestSubstring = ""
-        largestSubstringLen = 0
-        beginningIndexOfSubstring = 0
-        endIndexOfSubstring = 0
+        substring_added = False
+        largest_substring = ""
+        pronunciation_of_largest_substring = ""
+        largest_substring_length = 0
+        beginning_index_of_substring = 0
+        end_index_of_substring = 0
 
         # Iterate over every possible substring
         for i in range(len(word)):
             for j in range(i + 1, len(word) + 1):
                 substring = word[i:j]
 
-                if len(substring) <= largestSubstringLen:
+                if len(substring) <= largest_substring_length:
                     continue
                 if " " in substring:
                     continue
                 if len(substring) > 1:
-                    substringIpa, success = _stringPronuncationHailMary(substring)
-                    if (not success) or (len(substringIpa) >= len(substring) * 2) or (substringSplitsTh(substring, word, i, j)):
+                    ipa_substring, success = _string_pronuncation_ipa_guess(substring)
+                    if (not success) or (len(ipa_substring) >= len(substring) * 2) or (substring_splits_th_sound(substring, word, i, j)):
                         continue
                     else:
-                        pronunciationOfLargestSubstring = substringIpa
+                        pronunciation_of_largest_substring = ipa_substring
                 elif len(substring) == 1:
-                    letterToPronunciation = {
+                    letter_to_pronunciation = {
                         "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
                         "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
                         "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
                     }
-                    pronunciationOfLargestSubstring = letterToPronunciation.get(substring, largestSubstring)
+                    pronunciation_of_largest_substring = letter_to_pronunciation.get(substring, largest_substring)
 
-                largestSubstring = substring
-                substringAdded = True
-                largestSubstringLen = len(substring)
-                beginningIndexOfSubstring = i
-                endIndexOfSubstring = j
+                largest_substring = substring
+                substring_added = True
+                largest_substring_length = len(substring)
+                beginning_index_of_substring = i
+                end_index_of_substring = j
 
         # Adds the substring to the list
-        if substringAdded:
-            pronunciationList[beginningIndexOfSubstring] = pronunciationOfLargestSubstring
-        spaces = " " * largestSubstringLen
+        if substring_added:
+            pronunciation_list[beginning_index_of_substring] = pronunciation_of_largest_substring
+        spaces = " " * largest_substring_length
         word = word.rstrip()
-        word = word[:beginningIndexOfSubstring] + spaces + word[endIndexOfSubstring:]
+        word = word[:beginning_index_of_substring] + spaces + word[end_index_of_substring:]
 
     # Concatenates the list together at the end to get the pronunciation
-    pronunciation = "".join(pronunciationList)
+    pronunciation = "".join(pronunciation_list)
     return pronunciation
 
-def _wordPronunciationHailMary(word:str) -> tuple[str, bool]:
+def _word_pronunciation_ipa_guess(word:str) -> tuple[str, bool]:
     """Tries to get the pronunciation from the predefined ipa dictionary.
 
     Args:
@@ -119,13 +119,13 @@ def _wordPronunciationHailMary(word:str) -> tuple[str, bool]:
     Returns:
         tuple[str, bool]: the ipa of the word (or the original word if not found), and whether it was found.
     """        
-    wordPronuncation = ipaAllNames.data.get(word)
-    if wordPronuncation != None:
-        return wordPronuncation, True
+    word_pronunciation = ipaAllNames.data.get(word)
+    if word_pronunciation != None:
+        return word_pronunciation, True
     return word, False
 
-def _stringPronuncationHailMary(string:str) -> tuple[str, bool]:
-    """Helper function of _getIpaOfOneWord.
+def _string_pronuncation_ipa_guess(string:str) -> tuple[str, bool]:
+    """Helper function of _get_ipa_of_one_word.
     Tries to get the ipa of a string (with more than one letter).
 
     Args:
@@ -134,7 +134,7 @@ def _stringPronuncationHailMary(string:str) -> tuple[str, bool]:
     Returns:
         tuple[str, bool]: the ipa of the string (or the original string if not found), and whether it was found.
     """        
-    ipaPronunciation = ipaCommonWordParts.data.get(string)
-    if ipaPronunciation != None:
-        return ipaPronunciation, True
+    ipa_pronunciation = ipaCommonWordParts.data.get(string)
+    if ipa_pronunciation != None:
+        return ipa_pronunciation, True
     return string, False
