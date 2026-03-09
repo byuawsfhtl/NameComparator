@@ -32,20 +32,8 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
             scores[i, j] = -1e9 
             if (word_one is None) or (word_two is None):
                 continue
-            # Assign the score this way if either is initial
-            if (len(word_one) == 1) or (len(word_two) == 1):
-                if (word_one[0] == word_two[0]):
-                    score = 100
-                else:
-                    score = 0
-            # For words longer than 2, either use ratio or partial ratio for score as shown below.
-            else:
-                ratio = fuzz.ratio(word_one, word_two)
-                if (word_one[0] == word_two[0]):
-                    partial_ratio_score = fuzz.partial_ratio(word_one, word_two)
-                    score = max(ratio, partial_ratio_score)
-                else:
-                    score = ratio
+            # Determine the score of the word pairing
+            score = _determine_score_of_word_matchup(word_one, word_two)
             # Add the score
             scores[i, j] = score
     
@@ -53,6 +41,38 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
     words_in_name_one = [str(i) if word is not None else None for i, word in enumerate(words_in_name_one)]
     words_in_name_two = [str(i) if word is not None else None for i, word in enumerate(words_in_name_two)]
     return identify_best_matches(scores=scores, list_one=words_in_name_one, list_two=words_in_name_two)
+
+def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
+    """This is a helper function for find_word_matches_and_quality to fix its
+    nesting depth. What it does is it takes in a word and an integer
+    representation of a list position for two different words. Then it
+    determines how closely the words match each other and assigns them a
+    score according to that.
+    
+    Args:
+        word_one: The first word used in the comparison and scoring
+        word_two: The second word used in the comparison and scoring
+    
+    Returns:
+        An integer representing the score to be added to the word pairing
+    """
+
+    # Assign the score this way if either is initial
+    if (len(word_one) == 1) or (len(word_two) == 1):
+        if (word_one[0] == word_two[0]):
+            score = 100
+        else:
+            score = 0
+    # For words longer than 2, either use ratio or partial ratio for score as shown below.
+    else:
+        ratio = fuzz.ratio(word_one, word_two)
+        if (word_one[0] == word_two[0]):
+            partial_ratio_score = fuzz.partial_ratio(word_one, word_two)
+            score = max(ratio, partial_ratio_score)
+        else:
+            score = ratio
+
+    return score
 
 def identify_best_matches(scores:np.ndarray, list_one:list[str|None], list_two:list[str|None]) -> list[tuple[str, str, int]]:
         """Uses the Hungarian algorithm to find the optimal assignments.
