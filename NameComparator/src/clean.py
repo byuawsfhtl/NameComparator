@@ -514,18 +514,29 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     if no_edits_made:
         name_two, no_edits_made = _remove_space_then_prefix_from_unedited_name(prefix, space_then_prefix, name_two, name_one)
 
-    # Safety
-    if not name_one_edited:
-        name_one_edited = '_'
-    if not name_two_edited:
-        name_two_edited = '_'
-
     # If the edits were significantly beneficial (or pass spell), return the edited versions
     improvement, _, _= usefulTools.calculate_edit_improvement(name_one, name_two, name_one_edited, name_two_edited)
     if (improvement >= 10) or comparisonsMod.compare_spelling(name_one_edited, name_two_edited)[0]:
         return name_one_edited, name_two_edited
     
-    # Finally, if the words are identical other than the prefix, remove the prefix
+    # Finally, if the names are identical other than the prefix, remove the prefix
+    name_one, name_two = _remove_prefix_if_prefix_is_only_difference_in_names(prefix, name_one, name_two)
+    return name_one, name_two
+
+def _remove_prefix_if_prefix_is_only_difference_in_names(prefix, name_one, name_two):
+    """This is a helper function for _remove_unnecessary_prefixes that is intended to help
+    resolve its cyclomatic complexity. This function will remove a prefix from two names 
+    that are identical outside of the prefix.
+    
+    Args:
+        prefix: The prefix to check to see if it is the only difference
+        name_one: The first name to compare and possibly remove a prefix from
+        name_two: The second name to compare and possibly remove a prefix from
+        
+    Returns:
+        A tuple containing two names, modified to remove the prefix if they are identical, 
+        or the names as input if they aren't identical outside of the prefix"""
+    
     ne = usefulTools.NameEditor(name_one, name_two)
     for index_one, index_two, word_one, word_two in usefulTools.get_matching_words_and_indices(name_one, name_two):
         if (word_one.startswith(prefix)) and (word_one[len(prefix):] == word_two) and (len(word_two) > 2):
@@ -533,9 +544,8 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
         elif (word_two.startswith(prefix)) and (word_two[len(prefix):] == word_one) and (len(word_one) > 2):
             ne.update_name_two(index_two, word_two[len(prefix):])
     name_one, name_two = ne.get_modified_names()
-    return name_one, name_two
 
-def _remove_space_then_prefix_from_unedited_name(prefix, space_then_prefix, name_to_possibly_change: str, other_name: str) -> tuple[str, bool]:
+def _remove_space_then_prefix_from_unedited_name(prefix: str, space_then_prefix: str, name_to_possibly_change: str, other_name: str) -> tuple[str, bool]:
     """This is a helper function for _remove_unnecessary_prefixes that is intended to remove
     the " prefix" pattern from words that may or may not have it, if the same pattern is not
     present in a second word. The utility of this is to create parity between different name
