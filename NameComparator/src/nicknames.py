@@ -25,7 +25,7 @@ def remove_nicknames(name_one:str, name_two:str) -> tuple[str, str]:
 
     return name_one, name_two
 
-def _remove_based_on_id_information(set_of_ids, word_one, name_one, words_in_name_one, words_in_name_two):
+def _remove_based_on_id_information(set_of_ids: set[int], word_one: str, name_one: str, words_in_name_one: list[str], words_in_name_two: list[str]) -> str:
     """This is a helper function for remove_nicknames that fixes it's nesting depth
     for the python standard checks. Tbh, I'm not entirely sure what this is doing but
     if you were to cut the code from this and paste it over the call to it inside of
