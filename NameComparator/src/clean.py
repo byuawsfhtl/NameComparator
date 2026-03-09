@@ -542,7 +542,7 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     name_one, name_two = _remove_prefix_if_prefix_is_only_difference_in_names(prefix, name_one, name_two)
     return name_one, name_two
 
-def _remove_prefix_if_prefix_is_only_difference_in_names(prefix, name_one, name_two):
+def _remove_prefix_if_prefix_is_only_difference_in_names(prefix: str, name_one: str, name_two: str) -> tuple[str, str]:
     """This is a helper function for _remove_unnecessary_prefixes that is intended to help
     resolve its cyclomatic complexity. This function will remove a prefix from two names 
     that are identical outside of the prefix.
