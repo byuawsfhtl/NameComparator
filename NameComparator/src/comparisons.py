@@ -104,21 +104,8 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
     scores = np.zeros((len(words_from_ipa_one), len(words_from_ipa_two)))
 
     # Score each matchup
-    word_combo = usefulToolsMod.find_word_matches_and_quality(name_one, name_two)
-    for index_one, word_one in enumerate(words_from_ipa_one):
-        for index_two, word_two in enumerate(words_from_ipa_two):
-            # Assign a default very low score for dummy pairings
-            scores[index_one, index_two] = -1e9 
-            if (word_one is None) or (word_two is None):
-                continue
-            # Reassign the default score to all real pairings
-            score = fuzz.ratio(word_one, word_two)
-            for item in range(len(word_combo)):
-                word_combo_index_one, word_combo_index_two, initial_score = word_combo[item]
-                # Use initial score for initials (bad pun)
-                if index_one == int(word_combo_index_one) and index_two == int(word_combo_index_two) and (initial_score == 100 or initial_score == 0):
-                    score = initial_score
-            scores[index_one, index_two] = score
+    word_combo_for_scores = usefulToolsMod.find_word_matches_and_quality(name_one, name_two)
+    _matchup_scores(word_combo_for_scores, scores, words_from_ipa_one, words_from_ipa_two)
 
     # Identify the best matchups
     words_from_ipa_one = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_one)]
@@ -136,3 +123,49 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
         if lowest_score > 75:
             return True, word_combo
         return False, word_combo
+
+def _matchup_scores(word_combo_for_scores: list, scores: np.ndarray, words_from_ipa_one: list, words_from_ipa_two: list) -> None:
+    """Finds the score for the quality of each matchup of words that are potential matches, in terms of ipa
+    pronunciations. It then updates a list of scores to reflect this for later processing in the
+    pronunciation_comparison function.
+    
+    Args:
+        word_combo_for_scores: A list of word combinations that need to be scored
+        scores: A list of scores for all of the different word combinations
+        words_from_ipa_one: A list of words that could match the ipa pronuncation of the first checked word
+        words_from_ipa_two: A list of words that could match the ipa pronuncation of the second checked word
+    """
+    for index_one, word_one in enumerate(words_from_ipa_one):
+        for index_two, word_two in enumerate(words_from_ipa_two):
+            # Assign a default very low score for dummy pairings
+            scores[index_one, index_two] = -1e9 
+            if (word_one is None) or (word_two is None):
+                continue
+            # Reassign the default score to all real pairings
+            score = _score_word_combos_helper(word_one, word_two, index_one, index_two, word_combo_for_scores)
+            scores[index_one, index_two] = score
+
+def _score_word_combos_helper(word_one: str, word_two: str, index_one: int, index_two: int, word_combo_for_scores: list) -> int:
+    """This function is a helper function to reduce the nesting depth of _matchup_scores.
+    What it does is it compares all of the scores for a word combo and then finds a score
+    that is going to be more accurate for them, as opposed to a default score.
+    
+    Args:
+        word_one: The first word that needs a scoring comparison
+        word_two: The second word, that needs to be compared to the first word for a score
+        index_one: The index of the first word
+        index_two: The index of the second word
+        word_combo_for_scores: A list of word combinations that need to be scored
+
+    Returns:
+        An int representing the score that should be set for a particular word combo
+    """
+
+    score = fuzz.ratio(word_one, word_two)
+    for item in range(len(word_combo_for_scores)):
+        word_combo_for_scores_index_one, word_combo_for_scores_index_two, initial_score = word_combo_for_scores[item]
+        # Use initial score for initials (bad pun)
+        if index_one == int(word_combo_for_scores_index_one) and index_two == int(word_combo_for_scores_index_two) and (initial_score == 100 or initial_score == 0):
+            score = initial_score
+
+    return score

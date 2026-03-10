@@ -233,34 +233,8 @@ def _replace_substring_centers_if_names_are_similar(name_one:str, name_two:str, 
         word_one = f"-{word_one}-"
         word_two = f"-{word_two}-"
 
-        for substring_beginning in possible_substring_beginnings:
-            if substring_beginning not in word_one or substring_beginning not in word_two:
-                continue
-
-            for substring_ending in possible_substring_endings:
-                if substring_ending not in word_one or substring_ending not in word_two:
-                    continue
-
-                # Skip the bread if the pattern is not found in both, if the middles (meats) are the same, or if the patterns are too far appart
-                pattern = f"{substring_beginning}({middle_substring_option_one}|{middle_substring_option_two}){substring_ending}"
-                result_list_one = re.search(pattern, word_one)
-                result_list_two = re.search(pattern, word_two)
-                if not result_list_one or not result_list_two:
-                    continue
-                if result_list_one.group(0) == result_list_two.group(0):
-                    continue
-                start_index_of_list_one_span, end_index_of_list_one_span = result_list_one.span()
-                start_index_of_list_two_span, end_index_of_list_two_span = result_list_two.span()
-                if not (abs(start_index_of_list_one_span - start_index_of_list_two_span) <= 2 and abs(end_index_of_list_one_span - end_index_of_list_two_span) <= 2):
-                    continue
-
-                # Update the words by replacing matching (different) middles with the meat option 2
-                start_index_string_one, end_index_string_one = result_list_one.span()
-                start_index_string_two, end_index_string_two = result_list_two.span()
-                middle_coordinate_string_one = start_index_string_one + len(substring_beginning), end_index_string_one - len(substring_ending)
-                middle_coordinate_string_two = start_index_string_two + len(substring_beginning), end_index_string_two - len(substring_ending)
-                word_one = _overwrite_with_substring(word_one, middle_substring_option_two, middle_coordinate_string_one[0], middle_coordinate_string_one[1])
-                word_two = _overwrite_with_substring(word_two, middle_substring_option_two, middle_coordinate_string_two[0], middle_coordinate_string_two[1])
+        # Check words for substring matches and make appropriate replacements and edits
+        word_one, word_two = _handle_substring_replacements_and_checks(word_one, word_two, possible_substring_beginnings, middle_substring_option_one, middle_substring_option_two, possible_substring_endings)
 
         # Update the words for that match (though a change may not have occured)
         word_one = word_one.replace("-", "")
@@ -271,6 +245,55 @@ def _replace_substring_centers_if_names_are_similar(name_one:str, name_two:str, 
     # concatonates the two lists together back into strings
     name_one, name_two = ne.get_modified_names()
     return name_one, name_two
+
+def _handle_substring_replacements_and_checks(word_one: str, word_two: str, possible_substring_beginnings: list[str], middle_substring_option_one: str, middle_substring_option_two: str, possible_substring_endings: list[str]) -> tuple[str, str]:
+    """This is a helper function for _replace_substring_centers_if_names_are_similar
+    that helps with its cyclomatic complexity. It's actual function is to see if
+    substring patterns exist within word_one or word_two and then replace them to
+    be the same if they are close enough to what's in *both* word_one and word_two.
+    
+    Args:
+        word_one: The first word or name to look for substring matches in
+        word_two: The second word or name to look for substring matches in
+        possible_substring_beginnings: A list of all possible beginnings to a substring
+        middle_substring_option_one: the first possible middle of the substring
+        middle_substring_option_two: the second possible middle of the substring
+        possible_substring_endings: A list of all possible endings to a substring
+        
+    Returns:
+        A tuple containing the modified versions of word_one and word_two if any
+        changes were made, or just word_one and word_two if none were made"""
+    
+    for substring_beginning in possible_substring_beginnings:
+        if substring_beginning not in word_one or substring_beginning not in word_two:
+            continue
+
+        for substring_ending in possible_substring_endings:
+            if substring_ending not in word_one or substring_ending not in word_two:
+                continue
+
+            # Skip the bread if the pattern is not found in both, if the middles (meats) are the same, or if the patterns are too far appart
+            pattern = f"{substring_beginning}({middle_substring_option_one}|{middle_substring_option_two}){substring_ending}"
+            result_list_one = re.search(pattern, word_one)
+            result_list_two = re.search(pattern, word_two)
+            if not result_list_one or not result_list_two:
+                continue
+            if result_list_one.group(0) == result_list_two.group(0):
+                continue
+            start_index_of_list_one_span, end_index_of_list_one_span = result_list_one.span()
+            start_index_of_list_two_span, end_index_of_list_two_span = result_list_two.span()
+            if not (abs(start_index_of_list_one_span - start_index_of_list_two_span) <= 2 and abs(end_index_of_list_one_span - end_index_of_list_two_span) <= 2):
+                continue
+
+            # Update the words by replacing matching (different) middles with the meat option 2
+            start_index_string_one, end_index_string_one = result_list_one.span()
+            start_index_string_two, end_index_string_two = result_list_two.span()
+            middle_coordinate_string_one = start_index_string_one + len(substring_beginning), end_index_string_one - len(substring_ending)
+            middle_coordinate_string_two = start_index_string_two + len(substring_beginning), end_index_string_two - len(substring_ending)
+            word_one = _overwrite_with_substring(word_one, middle_substring_option_two, middle_coordinate_string_one[0], middle_coordinate_string_one[1])
+            word_two = _overwrite_with_substring(word_two, middle_substring_option_two, middle_coordinate_string_two[0], middle_coordinate_string_two[1])
+
+    return word_one, word_two
 
 def _overwrite_with_substring(string:str, replacement:str, start_index:int, end_index:int) -> str:
     """Overwrites a specific index range of a string with the replacement string.

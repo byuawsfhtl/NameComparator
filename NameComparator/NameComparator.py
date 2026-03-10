@@ -63,12 +63,12 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     """        
     # Deal with optional arg
     if frequency_data is None:
-        frequency_data = frequency_data(usa_to_1950_first_names, usa_to_1950_surnames)
+        frequency_data = FrequencyData(usa_to_1950_first_names, usa_to_1950_surnames)
 
     # Data validation
     if not isinstance(name_one, str) or not isinstance(name_two, str):
         raise TypeError(f'name_one was {type(name_one)}. Must be str. name_two was {type(name_two)}. Must be str.')
-    if not isinstance(frequency_data, frequency_data):
+    if not isinstance(frequency_data, FrequencyData):
         raise TypeError(f'frequency_data was {type(frequency_data)}. Must be frequency_data.')
 
     # Create the return object to edit later
