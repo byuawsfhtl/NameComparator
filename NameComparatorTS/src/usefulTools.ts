@@ -11,24 +11,24 @@ import { hungarianAlgorithm } from './hungarian';
  */
 export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [string, string, number][] {
 
-        let wordsInA : string[] = nameOne.split(/\s+/);
-        let wordsInB : string[] = nameTwo.split(/\s+/);
-        if (wordsInA.length !== wordsInB.length) {
-            if (wordsInA.length < wordsInB.length) {
-              wordsInA = wordsInA.concat(new Array(wordsInB.length - wordsInA.length).fill(""));
+        let wordsInNameOne : string[] = nameOne.split(/\s+/);
+        let wordsInNameTwo : string[] = nameTwo.split(/\s+/);
+        if (wordsInNameOne.length !== wordsInNameTwo.length) {
+            if (wordsInNameOne.length < wordsInNameTwo.length) {
+              wordsInNameOne = wordsInNameOne.concat(new Array(wordsInNameTwo.length - wordsInNameOne.length).fill(""));
             } else {
-              wordsInB = wordsInB.concat(new Array(wordsInA.length - wordsInB.length).fill(""));
+              wordsInNameTwo = wordsInNameTwo.concat(new Array(wordsInNameOne.length - wordsInNameTwo.length).fill(""));
             }
         }
 
-        let scores: number[][] = Array.from({ length: wordsInA.length }, () =>
-            new Array(wordsInB.length).fill(0)
+        let scores: number[][] = Array.from({ length: wordsInNameOne.length }, () =>
+            new Array(wordsInNameTwo.length).fill(0)
         );
 
-        for (let i = 0; i < wordsInA.length; i++) {
-            const wordOne = wordsInA[i];
-            for (let j = 0; j < wordsInB.length; j++) {
-                const wordTwo = wordsInB[j];
+        for (let i = 0; i < wordsInNameOne.length; i++) {
+            const wordOne = wordsInNameOne[i];
+            for (let j = 0; j < wordsInNameTwo.length; j++) {
+                const wordTwo = wordsInNameTwo[j];
                 
                 scores[i][j] = -1e9
                 if (wordOne == null || wordTwo == null) {
@@ -51,8 +51,8 @@ export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [str
                 scores[i][j] = score;
             }
         }  
-        const indexedA = wordsInA.map((word, i) => (word !== '' ? String(i) : ''));
-        const indexedB = wordsInB.map((word, i) => (word !== '' ? String(i) : ''));        
+        const indexedA = wordsInNameOne.map((word, i) => (word !== '' ? String(i) : ''));
+        const indexedB = wordsInNameTwo.map((word, i) => (word !== '' ? String(i) : ''));        
         return identifyBestMatchups(scores, indexedA, indexedB);
 }
 
@@ -120,16 +120,16 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
  */
 export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): [number, number, string, string][] {
     let combo = findWordMatchesAndQuality(nameOne, nameTwo);
-    let wordsInA = nameOne.split(/\s+/);
-    let wordsInB = nameTwo.split(/\s+/);
+    let wordsInNameOne = nameOne.split(/\s+/);
+    let wordsInNameTwo = nameTwo.split(/\s+/);
     let matchIndices : [number, number][] = combo.map(
         ([a, b]) => [parseInt(a), parseInt(b)]
     );
     const matchIndicesWithWords = matchIndices.map(([i, j]) => [
         i,
         j,
-        wordsInA[i],
-        wordsInB[j]
+        wordsInNameOne[i],
+        wordsInNameTwo[j]
     ] as [number, number, string, string]);
     
     return matchIndicesWithWords
@@ -139,8 +139,8 @@ export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): 
  * A class a-used for ease of editing specific words in names.
  */
 export class NameEditor {
-    private wordsInA : string[];
-    private wordsInB : string[];
+    private wordsInNameOne : string[];
+    private wordsInNameTwo : string[];
 
     /**
      * Splits the words for later editing
@@ -149,8 +149,8 @@ export class NameEditor {
      * @param nameTwo (string) - a name
      */
     constructor(nameOne : string, nameTwo : string){
-        this.wordsInA = nameOne.split(' ');
-        this.wordsInB = nameTwo.split(' ');
+        this.wordsInNameOne = nameOne.split(' ');
+        this.wordsInNameTwo = nameTwo.split(' ');
     }
 
     /**
@@ -160,7 +160,7 @@ export class NameEditor {
      * @param updatedWord (string) - the rplacement string
      */
     public updateNameOne(index : number, updatedWord : string) {
-        this.wordsInA[index] = updatedWord;
+        this.wordsInNameOne[index] = updatedWord;
     }
 
     /**
@@ -170,7 +170,7 @@ export class NameEditor {
      * @param updatedWord (string) - the rplacement string
      */
     public updateNameTwo(index : number, updatedWord : string) {
-        this.wordsInB[index] = updatedWord;
+        this.wordsInNameTwo[index] = updatedWord;
     }
 
     /**
@@ -179,8 +179,8 @@ export class NameEditor {
      * @returns [string, string] - the modified names
      */
     public getModifiedNames() : [string, string]{
-        let nameOne = this.wordsInA.join(' ');
-        let nameTwo = this.wordsInB.join(' ');
+        let nameOne = this.wordsInNameOne.join(' ');
+        let nameTwo = this.wordsInNameTwo.join(' ');
         if (!nameOne) {
             nameOne = '_';
         }

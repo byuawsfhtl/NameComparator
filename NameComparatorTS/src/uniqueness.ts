@@ -104,9 +104,9 @@ function _findWordPairUniqueness(wordOne: string, wordTwo: string, frequencyData
  */
 function _getMaxFrequency(word: string, frequencyData: FrequencyData): number {
 
-    const defaultFreq = FrequencyUpperBound.UNSEEN;
-    const wordFirstNameFreq = frequencyData.firstNameFrequencies[word] ?? defaultFreq;
-    const wordSurnameFreq = frequencyData.surnameFrequencies[word] ?? defaultFreq;
-    const wordInitialFreq = word.length === 1 ? 1/26 : defaultFreq;
-    return Math.max(wordFirstNameFreq, wordSurnameFreq, wordInitialFreq);
+    const defaultFrequency = FrequencyUpperBound.UNSEEN;
+    const wordFirstNameFrequency = frequencyData.firstNameFrequencies[word] ?? defaultFrequency;
+    const wordSurnameFrequency = frequencyData.surnameFrequencies[word] ?? defaultFrequency;
+    const wordInitialFrequency = word.length === 1 ? 1/26 : defaultFrequency;
+    return Math.max(wordFirstNameFrequency, wordSurnameFrequency, wordInitialFrequency);
 }

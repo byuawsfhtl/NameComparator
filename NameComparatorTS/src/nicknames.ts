@@ -11,11 +11,11 @@ import rawIdToNicknameSetData from "../data/nicknames/name_variants.json";
 export function removeNicknames(nameOne: string, nameTwo: string): [string, string] {
     const nicknameToIdData: Record<string, number[]> = rawNicknameToIdData;
     const idToNicknameSetData: Record<number, string[]> = rawIdToNicknameSetData;
-    const wordsInA = nameOne.split(/\s+/);
-    const wordsInB = nameTwo.split(/\s+/);
+    const wordsInNameOne = nameOne.split(/\s+/);
+    const wordsInNameTwo = nameTwo.split(/\s+/);
     
-    for (const wordOne of wordsInA) {
-        if (wordsInB.includes(wordOne)) {
+    for (const wordOne of wordsInNameOne) {
+        if (wordsInNameTwo.includes(wordOne)) {
             continue;
         }
         const setOfIds = nicknameToIdData[wordOne.toLowerCase()];
@@ -27,10 +27,10 @@ export function removeNicknames(nameOne: string, nameTwo: string): [string, stri
             const nicknames = [...idToNicknameSetData[id]];
             const filteredNicknames = nicknames.filter(n => n !== wordOne);
             for (const nickname of filteredNicknames) {
-                if (wordsInA.includes(nickname) && wordsInB.includes(nickname)) {
+                if (wordsInNameOne.includes(nickname) && wordsInNameTwo.includes(nickname)) {
                     continue;
                 }
-                if (wordsInB.includes(nickname)) {
+                if (wordsInNameTwo.includes(nickname)) {
                     nameOne = nameOne.replace(new RegExp(`\\b${wordOne}\\b`, 'i'), nickname);
                     breaking = true;
                     break;
