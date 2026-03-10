@@ -1,6 +1,6 @@
 import * as fuzzball from "fuzzball";
 
-import { findWhichWordsMatchAndHowWell, getMatchingWordsAndIndices, NameEditor } from "./usefulTools"
+import { findWordMatchesAndQuality, getMatchingWordsAndIndices, NameEditor } from "./usefulTools"
 import { data as spellingRules } from "../data/rules/rulesSpelling"
 import { data as ipaRules } from "../data/rules/rulesIpa"
 
@@ -63,7 +63,7 @@ function _removeOrInNames(nameOne: string, nameTwo: string): [string, string] {
         if (!rightnameOne) {
             rightnameOne = "_";
         }
-        const rightWordCombo = findWhichWordsMatchAndHowWell(rightnameOne, nameTwo);
+        const rightWordCombo = findWordMatchesAndQuality(rightnameOne, nameTwo);
         const rightAverageScore = rightWordCombo.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / rightWordCombo.length;
         
         // Gets the score for if the word after 'or' is removed
@@ -72,7 +72,7 @@ function _removeOrInNames(nameOne: string, nameTwo: string): [string, string] {
         if (!leftnameOne) {
             leftnameOne = "_";
         }
-        const leftWordCombo = findWhichWordsMatchAndHowWell(leftnameOne, nameTwo);
+        const leftWordCombo = findWordMatchesAndQuality(leftnameOne, nameTwo);
         const leftAverageScore = leftWordCombo.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / leftWordCombo.length;
 
         // Return the higher one
@@ -90,7 +90,7 @@ function _removeOrInNames(nameOne: string, nameTwo: string): [string, string] {
         if (!rightnameTwo) {
             rightnameTwo = "_";
         }
-        const rightWordCombo = findWhichWordsMatchAndHowWell(rightnameTwo, nameOne);
+        const rightWordCombo = findWordMatchesAndQuality(rightnameTwo, nameOne);
         const rightAverageScore = rightWordCombo.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / rightWordCombo.length;
         
         // Gets the score for if the word after 'or' is removed
@@ -98,7 +98,7 @@ function _removeOrInNames(nameOne: string, nameTwo: string): [string, string] {
         if (!leftnameTwo) {
             leftnameTwo = "_";
         }
-        const leftWordCombo = findWhichWordsMatchAndHowWell(leftnameTwo, nameOne);
+        const leftWordCombo = findWordMatchesAndQuality(leftnameTwo, nameOne);
         const leftAverageScore = leftWordCombo.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / leftWordCombo.length;
         
         // Return the higher one
@@ -120,7 +120,7 @@ function _removeOrInNames(nameOne: string, nameTwo: string): [string, string] {
  */
 function _fixVowelMistakes(nameOne: string, nameTwo: string): [string, string] {
     const ne = new NameEditor(nameOne, nameTwo);
-    for (const [indexA, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
+    for (const [indexOne, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         // Continue if either word is less than 5 chars or not same length
         const lenA = wordOne.length;
         const lenB = wordTwo.length;
@@ -152,7 +152,7 @@ function _fixVowelMistakes(nameOne: string, nameTwo: string): [string, string] {
         const charwordTwo = wordTwo[mismatchedIndex];
         const cooresponding = ['ao', 'ea', 'iy'];
         if (cooresponding.includes(`${charwordOne}${charwordTwo}`) || cooresponding.includes(`${charwordTwo}${charwordOne}`)) {
-            ne.updateNameOne(indexA, wordTwo);
+            ne.updateNameOne(indexOne, wordTwo);
         }
     }
     // Return the modified (or not) names
@@ -168,7 +168,7 @@ function _fixVowelMistakes(nameOne: string, nameTwo: string): [string, string] {
  */
 function _fixSwappedChars(nameOne: string, nameTwo: string): [string, string] {
     const ne = new NameEditor(nameOne, nameTwo);
-    for (const [indexA, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
+    for (const [indexOne, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         // Skip if the words are not 5 long, are different length, or not fuzzy 80
         if (wordOne.length !== 5 || wordOne.length !== wordTwo.length || fuzzball.ratio(wordOne, wordTwo) !== 80) {
             continue;
@@ -198,7 +198,7 @@ function _fixSwappedChars(nameOne: string, nameTwo: string): [string, string] {
         }
 
         // This is the scenerio we are looking for. Make the words identical
-        ne.updateNameOne(indexA, wordTwo);
+        ne.updateNameOne(indexOne, wordTwo);
     }
     // Return the modified (or not) names
     return ne.getModifiedNames();
@@ -213,12 +213,12 @@ function _fixSwappedChars(nameOne: string, nameTwo: string): [string, string] {
  */
 function _dealWithWrongFirstChar(nameOne: string, nameTwo: string): [string, string] {
     const ne = new NameEditor(nameOne, nameTwo);
-    for (const [indexA, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
+    for (const [indexOne, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         if (wordOne === wordTwo) {
             continue;
         }
         if (wordOne.slice(1) === wordTwo.slice(1) && wordOne.length > 4 && wordTwo.length > 4) {
-            ne.updateNameOne(indexA, wordTwo);
+            ne.updateNameOne(indexOne, wordTwo);
         }
     }
     return ne.getModifiedNames();
@@ -243,7 +243,7 @@ function _replaceSubstringSandwichMeatIfMatchingBread(nameOne: string, nameTwo: 
     }
 
     const ne = new NameEditor(nameOne, nameTwo);
-    for (let [indexA, indexB, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
+    for (let [indexOne, indexTwo, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         // Skip words that are not long enough for the given rule
         if (wordOne.length < minRequiredLetters || wordTwo.length < minRequiredLetters) {
             continue;
@@ -293,8 +293,8 @@ function _replaceSubstringSandwichMeatIfMatchingBread(nameOne: string, nameTwo: 
         wordOne = wordOne.replace(/-/g, "");
         wordTwo = wordTwo.replace(/-/g, "");
 
-        ne.updateNameOne(indexA, wordOne);
-        ne.updateNameTwo(indexB, wordTwo);
+        ne.updateNameOne(indexOne, wordOne);
+        ne.updateNameTwo(indexTwo, wordTwo);
     }
     
     // concatonates the two lists together back into strings

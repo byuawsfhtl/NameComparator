@@ -103,17 +103,17 @@ export function compareTwoNames(
     return results;
   }
 
-  let ipaOfnameOne = cleanMod.cleanIpa(ipaMod.getIpa(nameOne));
-  let ipaOfnameTwo = cleanMod.cleanIpa(ipaMod.getIpa(nameTwo));
-  [ipaOfnameOne, ipaOfnameTwo] = modifyMod.modifyIpasTogether(ipaOfnameOne, ipaOfnameTwo);
+  let ipaOfNameOne = cleanMod.cleanIpa(ipaMod.getIpa(nameOne));
+  let ipaOfNameTwo = cleanMod.cleanIpa(ipaMod.getIpa(nameTwo));
+  [ipaOfNameOne, ipaOfNameTwo] = modifyMod.modifyIpasTogether(ipaOfNameOne, ipaOfNameTwo);
   
   [match, wordCombo] = comparisonMod.pronunciationComparison(
-    ipaOfnameOne,
-    ipaOfnameTwo,
+    ipaOfNameOne,
+    ipaOfNameTwo,
     nameOne,
     nameTwo
   );
-  results.attempt4 = new Attempt(ipaOfnameOne, ipaOfnameTwo, wordCombo);
+  results.attempt4 = new Attempt(ipaOfNameOne, ipaOfNameTwo, wordCombo);
   if (match) {
     results.match = true;
   }

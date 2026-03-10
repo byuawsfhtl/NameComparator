@@ -9,7 +9,7 @@ import { hungarianAlgorithm } from './hungarian';
  * @returns [string, string, number][]: a list of tuples idenifying the index of the word in the first name,
             the index of the word in the second name, and the score of how well they match
  */
-export function findWhichWordsMatchAndHowWell(nameOne:string, nameTwo:string) : [string, string, number][] {
+export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [string, string, number][] {
 
         let wordsInA : string[] = nameOne.split(/\s+/);
         let wordsInB : string[] = nameTwo.split(/\s+/);
@@ -98,8 +98,8 @@ export function identifyBestMatchups(scores: number[][], listA: string[], listB:
  *          the word combo of the original, the word combo of the edited version
  */
 export function calculateEditImprovement(nameOne : string, nameTwo : string, nameOneEdited :string, nameTwoEdited : string): [number, [string, string, number][], [string, string, number][]] {
-    let ogWordCombo = findWhichWordsMatchAndHowWell(nameOne, nameTwo);
-    let editedWordCombo = findWhichWordsMatchAndHowWell(nameOneEdited, nameTwoEdited);
+    let ogWordCombo = findWordMatchesAndQuality(nameOne, nameTwo);
+    let editedWordCombo = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
     if(!ogWordCombo.length || !editedWordCombo.length) {
         return [0, ogWordCombo, editedWordCombo]
     }
@@ -119,7 +119,7 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
  * @returns [int, int, string, string][] - the list of which words match. Tuples of: the index of word in nameOne, the index of word in nameTwo, in word in nameOne, the word in nameTwo
  */
 export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): [number, number, string, string][] {
-    let combo = findWhichWordsMatchAndHowWell(nameOne, nameTwo);
+    let combo = findWordMatchesAndQuality(nameOne, nameTwo);
     let wordsInA = nameOne.split(/\s+/);
     let wordsInB = nameTwo.split(/\s+/);
     let matchIndices : [number, number][] = combo.map(
