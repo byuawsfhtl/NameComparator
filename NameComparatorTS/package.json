@@ -1,0 +1,26 @@
+{
+  "name": "namecomparator-ts",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fuzzball": "^2.2.2",
+    "mathjs": "^14.4.0",
+    "memoizee": "^0.4.17",
+    "unidecode": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/memoizee": "^0.4.12",
+    "@types/unidecode": "^1.1.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.2"
+  }
+}

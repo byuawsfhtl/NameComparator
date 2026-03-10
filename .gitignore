@@ -7,3 +7,5 @@ NameComparator/test/
 NameComparator.egg-info/
 .mypy_cache
 .venv
+**/node_modules
+**/dist
