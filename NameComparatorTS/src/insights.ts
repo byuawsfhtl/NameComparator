@@ -3,18 +3,18 @@ import { findWhichWordsMatchAndHowWell } from "./usefulTools";
 /**
  * Identifies if a name comparison will always prove false.
  * 
- * @param nameA - a name
- * @param nameB - a name
+ * @param nameOne - a name
+ * @param nameTwo - a name
  * @returns whether the names are worth working on further
  */
-export function isWorthContinuing(nameA: string, nameB: string): boolean {
-    const wordCombo = findWhichWordsMatchAndHowWell(nameA, nameB);
+export function isWorthContinuing(nameOne: string, nameTwo: string): boolean {
+    const wordCombo = findWhichWordsMatchAndHowWell(nameOne, nameTwo);
     let oneLetterMatchFailCount = 0;
     for (const match of wordCombo) {
-        const wordA = nameA[parseInt(match[0])];
-        const wordB = nameB[parseInt(match[1])];
+        const wordOne = nameOne[parseInt(match[0])];
+        const wordTwo = nameTwo[parseInt(match[1])];
         const score = match[2];
-        if (score === 0 && ((wordA.length === 1) || (wordB.length === 1))) {
+        if (score === 0 && ((wordOne.length === 1) || (wordTwo.length === 1))) {
             oneLetterMatchFailCount += 1;
         }
     }
@@ -27,12 +27,12 @@ export function isWorthContinuing(nameA: string, nameB: string): boolean {
 /**
  * Identifies if either of the names is too short.
  * 
- * @param nameA - a name
- * @param nameB - a name
+ * @param nameOne - a name
+ * @param nameTwo - a name
  * @returns whether either was too short
  */
-export function eitherNameTooShort(nameA: string, nameB: string): boolean {
-    const combo = findWhichWordsMatchAndHowWell(nameA, nameB);
+export function eitherNameTooShort(nameOne: string, nameTwo: string): boolean {
+    const combo = findWhichWordsMatchAndHowWell(nameOne, nameTwo);
     const shortestWordCount = combo.length;
     return shortestWordCount < 2;
 }

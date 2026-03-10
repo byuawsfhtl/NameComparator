@@ -5,20 +5,20 @@ import * as math from 'mathjs';
 /**
  * Identifies if two names are a match according to a comparison based soley on spelling.
  * 
- * @param nameA - a name
- * @param nameB - a name
+ * @param nameOne - a name
+ * @param nameTwo - a name
  * 
  * @returns whether the names are a match, and the resulting word combo
  */
-export function spellingComparison(nameA: string, nameB: string): [boolean, any[]] {
-    const wordCombo = findWhichWordsMatchAndHowWell(nameA, nameB);
+export function spellingComparison(nameOne: string, nameTwo: string): [boolean, any[]] {
+    const wordCombo = findWhichWordsMatchAndHowWell(nameOne, nameTwo);
     const count = wordCombo.filter(tup => tup[2] > 80).length;
-    const minLength = Math.min(nameA.split(' ').length, nameB.split(' ').length);
+    const minLength = Math.min(nameOne.split(' ').length, nameTwo.split(' ').length);
     if (count >= 3 || count === minLength) {
         return [true, wordCombo];
     }
-    // const [match, combo] = _consonantComparison(nameA, nameB);
-    if (_consonantComparison(nameA, nameB)) {
+    // const [match, combo] = _consonantComparison(nameOne, nameTwo);
+    if (_consonantComparison(nameOne, nameTwo)) {
         return [true, wordCombo];
     }
     return [false, wordCombo];
@@ -27,32 +27,32 @@ export function spellingComparison(nameA: string, nameB: string): [boolean, any[
 /**
  * Identifies if two names are a match according to consonant comparison.
  * 
- * @param nameA - a name
- * @param nameB - a name
+ * @param nameOne - a name
+ * @param nameTwo - a name
  * 
  * @returns whether the two names are a match according to consonant comparison
  */
-function _consonantComparison(nameA: string, nameB: string): boolean {
-    const wordCombo = findWhichWordsMatchAndHowWell(nameA, nameB);
+function _consonantComparison(nameOne: string, nameTwo: string): boolean {
+    const wordCombo = findWhichWordsMatchAndHowWell(nameOne, nameTwo);
     const minRequiredMatches = wordCombo.length;
     let numWordConsonantMatches = 0;
 
     //const updatedWordCombos: [string, string, number][] = [];
     for (const tup of wordCombo) {
-        const wordA = nameA.split(' ')[parseInt(tup[0])];
-        const wordB = nameB.split(' ')[parseInt(tup[1])];
+        const wordOne = nameOne.split(' ')[parseInt(tup[0])];
+        const wordTwo = nameTwo.split(' ')[parseInt(tup[1])];
         const originalScoreForWords = Number(tup[2]);
 
-        const consonantsNameA = _reduceToSimpleConsonants(wordA);
-        const consonantsNameB = _reduceToSimpleConsonants(wordB);
-        const consonantsRatio = fuzzball.ratio(consonantsNameA, consonantsNameB);
-        //updatedWordCombos.push([consonantsNameA, consonantsNameB, consonantsRatio]);
+        const consonantsnameOne = _reduceToSimpleConsonants(wordOne);
+        const consonantsnameTwo = _reduceToSimpleConsonants(wordTwo);
+        const consonantsRatio = fuzzball.ratio(consonantsnameOne, consonantsnameTwo);
+        //updatedWordCombos.push([consonantsnameOne, consonantsnameTwo, consonantsRatio]);
         
         if (originalScoreForWords <= 30) continue;
-        if (wordA.length !== 1 && wordB.length !== 1) {
+        if (wordOne.length !== 1 && wordTwo.length !== 1) {
             const lowestSyllableCount = Math.min(
-                consonantsNameA.split('я').length - 1,
-                consonantsNameB.split('я').length - 1
+                consonantsnameOne.split('я').length - 1,
+                consonantsnameTwo.split('я').length - 1
             );
             if (lowestSyllableCount < 2) continue;
         }
@@ -83,18 +83,18 @@ function _reduceToSimpleConsonants(string: string): string {
 /**
  * Identifies if two names are a match according to a pronunciation comparison.
  * 
- * @param ipaOfNameA - the ipa of a name
- * @param ipaOfNameB - the ipa of a name
- * @param nameA - a name
- * @param nameB - a name
+ * @param ipaOfnameOne - the ipa of a name
+ * @param ipaOfnameTwo - the ipa of a name
+ * @param nameOne - a name
+ * @param nameTwo - a name
  * 
  * @returns whether the names are a match, and the resulting word combo
  */
-export function pronunciationComparison(ipaOfNameA: string, ipaOfNameB: string, nameA: string, nameB: string): [boolean, [string, string, number][]] {
+export function pronunciationComparison(ipaOfnameOne: string, ipaOfnameTwo: string, nameOne: string, nameTwo: string): [boolean, [string, string, number][]] {
 
     // Initialize empty list to store scores
-    var ipaWordsA = ipaOfNameA.split(/\s+/);
-    var ipaWordsB = ipaOfNameB.split(/\s+/);
+    var ipaWordsA = ipaOfnameOne.split(/\s+/);
+    var ipaWordsB = ipaOfnameTwo.split(/\s+/);
     if (ipaWordsA.length < ipaWordsB.length) {
         ipaWordsA.push(...Array(ipaWordsB.length - ipaWordsA.length).fill(null));
     }
@@ -106,21 +106,21 @@ export function pronunciationComparison(ipaOfNameA: string, ipaOfNameB: string, 
     const scores = math.matrix(math.zeros([ipaWordsA.length, ipaWordsB.length])) as math.Matrix;
     
     // Score each matchup
-    var wordCombo = findWhichWordsMatchAndHowWell(nameA, nameB);
+    var wordCombo = findWhichWordsMatchAndHowWell(nameOne, nameTwo);
     for (let indexA = 0; indexA < ipaWordsA.length; indexA++) {
         for (let indexB = 0; indexB < ipaWordsB.length; indexB++) {
             // Assign a default very low score for dummy pairings
             scores.set([indexA, indexB], -1e9);
             
-            const wordA = ipaWordsA[indexA];
-            const wordB = ipaWordsB[indexB];
+            const wordOne = ipaWordsA[indexA];
+            const wordTwo = ipaWordsB[indexB];
             
-            if (wordA === null || wordB === null) {
+            if (wordOne === null || wordTwo === null) {
                 continue;
             }
             
             // Reassign the default score to all real pairings
-            let score = fuzzball.ratio(wordA, wordB);
+            let score = fuzzball.ratio(wordOne, wordTwo);
             
             for (const [indexX, indexY, initialScore] of wordCombo) {
                 // Use initial score for initials (bad pun)
@@ -142,7 +142,7 @@ export function pronunciationComparison(ipaOfNameA: string, ipaOfNameB: string, 
     const lowestScore = Math.min(...wordCombo.map((tuple: [string, string, number]) => tuple[2]));
     
     // Return whether pronunciation match or not
-    const minLength = Math.min(ipaOfNameA.split(/\s+/).length, ipaOfNameB.split(/\s+/).length);
+    const minLength = Math.min(ipaOfnameOne.split(/\s+/).length, ipaOfnameTwo.split(/\s+/).length);
     if (minLength <= 2) {
         if (lowestScore >= 80) {
             return [true, wordCombo];

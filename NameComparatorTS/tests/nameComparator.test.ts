@@ -7,8 +7,8 @@ import usaTo1950FirstNames from '../data/frequency/firstNamesUsaTo1950.json';
 
 
 type TestCase = {
-  nameA: string;
-  nameB: string;
+  nameOne: string;
+  nameTwo: string;
   match: boolean;
   attempt1: [string, string, number[]];
   attempt2: [string, string, number[]];
@@ -17,8 +17,8 @@ type TestCase = {
 };
 
 type FailedTestCase = {
-  nameA: string;
-  nameB: string;
+  nameOne: string;
+  nameTwo: string;
   match: boolean;
   attempt1: Attempt | null;
   attempt2: Attempt | null;
@@ -29,8 +29,8 @@ type FailedTestCase = {
 type WordComboEntry = [string, string, number];
 class Attempt {
   constructor(
-    public nameA: string,
-    public nameB: string,
+    public nameOne: string,
+    public nameTwo: string,
     public wordCombo: WordComboEntry[]
   ) {}
 }
@@ -40,14 +40,14 @@ const testCases = rawTestCases as TestCase[];
 const failedTests: FailedTestCase[] = [];
 
 describe('compareTwoNames with testCases.json', () => {
-  testCases.forEach(({ nameA, nameB, match }) => {
-    test(`"${nameA}" vs "${nameB}" should ${match ? 'match' : 'not match'}`, () => {
-      const result = compareTwoNames(nameA, nameB, frequencyData);
+  testCases.forEach(({ nameOne, nameTwo, match }) => {
+    test(`"${nameOne}" vs "${nameTwo}" should ${match ? 'match' : 'not match'}`, () => {
+      const result = compareTwoNames(nameOne, nameTwo, frequencyData);
 
       if (result.match !== match) {
         failedTests.push({
-          nameA,
-          nameB,
+          nameOne,
+          nameTwo,
           match: result.match,
           attempt1: result.attempt1,
           attempt2: result.attempt2,

@@ -4,15 +4,15 @@ import { hungarianAlgorithm } from './hungarian';
 /**
  * Identifies which words in either name are a match, and how well they match.
  * 
- * @param nameA (string) - a name 
- * @param nameB (string)- a name
+ * @param nameOne (string) - a name 
+ * @param nameTwo (string)- a name
  * @returns [string, string, number][]: a list of tuples idenifying the index of the word in the first name,
             the index of the word in the second name, and the score of how well they match
  */
-export function findWhichWordsMatchAndHowWell(nameA:string, nameB:string) : [string, string, number][] {
+export function findWhichWordsMatchAndHowWell(nameOne:string, nameTwo:string) : [string, string, number][] {
 
-        let wordsInA : string[] = nameA.split(/\s+/);
-        let wordsInB : string[] = nameB.split(/\s+/);
+        let wordsInA : string[] = nameOne.split(/\s+/);
+        let wordsInB : string[] = nameTwo.split(/\s+/);
         if (wordsInA.length !== wordsInB.length) {
             if (wordsInA.length < wordsInB.length) {
               wordsInA = wordsInA.concat(new Array(wordsInB.length - wordsInA.length).fill(""));
@@ -26,22 +26,22 @@ export function findWhichWordsMatchAndHowWell(nameA:string, nameB:string) : [str
         );
 
         for (let i = 0; i < wordsInA.length; i++) {
-            const wordA = wordsInA[i];
+            const wordOne = wordsInA[i];
             for (let j = 0; j < wordsInB.length; j++) {
-                const wordB = wordsInB[j];
+                const wordTwo = wordsInB[j];
                 
                 scores[i][j] = -1e9
-                if (wordA == null || wordB == null) {
+                if (wordOne == null || wordTwo == null) {
                     continue;
                 }
             
                 let score: number;
-                if (wordA.length === 1 || wordB.length === 1) {
-                    score = wordA[0] === wordB[0] ? 100 : 0;
+                if (wordOne.length === 1 || wordTwo.length === 1) {
+                    score = wordOne[0] === wordTwo[0] ? 100 : 0;
                 } else {
-                    const ratio = fuzzball.ratio(wordA, wordB);
-                    if (wordA[0] === wordB[0]) {
-                        const prScore = fuzzball.partial_ratio(wordA, wordB);
+                    const ratio = fuzzball.ratio(wordOne, wordTwo);
+                    if (wordOne[0] === wordTwo[0]) {
+                        const prScore = fuzzball.partial_ratio(wordOne, wordTwo);
                         score = Math.max(ratio, prScore);
                     } else {
                         score = ratio;
@@ -74,12 +74,12 @@ export function identifyBestMatchups(scores: number[][], listA: string[], listB:
         const i = rowInd[idx];
         const j = colInd[idx];
     
-        const wordA = listA[i];
-        const wordB = listB[j];
+        const wordOne = listA[i];
+        const wordTwo = listB[j];
         // Check if both listA[i] and listB[j] are not null
-        if (wordA !== "" && wordB !== "") {
+        if (wordOne !== "" && wordTwo !== "") {
           const matchupScore = scores[i][j];
-          bestCombination.push([wordA, wordB, matchupScore]);
+          bestCombination.push([wordOne, wordTwo, matchupScore]);
         }
     }
 
@@ -89,17 +89,17 @@ export function identifyBestMatchups(scores: number[][], listA: string[], listB:
 /**
  * Calculated how much editing a name or both names improved the score in comparision to the original names.
  * 
- * @param nameA (string) - the original first name
- * @param nameB (string) - the original second name
- * @param nameAEdited (string) - the edited first name
- * @param nameBEdited (string) - the edited second name
+ * @param nameOne (string) - the original first name
+ * @param nameTwo (string) - the original second name
+ * @param nameOneEdited (string) - the edited first name
+ * @param nameTwoEdited (string) - the edited second name
  * 
  * @returns [float, tuple, tuple]: the score of how much the edits improved the comparison (can be negative),
  *          the word combo of the original, the word combo of the edited version
  */
-export function calculateEditImprovement(nameA : string, nameB : string, nameAEdited :string, nameBEdited : string): [number, [string, string, number][], [string, string, number][]] {
-    let ogWordCombo = findWhichWordsMatchAndHowWell(nameA, nameB);
-    let editedWordCombo = findWhichWordsMatchAndHowWell(nameAEdited, nameBEdited);
+export function calculateEditImprovement(nameOne : string, nameTwo : string, nameOneEdited :string, nameTwoEdited : string): [number, [string, string, number][], [string, string, number][]] {
+    let ogWordCombo = findWhichWordsMatchAndHowWell(nameOne, nameTwo);
+    let editedWordCombo = findWhichWordsMatchAndHowWell(nameOneEdited, nameTwoEdited);
     if(!ogWordCombo.length || !editedWordCombo.length) {
         return [0, ogWordCombo, editedWordCombo]
     }
@@ -113,15 +113,15 @@ export function calculateEditImprovement(nameA : string, nameB : string, nameAEd
 /**
  * Identifies which words in the names match.
  * 
- * @param nameA (string) - a name
- * @param nameB (string) - a name
+ * @param nameOne (string) - a name
+ * @param nameTwo (string) - a name
  * 
- * @returns [int, int, string, string][] - the list of which words match. Tuples of: the index of word in nameA, the index of word in nameB, in word in nameA, the word in nameB
+ * @returns [int, int, string, string][] - the list of which words match. Tuples of: the index of word in nameOne, the index of word in nameTwo, in word in nameOne, the word in nameTwo
  */
-export function getPairIndicesAndWords(nameA : string, nameB : string): [number, number, string, string][] {
-    let combo = findWhichWordsMatchAndHowWell(nameA, nameB);
-    let wordsInA = nameA.split(/\s+/);
-    let wordsInB = nameB.split(/\s+/);
+export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): [number, number, string, string][] {
+    let combo = findWhichWordsMatchAndHowWell(nameOne, nameTwo);
+    let wordsInA = nameOne.split(/\s+/);
+    let wordsInB = nameTwo.split(/\s+/);
     let matchIndices : [number, number][] = combo.map(
         ([a, b]) => [parseInt(a), parseInt(b)]
     );
@@ -145,31 +145,31 @@ export class NameEditor {
     /**
      * Splits the words for later editing
      * 
-     * @param nameA (string) - a name
-     * @param nameB (string) - a name
+     * @param nameOne (string) - a name
+     * @param nameTwo (string) - a name
      */
-    constructor(nameA : string, nameB : string){
-        this.wordsInA = nameA.split(' ');
-        this.wordsInB = nameB.split(' ');
+    constructor(nameOne : string, nameTwo : string){
+        this.wordsInA = nameOne.split(' ');
+        this.wordsInB = nameTwo.split(' ');
     }
 
     /**
-     * Replaces the stored word for nameA at the specified index.
+     * Replaces the stored word for nameOne at the specified index.
      * 
      * @param index (number) - the specified index
      * @param updatedWord (string) - the rplacement string
      */
-    public updateNameA(index : number, updatedWord : string) {
+    public updateNameOne(index : number, updatedWord : string) {
         this.wordsInA[index] = updatedWord;
     }
 
     /**
-     * Replaces the stored word for nameA at the specified index.
+     * Replaces the stored word for nameOne at the specified index.
      * 
      * @param index (number) - the specified index
      * @param updatedWord (string) - the rplacement string
      */
-    public updateNameB(index : number, updatedWord : string) {
+    public updateNameTwo(index : number, updatedWord : string) {
         this.wordsInB[index] = updatedWord;
     }
 
@@ -179,16 +179,16 @@ export class NameEditor {
      * @returns [string, string] - the modified names
      */
     public getModifiedNames() : [string, string]{
-        let nameA = this.wordsInA.join(' ');
-        let nameB = this.wordsInB.join(' ');
-        if (!nameA) {
-            nameA = '_';
+        let nameOne = this.wordsInA.join(' ');
+        let nameTwo = this.wordsInB.join(' ');
+        if (!nameOne) {
+            nameOne = '_';
         }
-        if (!nameB) {
-            nameB = '_';
+        if (!nameTwo) {
+            nameTwo = '_';
         }
     
-        return [nameA, nameB];
+        return [nameOne, nameTwo];
     }
 }
 

@@ -1,8 +1,8 @@
 import unidecode from 'unidecode';
 import * as fuzzball from 'fuzzball';
 
-import { calculateEditImprovement, getPairIndicesAndWords, NameEditor } from './usefulTools';
-import { spellingComparison } from './comparisons';
+import { calculateEditImprovement, getMatchingWordsAndIndices, NameEditor } from './usefulTools';
+import { compare_spelling } from './comparisons';
 
 /**
  * Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.
@@ -69,11 +69,11 @@ export function cleanName(name: string): string {
         'jos': 'joseph',
         'benj': 'benjamin'
     }
-    const nameAsList = []
+    const nameOnesList = []
     for (const word of name.split(/\s+/)) {
-        nameAsList.push(commonAbreviations[word as keyof typeof commonAbreviations] || word)
+        nameOnesList.push(commonAbreviations[word as keyof typeof commonAbreviations] || word)
     }
-    name = nameAsList.join(' ')
+    name = nameOnesList.join(' ')
 
     // Remove stuff like 'the 3rd'
     name = name.replace(/the [1-9][a-z]2,6/g, '').replace(" the ", "")
@@ -100,36 +100,36 @@ export function cleanName(name: string): string {
 /**
  * Cleans two names together, fixing common errors to standardize.
  * 
- * @param nameA - The first name to clean
- * @param nameB - The second name to clean
+ * @param nameOne - The first name to clean
+ * @param nameTwo - The second name to clean
  * @returns The two cleaned names
  */
-export function cleanNamesTogether(nameA: string, nameB: string): [string, string] {
+export function cleanNamesByComparison(nameOne: string, nameTwo: string): [string, string] {
 
     // Return if either name is blank
-    if (nameA == "") {
-        nameA = "_"
+    if (nameOne == "") {
+        nameOne = "_"
     }
-    if (nameB == "") {
-        nameB = "_"
+    if (nameTwo == "") {
+        nameTwo = "_"
     }
 
     // Deal with dashes
-    const [newNameA, newNameB] = _dealWithDashes(nameA, nameB);
-    nameA = newNameA;
-    nameB = newNameB;
+    const [newNameOne, newNameTwo] = _dealWithDashes(nameOne, nameTwo);
+    nameOne = newNameOne;
+    nameTwo = newNameTwo;
 
     // Deal with Scottish and Irish names
-    const [fixedNameA1, fixedNameB1] = _fixRelatedPrefixes(nameA, nameB, 'mac', 'mc');
-    nameA = fixedNameA1;
-    nameB = fixedNameB1;
+    const [fixedNameOne1, fixedNameTwo1] = _fixRelatedPrefixes(nameOne, nameTwo, 'mac', 'mc');
+    nameOne = fixedNameOne1;
+    nameTwo = fixedNameTwo1;
     
-    const [fixedNameA2, fixedNameB2] = _fixMcMac(nameA, nameB);
-    nameA = fixedNameA2;
-    nameB = fixedNameB2;
+    const [fixedNameOne2, fixedNameTwo2] = _fixMcAndMacNames(nameOne, nameTwo);
+    nameOne = fixedNameOne2;
+    nameTwo = fixedNameTwo2;
 
     // Deal with just Irish names
-    const oNames = [
+    const irishNamesStartingWithO = [
         'beirne', 'berry', 'boyle', 'bryant', 'brian', 'brien', 'bryan', 'ceallaigh', 'conner',
         'connor', 'conor', 'daniel', 'day', 'dean', 'dea', 'doherty', 'donnell', 'donnel', 'donoghue',
         'donohue', 'donovan', 'dowd', 'driscoll', 'fallon', 'farrell', 'flaherty', 'flanagan', 'flynn',
@@ -141,176 +141,175 @@ export function cleanNamesTogether(nameA: string, nameB: string): [string, strin
         'reilly', 'riley', 'riordan', 'roark', 'rorke', 'rourke', 'ryan', 'shaughnessy', 'shea',
         'shields', 'sullivan', 'toole', 'tool',
     ]
-    for (const surname of oNames) {
-        const [newNameA, newNameB] = _removeIrishO(nameA, nameB, surname);
-        nameA = newNameA;
-        nameB = newNameB;
+    for (const surname of irishNamesStartingWithO) {
+        const [newNameOne, newNameTwo] = _removeIrishO(nameOne, nameTwo, surname);
+        nameOne = newNameOne;
+        nameTwo = newNameTwo;
     }
 
     // Deal with prefixes and optional intros that make the match worse
-    const [nameA1, nameB1] = _fixRelatedPrefixes(nameA, nameB, 'de', 'di');
-    const [nameA2, nameB2] = _fixRelatedPrefixes(nameA1, nameB1, 'del', 'dil');
-    const [nameA3, nameB3] = _removeUnnecessaryPrefixes(nameA2, nameB2, "d'");
-    const [nameA4, nameB4] = _removeUnnecessaryPrefixes(nameA3, nameB3, "de");
-    const [nameA5, nameB5] = _removeUnnecessaryPrefixes(nameA4, nameB4, "fi");
-    const [nameA6, nameB6] = _removeUnnecessaryPrefixes(nameA5, nameB5, "santa");
-    const [nameA7, nameB7] = _removeUnnecessaryPrefixes(nameA6, nameB6, "san");
-    const [nameA8, nameB8] = _removeUnnecessaryPrefixes(nameA7, nameB7, "de la");
-    const [nameA9, nameB9] = _removeUnnecessaryPrefixes(nameA8, nameB8, "de los");
-    const [nameA10, nameB10] = _removeUnnecessaryPrefixes(nameA9, nameB9, "del");
-    const [nameA11, nameB11] = _removeUnnecessaryPrefixes(nameA10, nameB10, "la");
-    const [nameA12, nameB12] = _removeUnnecessaryPrefixes(nameA11, nameB11, "le");
-    const [nameA13, nameB13] = _removeUnnecessaryPrefixes(nameA12, nameB12, "du");
-    const [nameA14, nameB14] = _removeUnnecessaryPrefixes(nameA13, nameB13, "dela");
-    const [nameA15, nameB15] = _removeUnnecessaryPrefixes(nameA14, nameB14, "los");
-    const [nameA16, nameB16] = _removeUnnecessaryPrefixes(nameA15, nameB15, "der");
-    const [nameA17, nameB17] = _removeUnnecessaryPrefixes(nameA16, nameB16, "den");
-    const [nameA18, nameB18] = _removeUnnecessaryPrefixes(nameA17, nameB17, "vanden");
-    const [nameA19, nameB19] = _removeUnnecessaryPrefixes(nameA18, nameB18, "vander");
-    const [nameA20, nameB20] = _removeUnnecessaryPrefixes(nameA19, nameB19, "vande");
-    const [nameA21, nameB21] = _removeUnnecessaryPrefixes(nameA20, nameB20, "van");
-    const [nameA22, nameB22] = _removeUnnecessaryPrefixes(nameA21, nameB21, "van der");
-    const [nameA23, nameB23] = _removeUnnecessaryPrefixes(nameA22, nameB22, "van den");
-    const [nameA24, nameB24] = _removeUnnecessaryPrefixes(nameA23, nameB23, "van de");
-    const [nameA25, nameB25] = _removeUnnecessaryPrefixes(nameA24, nameB24, "van");
-    const [nameA26, nameB26] = _removeUnnecessaryPrefixes(nameA25, nameB25, "von");
-    const [nameA27, nameB27] = _combinePrefixWithSurnameifInBoth(nameA26, nameB26, "de");
-    const [nameA28, nameB28] = _combinePrefixWithSurnameifInBoth(nameA27, nameB27, "van");
-    nameA = nameA28;
-    nameB = nameB28;
+    const [nameOne1, nameTwo1] = _fixRelatedPrefixes(nameOne, nameTwo, 'de', 'di');
+    const [nameOne2, nameTwo2] = _fixRelatedPrefixes(nameOne1, nameTwo1, 'del', 'dil');
+    const [nameOne3, nameTwo3] = _removeUnnecessaryPrefixes(nameOne2, nameTwo2, "d'");
+    const [nameOne4, nameTwo4] = _removeUnnecessaryPrefixes(nameOne3, nameTwo3, "de");
+    const [nameOne5, nameTwo5] = _removeUnnecessaryPrefixes(nameOne4, nameTwo4, "fi");
+    const [nameOne6, nameTwo6] = _removeUnnecessaryPrefixes(nameOne5, nameTwo5, "santa");
+    const [nameOne7, nameTwo7] = _removeUnnecessaryPrefixes(nameOne6, nameTwo6, "san");
+    const [nameOne8, nameTwo8] = _removeUnnecessaryPrefixes(nameOne7, nameTwo7, "de la");
+    const [nameOne9, nameTwo9] = _removeUnnecessaryPrefixes(nameOne8, nameTwo8, "de los");
+    const [nameOne10, nameTwo10] = _removeUnnecessaryPrefixes(nameOne9, nameTwo9, "del");
+    const [nameOne11, nameTwo11] = _removeUnnecessaryPrefixes(nameOne10, nameTwo10, "la");
+    const [nameOne12, nameTwo12] = _removeUnnecessaryPrefixes(nameOne11, nameTwo11, "le");
+    const [nameOne13, nameTwo13] = _removeUnnecessaryPrefixes(nameOne12, nameTwo12, "du");
+    const [nameOne14, nameTwo14] = _removeUnnecessaryPrefixes(nameOne13, nameTwo13, "dela");
+    const [nameOne15, nameTwo15] = _removeUnnecessaryPrefixes(nameOne14, nameTwo14, "los");
+    const [nameOne16, nameTwo16] = _removeUnnecessaryPrefixes(nameOne15, nameTwo15, "der");
+    const [nameOne17, nameTwo17] = _removeUnnecessaryPrefixes(nameOne16, nameTwo16, "den");
+    const [nameOne18, nameTwo18] = _removeUnnecessaryPrefixes(nameOne17, nameTwo17, "vanden");
+    const [nameOne19, nameTwo19] = _removeUnnecessaryPrefixes(nameOne18, nameTwo18, "vander");
+    const [nameOne20, nameTwo20] = _removeUnnecessaryPrefixes(nameOne19, nameTwo19, "vande");
+    const [nameOne21, nameTwo21] = _removeUnnecessaryPrefixes(nameOne20, nameTwo20, "van");
+    const [nameOne22, nameTwo22] = _removeUnnecessaryPrefixes(nameOne21, nameTwo21, "van der");
+    const [nameOne23, nameTwo23] = _removeUnnecessaryPrefixes(nameOne22, nameTwo22, "van den");
+    const [nameOne24, nameTwo24] = _removeUnnecessaryPrefixes(nameOne23, nameTwo23, "van de");
+    const [nameOne25, nameTwo25] = _removeUnnecessaryPrefixes(nameOne24, nameTwo24, "van");
+    const [nameOne26, nameTwo26] = _removeUnnecessaryPrefixes(nameOne25, nameTwo25, "von");
+    const [nameOne27, nameTwo27] = _combinePrefixWithSurnameifInBoth(nameOne26, nameTwo26, "de");
+    const [nameOne28, nameTwo28] = _combinePrefixWithSurnameifInBoth(nameOne27, nameTwo27, "van");
+    nameOne = nameOne28;
+    nameTwo = nameTwo28;
 
     // Combine words that are one word in the other name
     while (true) {
-        const [combined, splitNameA, splitNameB] = _combineSplitWords(nameA, nameB);
+        const [combined, splitNameOne, splitNameTwo] = _combineSplitWords(nameOne, nameTwo);
         if (!combined) {
             break;
         }
-        nameA = splitNameA;
-        nameB = splitNameB;
+        nameOne = splitNameOne;
+        nameTwo = splitNameTwo;
     }
     while (true) {
-        const [combined, splitNameB, splitNameA] = _combineSplitWords(nameB, nameA);
+        const [combined, splitNameTwo, splitNameOne] = _combineSplitWords(nameTwo, nameOne);
         if (!combined) {
             break;
         }
-        nameA = splitNameA;
-        nameB = splitNameB;
+        nameOne = splitNameOne;
+        nameTwo = splitNameTwo;
     }
 
     // Remove extra spaces
-    nameA = nameA.replace(/\s+/g, ' ').trim()
-    nameB = nameB.replace(/\s+/g, ' ').trim()
+    nameOne = nameOne.replace(/\s+/g, ' ').trim()
+    nameTwo = nameTwo.replace(/\s+/g, ' ').trim()
 
     // Return if either name is blank
-    if (nameA == "") {
-        nameA = "_"
+    if (nameOne == "") {
+        nameOne = "_"
     }
-    if (nameB == "") {
-        nameB = "_"
+    if (nameTwo == "") {
+        nameTwo = "_"
     }
 
-    return [nameA, nameB]
+    return [nameOne, nameTwo]
 }
 
 /**
  * Cleans both names in order to deal with dashes in names.
  * 
- * @param nameA - The first name to clean
- * @param nameB - The second name to clean
+ * @param nameOne - The first name to clean
+ * @param nameTwo - The second name to clean
  * @returns The two cleaned names
  */
-function _dealWithDashes(nameA: string, nameB: string): [string, string] {
+function _dealWithDashes(nameOne: string, nameTwo: string): [string, string] {
 
     // Return old if no dash in either
-    if (!nameA.includes('-') && !nameB.includes('-')) {
-        return [nameA, nameB]
+    if (!nameOne.includes('-') && !nameTwo.includes('-')) {
+        return [nameOne, nameTwo]
     }
 
     // Return old if dash in both
-    if (nameA.includes('-') && nameB.includes('-')) {
-        return [nameA, nameB]
+    if (nameOne.includes('-') && nameTwo.includes('-')) {
+        return [nameOne, nameTwo]
     }
 
     // Try replacing the dash with a space, and combine words if necessary
-    var nameAEdited = nameA.replace('-', ' ');
-    var nameBEdited = nameB.replace('-', ' ');
-    if (!nameAEdited) {
-        nameAEdited = "_";
+    var nameOneEdited = nameOne.replace('-', ' ');
+    var nameTwoEdited = nameTwo.replace('-', ' ');
+    if (!nameOneEdited) {
+        nameOneEdited = "_";
     }
-    if (!nameBEdited) {
-        nameBEdited = "_";
+    if (!nameTwoEdited) {
+        nameTwoEdited = "_";
     }
-    var [combined, nameAEdited, nameBEdited] = _combineSplitWords(nameAEdited, nameBEdited);
+    var [combined, nameOneEdited, nameTwoEdited] = _combineSplitWords(nameOneEdited, nameTwoEdited);
     
     // Return old if the score did not improve
-    const [diff, useless, useless2] = calculateEditImprovement(nameA, nameB, nameAEdited, nameBEdited);
+    const [diff, useless, uselessTwo] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwoEdited);
     if (diff <= 0) {
-        return [nameA, nameB]
+        return [nameOne, nameTwo]
     }
 
-    return [nameAEdited, nameBEdited]
+    return [nameOneEdited, nameTwoEdited]
 }
 
 /**
  * Combines words within one of the names if that combination is one word in the other name.
  * 
- * @param nameA - The first name to clean
- * @param nameB - The second name to clean
+ * @param nameOne - The first name to clean
+ * @param nameTwo - The second name to clean
  * @returns The two cleaned names
  */
-function _combineSplitWords(nameA: string, nameB: string): [boolean, string, string] {
+function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string, string] {
 
-    const wordsInA = nameA.split(/\s+/);
+    const wordsInNameOne = nameOne.split(/\s+/);
 
     // Do not combine words that are only two in length
-    if (wordsInA.length < 3) {
-        return [false, nameA, nameB]
+    if (wordsInNameOne.length < 3) {
+        return [false, nameOne, nameTwo]
     }
 
     // Do not combine words that are already a good spelling match
-    if (spellingComparison(nameA, nameB)[0]) {
-        return [false, nameA, nameB]
+    if (compare_spelling(nameOne, nameTwo)[0]) {
+        return [false, nameOne, nameTwo]
     }
     
-    for (const [indexA, indexB, wordA, wordB] of getPairIndicesAndWords(nameA, nameB)) {
-        // Skip if wordA and wordB are not a good match
-        if (fuzzball.partial_ratio(wordA, wordB) < 75) {
+    for (const [indexOne, indexTwo, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
+        // Skip if wordOne and wordTwo are not a good match
+        if (fuzzball.partial_ratio(wordOne, wordTwo) < 75) {
             continue;
         }
 
         // Skip if either word is only an initial
-        if (wordA.length == 1 || wordB.length == 1) {
+        if (wordOne.length == 1 || wordTwo.length == 1) {
             continue;
         }
 
         // Find the left and right neighbors
-        var leftNeighbor = wordsInA[indexA - 1] || '';
-        var rightNeighbor = wordsInA[indexA + 1] || '';
+        var leftNeighbor = wordsInNameOne[indexOne - 1] || '';
+        var rightNeighbor = wordsInNameOne[indexOne + 1] || '';
 
         // Skip neighbors if they are initials
         leftNeighbor = leftNeighbor.length > 1 ? leftNeighbor : '';
         rightNeighbor = rightNeighbor.length > 1 ? rightNeighbor : '';
         if (!leftNeighbor && !rightNeighbor) {
-            return [false, nameA, nameB]
+            return [false, nameOne, nameTwo]
         }
 
-        // Choose the neighbor that best matches wordA's match
-        let leftWasChosen = false;
-        let rightWasChosen = false;
+        // Choose the neighbor that best matches wordOne's match
+        let wasLeftChosen = false;
         if (!leftNeighbor) {
-            leftWasChosen = false;
+            wasLeftChosen = false;
         }
         else if (!rightNeighbor) {
-            leftWasChosen = true;
+            wasLeftChosen = true;
         }
         else {
-            const leftScore = fuzzball.partial_ratio(leftNeighbor, wordB);
-            const rightScore = fuzzball.partial_ratio(rightNeighbor, wordB);
+            const leftScore = fuzzball.partial_ratio(leftNeighbor, wordTwo);
+            const rightScore = fuzzball.partial_ratio(rightNeighbor, wordTwo);
             if (leftScore > rightScore) {
-                leftWasChosen = true;
+                wasLeftChosen = true;
             }
             else {
-                leftWasChosen = false;
+                wasLeftChosen = false;
             }
         }
 
@@ -318,155 +317,155 @@ function _combineSplitWords(nameA: string, nameB: string): [boolean, string, str
         let chosenNeighbor = '';
         let compound = '';
         let neighborIndex = 0;
-        if (leftWasChosen) {
+        if (wasLeftChosen) {
             chosenNeighbor = leftNeighbor;
-            compound = `${leftNeighbor}${wordA}`;
-            neighborIndex = indexA - 1;
+            compound = `${leftNeighbor}${wordOne}`;
+            neighborIndex = indexOne - 1;
         }
         else {
             chosenNeighbor = rightNeighbor;
-            compound = `${wordA}${rightNeighbor}`;
-            neighborIndex = indexA + 1;
+            compound = `${wordOne}${rightNeighbor}`;
+            neighborIndex = indexOne + 1;
         }
 
-        // Skip if the neighbor is a bad partial match to wordB's match
-        if (fuzzball.partial_ratio(chosenNeighbor, wordB) < 65) {
+        // Skip if the neighbor is a bad partial match to wordTwo's match
+        if (fuzzball.partial_ratio(chosenNeighbor, wordTwo) < 65) {
             continue;
         }
 
         // Check if the compound is significantly better than the original
-        const ogScore = fuzzball.ratio(wordA, wordB);
-        const compoundScore = fuzzball.ratio(compound, wordB);
-        if (compoundScore < ogScore + 20) {
+        const originalScore = fuzzball.ratio(wordOne, wordTwo);
+        const compoundScore = fuzzball.ratio(compound, wordTwo);
+        if (compoundScore < originalScore + 20) {
             continue;
         }
-        const diffLengthOriginal = Math.abs(wordB.length - wordA.length);
-        const diffLengthCompound = Math.abs(wordB.length - compound.length);
-        if (diffLengthOriginal < diffLengthCompound) {
+        const differenceOfOriginalLengths = Math.abs(wordTwo.length - wordOne.length);
+        const differenceOfCompoundLengths = Math.abs(wordTwo.length - compound.length);
+        if (differenceOfOriginalLengths < differenceOfCompoundLengths) {
             continue;
         }
 
-        // If the compound was a better match, use a name editor to create an edited nameA where the words are combined
-        const ne = new NameEditor(nameA, nameB);
-        ne.updateNameA(indexA, compound);
-        ne.updateNameA(neighborIndex, '');
-        const [nameAEdited, notUsed] = ne.getModifiedNames();
+        // If the compound was a better match, use a name editor to create an edited nameOne where the words are combined
+        const ne = new NameEditor(nameOne, nameTwo);
+        ne.updateNameOne(indexOne, compound);
+        ne.updateNameOne(neighborIndex, '');
+        const [nameOneEdited, notUsed] = ne.getModifiedNames();
 
-        // If the edited nameA is better (or only slightly worse), go with the edited version
-        const [diff, useless, useless2] = calculateEditImprovement(nameA, nameB, nameAEdited, nameB);
+        // If the edited nameOne is better (or only slightly worse), go with the edited version
+        const [diff, useless, useless2] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwo);
         if (diff > -1) {
-            return [true, nameAEdited, nameB];
+            return [true, nameOneEdited, nameTwo];
         }
     }
 
-    return [false, nameA, nameB];
+    return [false, nameOne, nameTwo];
 }
 
 /**
  * Cleans names to deal with prefixes that are different by spelling, but functionally the same.
  * 
- * @param nameA - The first name to clean
- * @param nameB - The second name to clean
- * @param prefixX - The first prefix to check
- * @param prefixY - The second prefix to check
+ * @param nameOne - The first name to clean
+ * @param nameTwo - The second name to clean
+ * @param prefixVariantOne - The first prefix to check
+ * @param prefixVariantTwo - The second prefix to check
  * @returns The two cleaned names
  */
-function _fixRelatedPrefixes(nameA: string, nameB: string, prefixX: string, prefixY: string): [string, string] {
+function _fixRelatedPrefixes(nameOne: string, nameTwo: string, prefixVariantOne: string, prefixVariantTwo: string): [string, string] {
 
-    // Return if prefixX in neither or prefixY in neither
-    if (!nameA.includes(` ${prefixX}`) && !nameB.includes(` ${prefixX}`)) {
-        return [nameA, nameB];
+    // Return if prefixVariantOne in neither or prefixVariantTwo in neither
+    if (!nameOne.includes(` ${prefixVariantOne}`) && !nameTwo.includes(` ${prefixVariantOne}`)) {
+        return [nameOne, nameTwo];
     }
-    if (!nameA.includes(` ${prefixY}`) && !nameB.includes(` ${prefixY}`)) {
-        return [nameA, nameB];
-    }
-
-    // Return if prefixX in both or prefixY in both
-    if (nameA.includes(` ${prefixX}`) && nameB.includes(` ${prefixX}`)) {
-        return [nameA, nameB];
-    }
-    if (nameA.includes(` ${prefixY}`) && nameB.includes(` ${prefixY}`)) {
-        return [nameA, nameB];
+    if (!nameOne.includes(` ${prefixVariantTwo}`) && !nameTwo.includes(` ${prefixVariantTwo}`)) {
+        return [nameOne, nameTwo];
     }
 
-    // Replace prefixY with prefixX
-    if (nameA.includes(` ${prefixY}`)) {
-        nameA = nameA.replace(` ${prefixY}`, ` ${prefixX}`);
+    // Return if prefixVariantOne in both or prefixVariantTwo in both
+    if (nameOne.includes(` ${prefixVariantOne}`) && nameTwo.includes(` ${prefixVariantOne}`)) {
+        return [nameOne, nameTwo];
+    }
+    if (nameOne.includes(` ${prefixVariantTwo}`) && nameTwo.includes(` ${prefixVariantTwo}`)) {
+        return [nameOne, nameTwo];
+    }
+
+    // Replace prefixVariantTwo with prefixVariantOne
+    if (nameOne.includes(` ${prefixVariantTwo}`)) {
+        nameOne = nameOne.replace(` ${prefixVariantTwo}`, ` ${prefixVariantOne}`);
     }
     else {
-        nameB = nameB.replace(` ${prefixY}`, ` ${prefixX}`);
+        nameTwo = nameTwo.replace(` ${prefixVariantTwo}`, ` ${prefixVariantOne}`);
     }
 
-    return [nameA, nameB];
+    return [nameOne, nameTwo];
 }
 
 /**
  * Modified names to fix problems where mc or mac are in either names and don't match when they should.
  * 
- * @param nameA - The first name to clean
- * @param nameB - The second name to clean
+ * @param nameOne - The first name to clean
+ * @param nameTwo - The second name to clean
  * @returns The two modified names 
  */
-function _fixMcMac(nameA: string, nameB: string): [string, string] {
+function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string] {
 
     // Return for most names
-    if (!nameA.includes('mc') && !nameA.includes('mac') && !nameB.includes('mc') && !nameB.includes('mac')) {
-        return [nameA, nameB];
+    if (!nameOne.includes('mc') && !nameOne.includes('mac') && !nameTwo.includes('mc') && !nameTwo.includes('mac')) {
+        return [nameOne, nameTwo];
     }
 
     // Combine split words (if any)
-    const [combined, splitNameA, splitNameB] = _combineSplitWords(nameA, nameB);
-    nameA = splitNameA;
-    nameB = splitNameB;
+    const [combined, splitNameOne, splitNameTwo] = _combineSplitWords(nameOne, nameTwo);
+    nameOne = splitNameOne;
+    nameTwo = splitNameTwo;
 
     // Edit the names, if necessary
-    const ne = new NameEditor(nameA, nameB);
+    const ne = new NameEditor(nameOne, nameTwo);
     let score = null;
     for (const prefix of ['mc', 'mac']) {
-        for (const [indexA, indexB, wordA, wordB] of getPairIndicesAndWords(nameA, nameB)) {
+        for (const [indexOne, indexTwo, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
             // Skip pair if the prefix is in both words
-            if (wordA.startsWith(prefix) && wordB.startsWith(prefix)) {
+            if (wordOne.startsWith(prefix) && wordTwo.startsWith(prefix)) {
                 continue;
             }
 
             // Skip pair if the prefix is not in either of them
-            if (wordA.startsWith(prefix) && wordB.startsWith(prefix)) {
+            if (wordOne.startsWith(prefix) && wordTwo.startsWith(prefix)) {
                 continue;
             }
 
             // Skip pair if either word is a firstname
-            if (indexA < 1 || indexB < 1) {
+            if (indexOne < 1 || indexTwo < 1) {
                 continue;
             }
 
             // Skip pair if the shortest word is only 4 long
-            if (Math.min(wordA.length, wordB.length) < 3) {
+            if (Math.min(wordOne.length, wordTwo.length) < 3) {
                 continue;
             }
 
             // Skip pair if they are already a solid match
-            if (fuzzball.ratio(wordA, wordB) > 80) {
+            if (fuzzball.ratio(wordOne, wordTwo) > 80) {
                 continue;
             }
 
             // Skip pair if the prefix is removed and not a good fuzzy match
-            if (wordA.startsWith(prefix)) {
-                var updatedWordA = wordA.replace(prefix, '');
-                var updatedWordB = wordB;
+            if (wordOne.startsWith(prefix)) {
+                var updatedWordOne = wordOne.replace(prefix, '');
+                var updatedWordTwo = wordTwo;
             }
             else {
-                updatedWordA = wordA;
-                updatedWordB = wordB.replace(prefix, '');
+                updatedWordOne = wordOne;
+                updatedWordTwo = wordTwo.replace(prefix, '');
             }
-            if (fuzzball.ratio(updatedWordA, updatedWordB) < 75) {
+            if (fuzzball.ratio(updatedWordOne, updatedWordTwo) < 75) {
                 continue;
             }
 
-            if(score === null || (score !== null && score < fuzzball.ratio(updatedWordA, updatedWordB))){
-                score = fuzzball.ratio(updatedWordA, updatedWordB);
+            if(score === null || (score !== null && score < fuzzball.ratio(updatedWordOne, updatedWordTwo))){
+                score = fuzzball.ratio(updatedWordOne, updatedWordTwo);
                 // Update the words
-                ne.updateNameA(indexA, updatedWordA);
-                ne.updateNameB(indexB, updatedWordB);
+                ne.updateNameOne(indexOne, updatedWordOne);
+                ne.updateNameTwo(indexTwo, updatedWordTwo);
             }
         }
     }
@@ -478,165 +477,165 @@ function _fixMcMac(nameA: string, nameB: string): [string, string] {
 /**
  * Removes the irish O if needed for easier name comparison.
  * 
- * @param nameA - The first name to clean
- * @param nameB - The second name to clean
+ * @param nameOne - The first name to clean
+ * @param nameTwo - The second name to clean
  * @param surname - one of the irish surnames that often starts with O'
  * @returns The two modified names
  */
-function _removeIrishO(nameA: string, nameB: string, surname: string): [string, string] {
+function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [string, string] {
 
     // Skip non applicable names
-    if (!nameA.includes(" o ") && !nameA.includes(" o") && !nameB.includes(" o") && !nameB.includes(" o ")) {
-        return [nameA, nameB];
+    if (!nameOne.includes(" o ") && !nameOne.includes(" o") && !nameTwo.includes(" o") && !nameTwo.includes(" o ")) {
+        return [nameOne, nameTwo];
     }
-    if (!nameA.includes(surname) && !nameB.includes(surname)) {
-        return [nameA, nameB];
+    if (!nameOne.includes(surname) && !nameTwo.includes(surname)) {
+        return [nameOne, nameTwo];
     }
 
     // Edit the names
-    const surnameA = nameA.split(/\s+/).pop() || '';
-    if (fuzzball.ratio(surnameA, surname) > 75) {
-        if (surnameA[0] == 'o') {
-            nameA = nameA.replace(surnameA, surname);
+    const surnameOne = nameOne.split(/\s+/).pop() || '';
+    if (fuzzball.ratio(surnameOne, surname) > 75) {
+        if (surnameOne[0] == 'o') {
+            nameOne = nameOne.replace(surnameOne, surname);
         }
         else {
-            nameA = nameA.replace(`o ${surnameA}`, surname);
+            nameOne = nameOne.replace(`o ${surnameOne}`, surname);
         }
     }
-    const surnameB = nameB.split(/\s+/).pop() || '';
-    if (fuzzball.ratio(surnameB, surname) > 75) {
-        if (surnameB[0] == 'o') {
-            nameB = nameB.replace(surnameB, surname);
+    const surnameTwo = nameTwo.split(/\s+/).pop() || '';
+    if (fuzzball.ratio(surnameTwo, surname) > 75) {
+        if (surnameTwo[0] == 'o') {
+            nameTwo = nameTwo.replace(surnameTwo, surname);
         }
         else {
-            nameB = nameB.replace(`o ${surnameB}`, surname);
+            nameTwo = nameTwo.replace(`o ${surnameTwo}`, surname);
         }
     }
 
-    return [nameA, nameB];
+    return [nameOne, nameTwo];
 }
 
 /**
  * Removes an unnecessary prefix from either or both of the names.
  * 
- * @param nameA - The first name to clean
- * @param nameB - The second name to clean
+ * @param nameOne - The first name to clean
+ * @param nameTwo - The second name to clean
  * @param prefix - The prefix to (probably) remove
  * @returns The two modified names
  */
-function _removeUnnecessaryPrefixes(nameA: string, nameB: string, prefix: string): [string, string] {
+function _removeUnnecessaryPrefixes(nameOne: string, nameTwo: string, prefix: string): [string, string] {
 
     // Return if the prefix is not in either name
-    nameA = nameA.replace(/\s+/, ' ').trim()
-    nameB = nameB.replace(/\s+/, ' ').trim()
-    if (!nameA.includes(` ${prefix}`) && !nameB.includes(` ${prefix}`)) {
-        return [nameA, nameB];
+    nameOne = nameOne.replace(/\s+/, ' ').trim()
+    nameTwo = nameTwo.replace(/\s+/, ' ').trim()
+    if (!nameOne.includes(` ${prefix}`) && !nameTwo.includes(` ${prefix}`)) {
+        return [nameOne, nameTwo];
     }
     
     // If the names are already a good match, return the names
-    if (spellingComparison(nameA, nameB)[0]) {
-        return [nameA, nameB];
+    if (compare_spelling(nameOne, nameTwo)[0]) {
+        return [nameOne, nameTwo];
     }
 
     // Setup
-    let nameAEdited = nameA;
-    let nameBEdited = nameB;
-    const spPrefixSp = ` ${prefix} `;
-    const spacePrefix = ` ${prefix}`;
+    let nameOneEdited = nameOne;
+    let nameTwoEdited = nameTwo;
+    const spaceThenPrefixThenSpace = ` ${prefix} `;
+    const spaceThenPrefix = ` ${prefix}`;
 
     // Make the edited names different
-    if (nameA.includes(spPrefixSp) && nameB.includes(spPrefixSp)) {
+    if (nameOne.includes(spaceThenPrefixThenSpace) && nameTwo.includes(spaceThenPrefixThenSpace)) {
         // No action needed when both names have the same prefix format
     }
-    else if (nameA.includes(spPrefixSp) && nameB.includes(spacePrefix)) {
-        nameAEdited = nameAEdited.replace(spPrefixSp, spacePrefix);
+    else if (nameOne.includes(spaceThenPrefixThenSpace) && nameTwo.includes(spaceThenPrefix)) {
+        nameOneEdited = nameOneEdited.replace(spaceThenPrefixThenSpace, spaceThenPrefix);
     }
-    else if (nameA.includes(spacePrefix) && nameB.includes(spPrefixSp)) {
-        nameBEdited = nameBEdited.replace(spPrefixSp, spacePrefix);
+    else if (nameOne.includes(spaceThenPrefix) && nameTwo.includes(spaceThenPrefixThenSpace)) {
+        nameTwoEdited = nameTwoEdited.replace(spaceThenPrefixThenSpace, spaceThenPrefix);
     }
-    nameAEdited = nameAEdited.replace(spPrefixSp, " ");
-    nameBEdited = nameBEdited.replace(spPrefixSp, " ");
-    nameAEdited = nameAEdited.replace(/\s+/, " ");
-    nameBEdited = nameBEdited.replace(/\s+/, " ");
+    nameOneEdited = nameOneEdited.replace(spaceThenPrefixThenSpace, " ");
+    nameTwoEdited = nameTwoEdited.replace(spaceThenPrefixThenSpace, " ");
+    nameOneEdited = nameOneEdited.replace(/\s+/, " ");
+    nameTwoEdited = nameTwoEdited.replace(/\s+/, " ");
     
-    // If no edits were made, try removing spacePrefix if only in nameA and it's a long word
-    const pattern = new RegExp(`\\b${spacePrefix}\\w*\\b`, 'g');
-    var noEditsMade = (nameA == nameAEdited) && (nameB == nameBEdited);
-    const spPreOnlyInNameA = (nameA.includes(spacePrefix)) && (!nameB.includes(spacePrefix));
-    const matchOfA = nameA.match(pattern);
-    if (noEditsMade && spPreOnlyInNameA && matchOfA) {
-        const matchedWord = matchOfA[0];
+    // If no edits were made, try removing spaceThenPrefix if only in nameOne and it's a long word
+    const pattern = new RegExp(`\\b${spaceThenPrefix}\\w*\\b`, 'g');
+    var noEditsMade = (nameOne == nameOneEdited) && (nameTwo == nameTwoEdited);
+    const spaceThenPrefixOnlyInNameOne = (nameOne.includes(spaceThenPrefix)) && (!nameTwo.includes(spaceThenPrefix));
+    const matchInNameOne = nameOne.match(pattern);
+    if (noEditsMade && spaceThenPrefixOnlyInNameOne && matchInNameOne) {
+        const matchedWord = matchInNameOne[0];
         if (matchedWord.length > prefix.length + 4) {
-            nameAEdited = nameA.replace(spacePrefix, " ");
+            nameOneEdited = nameOne.replace(spaceThenPrefix, " ");
         }
     }
 
-    // If no edits were made, try removing spacePrefix if only in nameB and it's a long word
-    noEditsMade = (nameA == nameAEdited) && (nameB == nameBEdited);
-    const spPreOnlyInNameB = (nameB.includes(spacePrefix)) && (!nameA.includes(spacePrefix));
-    const matchOfB = nameB.match(pattern);
-    if (noEditsMade && spPreOnlyInNameB && matchOfB) {
-        const matchedWord = matchOfB[0];
+    // If no edits were made, try removing spaceThenPrefix if only in nameTwo and it's a long word
+    noEditsMade = (nameOne == nameOneEdited) && (nameTwo == nameTwoEdited);
+    const spaceThenPrefixOnlyInNameTwo = (nameTwo.includes(spaceThenPrefix)) && (!nameOne.includes(spaceThenPrefix));
+    const matchInNameTwo = nameTwo.match(pattern);
+    if (noEditsMade && spaceThenPrefixOnlyInNameTwo && matchInNameTwo) {
+        const matchedWord = matchInNameTwo[0];
         if (matchedWord.length > prefix.length + 4) {
-            nameBEdited = nameB.replace(spacePrefix, " ");
+            nameTwoEdited = nameTwo.replace(spaceThenPrefix, " ");
         }
     }
 
     // Safety
-    if (!nameAEdited) {
-        nameAEdited = '_';
+    if (!nameOneEdited) {
+        nameOneEdited = '_';
     }
-    if (!nameBEdited) {
-        nameBEdited = '_';
+    if (!nameTwoEdited) {
+        nameTwoEdited = '_';
     }
 
     // If the edits were significantly beneficial (or pass spell), return the edited versions
-    const [improvement, useless, useless2] = calculateEditImprovement(nameA, nameB, nameAEdited, nameBEdited);
-    if (improvement >= 10 || spellingComparison(nameAEdited, nameBEdited)[0]) {
-        return [nameAEdited, nameBEdited];
+    const [improvement, useless, useless2] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwoEdited);
+    if (improvement >= 10 || compare_spelling(nameOneEdited, nameTwoEdited)[0]) {
+        return [nameOneEdited, nameTwoEdited];
     }
 
     // Finally, if the words are identical other than the prefix, remove the prefix
-    const ne = new NameEditor(nameA, nameB);
-    for (const [indexA, indexB, wordA, wordB] of getPairIndicesAndWords(nameA, nameB)) {
-        if (wordA.startsWith(prefix) && wordA.slice(prefix.length) == wordB && wordB.length > 2) {
-            ne.updateNameA(indexA, wordA.slice(prefix.length));
+    const ne = new NameEditor(nameOne, nameTwo);
+    for (const [indexOne, indexTwo, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
+        if (wordOne.startsWith(prefix) && wordOne.slice(prefix.length) == wordTwo && wordTwo.length > 2) {
+            ne.updateNameOne(indexOne, wordOne.slice(prefix.length));
         }
-        else if (wordB.startsWith(prefix) && wordB.slice(prefix.length) == wordA && wordA.length > 2) {
-            ne.updateNameB(indexB, wordB.slice(prefix.length));
+        else if (wordTwo.startsWith(prefix) && wordTwo.slice(prefix.length) == wordOne && wordOne.length > 2) {
+            ne.updateNameTwo(indexTwo, wordTwo.slice(prefix.length));
         }
     }
 
-    [nameA, nameB] = ne.getModifiedNames();
-    return [nameA, nameB];
+    [nameOne, nameTwo] = ne.getModifiedNames();
+    return [nameOne, nameTwo];
 }
 
 /**
  * Combines the prefix with the surname in both of the names if the prefix exists in both.
  * 
- * @param nameA - The first name to clean
- * @param nameB - The second name to clean
+ * @param nameOne - The first name to clean
+ * @param nameTwo - The second name to clean
  * @param prefix - The prefix to combine with the surname
  * @returns The two modified names
  */
-function _combinePrefixWithSurnameifInBoth(nameA: string, nameB: string, prefix: string): [string, string] {
+function _combinePrefixWithSurnameifInBoth(nameOne: string, nameTwo: string, prefix: string): [string, string] {
 
     // Return if ' prefix ' in neither
-    if (!nameA.includes(` ${prefix} `) || !nameB.includes(` ${prefix} `)) {
-        return [nameA, nameB];
+    if (!nameOne.includes(` ${prefix} `) || !nameTwo.includes(` ${prefix} `)) {
+        return [nameOne, nameTwo];
     }
 
     // Get the letter after ' prefix '
-    const letterA = nameA[nameA.indexOf(` ${prefix} `) + 4];
-    const letterB = nameB[nameB.indexOf(` ${prefix} `) + 4];
+    const letterOne = nameOne[nameOne.indexOf(` ${prefix} `) + 4];
+    const letterTwo = nameTwo[nameTwo.indexOf(` ${prefix} `) + 4];
 
     // If the letter after matches, replace ' prefix ' with ' prefix'
-    if (letterA == letterB) {
-        nameA = nameA.replace(` ${prefix} `, ` ${prefix}`);
-        nameB = nameB.replace(` ${prefix} `, ` ${prefix}`);
+    if (letterOne == letterTwo) {
+        nameOne = nameOne.replace(` ${prefix} `, ` ${prefix}`);
+        nameTwo = nameTwo.replace(` ${prefix} `, ` ${prefix}`);
     }
 
-    return [nameA, nameB];
+    return [nameOne, nameTwo];
 }
 
 /**

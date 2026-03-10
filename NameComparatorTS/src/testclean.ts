@@ -1,9 +1,9 @@
 // test-clean.ts
 import * as fuzzball from 'fuzzball';
 
-function testFuzz(nameA: string, nameB:string) {
-    let score = fuzzball.ratio(nameA, nameB);
-    console.log("NameA: " + nameA + ", NameB: " + nameB +" Score: " + score);
+function testFuzz(nameOne: string, nameTwo:string) {
+    let score = fuzzball.ratio(nameOne, nameTwo);
+    console.log("nameOne: " + nameOne + ", nameTwo: " + nameTwo +" Score: " + score);
 }
 
 // Example usage

@@ -1,7 +1,7 @@
 [
   {
-    "nameA": "*ernleore s howland",
-    "nameB": "ivalclare sprow howland",
+    "nameOne": "*ernleore s howland",
+    "nameTwo": "ivalclare sprow howland",
     "match": false,
     "attempt1": [
       "ernleore s howland",
@@ -89,8 +89,8 @@
     ]
   },
     {
-    "nameA": "william e daniels",
-    "nameB": "william e. mcdaniel",
+    "nameOne": "william e daniels",
+    "nameTwo": "william e. mcdaniel",
     "match": true,
     "attempt1": [
       "william e daniels",

@@ -13,16 +13,16 @@ export type WordComboEntry = [string, string, number];
 
 export class Attempt {
   constructor(
-    public nameA: string,
-    public nameB: string,
+    public nameOne: string,
+    public nameTwo: string,
     public wordCombo: WordComboEntry[]
   ) {}
 }
 
 export class ResultsOfNameComparison {
   constructor(
-    public nameA: string,
-    public nameB: string,
+    public nameOne: string,
+    public nameTwo: string,
     public match: boolean = false,
     public uniqueness: number = 0.0,
     public tooShort: boolean = true,
@@ -34,86 +34,86 @@ export class ResultsOfNameComparison {
 }
 
 export function compareTwoNames(
-  nameA: string,
-  nameB: string,
+  nameOne: string,
+  nameTwo: string,
   frequencyData: FrequencyData | null = null
 ): ResultsOfNameComparison {
   if (!frequencyData) {
     frequencyData = new FrequencyData(usaTo1950FirstNames, usaTo1950Surnames);
   }
 
-  if (typeof nameA !== 'string' || typeof nameB !== 'string') {
-    throw new TypeError(`nameA was ${typeof nameA}. Must be string. nameB was ${typeof nameB}. Must be string.`);
+  if (typeof nameOne !== 'string' || typeof nameTwo !== 'string') {
+    throw new TypeError(`nameOne was ${typeof nameOne}. Must be string. nameTwo was ${typeof nameTwo}. Must be string.`);
   }
   if (!(frequencyData instanceof FrequencyData)) {
     throw new TypeError(`frequencyData was ${typeof frequencyData}. Must be FrequencyData.`);
   }
 
-  const results = new ResultsOfNameComparison(nameA, nameB);
+  const results = new ResultsOfNameComparison(nameOne, nameTwo);
 
-  nameA = cleanMod.cleanName(nameA);
-  nameB = cleanMod.cleanName(nameB);
+  nameOne = cleanMod.cleanName(nameOne);
+  nameTwo = cleanMod.cleanName(nameTwo);
 
-  [nameA, nameB] = cleanMod.cleanNamesTogether(nameA, nameB);
+  [nameOne, nameTwo] = cleanMod.cleanNamesByComparison(nameOne, nameTwo);
 
-  results.tooShort = insightMod.eitherNameTooShort(nameA, nameB);
-  if (!nameA) nameA = '_';
-  if (!nameB) nameB = '_';
-  if (nameA === '_' || nameB === '_'){
+  results.tooShort = insightMod.eitherNameTooShort(nameOne, nameTwo);
+  if (!nameOne) nameOne = '_';
+  if (!nameTwo) nameTwo = '_';
+  if (nameOne === '_' || nameTwo === '_'){
     return results;
   } 
 
-  results.uniqueness = uniquenessMod.scoreUniqueness(nameA, nameB, frequencyData);
+  results.uniqueness = uniquenessMod.scoreUniqueness(nameOne, nameTwo, frequencyData);
 
-  [nameA, nameB] = nicknameMod.removeNicknames(nameA, nameB);
+  [nameOne, nameTwo] = nicknameMod.removeNicknames(nameOne, nameTwo);
 
-  let [match, wordCombo] = comparisonMod.spellingComparison(nameA, nameB);
-  results.attempt1 = new Attempt(nameA, nameB, wordCombo);
+  let [match, wordCombo] = comparisonMod.spellingComparison(nameOne, nameTwo);
+  results.attempt1 = new Attempt(nameOne, nameTwo, wordCombo);
   if (match) {
     results.match = true;
     return results;
   }
 
-  if (!insightMod.isWorthContinuing(nameA, nameB)){
+  if (!insightMod.isWorthContinuing(nameOne, nameTwo)){
     return results;
   } 
 
-  let [modifiedNameA, modifiedNameB] = modifyMod.modifyNamesTogether(nameA, nameB);
+  let [modifiednameOne, modifiednameTwo] = modifyMod.modifyNamesTogether(nameOne, nameTwo);
 
-  [match, wordCombo] = comparisonMod.spellingComparison(modifiedNameA, modifiedNameB);
-  results.attempt2 = new Attempt(modifiedNameA, modifiedNameB, wordCombo);
+  [match, wordCombo] = comparisonMod.spellingComparison(modifiednameOne, modifiednameTwo);
+  results.attempt2 = new Attempt(modifiednameOne, modifiednameTwo, wordCombo);
   if (match) {
     results.match = true;
     return results;
   }
   
-  let ipaOfModNameA = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameA));
-  let ipaOfModNameB = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameB));
-  [ipaOfModNameA, ipaOfModNameB] = modifyMod.modifyIpasTogether(ipaOfModNameA, ipaOfModNameB);
+  let ipaOfModnameOne = cleanMod.cleanIpa(ipaMod.getIpa(modifiednameOne));
+  let ipaOfModnameTwo = cleanMod.cleanIpa(ipaMod.getIpa(modifiednameTwo));
+  [ipaOfModnameOne, ipaOfModnameTwo] = modifyMod.modifyIpasTogether(ipaOfModnameOne, ipaOfModnameTwo);
 
   [match, wordCombo] = comparisonMod.pronunciationComparison(
-    ipaOfModNameA,
-    ipaOfModNameB,
-    modifiedNameA,
-    modifiedNameB
+    ipaOfModnameOne,
+    ipaOfModnameTwo,
+    modifiednameOne,
+    modifiednameTwo
   );
-  results.attempt3 = new Attempt(ipaOfModNameA, ipaOfModNameB, wordCombo);
+  results.attempt3 = new Attempt(ipaOfModnameOne, ipaOfModnameTwo, wordCombo);
   if (match) {
     results.match = true;
     return results;
   }
 
-  let ipaOfNameA = cleanMod.cleanIpa(ipaMod.getIpa(nameA));
-  let ipaOfNameB = cleanMod.cleanIpa(ipaMod.getIpa(nameB));
-  [ipaOfNameA, ipaOfNameB] = modifyMod.modifyIpasTogether(ipaOfNameA, ipaOfNameB);
+  let ipaOfnameOne = cleanMod.cleanIpa(ipaMod.getIpa(nameOne));
+  let ipaOfnameTwo = cleanMod.cleanIpa(ipaMod.getIpa(nameTwo));
+  [ipaOfnameOne, ipaOfnameTwo] = modifyMod.modifyIpasTogether(ipaOfnameOne, ipaOfnameTwo);
   
   [match, wordCombo] = comparisonMod.pronunciationComparison(
-    ipaOfNameA,
-    ipaOfNameB,
-    nameA,
-    nameB
+    ipaOfnameOne,
+    ipaOfnameTwo,
+    nameOne,
+    nameTwo
   );
-  results.attempt4 = new Attempt(ipaOfNameA, ipaOfNameB, wordCombo);
+  results.attempt4 = new Attempt(ipaOfnameOne, ipaOfnameTwo, wordCombo);
   if (match) {
     results.match = true;
   }
