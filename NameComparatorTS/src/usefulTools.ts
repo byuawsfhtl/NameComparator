@@ -41,8 +41,8 @@ export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [str
                 } else {
                     const ratio = fuzzball.ratio(wordOne, wordTwo);
                     if (wordOne[0] === wordTwo[0]) {
-                        const prScore = fuzzball.partial_ratio(wordOne, wordTwo);
-                        score = Math.max(ratio, prScore);
+                        const partialRatioScore = fuzzball.partial_ratio(wordOne, wordTwo);
+                        score = Math.max(ratio, partialRatioScore);
                     } else {
                         score = ratio;
                     }
@@ -51,32 +51,32 @@ export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [str
                 scores[i][j] = score;
             }
         }  
-        const indexedA = wordsInNameOne.map((word, i) => (word !== '' ? String(i) : ''));
-        const indexedB = wordsInNameTwo.map((word, i) => (word !== '' ? String(i) : ''));        
-        return identifyBestMatchups(scores, indexedA, indexedB);
+        const finalWordsInNameOne = wordsInNameOne.map((word, i) => (word !== '' ? String(i) : ''));
+        const finalWordsInNameTwo = wordsInNameTwo.map((word, i) => (word !== '' ? String(i) : ''));        
+        return identifyBestMatches(scores, finalWordsInNameOne, finalWordsInNameTwo);
 }
 
 /**
  * Uses Hungarian algorithm to find the optimal assignments.
  * 
  * @param scores (number[][]) - the scores of acertain matchup
- * @param listA ((string | null)[]) - a list of indices as strings or null
- * @param listB ((string | null)[]) - a list of indices as strings or null
+ * @param listOne ((string | null)[]) - a list of indices as strings or null
+ * @param listTwo ((string | null)[]) - a list of indices as strings or null
  * 
  * @returns [string, string, number][]: the word combo
  */
-export function identifyBestMatchups(scores: number[][], listA: string[], listB: string[]) : [string, string, number][] {
+export function identifyBestMatches(scores: number[][], listOne: string[], listTwo: string[]) : [string, string, number][] {
 
     const negatedScores = scores.map(row => row.map(score => -score));
-    let [rowInd, colInd] = hungarianAlgorithm(negatedScores);
+    let [rowIndex, columnIndex] = hungarianAlgorithm(negatedScores);
     let bestCombination: [string, string, number][] = [];
-    for (let idx = 0; idx < rowInd.length; idx++) {
-        const i = rowInd[idx];
-        const j = colInd[idx];
+    for (let idx = 0; idx < rowIndex.length; idx++) {
+        const i = rowIndex[idx];
+        const j = columnIndex[idx];
     
-        const wordOne = listA[i];
-        const wordTwo = listB[j];
-        // Check if both listA[i] and listB[j] are not null
+        const wordOne = listOne[i];
+        const wordTwo = listTwo[j];
+        // Check if both listOne[i] and listTwo[j] are not null
         if (wordOne !== "" && wordTwo !== "") {
           const matchupScore = scores[i][j];
           bestCombination.push([wordOne, wordTwo, matchupScore]);
@@ -98,16 +98,16 @@ export function identifyBestMatchups(scores: number[][], listA: string[], listB:
  *          the word combo of the original, the word combo of the edited version
  */
 export function calculateEditImprovement(nameOne : string, nameTwo : string, nameOneEdited :string, nameTwoEdited : string): [number, [string, string, number][], [string, string, number][]] {
-    let ogWordCombo = findWordMatchesAndQuality(nameOne, nameTwo);
+    let originalWordCombo = findWordMatchesAndQuality(nameOne, nameTwo);
     let editedWordCombo = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
-    if(!ogWordCombo.length || !editedWordCombo.length) {
-        return [0, ogWordCombo, editedWordCombo]
+    if(!originalWordCombo.length || !editedWordCombo.length) {
+        return [0, originalWordCombo, editedWordCombo]
     }
-    const ogAverageScore = ogWordCombo.reduce((sum, [, , score]) => sum + score, 0) / ogWordCombo.length;
+    const originalAverageScore = originalWordCombo.reduce((sum, [, , score]) => sum + score, 0) / originalWordCombo.length;
     const editedAverageScore = editedWordCombo.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombo.length;
-    const diff = editedAverageScore - ogAverageScore;
+    const diff = editedAverageScore - originalAverageScore;
 
-    return [diff, ogWordCombo, editedWordCombo]
+    return [diff, originalWordCombo, editedWordCombo]
 }
 
 /**

@@ -1,5 +1,5 @@
 import * as fuzzball from "fuzzball";
-import { identifyBestMatchups, findWordMatchesAndQuality } from "./usefulTools";
+import { identifyBestMatches, findWordMatchesAndQuality } from "./usefulTools";
 import * as math from 'mathjs';
 
 /**
@@ -138,7 +138,7 @@ export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: stri
     wordsFromIpaTwo = wordsFromIpaTwo.map((word, i) => word !== null ? String(i) : "");
     
     let scoreMatrix : number[][] = scores.toArray() as number[][];
-    wordCombo = identifyBestMatchups(scoreMatrix, wordsFromIpaOne, wordsFromIpaTwo);
+    wordCombo = identifyBestMatches(scoreMatrix, wordsFromIpaOne, wordsFromIpaTwo);
     const lowestScore = Math.min(...wordCombo.map((tuple: [string, string, number]) => tuple[2]));
     
     // Return whether pronunciation match or not
