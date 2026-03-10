@@ -454,10 +454,7 @@ def _determine_if_skip_names_in_fix_mc_and_mac_names(name_one: str, name_two: st
         True if 'mc' and 'mac' are absent from all of the names, indicating that the function can
         skip them. Otherwise, returns false indicating that they need further checks"""
 
-    if ("mc" not in name_one) and ("mac" not in name_one) and ("mc" not in name_two) and ("mac" not in name_two):
-        return True
-    else:
-        return False
+    return ("mc" not in name_one) and ("mac" not in name_one) and ("mc" not in name_two) and ("mac" not in name_two)
 
 def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str]:
     """Removes the irish O if needed for easier name comparison.
@@ -563,6 +560,7 @@ def _remove_prefix_if_prefix_is_only_difference_in_names(prefix: str, name_one: 
         elif (word_two.startswith(prefix)) and (word_two[len(prefix):] == word_one) and (len(word_one) > 2):
             ne.update_name_two(index_two, word_two[len(prefix):])
     name_one, name_two = ne.get_modified_names()
+    return name_one, name_two
 
 def _remove_space_then_prefix_from_unedited_name(prefix: str, space_then_prefix: str, name_to_possibly_change: str, other_name: str) -> tuple[str, bool]:
     """This is a helper function for _remove_unnecessary_prefixes that is intended to remove
