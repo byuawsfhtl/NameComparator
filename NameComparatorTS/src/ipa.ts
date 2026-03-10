@@ -11,11 +11,11 @@ import ipaCommonWordParts from '../data/pronunciation/ipaCommonWordParts.json';
  */
 export function getIpa(name: string): string {
 
-    const pList = [];
+    const pronunciationList = [];
     for (const word of name.split(/\s+/)) {
-        pList.push(_getIpaOfOneWordMemoized(word));
+        pronunciationList.push(_getIpaOfOneWordMemoized(word));
     }
-    return pList.join(' ');
+    return pronunciationList.join(' ');
 }
 
 /**
@@ -37,7 +37,7 @@ function _getIpaOfOneWord(word: string): string {
 
         * @returns whether it was a good substring
     */ 
-    function substringSplitsTh(substring:string, word:string, i:number, j:number): boolean {
+    function substringSplitsThSound(substring:string, word:string, i:number, j:number): boolean {
     
         if (i === j) {
             return false;
@@ -52,7 +52,7 @@ function _getIpaOfOneWord(word: string): string {
     }
 
     // Tries to get the ipa from the word
-    const [firstAttempt, success] = _wordPronunciationHailMary(wordNormalized);
+    const [firstAttempt, success] = _wordPronunciationIpaGuess(wordNormalized);
     if (success) {
         return firstAttempt;
     }
@@ -73,6 +73,7 @@ function _getIpaOfOneWord(word: string): string {
         beginningIndexOfSubstring = 0;
         endIndexOfSubstring = 0;
 
+        // Iterate over every possible substring
         for (let i = 0; i < wordNormalized.length; i++) {
             for (let j = i + 1; j <= wordNormalized.length + 1; j++) {
                 var substring = wordNormalized.substring(i, j);
@@ -83,12 +84,12 @@ function _getIpaOfOneWord(word: string): string {
                     continue;
                 }
                 if (substring.length > 1){
-                    const [substringIpa, success1] = _stringPronunciationHailMary(substring);
-                    if (!success1 || (substringIpa.length >= substring.length * 2) || (substringSplitsTh(substring, word, i, j))) {
+                    const [ipaSubstring, success1] = _stringPronunciationIpaGuess(substring);
+                    if (!success1 || (ipaSubstring.length >= substring.length * 2) || (substringSplitsThSound(substring, word, i, j))) {
                         continue;
                     }
                     else {
-                        pronunciationOfLargestSubstring = substringIpa;
+                        pronunciationOfLargestSubstring = ipaSubstring;
                     }
                 } else if (substring.length === 1) {
                     const letterToPronunciation = {
@@ -107,7 +108,7 @@ function _getIpaOfOneWord(word: string): string {
             }
         }
     
-
+        // Adds the substring to the list
         if (substringAdded) {
             pronunciationList[beginningIndexOfSubstring] = pronunciationOfLargestSubstring;
         }
@@ -127,7 +128,7 @@ const _getIpaOfOneWordMemoized = memoize(_getIpaOfOneWord, {max: 1000});
  * @param word - The word to get the pronunciation of
  * @returns the ipa of the word (or the original word if not found), and whether it was found.
  */
-function _wordPronunciationHailMary(word: string): [string, boolean] {
+function _wordPronunciationIpaGuess(word: string): [string, boolean] {
 
     const wordPronunciation = ipaAllNames[word as keyof typeof ipaAllNames];
     if (wordPronunciation) {
@@ -142,11 +143,11 @@ function _wordPronunciationHailMary(word: string): [string, boolean] {
  * @param word - The word to get the pronunciation of
  * @returns the ipa of the word (or the original word if not found), and whether it was found.
  */
-function _stringPronunciationHailMary(word: string): [string, boolean] {
+function _stringPronunciationIpaGuess(string: string): [string, boolean] {
 
-    const ipaPronunciation = ipaCommonWordParts[word as keyof typeof ipaCommonWordParts];
+    const ipaPronunciation = ipaCommonWordParts[string as keyof typeof ipaCommonWordParts];
     if (ipaPronunciation) {
         return [ipaPronunciation, true];
     }
-    return [word, false];
+    return [string, false];
 }
