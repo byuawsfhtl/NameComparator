@@ -14,12 +14,12 @@ import { data as ipaRules } from "../data/rules/rulesIpa"
 export function modifyNamesTogether(nameOne: string, nameTwo: string): [string, string] {
     nameOne = nameOne.replace(/ie\b/g, "y");
     nameTwo = nameTwo.replace(/ie\b/g, "y");
-    [nameOne, nameTwo] = _removeOrInNames(nameOne, nameTwo);
+    [nameOne, nameTwo] = _removeWordOrFromNames(nameOne, nameTwo);
     [nameOne, nameTwo] = _fixVowelMistakes(nameOne, nameTwo);
-    [nameOne, nameTwo] = _fixSwappedChars(nameOne, nameTwo);
+    [nameOne, nameTwo] = _fixSwappedCharacters(nameOne, nameTwo);
     [nameOne, nameTwo] = _dealWithWrongFirstChar(nameOne, nameTwo);
-    for ( const [meatOption1, meatOption2, bottomBreads, topBreads, minLetters] of spellingRules) {
-        [nameOne, nameTwo] = _replaceSubstringSandwichMeatIfMatchingBread(nameOne, nameTwo, meatOption1, meatOption2, bottomBreads, topBreads, minLetters);
+    for ( const [middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of spellingRules) {
+        [nameOne, nameTwo] = _replaceSubstringCentersIfNamesAreSimilar(nameOne, nameTwo, middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters);
     }
     nameOne = nameOne.replace(/\s+/g, " ");
     nameTwo = nameTwo.replace(/\s+/g, " ");
@@ -36,7 +36,7 @@ export function modifyNamesTogether(nameOne: string, nameTwo: string): [string, 
  * @param nameTwo - a name
  * @returns the modified names
  */
-function _removeOrInNames(nameOne: string, nameTwo: string): [string, string] {
+function _removeWordOrFromNames(nameOne: string, nameTwo: string): [string, string] {
     if (!nameOne || !nameTwo) {
         return [nameOne, nameTwo];
     }
@@ -58,12 +58,12 @@ function _removeOrInNames(nameOne: string, nameTwo: string): [string, string] {
     // if or in nameOne and not nameTwo
     else if (nameOne.includes(" or ")) {
         // Gets the score for if the word before 'or' is removed
-        let rightnameOne = nameOne.replace(/[a-z]+ or /g, " ");
+        let rightNameOne = nameOne.replace(/[a-z]+ or /g, " ");
 
-        if (!rightnameOne) {
-            rightnameOne = "_";
+        if (!rightNameOne) {
+            rightNameOne = "_";
         }
-        const rightWordCombo = findWordMatchesAndQuality(rightnameOne, nameTwo);
+        const rightWordCombo = findWordMatchesAndQuality(rightNameOne, nameTwo);
         const rightAverageScore = rightWordCombo.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / rightWordCombo.length;
         
         // Gets the score for if the word after 'or' is removed
@@ -77,7 +77,7 @@ function _removeOrInNames(nameOne: string, nameTwo: string): [string, string] {
 
         // Return the higher one
         if (rightAverageScore >= leftAverageScore) {
-            return [rightnameOne, nameTwo];
+            return [rightNameOne, nameTwo];
         }
         return [leftnameOne, nameTwo];
     }
@@ -94,18 +94,18 @@ function _removeOrInNames(nameOne: string, nameTwo: string): [string, string] {
         const rightAverageScore = rightWordCombo.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / rightWordCombo.length;
         
         // Gets the score for if the word after 'or' is removed
-        let leftnameTwo = nameTwo.replace(/ or [a-z]+/g, "");
-        if (!leftnameTwo) {
-            leftnameTwo = "_";
+        let leftNameTwo = nameTwo.replace(/ or [a-z]+/g, "");
+        if (!leftNameTwo) {
+            leftNameTwo = "_";
         }
-        const leftWordCombo = findWordMatchesAndQuality(leftnameTwo, nameOne);
+        const leftWordCombo = findWordMatchesAndQuality(leftNameTwo, nameOne);
         const leftAverageScore = leftWordCombo.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / leftWordCombo.length;
         
         // Return the higher one
         if (rightAverageScore >= leftAverageScore) {
             return [nameOne, rightnameTwo];
         }
-        return [nameOne, leftnameTwo];
+        return [nameOne, leftNameTwo];
     }
     return [nameOne, nameTwo];
 }
@@ -122,36 +122,36 @@ function _fixVowelMistakes(nameOne: string, nameTwo: string): [string, string] {
     const ne = new NameEditor(nameOne, nameTwo);
     for (const [indexOne, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         // Continue if either word is less than 5 chars or not same length
-        const lenA = wordOne.length;
-        const lenB = wordTwo.length;
-        if (lenA < 5 || lenB < 5 || lenA !== lenB) {
+        const lengthOne = wordOne.length;
+        const lengthTwo = wordTwo.length;
+        if (lengthOne < 5 || lengthTwo < 5 || lengthOne !== lengthTwo) {
             continue;
         }
 
         // Check if there is only one difference
         let mismatchedIndex = null;
-        let tooManyDiffs = false;
-        for (let i = 0; i < lenA; i++) {
+        let tooManyDifferences = false;
+        for (let i = 0; i < lengthOne; i++) {
             if (wordOne[i] === wordTwo[i]) {
                 continue;
             }
             if (mismatchedIndex) {
-                tooManyDiffs = true;
+                tooManyDifferences = true;
                 break;
             }
             mismatchedIndex = i;
         }
 
         // Continue if there was not exactly one difference
-        if (tooManyDiffs || mismatchedIndex === null) {
+        if (tooManyDifferences || mismatchedIndex === null) {
             continue;
         }
 
         // Replace one of the letters to be the other if they are cooresponding
-        const charwordOne = wordOne[mismatchedIndex];
-        const charwordTwo = wordTwo[mismatchedIndex];
+        const charWordOne = wordOne[mismatchedIndex];
+        const charWordTwo = wordTwo[mismatchedIndex];
         const cooresponding = ['ao', 'ea', 'iy'];
-        if (cooresponding.includes(`${charwordOne}${charwordTwo}`) || cooresponding.includes(`${charwordTwo}${charwordOne}`)) {
+        if (cooresponding.includes(`${charWordOne}${charWordTwo}`) || cooresponding.includes(`${charWordTwo}${charWordOne}`)) {
             ne.updateNameOne(indexOne, wordTwo);
         }
     }
@@ -166,7 +166,7 @@ function _fixVowelMistakes(nameOne: string, nameTwo: string): [string, string] {
  * @param nameTwo - a name
  * @returns the modified names
  */
-function _fixSwappedChars(nameOne: string, nameTwo: string): [string, string] {
+function _fixSwappedCharacters(nameOne: string, nameTwo: string): [string, string] {
     const ne = new NameEditor(nameOne, nameTwo);
     for (const [indexOne, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         // Skip if the words are not 5 long, are different length, or not fuzzy 80
@@ -175,25 +175,25 @@ function _fixSwappedChars(nameOne: string, nameTwo: string): [string, string] {
         }
 
         // Find how many differences and where
-        let diffCount = 0;
-        let diffPositions = [];
+        let differenceCount = 0;
+        let differencePositions = [];
         for (let i = 0; i < wordOne.length; i++) {
             if (wordOne[i] !== wordTwo[i]) {
-                diffCount += 1;
-                diffPositions.push(i);
+                differenceCount += 1;
+                differencePositions.push(i);
             }
         }
 
         // Skip if there are not two differences, differences are not sequential, or not swappable
-        if (diffCount !== 2) {
+        if (differenceCount !== 2) {
             continue;
         }
-        const posI = diffPositions[0];
-        const posJ = diffPositions[1];
-        if (Math.abs(posI - posJ) !== 1) {
+        const positionOne = differencePositions[0];
+        const positionTwo = differencePositions[1];
+        if (Math.abs(positionOne - positionTwo) !== 1) {
             continue;
         }
-        if (wordOne[posI] !== wordTwo[posJ] || wordOne[posJ] !== wordTwo[posI]) {
+        if (wordOne[positionOne] !== wordTwo[positionTwo] || wordOne[positionTwo] !== wordTwo[positionOne]) {
             continue;
         }
 
@@ -229,23 +229,23 @@ function _dealWithWrongFirstChar(nameOne: string, nameTwo: string): [string, str
  * 
  * @param nameOne - a name
  * @param nameTwo - a name
- * @param meatOption1 - the first possible middle of the substring
- * @param meatOption2 - the second possible middle of the substring
- * @param bottomBreads - a list of possible beginnings to the substring. Whichever beginning is found in the one must be found in the other in order for the replacement to work
- * @param topBreads - a list of possible endings to the substring. Whichever ending is found in the one must be found in the other in order for the replacement to work
- * @param minRequiredLetters - the minimum required letters to be found in both words in order for the replacement to work
+ * @param middleSubstringOptionOne - the first possible middle of the substring
+ * @param middleSubstringOptionTwo - the second possible middle of the substring
+ * @param substringBeginnings - a list of possible beginnings to the substring. Whichever beginning is found in the one must be found in the other in order for the replacement to work
+ * @param substringEndings - a list of possible endings to the substring. Whichever ending is found in the one must be found in the other in order for the replacement to work
+ * @param minimumRequiredLetters - the minimum required letters to be found in both words in order for the replacement to work
  * @returns the modified names
  */
-function _replaceSubstringSandwichMeatIfMatchingBread(nameOne: string, nameTwo: string, meatOption1: string, meatOption2: string, bottomBreads: string[], topBreads: string[], minRequiredLetters: number): [string, string] {
+function _replaceSubstringCentersIfNamesAreSimilar(nameOne: string, nameTwo: string, middleSubstringOptionOne: string, middleSubstringOptionTwo: string, substringBeginnings: string[], substringEndings: string[], minimumRequiredLetters: number): [string, string] {
     // Return if both middles not in different words
-    if ((!nameOne.includes(meatOption1) && !nameOne.includes(meatOption2)) || (!nameTwo.includes(meatOption1) && !nameTwo.includes(meatOption2))) {
+    if ((!nameOne.includes(middleSubstringOptionOne) && !nameOne.includes(middleSubstringOptionTwo)) || (!nameTwo.includes(middleSubstringOptionOne) && !nameTwo.includes(middleSubstringOptionTwo))) {
         return [nameOne, nameTwo];
     }
 
     const ne = new NameEditor(nameOne, nameTwo);
     for (let [indexOne, indexTwo, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         // Skip words that are not long enough for the given rule
-        if (wordOne.length < minRequiredLetters || wordTwo.length < minRequiredLetters) {
+        if (wordOne.length < minimumRequiredLetters || wordTwo.length < minimumRequiredLetters) {
             continue;
         }
         
@@ -253,39 +253,39 @@ function _replaceSubstringSandwichMeatIfMatchingBread(nameOne: string, nameTwo: 
         wordOne = `-${wordOne}-`;
         wordTwo = `-${wordTwo}-`;
 
-        for (const bottomBread of bottomBreads) {
-            if (!wordOne.includes(bottomBread) || !wordTwo.includes(bottomBread)) {
+        for (const substringBeginning of substringBeginnings) {
+            if (!wordOne.includes(substringBeginning) || !wordTwo.includes(substringBeginning)) {
                 continue;
             }
 
-            for (const topBread of topBreads) {
-                if (!wordOne.includes(topBread) || !wordTwo.includes(topBread)) {
+            for (const substringEnding of substringEndings) {
+                if (!wordOne.includes(substringEnding) || !wordTwo.includes(substringEnding)) {
                     continue;
                 }
 
-                const pattern = new RegExp(`${bottomBread}(${meatOption1}|${meatOption2})${topBread}`);
-                const resultsA = pattern.exec(wordOne);
-                const resultsB = pattern.exec(wordTwo);
+                const pattern = new RegExp(`${substringBeginning}(${middleSubstringOptionOne}|${middleSubstringOptionTwo})${substringEnding}`);
+                const resultListOne = pattern.exec(wordOne);
+                const resultListTwo = pattern.exec(wordTwo);
 
-                if (!resultsA || !resultsB) continue;
+                if (!resultListOne || !resultListTwo) continue;
 
-                if (resultsA[0] === resultsB[0]) continue;
+                if (resultListOne[0] === resultListTwo[0]) continue;
 
-                const spanA1 = resultsA.index;
-                const spanB1 = spanA1 + resultsA[0].length;
-                const spanA2 = resultsB.index;
-                const spanB2 = spanA2 + resultsB[0].length;
-                if (Math.abs(spanA1 - spanA2) > 2 || Math.abs(spanB1 - spanB2) > 2) {
+                const startIndexStringA = resultListOne.index;
+                const endIndexStringA = startIndexStringA + resultListOne[0].length;
+                const startIndexStringB = resultListTwo.index;
+                const endIndexStringB = startIndexStringB + resultListTwo[0].length;
+                if (Math.abs(startIndexStringA- startIndexStringB) > 2 || Math.abs(endIndexStringA - endIndexStringB) > 2) {
                     continue;
                 }
                 
                 // Update the words by replacing matching (different) middles with the meat option 2
-                const [startIndexStringA, endIndexStringA] = [spanA1, spanB1];
-                const [startIndexStringB, endIndexStringB] = [spanA2, spanB2];
-                const middleCoordsStringA = [startIndexStringA + bottomBread.length, endIndexStringA - topBread.length];
-                const middleCoordsStringB = [startIndexStringB + bottomBread.length, endIndexStringB - topBread.length];
-                wordOne = _overwriteWithSubstring(wordOne, meatOption2, middleCoordsStringA[0], middleCoordsStringA[1])
-                wordTwo = _overwriteWithSubstring(wordTwo, meatOption2, middleCoordsStringB[0], middleCoordsStringB[1])
+                const [startIndexStringOne, endIndexStringOne] = [startIndexStringA, endIndexStringA];
+                const [startIndexStringTwo, endIndexStringTwo] = [startIndexStringB, endIndexStringB];
+                const middleCoordinateStringOne = [startIndexStringOne + substringBeginning.length, endIndexStringOne - substringEnding.length];
+                const middleCoordinateStringTwo = [startIndexStringTwo + substringBeginning.length, endIndexStringTwo - substringEnding.length];
+                wordOne = _overwriteWithSubstring(wordOne, middleSubstringOptionTwo, middleCoordinateStringOne[0], middleCoordinateStringOne[1]);
+                wordTwo = _overwriteWithSubstring(wordTwo, middleSubstringOptionTwo, middleCoordinateStringTwo[0], middleCoordinateStringTwo[1]);
             }
         }
 
@@ -318,13 +318,13 @@ function _overwriteWithSubstring(string: string, replacement: string, startIndex
 /**
  * Modifies two ipas by comparing each to one another.
  * 
- * @param ipaA - a name
- * @param ipaB - a name
+ * @param ipaOne - a name
+ * @param ipaTwo - a name
  * @returns the modified names
  */
-export function modifyIpasTogether(ipaA: string, ipaB: string): [string, string] {
-    for (const [meatOption1, meatOption2, bottomBreads, topBreads, minLetters] of ipaRules) {
-        [ipaA, ipaB] = _replaceSubstringSandwichMeatIfMatchingBread(ipaA, ipaB, meatOption1, meatOption2, bottomBreads, topBreads, minLetters);
+export function modifyIpasTogether(ipaOne: string, ipaTwo: string): [string, string] {
+    for (const [middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of ipaRules) {
+        [ipaOne, ipaTwo] = _replaceSubstringCentersIfNamesAreSimilar(ipaOne, ipaTwo, middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters);
     }
-    return [ipaA, ipaB];
+    return [ipaOne, ipaTwo];
 }
