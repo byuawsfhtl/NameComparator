@@ -10,7 +10,7 @@ type TestCase = {
   nameOne: string;
   nameTwo: string;
   match: boolean;
-  attempt1: [string, string, number[]];
+  attemptOne: [string, string, number[]];
   attempt2: [string, string, number[]];
   attempt3: [string, string, number[]];
   attempt4: [string, string, number[]];
@@ -20,7 +20,7 @@ type FailedTestCase = {
   nameOne: string;
   nameTwo: string;
   match: boolean;
-  attempt1: Attempt | null;
+  attemptOne: Attempt | null;
   attempt2: Attempt | null;
   attempt3: Attempt | null;
   attempt4: Attempt | null;
@@ -49,7 +49,7 @@ describe('compareTwoNames with testCases.json', () => {
           nameOne,
           nameTwo,
           match: result.match,
-          attempt1: result.attempt1,
+          attemptOne: result.attemptOne,
           attempt2: result.attempt2,
           attempt3: result.attempt3,
           attempt4: result.attempt4

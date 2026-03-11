@@ -26,10 +26,10 @@ export class ResultsOfNameComparison {
     public match: boolean = false,
     public uniqueness: number = 0.0,
     public tooShort: boolean = true,
-    public attempt1: Attempt | null = null,
-    public attempt2: Attempt | null = null,
-    public attempt3: Attempt | null = null,
-    public attempt4: Attempt | null = null
+    public attemptOne: Attempt | null = null,
+    public attemptTwo: Attempt | null = null,
+    public attemptThree: Attempt | null = null,
+    public attemptFour: Attempt | null = null
   ) {}
 }
 
@@ -67,8 +67,8 @@ export function compareTwoNames(
 
   [nameOne, nameTwo] = nicknameMod.removeNicknames(nameOne, nameTwo);
 
-  let [match, wordCombo] = comparisonMod.spellingComparison(nameOne, nameTwo);
-  results.attempt1 = new Attempt(nameOne, nameTwo, wordCombo);
+  let [match, wordCombo] = comparisonMod.compareSpelling(nameOne, nameTwo);
+  results.attemptOne = new Attempt(nameOne, nameTwo, wordCombo);
   if (match) {
     results.match = true;
     return results;
@@ -78,26 +78,26 @@ export function compareTwoNames(
     return results;
   } 
 
-  let [modifiednameOne, modifiednameTwo] = modifyMod.modifyNamesTogether(nameOne, nameTwo);
+  let [modifiedNameOne, modifiedNameTwo] = modifyMod.modifyNamesTogether(nameOne, nameTwo);
 
-  [match, wordCombo] = comparisonMod.spellingComparison(modifiednameOne, modifiednameTwo);
-  results.attempt2 = new Attempt(modifiednameOne, modifiednameTwo, wordCombo);
+  [match, wordCombo] = comparisonMod.compareSpelling(modifiedNameOne, modifiedNameTwo);
+  results.attemptTwo = new Attempt(modifiedNameOne, modifiedNameTwo, wordCombo);
   if (match) {
     results.match = true;
     return results;
   }
   
-  let ipaOfModnameOne = cleanMod.cleanIpa(ipaMod.getIpa(modifiednameOne));
-  let ipaOfModnameTwo = cleanMod.cleanIpa(ipaMod.getIpa(modifiednameTwo));
-  [ipaOfModnameOne, ipaOfModnameTwo] = modifyMod.modifyIpasTogether(ipaOfModnameOne, ipaOfModnameTwo);
+  let ipaOfModnameOne = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameOne));
+  let ipaOfModnameTwo = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameTwo));
+  [ipaOfModnameOne, ipaOfModnameTwo] = modifyMod.modifyIpasByComparison(ipaOfModnameOne, ipaOfModnameTwo);
 
   [match, wordCombo] = comparisonMod.pronunciationComparison(
     ipaOfModnameOne,
     ipaOfModnameTwo,
-    modifiednameOne,
-    modifiednameTwo
+    modifiedNameOne,
+    modifiedNameTwo
   );
-  results.attempt3 = new Attempt(ipaOfModnameOne, ipaOfModnameTwo, wordCombo);
+  results.attemptThree = new Attempt(ipaOfModnameOne, ipaOfModnameTwo, wordCombo);
   if (match) {
     results.match = true;
     return results;
@@ -105,7 +105,7 @@ export function compareTwoNames(
 
   let ipaOfNameOne = cleanMod.cleanIpa(ipaMod.getIpa(nameOne));
   let ipaOfNameTwo = cleanMod.cleanIpa(ipaMod.getIpa(nameTwo));
-  [ipaOfNameOne, ipaOfNameTwo] = modifyMod.modifyIpasTogether(ipaOfNameOne, ipaOfNameTwo);
+  [ipaOfNameOne, ipaOfNameTwo] = modifyMod.modifyIpasByComparison(ipaOfNameOne, ipaOfNameTwo);
   
   [match, wordCombo] = comparisonMod.pronunciationComparison(
     ipaOfNameOne,
@@ -113,7 +113,7 @@ export function compareTwoNames(
     nameOne,
     nameTwo
   );
-  results.attempt4 = new Attempt(ipaOfNameOne, ipaOfNameTwo, wordCombo);
+  results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, wordCombo);
   if (match) {
     results.match = true;
   }

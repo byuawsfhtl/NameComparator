@@ -322,7 +322,7 @@ function _overwriteWithSubstring(string: string, replacement: string, startIndex
  * @param ipaTwo - a name
  * @returns the modified names
  */
-export function modifyIpasTogether(ipaOne: string, ipaTwo: string): [string, string] {
+export function modifyIpasByComparison(ipaOne: string, ipaTwo: string): [string, string] {
     for (const [middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of ipaRules) {
         [ipaOne, ipaTwo] = _replaceSubstringCentersIfNamesAreSimilar(ipaOne, ipaTwo, middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters);
     }

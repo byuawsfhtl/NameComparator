@@ -3,7 +3,7 @@
     "nameOne": "*ernleore s howland",
     "nameTwo": "ivalclare sprow howland",
     "match": false,
-    "attempt1": [
+    "attemptOne": [
       "ernleore s howland",
       "ivalclare sprow howland",
       [
@@ -92,7 +92,7 @@
     "nameOne": "william e daniels",
     "nameTwo": "william e. mcdaniel",
     "match": true,
-    "attempt1": [
+    "attemptOne": [
       "william e daniels",
       "william e daniel",
       [

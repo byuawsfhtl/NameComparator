@@ -10,7 +10,7 @@ import * as math from 'mathjs';
  * 
  * @returns whether the names are a match, and the resulting word combo
  */
-export function spellingComparison(nameOne: string, nameTwo: string): [boolean, any[]] {
+export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any[]] {
     const wordCombo = findWordMatchesAndQuality(nameOne, nameTwo);
     const count = wordCombo.filter(tup => tup[2] > 80).length;
     const minimumLength = Math.min(nameOne.split(' ').length, nameTwo.split(' ').length);
