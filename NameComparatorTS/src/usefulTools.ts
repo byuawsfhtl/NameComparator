@@ -4,66 +4,90 @@ import { hungarianAlgorithm } from './hungarian';
 /**
  * Identifies which words in either name are a match, and how well they match.
  * 
- * @param nameOne (string) - a name 
- * @param nameTwo (string)- a name
- * @returns [string, string, number][]: a list of tuples idenifying the index of the word in the first name,
+ * @param nameOne - The first name to check for matches
+ * @param nameTwo - The second name to check for matches
+ * @returns A list of tuples idenifying the index of the word in the first name,
             the index of the word in the second name, and the score of how well they match
  */
 export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [string, string, number][] {
 
-        let wordsInNameOne : string[] = nameOne.split(/\s+/);
-        let wordsInNameTwo : string[] = nameTwo.split(/\s+/);
-        if (wordsInNameOne.length !== wordsInNameTwo.length) {
-            if (wordsInNameOne.length < wordsInNameTwo.length) {
-              wordsInNameOne = wordsInNameOne.concat(new Array(wordsInNameTwo.length - wordsInNameOne.length).fill(""));
-            } else {
-              wordsInNameTwo = wordsInNameTwo.concat(new Array(wordsInNameOne.length - wordsInNameTwo.length).fill(""));
-            }
-        }
+    // Initialize empty list to store scores
+    let wordsInNameOne : string[] = nameOne.split(/\s+/);
+    let wordsInNameTwo : string[] = nameTwo.split(/\s+/);
+    if (wordsInNameOne.length !== wordsInNameTwo.length) {
+        if (wordsInNameOne.length < wordsInNameTwo.length) {
+            wordsInNameOne = wordsInNameOne.concat(new Array(wordsInNameTwo.length - wordsInNameOne.length).fill(""));
+        } else {
+            wordsInNameTwo = wordsInNameTwo.concat(new Array(wordsInNameOne.length - wordsInNameTwo.length).fill(""));
+        };
+    };
 
-        let scores: number[][] = Array.from({ length: wordsInNameOne.length }, () =>
-            new Array(wordsInNameTwo.length).fill(0)
-        );
+    let scores: number[][] = Array.from({ length: wordsInNameOne.length }, () =>
+        new Array(wordsInNameTwo.length).fill(0)
+    );
 
-        for (let i = 0; i < wordsInNameOne.length; i++) {
-            const wordOne = wordsInNameOne[i];
-            for (let j = 0; j < wordsInNameTwo.length; j++) {
-                const wordTwo = wordsInNameTwo[j];
-                
-                scores[i][j] = -1e9
-                if (wordOne == null || wordTwo == null) {
-                    continue;
-                }
-            
-                let score: number;
-                if (wordOne.length === 1 || wordTwo.length === 1) {
-                    score = wordOne[0] === wordTwo[0] ? 100 : 0;
-                } else {
-                    const ratio = fuzzball.ratio(wordOne, wordTwo);
-                    if (wordOne[0] === wordTwo[0]) {
-                        const partialRatioScore = fuzzball.partial_ratio(wordOne, wordTwo);
-                        score = Math.max(ratio, partialRatioScore);
-                    } else {
-                        score = ratio;
-                    }
-                }
-            
-                scores[i][j] = score;
-            }
-        }  
-        const finalWordsInNameOne = wordsInNameOne.map((word, i) => (word !== '' ? String(i) : ''));
-        const finalWordsInNameTwo = wordsInNameTwo.map((word, i) => (word !== '' ? String(i) : ''));        
-        return identifyBestMatches(scores, finalWordsInNameOne, finalWordsInNameTwo);
+    // Score each matchup
+    for (let i = 0; i < wordsInNameOne.length; i++) {
+        const wordOne = wordsInNameOne[i];
+        for (let j = 0; j < wordsInNameTwo.length; j++) {
+            const wordTwo = wordsInNameTwo[j];
+            // Assign a very low finite score to dummy pairings
+            scores[i][j] = -1e9
+            if (wordOne == null || wordTwo == null) {
+                continue;
+            };
+            // Determine the score of the word pairing
+            const score = _determineScoreOfWordMatchup(wordOne, wordTwo);
+            // Add the score
+            scores[i][j] = score;
+        };
+    };
+    const finalWordsInNameOne = wordsInNameOne.map((word, i) => (word !== '' ? String(i) : ''));
+    const finalWordsInNameTwo = wordsInNameTwo.map((word, i) => (word !== '' ? String(i) : ''));        
+    return identifyBestMatches(scores, finalWordsInNameOne, finalWordsInNameTwo);
+};
+
+/**
+ * This is a helper function for findWordMatchesAndQuality to fix its
+ * nesting depth. What it does is it takes in a word and an integer
+ * representation of a list position for two different words. Then it
+ * determines how closely the words match each other and assigns them a
+ * score according to that. 
+ * 
+ * @param wordOne - The first word used in the comparison and scoring
+ * @param wordTwo - The second word used in the comparison and scoring
+ * 
+ * @returns An integer representing the score to be added to the word pairing
+ */
+function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number {
+
+    let score: number;
+    // Assign the score this way if either is initial
+    if (wordOne.length === 1 || wordTwo.length === 1) {
+        score = wordOne[0] === wordTwo[0] ? 100 : 0;
+    } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
+        const ratio = fuzzball.ratio(wordOne, wordTwo);
+        if (wordOne[0] === wordTwo[0]) {
+            const partialRatioScore = fuzzball.partial_ratio(wordOne, wordTwo);
+            score = Math.max(ratio, partialRatioScore);
+        } else {
+            score = ratio;
+        };
+    };
+
+    return score;
 }
 
 /**
- * Uses Hungarian algorithm to find the optimal assignments.
+ * Uses the Hungarian algorithm to find the pair of two words that are the
+ * closest match to each other from two lists.
  * 
- * @param scores (number[][]) - the scores of acertain matchup
- * @param listOne ((string | null)[]) - a list of indices as strings or null
- * @param listTwo ((string | null)[]) - a list of indices as strings or null
+ * @param scores - the scores of acertain matchup
+ * @param listOne - a list of indices as strings or null
+ * @param listTwo - a list of indices as strings or null
  * 
- * @returns [string, string, number][]: the word combo
+ * @returns The two words that are the best match and a score representing 
+ *          how closely they match
  */
 export function identifyBestMatches(scores: number[][], listOne: string[], listTwo: string[]) : [string, string, number][] {
 
@@ -80,11 +104,11 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
         if (wordOne !== "" && wordTwo !== "") {
           const matchupScore = scores[i][j];
           bestCombination.push([wordOne, wordTwo, matchupScore]);
-        }
-    }
+        };
+    };
 
     return bestCombination;
-}
+};
 
 /**
  * Calculated how much editing a name or both names improved the score in comparision to the original names.
@@ -102,13 +126,13 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
     let editedWordCombo = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
     if(!originalWordCombo.length || !editedWordCombo.length) {
         return [0, originalWordCombo, editedWordCombo]
-    }
+    };
     const originalAverageScore = originalWordCombo.reduce((sum, [, , score]) => sum + score, 0) / originalWordCombo.length;
     const editedAverageScore = editedWordCombo.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombo.length;
     const diff = editedAverageScore - originalAverageScore;
 
-    return [diff, originalWordCombo, editedWordCombo]
-}
+    return [diff, originalWordCombo, editedWordCombo];
+};
 
 /**
  * Identifies which words in the names match.
@@ -132,8 +156,8 @@ export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): 
         wordsInNameTwo[j]
     ] as [number, number, string, string]);
     
-    return matchIndicesWithWords
-}
+    return matchIndicesWithWords;
+};
 
 /**
  * A class a-used for ease of editing specific words in names.
@@ -151,7 +175,7 @@ export class NameEditor {
     constructor(nameOne : string, nameTwo : string){
         this.wordsInNameOne = nameOne.split(' ');
         this.wordsInNameTwo = nameTwo.split(' ');
-    }
+    };
 
     /**
      * Replaces the stored word for nameOne at the specified index.
@@ -161,7 +185,7 @@ export class NameEditor {
      */
     public updateNameOne(index : number, updatedWord : string) {
         this.wordsInNameOne[index] = updatedWord;
-    }
+    };
 
     /**
      * Replaces the stored word for nameOne at the specified index.
@@ -171,7 +195,7 @@ export class NameEditor {
      */
     public updateNameTwo(index : number, updatedWord : string) {
         this.wordsInNameTwo[index] = updatedWord;
-    }
+    };
 
     /**
      * Retrieves the modified names
@@ -183,12 +207,12 @@ export class NameEditor {
         let nameTwo = this.wordsInNameTwo.join(' ');
         if (!nameOne) {
             nameOne = '_';
-        }
+        };
         if (!nameTwo) {
             nameTwo = '_';
-        }
+        };
     
         return [nameOne, nameTwo];
-    }
-}
+    };
+};
 

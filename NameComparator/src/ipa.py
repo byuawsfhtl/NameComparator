@@ -1,7 +1,7 @@
 from functools import lru_cache
 from unidecode import unidecode
 
-import NameComparator.data.pronunciation.ipaOnellNames as ipaOnellNames
+import NameComparator.data.pronunciation.ipaAllNames as ipaAllNames
 import NameComparator.data.pronunciation.ipaCommonWordParts as ipaCommonWordParts
 
 def get_ipa(name:str) -> str:
@@ -119,7 +119,7 @@ def _word_pronunciation_ipa_guess(word:str) -> tuple[str, bool]:
     Returns:
         tuple[str, bool]: the ipa of the word (or the original word if not found), and whether it was found.
     """        
-    word_pronunciation = ipaOnellNames.data.get(word)
+    word_pronunciation = ipaAllNames.data.get(word)
     if word_pronunciation != None:
         return word_pronunciation, True
     return word, False
