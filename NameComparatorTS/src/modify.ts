@@ -1,8 +1,8 @@
 import * as fuzzball from "fuzzball";
 
 import { findWordMatchesAndQuality, getMatchingWordsAndIndices, NameEditor } from "./usefulTools"
-import { data as spellingRules } from "../data/rules/rulesSpelling"
-import { data as ipaRules } from "../data/rules/rulesIpa"
+import { data as spellingRules } from "../../data/rules/rulesSpelling"
+import { data as ipaRules } from "../../data/rules/rulesIpa"
 
 /** 
  * Modifies the name together (changing them in a way that is much more intense than simply cleaning together).
