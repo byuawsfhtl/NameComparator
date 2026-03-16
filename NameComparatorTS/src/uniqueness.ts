@@ -1,7 +1,8 @@
 import { getMatchingWordsAndIndices } from "./usefulTools";
 
 /**
- * Stores the name frequencies for first names and surnames within a given population.
+ * A class that stores the name frequencies for first names and surnames 
+ * within a given population in two Records.
  */
 export class FrequencyData {
     public firstNameFrequencies: Record<string, number>;
@@ -14,7 +15,7 @@ export class FrequencyData {
 }
 
 /**
- * Represents the frequency upper bound of each uniqueness classification.
+ * An enum representing the frequency upper bound of each uniqueness classification.
  */
 export enum FrequencyUpperBound {
     GENERIC = 1/1,
@@ -25,7 +26,7 @@ export enum FrequencyUpperBound {
 }
 
 /**
- * Represents the classification of the uniqueness of a given word pair.
+ * An enum representing the classification of the uniqueness of a given word pair.
  */
 export enum Uniqueness {
     GENERIC = 10,
@@ -37,55 +38,59 @@ export enum Uniqueness {
 
 /**
  * Takes two names and gives them an algorithmically calculated uniqueness score
- * (between 0 and 100).
+ * between 0 and 100.
  * 
- * @param nameOne - The first name to score.
- * @param nameTwo - The second name to score.
- * @param frequencyData - The first name and surname frequencies in a pop
- * @returns The uniqueness score.
+ * @param nameOne - The first name to compare for a uniqueness score
+ * @param nameTwo - The second name to compare for a uniqueness score
+ * @param frequencyData - The first name and surname frequencies within a population
+ * @returns A float numerically representing the uniqueness of the two names
  */
 export function scoreUniqueness(nameOne: string, nameTwo: string, frequencyData: FrequencyData): number {
 
+    // Get the max frequency of either word in each pair
     const wordPairs = getMatchingWordsAndIndices(nameOne, nameTwo);
-    
     const scoresOfWordPairs = wordPairs.map(([_, __, wordOne, wordTwo]: [number, number, string, string]) => 
         _findWordPairUniqueness(wordOne, wordTwo, frequencyData)
     );
 
+    // Return the sum, maxing out at 100
     return Math.min(100, scoresOfWordPairs.reduce((sum: number, score: number) => sum + score, 0));
 }
 
 /**
  * Given two words paired together, it will identify the least possible uniqueness
- * classification to assign the pair, based on which of the two occurs most frequently
- * (as either a surname or as a first name- whichever is more frequent).
+ * classification to assign the pair, based on which of the two occurs most frequently.
+ * This can be based on either a surname or as a first name -- whichever is more frequent.
  * 
- * @param wordOne - The first word to score.
- * @param wordTwo - The second word to score.
- * @param frequencyData - The first name and surname frequencies in a pop
- * @returns The uniqueness classification of the word pair.
+ * @param wordOne - The first word to score from a name
+ * @param wordTwo - The second word to score from a name
+ * @param frequencyData - The first name and surname frequencies within a population
+ * @returns The uniqueness classification enum of the word pair
+ * 
+ * This will throw an error if the value is below 0 or greater than 1
+ * 
  */
 function _findWordPairUniqueness(wordOne: string, wordTwo: string, frequencyData: FrequencyData): Uniqueness {
 
-    const wordOneFreq = _getMaxFrequency(wordOne, frequencyData);
-    const wordTwoFreq = _getMaxFrequency(wordTwo, frequencyData);
-    const pairFreq = Math.max(wordOneFreq, wordTwoFreq);
-    if (pairFreq < 0) {
+    const wordOneFrequency = _getMaxFrequency(wordOne, frequencyData);
+    const wordTwoFrequency = _getMaxFrequency(wordTwo, frequencyData);
+    const pairFrequency = Math.max(wordOneFrequency, wordTwoFrequency);
+    if (pairFrequency < 0) {
         throw new Error("Score is out of range");
     }
-    else if (pairFreq <= FrequencyUpperBound.UNSEEN) {
+    else if (pairFrequency <= FrequencyUpperBound.UNSEEN) {
         return Uniqueness.UNSEEN;
     }
-    else if (pairFreq <= FrequencyUpperBound.RARE) {
+    else if (pairFrequency <= FrequencyUpperBound.RARE) {
         return Uniqueness.RARE;
     }
-    else if (pairFreq <= FrequencyUpperBound.AVERAGE) {
+    else if (pairFrequency <= FrequencyUpperBound.AVERAGE) {
         return Uniqueness.AVERAGE;
     }
-    else if (pairFreq <= FrequencyUpperBound.COMMON) {
+    else if (pairFrequency <= FrequencyUpperBound.COMMON) {
         return Uniqueness.COMMON;
     }
-    else if (pairFreq <= FrequencyUpperBound.GENERIC) {
+    else if (pairFrequency <= FrequencyUpperBound.GENERIC) {
         return Uniqueness.GENERIC;
     }
     else {
@@ -98,9 +103,9 @@ function _findWordPairUniqueness(wordOne: string, wordTwo: string, frequencyData
  * first name or surname, given those frequencies for a given population. If the word is not
  * found in either dicts, defaults to the default frequency, which is very low.
  * 
- * @param word - The word to score.
- * @param frequencyData - The first name and surname frequencies in a pop
- * @returns The maximum possible frequency for the word.
+ * @param word - The word from a name to score
+ * @param frequencyData - The first name and surname frequencies in a population
+ * @returns A float representing the maximum possible frequency for the word
  */
 function _getMaxFrequency(word: string, frequencyData: FrequencyData): number {
 
