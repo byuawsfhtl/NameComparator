@@ -1,5 +1,5 @@
 import * as fuzzball from 'fuzzball';
-import { hungarianAlgorithm } from './hungarian';
+import { munkres } from 'munkres';
 
 /**
  * Identifies which words in either name are a match, and how well they match.
@@ -90,13 +90,16 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
  *          how closely they match
  */
 export function identifyBestMatches(scores: number[][], listOne: string[], listTwo: string[]) : [string, string, number][] {
-
+// Note that as a part of updating this function, I opted for a more well-tested external
+// package for our hungarian algorithm (also known as the munkres algorithm). If it is
+// ever necessary to revert for some reason, see the hungarian.ts file before any of the
+// changes made on 3/16/2026
     const negatedScores = scores.map(row => row.map(score => -score));
-    let [rowIndex, columnIndex] = hungarianAlgorithm(negatedScores);
+    const hungairan_pairs_list = munkres(negatedScores);
     let bestCombination: [string, string, number][] = [];
-    for (let idx = 0; idx < rowIndex.length; idx++) {
-        const i = rowIndex[idx];
-        const j = columnIndex[idx];
+    for (let index = 0; index < hungairan_pairs_list.length; index++) {
+        const i = hungairan_pairs_list[index][0];
+        const j = hungairan_pairs_list[index][1];
     
         const wordOne = listOne[i];
         const wordTwo = listTwo[j];
