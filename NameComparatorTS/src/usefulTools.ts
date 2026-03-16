@@ -114,15 +114,15 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
 };
 
 /**
- * Calculated how much editing a name or both names improved the score in comparision to the original names.
+ * Calculates how much editing a name or both names improved the score in comparision to the original names.
  * 
- * @param nameOne (string) - the original first name
- * @param nameTwo (string) - the original second name
- * @param nameOneEdited (string) - the edited first name
- * @param nameTwoEdited (string) - the edited second name
+ * @param nameOne - the original first name
+ * @param nameTwo - the original second name
+ * @param nameOneEdited - the edited first name
+ * @param nameTwoEdited - the edited second name
  * 
- * @returns [float, tuple, tuple]: the score of how much the edits improved the comparison (can be negative),
- *          the word combo of the original, the word combo of the edited version
+ * @returns The score of how much the edits improved the comparison (can be negative),
+ *          the word combo of the original, and the word combo of the edited version
  */
 export function calculateEditImprovement(nameOne : string, nameTwo : string, nameOneEdited :string, nameTwoEdited : string): [number, [string, string, number][], [string, string, number][]] {
     let originalWordCombo = findWordMatchesAndQuality(nameOne, nameTwo);
@@ -138,12 +138,14 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
 };
 
 /**
- * Identifies which words in the names match.
+ * Identifies which words in the names match and finds their indices.
  * 
- * @param nameOne (string) - a name
- * @param nameTwo (string) - a name
+ * @param nameOne - The first name to check for matches in
+ * @param nameTwo - The second name to check for matches in
  * 
- * @returns [int, int, string, string][] - the list of which words match. Tuples of: the index of word in nameOne, the index of word in nameTwo, in word in nameOne, the word in nameTwo
+ * @returns A list of lists containing which words match. Each contained list has the index of a matching word 
+ *          in name_one, the index of a matching word in name_two, the matching word in name_one, and the matching 
+ *          word in name_two
  */
 export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): [number, number, string, string][] {
     let combo = findWordMatchesAndQuality(nameOne, nameTwo);
@@ -163,7 +165,7 @@ export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): 
 };
 
 /**
- * A class a-used for ease of editing specific words in names.
+ * A class used for ease of editing specific words in names.
  */
 export class NameEditor {
     private wordsInNameOne : string[];
@@ -172,8 +174,8 @@ export class NameEditor {
     /**
      * Splits the words for later editing
      * 
-     * @param nameOne (string) - a name
-     * @param nameTwo (string) - a name
+     * @param nameOne - The first name to edit
+     * @param nameTwo - The second name to edit
      */
     constructor(nameOne : string, nameTwo : string){
         this.wordsInNameOne = nameOne.split(' ');
@@ -183,18 +185,18 @@ export class NameEditor {
     /**
      * Replaces the stored word for nameOne at the specified index.
      * 
-     * @param index (number) - the specified index
-     * @param updatedWord (string) - the rplacement string
+     * @param index - The specified index
+     * @param updatedWord - The replacement string
      */
     public updateNameOne(index : number, updatedWord : string) {
         this.wordsInNameOne[index] = updatedWord;
     };
 
     /**
-     * Replaces the stored word for nameOne at the specified index.
+     * Replaces the stored word for nameTwo at the specified index.
      * 
-     * @param index (number) - the specified index
-     * @param updatedWord (string) - the rplacement string
+     * @param index - The specified index
+     * @param updatedWord - The replacement string
      */
     public updateNameTwo(index : number, updatedWord : string) {
         this.wordsInNameTwo[index] = updatedWord;
@@ -203,7 +205,7 @@ export class NameEditor {
     /**
      * Retrieves the modified names
      * 
-     * @returns [string, string] - the modified names
+     * @returns The fist modified name and the second modified name
      */
     public getModifiedNames() : [string, string]{
         let nameOne = this.wordsInNameOne.join(' ');

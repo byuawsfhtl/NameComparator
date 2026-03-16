@@ -105,14 +105,14 @@ def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, 
     """Calculates how much editing a name or both names improved the score in comparison to the original names.
 
     Args:
-        name_one (str): the original first name
-        name_two (str): the original second name
-        name_one_edited (str): the edited first name
-        name_two_edited (str): the edited second name
+        name_one: the original first name
+        name_two: the original second name
+        name_one_edited: the edited first name
+        name_two_edited: the edited second name
 
     Returns:
-        tuple[float, tuple, tuple]: the score of how much the edits improved the comparison (can be negative), 
-        the word combo of the original, the word combo of the edited verison
+        A tuple containing the score of how much the edits improved the comparison (can be negative), 
+        the word combo of the original, and the word combo of the edited verison
     """        
     original_word_combo = find_word_matches_and_quality(name_one, name_two)
     edited_word_combo = find_word_matches_and_quality(name_one_edited, name_two_edited)
@@ -127,11 +127,12 @@ def get_matching_words_and_indices(name_one:str, name_two:str) -> list[tuple[int
     """Identifies which words in the names match and finds their indices.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
+        name_one: The first name to check for matches in
+        name_two: The second name to check for matches in
 
     Returns:
-        list[tuple[int, int, str, str]]: the list of which words match. Tuples of: the index of word in name_one, the index of word in name_two, in word in name_one, the word in name_two
+        A list of tuples containing which words match. The tuples contain the index of a matching word in name_one, 
+        the index of a matching word in name_two, the matching word in name_one, and the matching word in name_two
     """        
     combo = find_word_matches_and_quality(name_one, name_two)
     words_in_name_one = name_one.split()
@@ -147,8 +148,8 @@ class NameEditor():
         """Splits the words for later editing.
 
         Args:
-            name_one (str): a name
-            name_two (str): a name
+            name_one: The first name to edit
+            name_two: The second name to edit
         """            
         self.words_in_name_one = name_one.split()
         self.words_in_name_two = name_two.split()
@@ -157,8 +158,8 @@ class NameEditor():
         """Replaces the stored word for name_one at the specified index.
 
         Args:
-            index (int): the specified index
-            updated_word (str): the replacement string
+            index: The specified index
+            updated_word: The replacement string
         """
         self.words_in_name_one[index] = updated_word
 
@@ -166,8 +167,8 @@ class NameEditor():
         """Replaces the stored word for name_two at the specified index.
 
         Args:
-            index (int): the specified index
-            updated_word (str): the replacement string
+            index: The specified index
+            updated_word: The replacement string
         """
         self.words_in_name_two[index] = updated_word
 
@@ -175,7 +176,7 @@ class NameEditor():
         """Retrieves the modified names.
 
         Returns:
-            tuple[str, str]: the modified names
+            A tuple containing the fist modified name and the second modified name
         """            
         name_one = ' '.join(self.words_in_name_one)
         name_two = ' '.join(self.words_in_name_two)
