@@ -1,17 +1,19 @@
 from functools import lru_cache
 from unidecode import unidecode
+from json import loads as json_loads
+from importlib.resources import files
 
-import NameComparator.data.pronunciation.ipaAllNames as ipaAllNames
-import NameComparator.data.pronunciation.ipaCommonWordParts as ipaCommonWordParts
+unparsed_all_ipa_names = files('NameComparator').joinpath('data/pronunciation/ipaAllNames.json').read_text()
+unparsed_common_ipa_word_parts = files('NameComparator').joinpath('data/pronunciation/ipaCommonWordParts.json').read_text()
 
 def get_ipa(name:str) -> str:
-    """Gets the pronunciation of the name.
+    """Gets the pronunciation of a name.
 
     Args:
-        name (str): a name
+        name: The name to get the pronunciation of
 
     Returns:
-        str: the ipa of the name
+        The ipa pronunciation of the name
     """        
     pronunciation_list = []
     for word in name.split():
@@ -19,15 +21,16 @@ def get_ipa(name:str) -> str:
     pronunciation_of_name = " ".join(pronunciation_list)
     return pronunciation_of_name
 
+# Note here that lru cache is the python equivalent of memoizee in typescript
 @lru_cache(maxsize=1_000)
 def _get_ipa_of_one_word(word:str) -> str:
-    """Gets the pronunciation of one word.
+    """Gets the pronunciation of a word.
 
     Args:
-        word (str): a word
+        word: The word to get the pronunciation of
 
     Returns:
-        str: the ipa of the word
+        The ipa pronunciation of the word
     """
     # Setup
     word = word.strip()
@@ -63,7 +66,7 @@ def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, in
     of the word.
     
     Args:
-        word: the word that all the possible substrings of are being iterated through
+        word: The word that all the possible substrings of are being iterated through
     
     Returns:
         A tuple containing the following information: A boolean representing if the 
@@ -114,47 +117,47 @@ def _word_pronunciation_ipa_guess(word:str) -> tuple[str, bool]:
     """Tries to get the pronunciation from the predefined ipa dictionary.
 
     Args:
-        word (str): the regular word
+        word: The word to get the pronunciation of
 
     Returns:
-        tuple[str, bool]: the ipa of the word (or the original word if not found), and whether it was found.
+        A tuple comtaining the ipa of the word (or the original word if not found), and whether it was found.
     """        
-    word_pronunciation = ipaAllNames.data.get(word)
-    if word_pronunciation != None:
+    word_pronunciation = json_loads(unparsed_all_ipa_names).get(word, '')
+    if word_pronunciation:
         return word_pronunciation, True
     return word, False
 
 def _string_pronuncation_ipa_guess(string:str) -> tuple[str, bool]:
-    """Helper function of _get_ipa_of_one_word.
-    Tries to get the ipa of a string (with more than one letter).
+    """Helper function of _get_ipa_of_one_word. Tries to get the ipa of a string 
+    with more than one letter.
 
     Args:
-        string (str): a string that is longer than one letter
+        string: A string that is longer than one letter to get the pronunciation of
 
     Returns:
-        tuple[str, bool]: the ipa of the string (or the original string if not found), and whether it was found.
+        A tuple containing the ipa of the string (or the original string if not found), and whether it was found.
     """        
-    ipa_pronunciation = ipaCommonWordParts.data.get(string)
-    if ipa_pronunciation != None:
+    ipa_pronunciation = json_loads(unparsed_common_ipa_word_parts).get(string, '')
+    if ipa_pronunciation:
         return ipa_pronunciation, True
     return string, False
 
 def substring_splits_th_sound(substring:str, word:str, i:int, j:int) -> bool:
-        """Helps to identify poor substring choices for words for ipa.
+    """Helps to identify poor substring choices for words for ipa.
 
-        Args:
-            substring (str): the ipa dissection
-            word (str): the full word
-            i (int): the start index of the substring
-            j (int): the end index of the substring
+    Args:
+        substring: The ipa dissection
+        word: The full word
+        i: The start index of the substring
+        j: The end index of the substring
 
-        Returns:
-            bool: whether it was a good substring
-        """            
-        if i == j:
-            return False
-        if i >= 0 and substring[0] == 'h' and word[i - 1] == 't':
-            return True
-        if j <= len(word) - 1 and substring[-1] == 't' and word[j] == 'h':
-            return True
+    Returns:
+        A boolean representing whether or not it was a good substring
+    """            
+    if i == j:
         return False
+    if i >= 0 and substring[0] == 'h' and word[i - 1] == 't':
+        return True
+    if j <= len(word) - 1 and substring[-1] == 't' and word[j] == 'h':
+        return True
+    return False
