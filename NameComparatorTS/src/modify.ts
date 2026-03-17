@@ -5,11 +5,11 @@ import { data as spellingRules } from "../../data/rules/rulesSpelling"
 import { data as ipaRules } from "../../data/rules/rulesIpa"
 
 /** 
- * Modifies the name together (changing them in a way that is much more intense than simply cleaning together).
+ * Modifies the name together, changing them in a way that is much more intense than simply cleaning together.
  * 
- * @param nameOne - a name
- * @param nameTwo - a name
- * @returns the modified names
+ * @param nameOne - The first name to modify
+ * @param nameTwo - The second name to modify
+ * @returns The modified names
  */
 export function modifyNamesTogether(nameOne: string, nameTwo: string): [string, string] {
     nameOne = nameOne.replace(/ie\b/g, "y");

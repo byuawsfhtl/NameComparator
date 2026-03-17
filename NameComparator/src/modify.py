@@ -1,19 +1,22 @@
 import re
-from fuzzywuzzy import fuzz
+from json import loads as json_loads
+from importlib.resources import files
 
+from fuzzywuzzy import fuzz
 import NameComparator.src.usefulTools as usefulToolsMod
-import NameComparator.data.rules.rulesSpelling as rulesSpelling
-import NameComparator.data.rules.rulesIpa as rulesIpa
+
+unparsed_spelling_rules = files('NameComparator').joinpath('data/rules/rulesSpelling.json').read_text()
+unparsed_ipa_rules = files('NameComparator').joinpath('data/rules/rulesIpa.json').read_text()
 
 def modify_names_together(name_one:str, name_two:str) -> tuple[str,str]:
-    """Modifies the name together (changing them in a way that is much more intense than simply cleaning together).
+    """Modifies the name together, changing them in a way that is much more intense than simply cleaning together.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
+        name_one: The first name to modify
+        name_two: The second name to modify
 
     Returns:
-        tuple[str,str]: the modified names
+        A tuple containing the modified names
     """        
     name_one = re.sub(r'ie\b', 'y', name_one)
     name_two = re.sub(r'ie\b', 'y', name_two)

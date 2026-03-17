@@ -1,5 +1,5 @@
 import re
-import json
+from json import loads as json_loads
 from importlib.resources import files
 
 unparsed_nickname_to_id_data = files('NameComparator').joinpath('data/nicknames/nicknameToId.json').read_text()
@@ -17,7 +17,7 @@ def remove_nicknames(name_one:str, name_two:str) -> tuple[str, str]:
         A tuple containing the names, possibly modified with a nickname replaced
     """        
 
-    nickname_to_id_data_as_dictionary = json.loads(unparsed_nickname_to_id_data)
+    nickname_to_id_data_as_dictionary = json_loads(unparsed_nickname_to_id_data)
     words_in_name_one = name_one.split()
     words_in_name_two = name_two.split()
 
@@ -50,7 +50,7 @@ def _remove_based_on_id_information(set_of_ids: set[int], word_one: str, name_on
         A modified version of name_one with nicknames that are removed    
     """
     
-    id_to_nickname_set_data_as_variable = json.loads(unparsed_id_to_nickname_set)
+    id_to_nickname_set_data_as_variable = json_loads(unparsed_id_to_nickname_set)
     breaking = False
 
     for id in set_of_ids:
