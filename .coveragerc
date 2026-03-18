@@ -1,0 +1,12 @@
+[run]
+source =
+    NameComparator
+relative_files = True
+omit = 
+    NameComparatorTS/
+    tests/
+    **/test_*.py
+    **/__init__.py
+    **/_version.py
+    setup.py
+    .github/*
