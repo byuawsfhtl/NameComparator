@@ -18,7 +18,7 @@ export function modifyNamesTogether(nameOne: string, nameTwo: string): [string, 
     [nameOne, nameTwo] = _fixVowelMistakes(nameOne, nameTwo);
     [nameOne, nameTwo] = _fixSwappedCharacters(nameOne, nameTwo);
     [nameOne, nameTwo] = _dealWithWrongFirstChar(nameOne, nameTwo);
-    for ( const [middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of spellingRules) {
+    for (const[middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of spellingRules as [string, string, string[], string[], number][]) {
         [nameOne, nameTwo] = _replaceSubstringCentersIfNamesAreSimilar(nameOne, nameTwo, middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters);
     }
     nameOne = nameOne.replace(/\s+/g, " ");
@@ -356,7 +356,7 @@ function _overwriteWithSubstring(string: string, replacement: string, startIndex
  * @returns The modified ipas of two words or names
  */
 export function modifyIpasByComparison(ipaOne: string, ipaTwo: string): [string, string] {
-    for (const [middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of ipaRules) {
+    for (const [middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of ipaRules as [string, string, string[], string[], number][]) {
         [ipaOne, ipaTwo] = _replaceSubstringCentersIfNamesAreSimilar(ipaOne, ipaTwo, middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters);
     }
     return [ipaOne, ipaTwo];
