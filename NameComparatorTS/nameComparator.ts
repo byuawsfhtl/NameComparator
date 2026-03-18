@@ -1,10 +1,10 @@
-import * as cleanMod from './src/clean';
-import * as nicknameMod from './src/nicknames';
-import * as insightMod from './src/insights';
-import * as comparisonMod from './src/comparisons';
-import * as modifyMod from './src/modify';
-import * as ipaMod from './src/ipa';
-import * as uniquenessMod from './src/uniqueness';
+import { cleanName, cleanNamesByComparison, cleanIpa } from './src/clean';
+import { removeNicknames } from './src/nicknames';
+import { isWorthContinuing, eitherNameTooShort } from './src/insights';
+import { compareSpelling, pronunciationComparison } from './src/comparisons';
+import { modifyNamesTogether, modifyIpasByComparison } from './src/modify';
+import { getIpa } from './src/ipa';
+import { scoreUniqueness } from './src/uniqueness';
 import { FrequencyData } from './src/uniqueness';
 import usaTo1950Surnames from '../data/frequency/surnamesUsaTo1950.json';
 import usaTo1950FirstNames from '../data/frequency/firstNamesUsaTo1950.json';
@@ -82,12 +82,12 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   let results = new ResultsOfNameComparison(nameOne, nameTwo);
 
   // Clean the names
-  nameOne = cleanMod.cleanName(nameOne);
-  nameTwo = cleanMod.cleanName(nameTwo);
-  [nameOne, nameTwo] = cleanMod.cleanNamesByComparison(nameOne, nameTwo);
+  nameOne = cleanName(nameOne);
+  nameTwo = cleanName(nameTwo);
+  [nameOne, nameTwo] = cleanNamesByComparison(nameOne, nameTwo);
 
   // Deal with names that are too short
-  results.tooShort = insightMod.eitherNameTooShort(nameOne, nameTwo);
+  results.tooShort = eitherNameTooShort(nameOne, nameTwo);
   if (!nameOne) {
     nameOne = '_'
   };
@@ -99,13 +99,13 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   } 
 
   // Find the uniqueness of this name matchup (ie. hopefully not 'John Smith' and 'J Smith')
-  results.uniqueness = uniquenessMod.scoreUniqueness(nameOne, nameTwo, frequencyData);
+  results.uniqueness = scoreUniqueness(nameOne, nameTwo, frequencyData);
 
   // Remove nicknames before the actual comparison
-  [nameOne, nameTwo] = nicknameMod.removeNicknames(nameOne, nameTwo);
+  [nameOne, nameTwo] = removeNicknames(nameOne, nameTwo);
 
   // 1st attempt: Checks if names are a match according to string comparison alone
-  let [match, wordCombo] = comparisonMod.compareSpelling(nameOne, nameTwo);
+  let [match, wordCombo] = compareSpelling(nameOne, nameTwo);
   results.attemptOne = new Attempt(nameOne, nameTwo, wordCombo);
   if (match) {
     results.match = true;
@@ -113,13 +113,13 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   }
 
   // Failed first attempt. Check if names are even worth continuing
-  if (insightMod.isWorthContinuing(nameOne, nameTwo) === false){
+  if (isWorthContinuing(nameOne, nameTwo) === false){
     return results;
   } 
 
   // 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
-  let [modifiedNameOne, modifiedNameTwo] = modifyMod.modifyNamesTogether(nameOne, nameTwo);
-  [match, wordCombo] = comparisonMod.compareSpelling(modifiedNameOne, modifiedNameTwo);
+  let [modifiedNameOne, modifiedNameTwo] = modifyNamesTogether(nameOne, nameTwo);
+  [match, wordCombo] = compareSpelling(modifiedNameOne, modifiedNameTwo);
   results.attemptTwo = new Attempt(modifiedNameOne, modifiedNameTwo, wordCombo);
   if (match) {
     results.match = true;
@@ -127,10 +127,10 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   }
   
   // 3rd attempt: Checks if modified names are a match according to pronunciation
-  let ipaOfModifiedNameOne = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameOne));
-  let ipaOfModifiedNameTwo = cleanMod.cleanIpa(ipaMod.getIpa(modifiedNameTwo));
-  [ipaOfModifiedNameOne, ipaOfModifiedNameTwo] = modifyMod.modifyIpasByComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo);
-  [match, wordCombo] = comparisonMod.pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
+  let ipaOfModifiedNameOne = cleanIpa(getIpa(modifiedNameOne));
+  let ipaOfModifiedNameTwo = cleanIpa(getIpa(modifiedNameTwo));
+  [ipaOfModifiedNameOne, ipaOfModifiedNameTwo] = modifyIpasByComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo);
+  [match, wordCombo] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
   results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, wordCombo);
   if (match) {
     results.match = true;
@@ -138,10 +138,10 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   }
 
   // 4th attempt: Check if original names are a match according to pronunciation
-  let ipaOfNameOne = cleanMod.cleanIpa(ipaMod.getIpa(nameOne));
-  let ipaOfNameTwo = cleanMod.cleanIpa(ipaMod.getIpa(nameTwo));
-  [ipaOfNameOne, ipaOfNameTwo] = modifyMod.modifyIpasByComparison(ipaOfNameOne, ipaOfNameTwo);
-  [match, wordCombo] = comparisonMod.pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
+  let ipaOfNameOne = cleanIpa(getIpa(nameOne));
+  let ipaOfNameTwo = cleanIpa(getIpa(nameTwo));
+  [ipaOfNameOne, ipaOfNameTwo] = modifyIpasByComparison(ipaOfNameOne, ipaOfNameTwo);
+  [match, wordCombo] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
   results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, wordCombo);
   if (match) {
     results.match = true;
