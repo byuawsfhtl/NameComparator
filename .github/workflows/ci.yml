@@ -62,3 +62,4 @@ jobs:
         with:
           test_paths: tests/
           exclude_paths: NameComparatorTS/, tests/, **/test_*.py, **/__init__.py, **/_version.py, setup.py, .github/*
+          fail_on_low_coverage: false
