@@ -9,7 +9,7 @@ def clean_name(name:str) -> str:
     """Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.
 
     Args:
-        name: the name to cleaned
+        name: the name to clean
 
     Returns:
         A string containing the cleaned name
