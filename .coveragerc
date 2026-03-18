@@ -1,12 +1,23 @@
 [run]
-source =
-    NameComparator
-relative_files = True
+source = .
 omit = 
     NameComparatorTS/
-    tests/
+    tests/*
     **/test_*.py
     **/__init__.py
     **/_version.py
+    _version.py
     setup.py
     .github/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    if TYPE_CHECKING:
+    @abstractmethod
+
+[html]
+directory = htmlcov
