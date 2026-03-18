@@ -4,11 +4,11 @@ def is_worth_continuing(name_one:str, name_two:str) -> bool:
     """Identifies if a name comparison will always prove false.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
+        name_one: The first name used in a comparison
+        name_two: The second name used in a comparison
 
     Returns:
-        bool: whether the names are worth working on further
+        A boolean representing whether the names are worth working on further
     """        
     word_combo = usefulToolsMod.find_word_matches_and_quality(name_one, name_two)
     one_letter_match_fail_count = 0
@@ -26,14 +26,12 @@ def either_name_too_short(name_one:str, name_two:str) -> bool:
     """Identifies if either of the names is too short.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
+        name_one: The first name to check the length of
+        name_two: The second name to check the length of
 
     Returns:
-        bool: whether either was too short
+        A boolean representing if either name was too short
     """        
     combo = usefulToolsMod.find_word_matches_and_quality(name_one, name_two)
     shortest_word_count = len(combo)
-    if shortest_word_count < 2:
-        return True
-    return False
+    return shortest_word_count < 2

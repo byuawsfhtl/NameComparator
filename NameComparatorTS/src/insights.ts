@@ -3,9 +3,9 @@ import { findWordMatchesAndQuality } from "./usefulTools";
 /**
  * Identifies if a name comparison will always prove false.
  * 
- * @param nameOne - a name
- * @param nameTwo - a name
- * @returns whether the names are worth working on further
+ * @param nameOne - The first name used in a comparison
+ * @param nameTwo - The second name used in a comparison
+ * @returns Whether the names are worth working on further
  */
 export function isWorthContinuing(nameOne: string, nameTwo: string): boolean {
     const wordCombo = findWordMatchesAndQuality(nameOne, nameTwo);
@@ -27,9 +27,9 @@ export function isWorthContinuing(nameOne: string, nameTwo: string): boolean {
 /**
  * Identifies if either of the names is too short.
  * 
- * @param nameOne - a name
- * @param nameTwo - a name
- * @returns whether either was too short
+ * @param nameOne - The first name to check the length of
+ * @param nameTwo - The second name to check the length of
+ * @returns If either name was too short
  */
 export function eitherNameTooShort(nameOne: string, nameTwo: string): boolean {
     const combo = findWordMatchesAndQuality(nameOne, nameTwo);
