@@ -59,7 +59,7 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
         name_one: The first name to compare
         name_two: The second name to compare
         frequency_data: The first name and surname frequencies in a chosen 
-                        population - Defaults to None
+            population - Defaults to None
 
     Returns:
         The data gleaned from the comparison: whether or not they are a match, 

@@ -228,9 +228,9 @@ def _replace_substring_centers_if_names_are_similar(name_one:str, name_two:str, 
         middle_substring_option_one: The first possible middle of the substring
         middle_substring_option_two: The second possible middle of the substring
         possible_substring_beginnings: A list of possible beginnings to the substring. Whichever beginning is found in the one must be found 
-                                       in the other in order for the replacement to be considered valid
+            in the other in order for the replacement to be considered valid
         possible_substring_endings: A list of possible endings to the substring. Whichever ending is found in the one must be found in the 
-                                       other in order for the replacement to be considered valid
+            other in order for the replacement to be considered valid
         minimum_required_letters: The minimum required letters to be found in both words in order for the replacement to be considered valid
 
     Returns:
