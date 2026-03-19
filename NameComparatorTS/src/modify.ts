@@ -1,4 +1,4 @@
-import * as fuzzball from "fuzzball";
+import { ratio as fuzzball_ratio } from "fuzzball";
 
 import { findWordMatchesAndQuality, getMatchingWordsAndIndices, NameEditor } from "./usefulTools";
 import spellingRules from "../../data/rules/rulesSpelling.json";
@@ -172,7 +172,7 @@ function _fixSwappedCharacters(nameOne: string, nameTwo: string): [string, strin
     const nameEditorInstance = new NameEditor(nameOne, nameTwo);
     for (const [indexOne, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         // Skip if the words are not 5 long, are different length, or not fuzzy 80
-        if (wordOne.length !== 5 || wordOne.length !== wordTwo.length || fuzzball.ratio(wordOne, wordTwo) !== 80) {
+        if (wordOne.length !== 5 || wordOne.length !== wordTwo.length || fuzzball_ratio(wordOne, wordTwo) !== 80) {
             continue;
         }
 
