@@ -1,15 +1,15 @@
 import setuptools
 import os
-from NameComparator._version import __version__ as version
+from _version import __version__ as version
 
 with open("README.md", "r", encoding="utf-8") as fh:
     read_long_description = fh.read()
 
-requirements = ""
+unsplit_requirements = ""
 with open("NameComparator/requirements.txt", "r", encoding="utf-8") as fh:
-    requirements = fh.read()
+    unsplit_requirements = fh.read()
 
-requirements = requirements.split("\n")
+requirements = unsplit_requirements.split("\n")
 
 def list_folders(directory: str) -> list:
     """Creates a list of all the folders in a directory.

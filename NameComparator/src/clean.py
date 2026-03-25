@@ -9,10 +9,10 @@ def clean_name(name:str) -> str:
     """Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.
 
     Args:
-        name (str): the name being cleaned
+        name: the name to clean
 
     Returns:
-        str: the cleaned name
+        A string containing the cleaned name
     """        
     # Deal with blank names
     if (name == "") or (not isinstance(name, str)):
@@ -31,7 +31,7 @@ def clean_name(name:str) -> str:
     if name == "":
         return "_"
 
-    # Remove Punctiation
+    # Remove Punctuation
     name = re.sub(r"[.,?;\"*()]", "", name)
 
     # Remove spaces after apostrophe
@@ -82,7 +82,7 @@ def clean_name(name:str) -> str:
     name = re.sub(r"[1-9][a-z]2,6", "", name).replace(" the ", "")
 
     # Remove Roman numerals
-    name = ' '.join(re.sub(r'\b(ii|iii|iv)\b', '', word) for word in name.split())
+    name = ' '.join(re.sub(r'\b(ii|iii|iv)\b', '', word) for word in name.split()) # Remove Roman numerals ii, iii, iv
     name = re.sub(r" +", " ", name)
     name = name.strip()
 
@@ -105,11 +105,11 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
     """Cleans names by comparing them to one another, fixing common errors to standardize.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
+        name_one: The first name to clean
+        name_two: The second name to clean
 
     Returns:
-        tuple[str, str]: the two cleaned names
+        A tuple containing the two cleaned names
     """        
     # Return if either name is blank
     if (name_one == '_') or (name_two == '_'):
@@ -156,8 +156,8 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
 
     # Remove extra spaces
     name_one = re.sub(r'\s+', ' ', name_one)
-    name_two = re.sub(r'\s+', ' ', name_two)
     name_one = name_one.strip()
+    name_two = re.sub(r'\s+', ' ', name_two)
     name_two = name_two.strip()
 
     # Return the cleaned names
@@ -175,7 +175,8 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str]:
         
     Returns:
         A tuple containing the input names, with prefixes modified in a way that lets
-        them be standardized later on"""
+        them be standardized later on
+    """
     
     # Create a list of prefixes to check
     possible_prefixes = [
@@ -210,11 +211,11 @@ def _deal_with_dashes(name_one:str, name_two:str) -> tuple[str, str]:
     """Cleans both names in order to deal with dashes in names.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
+        name_one: a name
+        name_two: a name
 
     Returns:
-        tuple[str, str]: the cleaned names
+        A tuple containing the modified names with consistency in dashes
     """        
     # Return old if no dash in either
     if ('-' not in name_one) and ('-' not in name_two):
@@ -245,12 +246,13 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[str, str]:
     """Combines words within one of the names if that combination is one word in the other name.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
+        name_one: The first name to clean
+        name_two: The second name to clean
 
     Returns:
-        tuple[str, str]: the modified names
+        A tuple containing the modified names
     """        
+
     words_in_name_one = name_one.split()
 
     # Do not combine words that are only two in length
@@ -298,13 +300,13 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[str, str]:
             continue
 
         # If the compound was a better match, use a name editor to create an edited name_one where the words are combined
-        ne = usefulTools.NameEditor(name_one, name_two)
-        ne.update_name_one(index_one, compound)
-        ne.update_name_one(neighbor_index, '')
-        name_one_edited, _ = ne.get_modified_names()
+        name_editor_instance = usefulTools.NameEditor(name_one, name_two)
+        name_editor_instance.update_name_one(index_one, compound)
+        name_editor_instance.update_name_one(neighbor_index, '')
+        name_one_edited, _ = name_editor_instance.get_modified_names()
 
         # If the edited name_one is better (or only slightly worse), go with the edited version
-        improvement = usefulTools.calculate_edit_improvement(name_one, name_two, name_one_edited, name_two)[0]
+        improvement, _, _ = usefulTools.calculate_edit_improvement(name_one, name_two, name_one_edited, name_two)
         if improvement > -1:
             return True, name_one_edited, name_two
 
@@ -315,13 +317,13 @@ def _fix_related_prefixes(name_one:str, name_two:str, prefix_variant_one:str, pr
     """Cleans names to deal with prefixes that are different by spelling, but functionally the same.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
-        prefix_variant_one (str): the first related prefix
-        prefix_variant_two (str): the second related prefix
+        name_one: The first name to clean
+        name_two: The second name to clean
+        prefix_variant_one: The first related prefix to check
+        prefix_variant_two: The second related prefix to check
 
     Returns:
-        tuple[str, str]: the two modified names
+        A tuple containing the two names, cleaned to have consistent prefixes
     """        
     # Return if prefix_variant_one in neither or prefix_variant_two in neither
     if (f' {prefix_variant_one}' not in name_one) and (f' {prefix_variant_one}' not in name_two):
@@ -355,7 +357,7 @@ def _choose_best_neighbor_word(word_one: str, index_one: int, word_two: str, lef
         right_neighbor: The word to the right of a selected word
 
     Returns:
-        Three items as a tuple, containing the better neighbor word choice, the compuond of the selected
+        Three items as a tuple, containing the better neighbor word choice, the compound of the selected
         word and the better neighbor, and the index of the word that is selected as a better neighbor
     """
 
@@ -385,16 +387,16 @@ def _choose_best_neighbor_word(word_one: str, index_one: int, word_two: str, lef
     return chosen_neighbor, compound, neighbor_index
 
 def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
-    """Modified names to fix problems where mc or mac are in either names and don't match when they should.
+    """Modifies names to fix problems where mc or mac are in either names and don't match when they should.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
+        name_one: The first name to clean
+        name_two: The second name to clean
 
     Returns:
-        tuple[str, str]: the two modified names 
+        A tuple containing the two names, modified to have matching 'mc' or 'mac' uses
     """        
-    # Return names if no prefixes are in them
+    # Return names if mc and mac aren't in either of them
     if _determine_if_skip_names_in_fix_mc_and_mac_names(name_one, name_two):
         return name_one, name_two
     
@@ -402,7 +404,7 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
     _, name_one, name_two = _combine_split_words(name_one, name_two)
     
     # Edit the names, if necessary
-    ne = usefulTools.NameEditor(name_one, name_two)
+    name_editor_instance = usefulTools.NameEditor(name_one, name_two)
     for prefix in ['mc', 'mac']:
         for index_one, index_two, word_one, word_two in usefulTools.get_matching_words_and_indices(name_one, name_two):
             # Skip pair if the prefix is in both words
@@ -436,19 +438,19 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
                 continue
 
             # Update the words
-            ne.update_name_one(index_one, updated_word_one)
-            ne.update_name_two(index_two, updated_word_two)
+            name_editor_instance.update_name_one(index_one, updated_word_one)
+            name_editor_instance.update_name_two(index_two, updated_word_two)
 
     # Return the edited (or not) names
-    return ne.get_modified_names()
+    return name_editor_instance.get_modified_names()
 
 def _determine_if_skip_names_in_fix_mc_and_mac_names(name_one: str, name_two: str) -> bool:
     """A simple function to determine if the prefixes 'mc' or 'mac' are in two selected names to
     decide if names should be skipped in the _fix_mc_and_mac_names function.
     
     Args:
-        name_one: The first name to be checked
-        name_two: The second name to be checked
+        name_one: The first name to check
+        name_two: The second name to check
         
     Returns:
         True if 'mc' and 'mac' are absent from all of the names, indicating that the function can
@@ -460,13 +462,14 @@ def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str]:
     """Removes the irish O if needed for easier name comparison.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
-        surname (str): one of the irish surnames that often starts with O'
+        name_one: The first name to remove a possible Irish o from
+        name_two: The second name to remove a possible Irish o from
+        surname: One of the irish surnames that often starts with O'
 
     Returns:
-        tuple[str, str]: the modified names
+        A tuple containing the two modified names, with the Irish o removed
     """        
+
     # Edit the names
     surname_one = name_one.split()[-1]
     if fuzz.ratio(surname_one, surname) > 75:
@@ -480,20 +483,21 @@ def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str]:
             name_two = name_two.replace(f'{surname_two}', surname)
         else:
             name_two = name_two.replace(f'o {surname_two}', surname)
-    return name_one, name_two
 
+    return name_one, name_two
 
 def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = "_") -> tuple[str,str]:
     """Removes an unnecessary prefix from either or both of the names if
     it would make it harder to detect a name match.
 
     Args:
-        prefix (str): the prefix to (probably) remove
-        name_one (str): a name
-        name_two (str): a name
+        prefix: The prefix to (probably) remove from the names
+        name_one: The first name to remove a possible prefix from
+        name_two: The second name to remove a possible prefix from
 
     Returns:
-        tuple[str,str]: the modified names
+        A tuple containing the two names, modified to have their prefixes removed
+        if it's easier to find a name match without them
     """        
     # If the prefix is not in either names, return the names
     if (f" {prefix}" not in name_one) and (f" {prefix}" not in name_two):
@@ -509,17 +513,19 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     space_then_prefix_then_space = f" {prefix} "
     space_then_prefix = f" {prefix}"
 
-    # Make the edited names different
-    if (space_then_prefix_then_space in name_one) and (space_then_prefix_then_space in name_two):
-        pass
-    elif (space_then_prefix_then_space in name_one) and (space_then_prefix in name_two):
+    # If the names have different prefix patterns, make them match the same one
+    if (space_then_prefix_then_space in name_one) and (space_then_prefix in name_two):
         name_one_edited = name_one_edited.replace(space_then_prefix_then_space, space_then_prefix)
     elif (space_then_prefix in name_one) and (space_then_prefix_then_space in name_two):
         name_two_edited = name_two_edited.replace(space_then_prefix_then_space, space_then_prefix)
+    
+    # If nothing was changed above, this will simply remove the prefixes since they likely don't matter
     name_one_edited = name_one_edited.replace(space_then_prefix_then_space, " ")
     name_two_edited = name_two_edited.replace(space_then_prefix_then_space, " ")
     name_one_edited = re.sub(r"\s+", " ", name_one_edited)
     name_two_edited = re.sub(r"\s+", " ", name_two_edited)
+
+    # Determine if any edits were made in the above processes
     no_edits_made = (name_one == name_one_edited) and (name_two == name_two_edited) 
 
     # If no edits were made, try removing space_then_prefix if only in name_one and it's a long word
@@ -551,15 +557,19 @@ def _remove_prefix_if_prefix_is_only_difference_in_names(prefix: str, name_one: 
         
     Returns:
         A tuple containing two names, modified to remove the prefix if they are identical, 
-        or the names as input if they aren't identical outside of the prefix"""
+        or the names as input if they aren't identical outside of the prefix
+    """
     
-    ne = usefulTools.NameEditor(name_one, name_two)
+    name_editor_instance = usefulTools.NameEditor(name_one, name_two)
+
     for index_one, index_two, word_one, word_two in usefulTools.get_matching_words_and_indices(name_one, name_two):
         if (word_one.startswith(prefix)) and (word_one[len(prefix):] == word_two) and (len(word_two) > 2):
-            ne.update_name_one(index_one, word_one[len(prefix):])
+            name_editor_instance.update_name_one(index_one, word_one[len(prefix):])
         elif (word_two.startswith(prefix)) and (word_two[len(prefix):] == word_one) and (len(word_one) > 2):
-            ne.update_name_two(index_two, word_two[len(prefix):])
-    name_one, name_two = ne.get_modified_names()
+            name_editor_instance.update_name_two(index_two, word_two[len(prefix):])
+
+    name_one, name_two = name_editor_instance.get_modified_names()
+
     return name_one, name_two
 
 def _remove_space_then_prefix_from_unedited_name(prefix: str, space_then_prefix: str, name_to_possibly_change: str, other_name: str) -> tuple[str, bool]:
@@ -576,17 +586,17 @@ def _remove_space_then_prefix_from_unedited_name(prefix: str, space_then_prefix:
         other_name: The name to compare the target name to, to check for needed changes 
         
     Returns:
-        This returns a tuple containing the end result of the name changes if there were any,
-        or the unchanged name, and a boolean variable indicating if any changes were made to
+        This returns a tuple containing the end result of the name changes if there were any
+        (or the unchanged name) and a boolean variable indicating if any changes were made to
         name_to_possibly_change during this function call
     """
 
     edit_happened = False
     pattern = r'\b{}\w*\b'.format(space_then_prefix)
-    space_then_prefix_only_in_name_to_change = (space_then_prefix in name_to_possibly_change) and (space_then_prefix not in other_name)
-    match_in_name_to_change = re.search(pattern, name_to_possibly_change)
-    if (space_then_prefix_only_in_name_to_change) and (match_in_name_to_change is not None):
-        matched_word = match_in_name_to_change.group()
+    is_space_then_prefix_only_in_name_to_change = (space_then_prefix in name_to_possibly_change) and (space_then_prefix not in other_name)
+    match_in_name_to_possibly_change = re.search(pattern, name_to_possibly_change)
+    if (is_space_then_prefix_only_in_name_to_change) and (match_in_name_to_possibly_change is not None):
+        matched_word = match_in_name_to_possibly_change.group()
         if len(matched_word) > len(prefix) + 4:
             name_to_possibly_change = name_to_possibly_change.replace(space_then_prefix, " ")
             edit_happened = True
@@ -597,12 +607,13 @@ def _combine_prefix_with_surname_if_in_both(name_one:str, name_two:str, prefix:s
     """Combines the prefix with the surname in both of the names if the prefix exists in both.
 
     Args:
-        name_one (str): a name
-        name_two (str): a name
-        prefix (str): the prefix to combine with the surname
+        name_one: The first name to possibly modify
+        name_two: The second name to possibly modify
+        prefix: The prefix to combine with the surname
 
     Returns:
-        tuple[str, str]: the modified names
+        A tuple containing the names with any changes that were made to them or the unchanged
+        names
     """        
     # Return if ' prefix ' in neither
     if (not re.search(f' {prefix} .', name_one)) or (not re.search(f' {prefix} .', name_two)):
@@ -637,6 +648,8 @@ def clean_ipa(ipa:str) -> str:
     ipa = ipa.replace("iɪ", "i")
     ipa = ipa.replace("ŋg", "ŋ")
     ipa = ipa.replace(",", "")
+
     if not ipa:
         ipa = '_'
+        
     return ipa
