@@ -1,4 +1,4 @@
-import * as fuzzball from 'fuzzball';
+import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
 import { munkres } from 'munkres';
 
 /**
@@ -66,9 +66,9 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
     if (wordOne.length === 1 || wordTwo.length === 1) {
         score = wordOne[0] === wordTwo[0] ? 100 : 0;
     } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
-        const ratio = fuzzball.ratio(wordOne, wordTwo);
+        const ratio = fuzzball_ratio(wordOne, wordTwo);
         if (wordOne[0] === wordTwo[0]) {
-            const partialRatioScore = fuzzball.partial_ratio(wordOne, wordTwo);
+            const partialRatioScore = fuzzball_partial_ratio(wordOne, wordTwo);
             score = Math.max(ratio, partialRatioScore);
         } else {
             score = ratio;

@@ -1,9 +1,10 @@
-import re
+from re import sub as re_sub
+from re import search as re_search
 from json import loads as json_loads
 from importlib.resources import files
 
-from fuzzywuzzy import fuzz
-import NameComparator.src.usefulTools as usefulToolsMod
+from fuzzywuzzy.fuzz import ratio as fuzz_ratio
+from NameComparator.src.usefulTools import find_word_matches_and_quality, get_matching_words_and_indices, NameEditor
 
 unparsed_spelling_rules = files('NameComparator').joinpath('data/rules/rulesSpelling.json').read_text()
 unparsed_ipa_rules = files('NameComparator').joinpath('data/rules/rulesIpa.json').read_text()
@@ -18,16 +19,16 @@ def modify_names_together(name_one:str, name_two:str) -> tuple[str,str]:
     Returns:
         A tuple containing the modified names
     """        
-    name_one = re.sub(r'ie\b', 'y', name_one)
-    name_two = re.sub(r'ie\b', 'y', name_two)
+    name_one = re_sub(r'ie\b', 'y', name_one)
+    name_two = re_sub(r'ie\b', 'y', name_two)
     name_one, name_two = remove_word_or_from_names(name_one, name_two)
     name_one, name_two = _fix_vowel_mistakes(name_one, name_two)
     name_one, name_two = _fix_swapped_characters(name_one, name_two)
     name_one, name_two = _deal_with_wrong_first_char(name_one, name_two)
     for middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters in json_loads(unparsed_spelling_rules):
         name_one, name_two = _replace_substring_centers_if_names_are_similar(name_one, name_two, middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters)
-    name_one = re.sub(r'\s+', ' ', name_one)
-    name_two = re.sub(r'\s+', ' ', name_two)
+    name_one = re_sub(r'\s+', ' ', name_one)
+    name_two = re_sub(r'\s+', ' ', name_two)
     name_one = name_one.strip()
     name_two = name_two.strip()
     return name_one, name_two
@@ -61,19 +62,19 @@ def remove_word_or_from_names(name_one:str, name_two:str) -> tuple[str, str]:
     # if 'or' in name_one and not name_two
     elif " or " in name_one:
         # Gets the score for if the word before 'or' is removed
-        right_name_one = re.sub("[a-z]+ or ", " ", name_one)
+        right_name_one = re_sub("[a-z]+ or ", " ", name_one)
 
         if not right_name_one:
             right_name_one = '_'
-        right_word_combo = usefulToolsMod.find_word_matches_and_quality(right_name_one, name_two)
+        right_word_combo = find_word_matches_and_quality(right_name_one, name_two)
         right_average_score = sum(tup[2] for tup in right_word_combo) / len(right_word_combo)
 
         # Gets the score for if the word after 'or' is removed
-        left_name_one = re.sub(" or [a-z]+", " ", name_one)
+        left_name_one = re_sub(" or [a-z]+", " ", name_one)
 
         if not left_name_one:
             left_name_one = '_'
-        left_word_combo =  usefulToolsMod.find_word_matches_and_quality(left_name_one, name_two)
+        left_word_combo =  find_word_matches_and_quality(left_name_one, name_two)
         left_average_score = sum(tup[2] for tup in left_word_combo) / len(left_word_combo)
 
         # Return the higher one
@@ -83,18 +84,18 @@ def remove_word_or_from_names(name_one:str, name_two:str) -> tuple[str, str]:
     
     # if 'or' in name_two and not name_one
     elif " or " in name_two:
-        right_name_two = re.sub("[a-z]+ or ", " ", name_two)
+        right_name_two = re_sub("[a-z]+ or ", " ", name_two)
 
         if not right_name_two:
             right_name_two = '_'
-        right_word_combo = usefulToolsMod.find_word_matches_and_quality(right_name_two, name_one)
+        right_word_combo = find_word_matches_and_quality(right_name_two, name_one)
         right_average_score = sum(tup[2] for tup in right_word_combo) / len(right_word_combo)
 
         # Gets the score for if the word after 'or' is removed
-        left_name_two = re.sub(" or [a-z]+", " ", name_two)
+        left_name_two = re_sub(" or [a-z]+", " ", name_two)
         if not left_name_two:
             left_name_two = '_'
-        left_word_combo =  usefulToolsMod.find_word_matches_and_quality(left_name_two, name_one)
+        left_word_combo =  find_word_matches_and_quality(left_name_two, name_one)
         left_average_score = sum(tup[2] for tup in left_word_combo) / len(left_word_combo)
 
         # Return the higher one
@@ -115,8 +116,8 @@ def _fix_vowel_mistakes(name_one:str, name_two:str) -> tuple[str, str]:
     Returns:
         A tuple containing the two modified names
     """        
-    name_editor_instance = usefulToolsMod.NameEditor(name_one, name_two)
-    for index_one, _, word_one, word_two in usefulToolsMod.get_matching_words_and_indices(name_one, name_two):
+    name_editor_instance = NameEditor(name_one, name_two)
+    for index_one, _, word_one, word_two in get_matching_words_and_indices(name_one, name_two):
         # Continue if either word is less than 5 chars or not same length
         length_one = len(word_one)
         length_two = len(word_two)
@@ -163,14 +164,14 @@ def _fix_swapped_characters(name_one:str, name_two:str) -> tuple[str, str]:
     Returns:
         A tuple containing the names, modified to remove any swapped letters
     """        
-    name_editor_instance = usefulToolsMod.NameEditor(name_one, name_two)
-    for index_one, _, word_one, word_two in usefulToolsMod.get_matching_words_and_indices(name_one, name_two):
+    name_editor_instance = NameEditor(name_one, name_two)
+    for index_one, _, word_one, word_two in get_matching_words_and_indices(name_one, name_two):
         # Skip if the words are not 5 long, are different length, or not fuzzy 80
         if len(word_one) != 5:
             continue
         elif len(word_one) != len(word_two):
             continue
-        elif fuzz.ratio(word_two, word_one) != 80:
+        elif fuzz_ratio(word_two, word_one) != 80:
             continue
 
         # Find how many differences and where
@@ -207,8 +208,8 @@ def _deal_with_wrong_first_char(name_one:str, name_two:str) -> tuple[str, str]:
     Returns:
         A tuple containing the names, modified to have a matching first character
     """        
-    name_editor_instance = usefulToolsMod.NameEditor(name_one, name_two)
-    for index_one, _, word_one, word_two in usefulToolsMod.get_matching_words_and_indices(name_one, name_two):
+    name_editor_instance = NameEditor(name_one, name_two)
+    for index_one, _, word_one, word_two in get_matching_words_and_indices(name_one, name_two):
         if word_one == word_two:
             continue
         if (word_one[1:] == word_two[1:]) and (len(word_one) > 4) and (len(word_two) > 4):
@@ -240,8 +241,8 @@ def _replace_substring_centers_if_names_are_similar(name_one:str, name_two:str, 
     if (middle_substring_option_one not in name_one and middle_substring_option_two not in name_one) or (middle_substring_option_one not in name_two and middle_substring_option_two not in name_two):
         return name_one, name_two
 
-    name_editor_instance = usefulToolsMod.NameEditor(name_one, name_two)
-    for index_one, index_two, word_one, word_two in usefulToolsMod.get_matching_words_and_indices(name_one, name_two):
+    name_editor_instance = NameEditor(name_one, name_two)
+    for index_one, index_two, word_one, word_two in get_matching_words_and_indices(name_one, name_two):
         # Skip words that are not long enough for the given rule
         if len(word_one) < minimum_required_letters or len(word_two) < minimum_required_letters:
             continue
@@ -293,8 +294,8 @@ def _handle_substring_replacements_and_checks(word_one: str, word_two: str, poss
             # Skip the beginnings and ends if the pattern is not found in both, 
             # if the middles are the same, or if the patterns are too far appart
             pattern = f"{substring_beginning}({middle_substring_option_one}|{middle_substring_option_two}){substring_ending}"
-            result_list_one = re.search(pattern, word_one)
-            result_list_two = re.search(pattern, word_two)
+            result_list_one = re_search(pattern, word_one)
+            result_list_two = re_search(pattern, word_two)
 
             if not result_list_one or not result_list_two:
                 continue

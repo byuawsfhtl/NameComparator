@@ -3,13 +3,13 @@ from typing import NamedTuple
 from json import loads as json_loads
 from importlib.resources import files
 
-import NameComparator.src.clean as cleanMod
-import NameComparator.src.nicknames as nicknameMod
-import NameComparator.src.insights as insightMod
-import NameComparator.src.comparisons as comparisonMod
-import NameComparator.src.modify as modifyMod
-import NameComparator.src.ipa as ipaMod
-import NameComparator.src.uniqueness as uniquenessMod
+from NameComparator.src.clean import clean_name, clean_names_by_comparison, clean_ipa
+from NameComparator.src.nicknames import remove_nicknames
+from NameComparator.src.insights import is_worth_continuing, either_name_too_short
+from NameComparator.src.comparisons import compare_spelling, pronunciation_comparison
+from NameComparator.src.modify import modify_names_together, modify_ipas_by_comparison
+from NameComparator.src.ipa import get_ipa
+from NameComparator.src.uniqueness import score_uniqueness
 from NameComparator.src.uniqueness import FrequencyData
 
 unparsed_usa_to_1950_surnames = files('NameComparator').joinpath('data/frequency/surnamesUsaTo1950.json').read_text()
@@ -81,12 +81,12 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     results = ResultsOfNameComparison(name_one=name_one, name_two=name_two)
 
     # Clean the names
-    name_one = cleanMod.clean_name(name_one)
-    name_two = cleanMod.clean_name(name_two)
-    name_one, name_two = cleanMod.clean_names_by_comparison(name_one, name_two)
+    name_one = clean_name(name_one)
+    name_two = clean_name(name_two)
+    name_one, name_two = clean_names_by_comparison(name_one, name_two)
 
     # Deal with names that are too short
-    results.too_short = insightMod.either_name_too_short(name_one, name_two)
+    results.too_short = either_name_too_short(name_one, name_two)
     if not name_one:
         name_one = '_'
     if not name_two:
@@ -95,45 +95,45 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
         return results
     
     # Find the uniqueness of this name matchup (ie. hopefully not 'John Smith' and 'J Smith')
-    results.uniqueness = uniquenessMod.score_uniqueness(name_one, name_two, frequency_data)
+    results.uniqueness = score_uniqueness(name_one, name_two, frequency_data)
 
     # Remove nicknames before the actual comparison
-    name_one, name_two = nicknameMod.remove_nicknames(name_one, name_two)
+    name_one, name_two = remove_nicknames(name_one, name_two)
 
     # 1st attempt: Checks if names are a match according to string comparison alone
-    match, word_combo = comparisonMod.compare_spelling(name_one, name_two)
+    match, word_combo = compare_spelling(name_one, name_two)
     results.attempt_one = Attempt(name_one, name_two, word_combo)
     if match:
         results.match = True
         return results
 
     # Failed first attempt. Check if names are even worth continuing
-    if insightMod.is_worth_continuing(name_one, name_two) is False:
+    if is_worth_continuing(name_one, name_two) is False:
         return results
 
     # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
-    modified_name_one, modified_name_two = modifyMod.modify_names_together(name_one, name_two)
-    match, word_combo = comparisonMod.compare_spelling(modified_name_one, modified_name_two)
+    modified_name_one, modified_name_two = modify_names_together(name_one, name_two)
+    match, word_combo = compare_spelling(modified_name_one, modified_name_two)
     results.attempt_two = Attempt(modified_name_one, modified_name_two, word_combo)
     if match:
         results.match = True
         return results
         
     # 3rd attempt: Checks if modified names are a match according to pronunciation
-    ipa_of_modified_name_one = cleanMod.clean_ipa(ipaMod.get_ipa(modified_name_one))
-    ipa_of_modified_name_two = cleanMod.clean_ipa(ipaMod.get_ipa(modified_name_two))
-    ipa_of_modified_name_one, ipa_of_modified_name_two = modifyMod.modify_ipas_by_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two)
-    match, word_combo = comparisonMod.pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
+    ipa_of_modified_name_one = clean_ipa(get_ipa(modified_name_one))
+    ipa_of_modified_name_two = clean_ipa(get_ipa(modified_name_two))
+    ipa_of_modified_name_one, ipa_of_modified_name_two = modify_ipas_by_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two)
+    match, word_combo = pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
     results.attempt_three = Attempt(ipa_of_modified_name_one, ipa_of_modified_name_two, word_combo)
     if match:
         results.match = True
         return results
 
     # 4th attempt: Check if original names are a match according to pronunciation
-    ipa_of_name_one = cleanMod.clean_ipa(ipaMod.get_ipa(name_one))
-    ipa_of_name_two = cleanMod.clean_ipa(ipaMod.get_ipa(name_two))
-    ipa_of_name_one, ipa_of_name_two = modifyMod.modify_ipas_by_comparison(ipa_of_name_one, ipa_of_name_two)
-    match, word_combo = comparisonMod.pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
+    ipa_of_name_one = clean_ipa(get_ipa(name_one))
+    ipa_of_name_two = clean_ipa(get_ipa(name_two))
+    ipa_of_name_one, ipa_of_name_two = modify_ipas_by_comparison(ipa_of_name_one, ipa_of_name_two)
+    match, word_combo = pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
     results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, word_combo)
     if match:
         results.match = True

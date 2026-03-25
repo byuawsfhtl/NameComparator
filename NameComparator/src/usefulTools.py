@@ -1,7 +1,9 @@
-import numpy as np
+from numpy import zeros as np_zeros
+from numpy import ndarray
 from functools import lru_cache
 from munkres import Munkres
-from fuzzywuzzy import fuzz
+from fuzzywuzzy.fuzz import ratio as fuzz_ratio
+from fuzzywuzzy.fuzz import partial_ratio as fuzz_partial_ratio
 
 @lru_cache(maxsize=1_000)
 def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str, str, int]]:
@@ -23,7 +25,7 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
             words_in_name_one += [''] * (len(words_in_name_two) - len(words_in_name_one))
         else:
             words_in_name_two += [''] * (len(words_in_name_one) - len(words_in_name_two))
-    scores = np.zeros((len(words_in_name_one), len(words_in_name_two)))
+    scores = np_zeros((len(words_in_name_one), len(words_in_name_two)))
 
     # Score each matchup
     for i, word_one in enumerate(words_in_name_one):
@@ -65,9 +67,9 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
             score = 0
     # For words longer than 2, either use ratio or partial ratio for score as shown below.
     else:
-        ratio = fuzz.ratio(word_one, word_two)
+        ratio = fuzz_ratio(word_one, word_two)
         if (word_one[0] == word_two[0]):
-            partial_ratio_score = fuzz.partial_ratio(word_one, word_two)
+            partial_ratio_score = fuzz_partial_ratio(word_one, word_two)
             score = max(ratio, partial_ratio_score)
         else:
             score = ratio
@@ -79,7 +81,7 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
 # this function to use the scipy.optimize linear_sum_assignment again. I changed it to use the munkres 
 # linear sum for now since it will be much faster to import and have comparable run times with its
 # current use cases
-def identify_best_matches(scores:np.ndarray, list_one:list[str|None], list_two:list[str|None]) -> list[tuple[str, str, int]]:
+def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list[str|None]) -> list[tuple[str, str, int]]:
         """Uses the Hungarian algorithm to find the pair of two words that are the
         closest match to each other from two lists.
 

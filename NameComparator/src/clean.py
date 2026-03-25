@@ -1,9 +1,9 @@
-import re
+from re import sub as re_sub, search as re_search
 from unidecode import unidecode
-from fuzzywuzzy import fuzz
+from fuzzywuzzy.fuzz import ratio as fuzz_ratio, partial_ratio as fuzz_partial_ratio
 
-import NameComparator.src.usefulTools as usefulTools
-import NameComparator.src.comparisons as comparisonsMod
+from NameComparator.src.comparisons import compare_spelling
+from NameComparator.src.usefulTools import calculate_edit_improvement, get_matching_words_and_indices, NameEditor
 
 def clean_name(name:str) -> str:
     """Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.
@@ -19,8 +19,8 @@ def clean_name(name:str) -> str:
         return "_"
 
     # Deal with whitespace
-    name = re.sub(r'[^\S ]', ' ', name)
-    name = re.sub(r" +", " ", name)
+    name = re_sub(r'[^\S ]', ' ', name)
+    name = re_sub(r" +", " ", name)
     name = name.strip()
 
     # Standardize name into ascii
@@ -32,31 +32,31 @@ def clean_name(name:str) -> str:
         return "_"
 
     # Remove Punctuation
-    name = re.sub(r"[.,?;\"*()]", "", name)
+    name = re_sub(r"[.,?;\"*()]", "", name)
 
     # Remove spaces after apostrophe
-    name = re.sub("' +", "'", name)
+    name = re_sub("' +", "'", name)
 
     # Remove jr and sr
-    name = re.sub(r"\bjr\b", "", name).replace(r"\bjunior\b", "")
-    name = re.sub(r"\bsr\b", "", name).replace(r"\bsenior\b", "")
+    name = re_sub(r"\bjr\b", "", name).replace(r"\bjunior\b", "")
+    name = re_sub(r"\bsr\b", "", name).replace(r"\bsenior\b", "")
 
     # Remove titles
-    name = re.sub(r"\bprof\b", "", name).replace(r"\bprofessor\b", "")
-    name = re.sub(r"\bmr\b", "", name).replace(r"\bmister\b", "")
-    name = re.sub(r"\bmrs\b", "", name).replace(r"\bmissus\b", "")
-    name = re.sub(r"\bms\b", "", name).replace(r"\bmiss\b", "")
-    name = re.sub(r"\bdr\b", "", name).replace(r"\bdoctor\b", "")
-    name = re.sub(r"\bstudent\b", "", name)
-    name = re.sub(r"\brev\b", "", name)
+    name = re_sub(r"\bprof\b", "", name).replace(r"\bprofessor\b", "")
+    name = re_sub(r"\bmr\b", "", name).replace(r"\bmister\b", "")
+    name = re_sub(r"\bmrs\b", "", name).replace(r"\bmissus\b", "")
+    name = re_sub(r"\bms\b", "", name).replace(r"\bmiss\b", "")
+    name = re_sub(r"\bdr\b", "", name).replace(r"\bdoctor\b", "")
+    name = re_sub(r"\bstudent\b", "", name)
+    name = re_sub(r"\brev\b", "", name)
     name = name.replace("reverend", "")
 
     # Remove family relations
-    name = re.sub(r"\bsister\b", "", name)
-    name = re.sub(r"\bbrother\b", "", name)
-    name = re.sub(r"\bmother\b", "", name)
-    name = re.sub(r"\bfather\b", "", name)
-    name = re.sub(r" in law", " ", name)
+    name = re_sub(r"\bsister\b", "", name)
+    name = re_sub(r"\bbrother\b", "", name)
+    name = re_sub(r"\bmother\b", "", name)
+    name = re_sub(r"\bfather\b", "", name)
+    name = re_sub(r" in law", " ", name)
 
     # Removes "head of household"
     name = name.replace("head of household", "")
@@ -79,23 +79,23 @@ def clean_name(name:str) -> str:
     name = ' '.join(name_as_list)
 
     # Remove stuff like 'the 3rd'
-    name = re.sub(r"[1-9][a-z]2,6", "", name).replace(" the ", "")
+    name = re_sub(r"[1-9][a-z]2,6", "", name).replace(" the ", "")
 
     # Remove Roman numerals
-    name = ' '.join(re.sub(r'\b(ii|iii|iv)\b', '', word) for word in name.split()) # Remove Roman numerals ii, iii, iv
-    name = re.sub(r" +", " ", name)
+    name = ' '.join(re_sub(r'\b(ii|iii|iv)\b', '', word) for word in name.split()) # Remove Roman numerals ii, iii, iv
+    name = re_sub(r" +", " ", name)
     name = name.strip()
 
     # Remove 'no suffix'
     name = name.replace("no suffix", "")
 
     # Deal with Dutch names
-    name = re.sub(r"\bvan de", "vande", name)
-    name = re.sub(r"\bvan den", "vanden", name)
-    name = re.sub(r"\bvan der", "vander", name)
+    name = re_sub(r"\bvan de", "vande", name)
+    name = re_sub(r"\bvan den", "vanden", name)
+    name = re_sub(r"\bvan der", "vander", name)
     
     # Deal with whitespace one last time, then return
-    name = re.sub(r" +", " ", name)
+    name = re_sub(r" +", " ", name)
     name = name.strip()
     if not name:
         name = '_'
@@ -155,9 +155,9 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
             break
 
     # Remove extra spaces
-    name_one = re.sub(r'\s+', ' ', name_one)
+    name_one = re_sub(r'\s+', ' ', name_one)
     name_one = name_one.strip()
-    name_two = re.sub(r'\s+', ' ', name_two)
+    name_two = re_sub(r'\s+', ' ', name_two)
     name_two = name_two.strip()
 
     # Return the cleaned names
@@ -185,9 +185,9 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str]:
     ]
 
     # Deal with any prefixes and optional intros that make the match worse
-    name_one = re.sub(r"\s+", " ", name_one)
+    name_one = re_sub(r"\s+", " ", name_one)
     name_one = name_one.strip()
-    name_two = re.sub(r"\s+", " ", name_two)
+    name_two = re_sub(r"\s+", " ", name_two)
     name_two = name_two.strip()
 
     for prefix in possible_prefixes:
@@ -235,7 +235,7 @@ def _deal_with_dashes(name_one:str, name_two:str) -> tuple[str, str]:
     _, name_one_edited, name_two_edited = _combine_split_words(name_one_edited, name_two_edited)
 
     # Return old if the score did not improve
-    diff, _, _ = usefulTools.calculate_edit_improvement(name_one, name_two, name_one_edited, name_two_edited)
+    diff, _, _ = calculate_edit_improvement(name_one, name_two, name_one_edited, name_two_edited)
     if diff <= 0:
         return name_one, name_two
     
@@ -260,12 +260,12 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[str, str]:
         return False, name_one, name_two
     
     # Do not combine words that are already a good spelling match
-    if comparisonsMod.compare_spelling(name_one, name_two)[0]:
+    if compare_spelling(name_one, name_two)[0]:
         return False, name_one, name_two
     
-    for index_one, _, word_one, word_two in usefulTools.get_matching_words_and_indices(name_one, name_two):
+    for index_one, _, word_one, word_two in get_matching_words_and_indices(name_one, name_two):
         # Skip if word_one and word_two are not a good match
-        if (fuzz.partial_ratio(word_one, word_two) < 75):
+        if (fuzz_partial_ratio(word_one, word_two) < 75):
             continue
 
         # Skip if either word is only an initial
@@ -286,12 +286,12 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[str, str]:
         chosen_neighbor, compound, neighbor_index = _choose_best_neighbor_word(word_one, index_one, word_two, left_neighbor, right_neighbor)
 
         # Skip if the neighbor is a bad partial match to word_two's match
-        if fuzz.partial_ratio(chosen_neighbor, word_two) < 65:
+        if fuzz_partial_ratio(chosen_neighbor, word_two) < 65:
             continue
 
         # Check if the compound is significantly better than the original
-        original_score = fuzz.ratio(word_one, word_two)
-        compound_score = fuzz.ratio(compound, word_two)
+        original_score = fuzz_ratio(word_one, word_two)
+        compound_score = fuzz_ratio(compound, word_two)
         if compound_score < original_score + 20:
             continue
         difference_of_original_lengths = abs(len(word_two) - len(word_one))
@@ -300,13 +300,13 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[str, str]:
             continue
 
         # If the compound was a better match, use a name editor to create an edited name_one where the words are combined
-        name_editor_instance = usefulTools.NameEditor(name_one, name_two)
+        name_editor_instance = NameEditor(name_one, name_two)
         name_editor_instance.update_name_one(index_one, compound)
         name_editor_instance.update_name_one(neighbor_index, '')
         name_one_edited, _ = name_editor_instance.get_modified_names()
 
         # If the edited name_one is better (or only slightly worse), go with the edited version
-        improvement, _, _ = usefulTools.calculate_edit_improvement(name_one, name_two, name_one_edited, name_two)
+        improvement, _, _ = calculate_edit_improvement(name_one, name_two, name_one_edited, name_two)
         if improvement > -1:
             return True, name_one_edited, name_two
 
@@ -367,8 +367,8 @@ def _choose_best_neighbor_word(word_one: str, index_one: int, word_two: str, lef
     elif not right_neighbor:
         was_left_chosen = True
     else:
-        left_score = fuzz.partial_ratio(left_neighbor, word_two)
-        right_score = fuzz.partial_ratio(right_neighbor, word_two)
+        left_score = fuzz_partial_ratio(left_neighbor, word_two)
+        right_score = fuzz_partial_ratio(right_neighbor, word_two)
         if left_score > right_score:
             was_left_chosen = True
         else:
@@ -404,9 +404,9 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
     _, name_one, name_two = _combine_split_words(name_one, name_two)
     
     # Edit the names, if necessary
-    name_editor_instance = usefulTools.NameEditor(name_one, name_two)
+    name_editor_instance = NameEditor(name_one, name_two)
     for prefix in ['mc', 'mac']:
-        for index_one, index_two, word_one, word_two in usefulTools.get_matching_words_and_indices(name_one, name_two):
+        for index_one, index_two, word_one, word_two in get_matching_words_and_indices(name_one, name_two):
             # Skip pair if the prefix is in both words
             if (word_one.startswith(prefix)) and (word_two.startswith(prefix)):
                 continue
@@ -424,7 +424,7 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
                 continue
 
             # Skip pair if they are already a solid match
-            if fuzz.ratio(word_one, word_two) > 80:
+            if fuzz_ratio(word_one, word_two) > 80:
                 continue
 
             # Skip pair if the prefix is removed and not a good fuzzy match
@@ -434,7 +434,7 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str]:
             else:
                 updated_word_one = word_one
                 updated_word_two = word_two.replace(prefix, '', 1)
-            if fuzz.ratio(updated_word_one, updated_word_two) < 75:
+            if fuzz_ratio(updated_word_one, updated_word_two) < 75:
                 continue
 
             # Update the words
@@ -472,13 +472,13 @@ def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str]:
 
     # Edit the names
     surname_one = name_one.split()[-1]
-    if fuzz.ratio(surname_one, surname) > 75:
+    if fuzz_ratio(surname_one, surname) > 75:
         if surname_one[0] == 'o':
             name_one = name_one.replace(f'{surname_one}', surname)
         else:
             name_one = name_one.replace(f'o {surname_one}', surname)
     surname_two = name_two.split()[-1]
-    if fuzz.ratio(surname_two, surname) > 75:
+    if fuzz_ratio(surname_two, surname) > 75:
         if surname_two[0] == 'o':
             name_two = name_two.replace(f'{surname_two}', surname)
         else:
@@ -504,7 +504,7 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
         return name_one, name_two
     
     # If the names are already a good match, return the names
-    if comparisonsMod.compare_spelling(name_one, name_two)[0]:
+    if compare_spelling(name_one, name_two)[0]:
         return name_one, name_two
 
     # Setup
@@ -522,8 +522,8 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     # If nothing was changed above, this will simply remove the prefixes since they likely don't matter
     name_one_edited = name_one_edited.replace(space_then_prefix_then_space, " ")
     name_two_edited = name_two_edited.replace(space_then_prefix_then_space, " ")
-    name_one_edited = re.sub(r"\s+", " ", name_one_edited)
-    name_two_edited = re.sub(r"\s+", " ", name_two_edited)
+    name_one_edited = re_sub(r"\s+", " ", name_one_edited)
+    name_two_edited = re_sub(r"\s+", " ", name_two_edited)
 
     # Determine if any edits were made in the above processes
     no_edits_made = (name_one == name_one_edited) and (name_two == name_two_edited) 
@@ -537,8 +537,8 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
         name_two, no_edits_made = _remove_space_then_prefix_from_unedited_name(prefix, space_then_prefix, name_two, name_one)
 
     # If the edits were significantly beneficial (or pass spell), return the edited versions
-    improvement, _, _= usefulTools.calculate_edit_improvement(name_one, name_two, name_one_edited, name_two_edited)
-    if (improvement >= 10) or comparisonsMod.compare_spelling(name_one_edited, name_two_edited)[0]:
+    improvement, _, _= calculate_edit_improvement(name_one, name_two, name_one_edited, name_two_edited)
+    if (improvement >= 10) or compare_spelling(name_one_edited, name_two_edited)[0]:
         return name_one_edited, name_two_edited
     
     # Finally, if the names are identical other than the prefix, remove the prefix
@@ -560,9 +560,9 @@ def _remove_prefix_if_prefix_is_only_difference_in_names(prefix: str, name_one: 
         or the names as input if they aren't identical outside of the prefix
     """
     
-    name_editor_instance = usefulTools.NameEditor(name_one, name_two)
+    name_editor_instance = NameEditor(name_one, name_two)
 
-    for index_one, index_two, word_one, word_two in usefulTools.get_matching_words_and_indices(name_one, name_two):
+    for index_one, index_two, word_one, word_two in get_matching_words_and_indices(name_one, name_two):
         if (word_one.startswith(prefix)) and (word_one[len(prefix):] == word_two) and (len(word_two) > 2):
             name_editor_instance.update_name_one(index_one, word_one[len(prefix):])
         elif (word_two.startswith(prefix)) and (word_two[len(prefix):] == word_one) and (len(word_one) > 2):
@@ -594,7 +594,7 @@ def _remove_space_then_prefix_from_unedited_name(prefix: str, space_then_prefix:
     edit_happened = False
     pattern = r'\b{}\w*\b'.format(space_then_prefix)
     is_space_then_prefix_only_in_name_to_change = (space_then_prefix in name_to_possibly_change) and (space_then_prefix not in other_name)
-    match_in_name_to_possibly_change = re.search(pattern, name_to_possibly_change)
+    match_in_name_to_possibly_change = re_search(pattern, name_to_possibly_change)
     if (is_space_then_prefix_only_in_name_to_change) and (match_in_name_to_possibly_change is not None):
         matched_word = match_in_name_to_possibly_change.group()
         if len(matched_word) > len(prefix) + 4:
@@ -616,7 +616,7 @@ def _combine_prefix_with_surname_if_in_both(name_one:str, name_two:str, prefix:s
         names
     """        
     # Return if ' prefix ' in neither
-    if (not re.search(f' {prefix} .', name_one)) or (not re.search(f' {prefix} .', name_two)):
+    if (not re_search(f' {prefix} .', name_one)) or (not re_search(f' {prefix} .', name_two)):
         return name_one, name_two
     
     # Get the letter after ' prefix '

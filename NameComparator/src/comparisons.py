@@ -1,8 +1,9 @@
-import re
-import numpy as np
-from fuzzywuzzy import fuzz
+from re import sub as re_sub
+from numpy import ndarray
+from numpy import zeros as numpy_zeros
+from fuzzywuzzy.fuzz import ratio as fuzz_ratio
 
-import NameComparator.src.usefulTools as usefulToolsMod
+from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality
 
 def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list]:
     """Identifies if two names are a match according to a comparison based soley on spelling.
@@ -14,7 +15,7 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list]:
     Returns:
         A tuple containing whether the names are a match and the resulting word combo
     """        
-    word_combo = usefulToolsMod.find_word_matches_and_quality(name_one, name_two)
+    word_combo = find_word_matches_and_quality(name_one, name_two)
     count = sum(1 for tup in word_combo if tup[2] > 80)
     minimum_length = min(len(name_one.split(' ')), len(name_two.split(' ')))
     if (count >= 3) or (count == minimum_length):
@@ -35,7 +36,7 @@ def _consonant_comparison(name_one:str, name_two:str) -> bool:
         to consonant comparison
     """        
     # Setup
-    word_combo = usefulToolsMod.find_word_matches_and_quality(name_one, name_two)
+    word_combo = find_word_matches_and_quality(name_one, name_two)
     minimum_required_matches = len(word_combo)
     number_of_consonant_matches = 0
 
@@ -49,7 +50,7 @@ def _consonant_comparison(name_one:str, name_two:str) -> bool:
         # Get the words as consonants
         consonants_in_name_one = _reduce_to_simple_consonants(word_one)
         consonants_in_name_two = _reduce_to_simple_consonants(word_two)
-        consonant_ratio = fuzz.ratio(consonants_in_name_one, consonants_in_name_two)
+        consonant_ratio = fuzz_ratio(consonants_in_name_one, consonants_in_name_two)
 
         # Continue if bad match
         if original_score_for_words <= 30:
@@ -77,9 +78,9 @@ def _reduce_to_simple_consonants(string:str) -> str:
         A string containing only the consonants of the original string, separated
         by asterisks
     """            
-    string = re.sub("a|e|i|o|u|y", "*", string)
-    string = re.sub(r'\*{2,}', "*", string)
-    string = re.sub(r'(.)\1+', r'\1', string)
+    string = re_sub("a|e|i|o|u|y", "*", string)
+    string = re_sub(r'\*{2,}', "*", string)
+    string = re_sub(r'(.)\1+', r'\1', string)
     return string
 
 def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:str, name_two:str) -> tuple[bool, list]:
@@ -103,16 +104,16 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
         words_from_ipa_two += [None] * (len(words_from_ipa_one) - len(words_from_ipa_two))
 
     # Create a matrix of zeros using numpy
-    scores = np.zeros((len(words_from_ipa_one), len(words_from_ipa_two)))
+    scores = numpy_zeros((len(words_from_ipa_one), len(words_from_ipa_two)))
 
     # Score each matchup
-    word_combo_for_scores = usefulToolsMod.find_word_matches_and_quality(name_one, name_two)
+    word_combo_for_scores = find_word_matches_and_quality(name_one, name_two)
     _matchup_scores(word_combo_for_scores, scores, words_from_ipa_one, words_from_ipa_two)
 
     # Identify the best matchups
     words_from_ipa_one = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_one)]
     words_from_ipa_two = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_two)]
-    word_combo = usefulToolsMod.identify_best_matches(scores=scores, list_one=words_from_ipa_one, list_two=words_from_ipa_two)
+    word_combo = identify_best_matches(scores=scores, list_one=words_from_ipa_one, list_two=words_from_ipa_two)
     lowest_score = min(word_combo, key=lambda tuple: tuple[2])[2]
     
     # Return whether pronunciaion match or not
@@ -129,7 +130,7 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
     # Default return just in case something gets here
     return False, word_combo
 
-def _matchup_scores(word_combo_for_scores: list[tuple[str, str, int]], scores: np.ndarray, words_from_ipa_one: list, words_from_ipa_two: list) -> None:
+def _matchup_scores(word_combo_for_scores: list[tuple[str, str, int]], scores: ndarray, words_from_ipa_one: list, words_from_ipa_two: list) -> None:
     """Finds the score for the quality of each matchup of words that are potential matches, in terms of ipa
     pronunciations. It then updates a list of scores to reflect this for later processing in the
     pronunciation_comparison function.
@@ -167,7 +168,7 @@ def _score_word_combos_helper(word_one: str, word_two: str, index_one: int, inde
         An int representing the score that should be set for a particular word combo
     """
 
-    score = fuzz.ratio(word_one, word_two)
+    score = fuzz_ratio(word_one, word_two)
     for item in range(len(word_combo_for_scores)):
         word_combo_for_scores_index_one, word_combo_for_scores_index_two, initial_score = word_combo_for_scores[item]
         # Use initial score for initials (bad pun)

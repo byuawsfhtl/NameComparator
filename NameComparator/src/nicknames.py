@@ -1,4 +1,5 @@
-import re
+from re import sub as re_sub
+from re import IGNORECASE
 from json import loads as json_loads
 from importlib.resources import files
 
@@ -60,7 +61,7 @@ def _remove_based_on_id_information(set_of_ids: set[int], word_one: str, name_on
             if (nickname in words_in_name_one) and (nickname in words_in_name_two):
                 continue
             if nickname in words_in_name_two:
-                name_one = re.sub(rf"\b{word_one}\b", nickname, name_one, flags=re.IGNORECASE)
+                name_one = re_sub(rf"\b{word_one}\b", nickname, name_one, flags=IGNORECASE)
                 breaking = True
                 break
         if breaking:
