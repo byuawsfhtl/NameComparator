@@ -1,17 +1,17 @@
 import setuptools
 import os
-from _version import __version__ as version
+from NameComparator._version import __version__ as version
 
 with open("README.md", "r", encoding="utf-8") as fh:
-    read_long_description = fh.read()
+    longDescription = fh.read()
 
-unsplit_requirements = ""
+requirements = ""
 with open("NameComparator/requirements.txt", "r", encoding="utf-8") as fh:
-    unsplit_requirements = fh.read()
+    requirements = fh.read()
 
-requirements = unsplit_requirements.split("\n")
+requirements = requirements.split("\n")
 
-def list_folders(directory: str) -> list:
+def listFolders(directory: str) -> list:
     """Creates a list of all the folders in a directory.
 
     Args:
@@ -22,16 +22,16 @@ def list_folders(directory: str) -> list:
     """
     folders = []
     for item in os.listdir(directory):
-        item_path = os.path.join(directory, item)
-        if os.path.isdir(item_path) and item != "__pycache__":
-            folders.append(item_path)
-    other_folders = [list_folders(item_path) for item_path in folders]
-    for folder in other_folders:
+        itemPath = os.path.join(directory, item)
+        if os.path.isdir(itemPath) and item != "__pycache__":
+            folders.append(itemPath)
+    otherFolders = [listFolders(itemPath) for itemPath in folders]
+    for folder in otherFolders:
         folders.extend(folder)
     return folders
 
-folder_path = "NameComparator"
-folders = list_folders(folder_path)
+folderPath = "NameComparator"
+folders = listFolders(folderPath)
 folders.append("NameComparator")
 print(folders)
 
@@ -41,7 +41,7 @@ setuptools.setup(
     author='Record Linking Lab',
     author_email='recordlinkinglab@gmail.com',
     description='This is a library used to make fuzzy name comparisons across census records.',
-    long_description=read_long_description,
+    long_description=longDescription,
     long_description_content_type="text/markdown",
     url='https://github.com/byuawsfhtl/NameComparator.git',
     project_urls = {
