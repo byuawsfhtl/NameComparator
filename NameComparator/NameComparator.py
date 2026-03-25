@@ -11,7 +11,7 @@ import NameComparator.src.modify as modifyMod
 import NameComparator.src.ipa as ipaMod
 import NameComparator.src.uniqueness as uniquenessMod
 from NameComparator.src.uniqueness import FrequencyData
-
+ 
 unparsed_usa_to_1950_surnames = files('NameComparator').joinpath('data/frequency/surnamesUsaTo1950.json').read_text()
 unparsed_usa_to_1950_first_names = files('NameComparator').joinpath('data/frequency/firstNamesUsaTo1950.json').read_text()
 
