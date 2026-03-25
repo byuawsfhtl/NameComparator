@@ -1,5 +1,5 @@
 import unidecode from 'unidecode';
-import * as fuzzball from 'fuzzball';
+import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
 
 import { calculateEditImprovement, getMatchingWordsAndIndices, NameEditor } from './usefulTools';
 import { compareSpelling } from './comparisons';
@@ -287,7 +287,7 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
     
     for (const [indexOne, indexTwo, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         // Skip if wordOne and wordTwo are not a good match
-        if (fuzzball.partial_ratio(wordOne, wordTwo) < 75) {
+        if (fuzzball_partial_ratio(wordOne, wordTwo) < 75) {
             continue;
         };
 
@@ -310,13 +310,13 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
         var [chosenNeighbor, compound, neighborIndex] = _chooseBestNeighborWord(wordOne, indexOne, wordTwo, leftNeighbor, rightNeighbor);
 
         // Skip if the neighbor is a bad partial match to wordTwo's match
-        if (fuzzball.partial_ratio(chosenNeighbor, wordTwo) < 65) {
+        if (fuzzball_partial_ratio(chosenNeighbor, wordTwo) < 65) {
             continue;
         };
 
         // Check if the compound is significantly better than the original
-        const originalScore = fuzzball.ratio(wordOne, wordTwo);
-        const compoundScore = fuzzball.ratio(compound, wordTwo);
+        const originalScore = fuzzball_ratio(wordOne, wordTwo);
+        const compoundScore = fuzzball_ratio(compound, wordTwo);
         if (compoundScore < originalScore + 20) {
             continue;
         };
@@ -402,8 +402,8 @@ function _chooseBestNeighborWord(wordOne: string, indexOne: number, wordTwo: str
     } else if (!rightNeighbor) {
         wasLeftChosen = true;
     } else {
-        const leftScore = fuzzball.partial_ratio(leftNeighbor, wordTwo);
-        const rightScore = fuzzball.partial_ratio(rightNeighbor, wordTwo);
+        const leftScore = fuzzball_partial_ratio(leftNeighbor, wordTwo);
+        const rightScore = fuzzball_partial_ratio(rightNeighbor, wordTwo);
         if (leftScore > rightScore) {
             wasLeftChosen = true;
         } else {
@@ -471,7 +471,7 @@ function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string] {
             };
 
             // Skip pair if they are already a solid match
-            if (fuzzball.ratio(wordOne, wordTwo) > 80) {
+            if (fuzzball_ratio(wordOne, wordTwo) > 80) {
                 continue;
             };
 
@@ -483,7 +483,7 @@ function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string] {
                 updatedWordOne = wordOne;
                 updatedWordTwo = wordTwo.replace(prefix, '');
             };
-            if (fuzzball.ratio(updatedWordOne, updatedWordTwo) < 75) {
+            if (fuzzball_ratio(updatedWordOne, updatedWordTwo) < 75) {
                 continue;
             };
 
@@ -522,7 +522,7 @@ function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [stri
 
     // Edit the names
     const surnameOne = nameOne.split(/\s+/).pop() || '';
-    if (fuzzball.ratio(surnameOne, surname) > 75) {
+    if (fuzzball_ratio(surnameOne, surname) > 75) {
         if (surnameOne[0] == 'o') {
             nameOne = nameOne.replace(surnameOne, surname);
         } else {
@@ -530,7 +530,7 @@ function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [stri
         };
     };
     const surnameTwo = nameTwo.split(/\s+/).pop() || '';
-    if (fuzzball.ratio(surnameTwo, surname) > 75) {
+    if (fuzzball_ratio(surnameTwo, surname) > 75) {
         if (surnameTwo[0] == 'o') {
             nameTwo = nameTwo.replace(surnameTwo, surname);
         } else {

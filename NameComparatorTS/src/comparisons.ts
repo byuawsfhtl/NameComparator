@@ -1,6 +1,6 @@
 import { ratio as fuzzball_ratio} from "fuzzball";
 import { identifyBestMatches, findWordMatchesAndQuality } from "./usefulTools";
-import { min as mathjs_min, matrix as mathjs_matrix_function, Matrix as mathjs_matrix_class, aeros as mathjs_zeros } from 'mathjs';
+import { min as mathjs_min, matrix as mathjs_matrix_function, Matrix as mathjs_matrix_class, zeros as mathjs_zeros } from 'mathjs';
 
 /**
  * Identifies if two names are a match according to a comparison based soley on spelling.
