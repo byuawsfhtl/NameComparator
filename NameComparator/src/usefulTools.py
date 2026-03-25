@@ -91,17 +91,17 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
             list_two: a list of indices as strings or None
 
         Returns:
-            A tuple containing the two words that are the best match and a score
+            A list of tuples containing the two words that are the best match and a score
             representing how closely they match
         """   
         linear_sum_class = Munkres()     
         list_of_paired_indices = linear_sum_class.compute(-scores)
-        best_combination = []
+        best_combinations = []
         for i, j in list_of_paired_indices:
             if (list_one[i] is not None) and (list_two[j] is not None):
                 matchup_score = scores[i, j]
-                best_combination.append((list_one[i], list_two[j], matchup_score))
-        return best_combination
+                best_combinations.append((list_one[i], list_two[j], matchup_score))
+        return best_combinations
 
 def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, name_two_edited:str) -> tuple[float, tuple, tuple]:
     """Calculates how much editing a name or both names improved the score in comparison to the original names.
@@ -116,14 +116,14 @@ def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, 
         A tuple containing the score of how much the edits improved the comparison (can be negative), 
         the word combo of the original, and the word combo of the edited verison
     """        
-    original_word_combo = find_word_matches_and_quality(name_one, name_two)
-    edited_word_combo = find_word_matches_and_quality(name_one_edited, name_two_edited)
-    if (not original_word_combo) or (not edited_word_combo):
-        return 0, original_word_combo, edited_word_combo
-    original_average_score = sum(tup[2] for tup in original_word_combo) / len(original_word_combo)
-    edited_average_score = sum(tup[2] for tup in edited_word_combo) / len(edited_word_combo)
+    original_word_combos = find_word_matches_and_quality(name_one, name_two)
+    edited_word_combos = find_word_matches_and_quality(name_one_edited, name_two_edited)
+    if (not original_word_combos) or (not edited_word_combos):
+        return 0, original_word_combos, edited_word_combos
+    original_average_score = sum(tup[2] for tup in original_word_combos) / len(original_word_combos)
+    edited_average_score = sum(tup[2] for tup in edited_word_combos) / len(edited_word_combos)
     diff = edited_average_score - original_average_score
-    return diff, original_word_combo, edited_word_combo
+    return diff, original_word_combos, edited_word_combos
 
 def get_matching_words_and_indices(name_one:str, name_two:str) -> list[tuple[int, int, str, str]]:
     """Identifies which words in the names match and finds their indices.

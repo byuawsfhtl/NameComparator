@@ -21,11 +21,12 @@ class Attempt(NamedTuple):
     Attributes:
         name_one: The version of the first name to be used in this attempt
         name_two: The version of the second name to be used in this attempt
-        word_combo: A list of tuples describing the word matchups and quality
+        word_combos: A list of tuples describing the word matchups and quality
     """
     name_one: str
     name_two: str
-    word_combo: list[tuple[str, str, int]] # TODO make this a model too
+    word_combos: list[tuple[str, str, int]]
+    score_of_attempt: float
 
 @dataclass
 class ResultsOfNameComparison:
@@ -51,6 +52,8 @@ class ResultsOfNameComparison:
     attempt_two: Attempt | None = None
     attempt_three: Attempt | None = None
     attempt_four: Attempt | None = None
+    most_recent_attempt_score = float
+    score_of_combined_attempts = float
 
 def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|None = None) -> ResultsOfNameComparison:
     """Compares two names to identify whether or not they are a match.
@@ -101,8 +104,8 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     name_one, name_two = remove_nicknames(name_one, name_two)
 
     # 1st attempt: Checks if names are a match according to string comparison alone
-    match, word_combo = compare_spelling(name_one, name_two)
-    results.attempt_one = Attempt(name_one, name_two, word_combo)
+    match, word_combos = compare_spelling(name_one, name_two)
+    results.attempt_one = Attempt(name_one, name_two, word_combos)
     if match:
         results.match = True
         return results
@@ -113,8 +116,8 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
 
     # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
     modified_name_one, modified_name_two = modify_names_together(name_one, name_two)
-    match, word_combo = compare_spelling(modified_name_one, modified_name_two)
-    results.attempt_two = Attempt(modified_name_one, modified_name_two, word_combo)
+    match, word_combos = compare_spelling(modified_name_one, modified_name_two)
+    results.attempt_two = Attempt(modified_name_one, modified_name_two, word_combos)
     if match:
         results.match = True
         return results
@@ -123,8 +126,8 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     ipa_of_modified_name_one = clean_ipa(get_ipa(modified_name_one))
     ipa_of_modified_name_two = clean_ipa(get_ipa(modified_name_two))
     ipa_of_modified_name_one, ipa_of_modified_name_two = modify_ipas_by_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two)
-    match, word_combo = pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
-    results.attempt_three = Attempt(ipa_of_modified_name_one, ipa_of_modified_name_two, word_combo)
+    match, word_combos = pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
+    results.attempt_three = Attempt(ipa_of_modified_name_one, ipa_of_modified_name_two, word_combos)
     if match:
         results.match = True
         return results
@@ -133,8 +136,8 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     ipa_of_name_one = clean_ipa(get_ipa(name_one))
     ipa_of_name_two = clean_ipa(get_ipa(name_two))
     ipa_of_name_one, ipa_of_name_two = modify_ipas_by_comparison(ipa_of_name_one, ipa_of_name_two)
-    match, word_combo = pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
-    results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, word_combo)
+    match, word_combos = pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
+    results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, word_combos)
     if match:
         results.match = True
     return results
