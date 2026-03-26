@@ -9,3 +9,4 @@ NameComparator.egg-info/
 .venv
 **/node_modules
 **/dist
+venv

@@ -29,34 +29,40 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
             combined_scores = combined_scores + tuple[2]
 
     minimum_length = min(len(name_one.split(' ')), len(name_two.split(' ')))
+
     if (count > 0):
         averaged_scores = combined_scores / averaged_scores
 
     if (count >= 3) or (count == minimum_length):
         return True, word_combos, averaged_scores
     
-    # TODO: NOTE: WARNING: Right now these will cause the code to break because they
-    # aren't returning any averaged values. Additionally, _consonant_comparison is
-    # re-gathering word_combos which seems expensive and silly. See if it's being
-    # used anywhere else and determine if we should just pass those in instead
-    if _consonant_comparison(name_one, name_two):
-        return True, word_combos
-    return False, word_combos
+    # Determine if it matches on consonants or not if the whole fuzzy string comparison is unclear
+    is_consonant_match, consonant_match_score = _consonant_comparison(name_one, name_two, word_combos)
 
-def _consonant_comparison(word_combos: list[tuple[str, str, int]]) -> bool:
-    """Identifies if two names are a match according to consonant comparison.
+    # Return the values, averaging the score and slightly favoring the initial fuzzy string match ones
+    return is_consonant_match, word_combos, ((averaged_scores * 0.6) + (consonant_match_score * 0.4))
+
+def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[str, str, int]]) -> tuple[bool, float]:
+    """Identifies if two names are a match according to consonant comparison and
+    determines a score representing how closely the contonants line up according
+    to a fuzzy match comparison for all of the accepted word combos.
 
     Args:
         word_combos_of_names: The word combos of the names, as found in the
             compare_spelling
+        name_one: The first name used in the consonant comparison
+        name_two: The second name used in the consonant comparison
 
     Returns:
-        A boolean representing whether the two names are a match, according 
-        to consonant comparison
+        A tuple containing a boolean representing whether or not the two names 
+        are a match according to consonant comparison and a score representing
+        the quality of the matches on average
     """        
     # Setup
     minimum_required_matches = len(word_combos)
     number_of_consonant_matches = 0
+    combined_scores_based_on_consonant_fuzzy_matches = 0
+    average_score = 0
 
     # Loop through every word match in the combo
     for tup in word_combos:
@@ -80,11 +86,16 @@ def _consonant_comparison(word_combos: list[tuple[str, str, int]]) -> bool:
         if (consonant_ratio <= 80 or original_score_for_words <= 60) and consonant_ratio != 100:
             continue
 
-        # If not rejected, increment the number of matches
+        # If not rejected, increment the number of matches and increase the total score
         number_of_consonant_matches += 1
+        combined_scores_based_on_consonant_fuzzy_matches = combined_scores_based_on_consonant_fuzzy_matches + consonant_ratio
 
-    # If enough matches, return true. Otherwise return false.
-    return (number_of_consonant_matches > minimum_required_matches) or (number_of_consonant_matches >= 3)
+    # Find the average score of all of the matches, if relevant
+    if number_of_consonant_matches > 0:
+        average_score = combined_scores_based_on_consonant_fuzzy_matches / number_of_consonant_matches
+
+    # If enough matches, return true. Otherwise return false
+    return ((number_of_consonant_matches > minimum_required_matches) or (number_of_consonant_matches >= 3)), average_score
     
 def _reduce_to_simple_consonants(string:str) -> str:
     """Reduces a string to its simple consonant componants.
@@ -101,7 +112,7 @@ def _reduce_to_simple_consonants(string:str) -> str:
     string = re_sub(r'(.)\1+', r'\1', string)
     return string
 
-def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:str, name_two:str) -> tuple[bool, list]:
+def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:str, name_two:str) -> tuple[bool, list, float]:
     """Identifies whether two names are a match according to a pronunciation comparison.
 
     Args:
@@ -111,7 +122,8 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
         name_two: The second name to compare the pronuncation of
         
     Returns:
-        A tuple containing whether or not the name was a match and the word combo
+        A tuple containing whether or not the name was a match, the word combos for the
+        names, and the score of the item used to determine if it was a match or not
     """        
     # Initialize empty list to store scores
     words_from_ipa_one = ipa_of_name_one.split()
@@ -132,21 +144,21 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
     words_from_ipa_one = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_one)]
     words_from_ipa_two = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_two)]
     word_combos = identify_best_matches(scores=scores, list_one=words_from_ipa_one, list_two=words_from_ipa_two)
-    lowest_score = min(word_combos, key=lambda tuple: tuple[2])[2]
+    lowest_score = min(word_combos, key=lambda tuple: tuple[2])[2] if min(word_combos, key=lambda tuple: tuple[2])[2] else 0
     
     # Return whether pronunciaion match or not
     minimum_length = min(len(ipa_of_name_one.split()), len(ipa_of_name_two.split()))
     if minimum_length <= 2:
         if lowest_score >= 80:
-            return True, word_combos
-        return False, word_combos
+            return True, word_combos, lowest_score
+        return False, word_combos, lowest_score
     if minimum_length > 2:
         if lowest_score > 75:
-            return True, word_combos
-        return False, word_combos
+            return True, word_combos, lowest_score
+        return False, word_combos, lowest_score
     
     # Default return just in case something gets here
-    return False, word_combos
+    return False, word_combos, lowest_score
 
 def _matchup_scores(word_combos_for_scores: list[tuple[str, str, int]], scores: ndarray, words_from_ipa_one: list, words_from_ipa_two: list) -> None:
     """Finds the score for the quality of each matchup of words that are potential matches, in terms of ipa
