@@ -2,8 +2,8 @@ import { compareTwoNames } from '../nameComparator'; // Adjust path
 import { FrequencyData } from '../src/uniqueness';
 import rawTestCases from './name-comparison-results.json'; // Place this JSON in the same folder or update the path
 // import rawTestCases from './small-test-set.json';
-import usaTo1950Surnames from '../data/frequency/surnamesUsaTo1950.json';
-import usaTo1950FirstNames from '../data/frequency/firstNamesUsaTo1950.json';
+import usaTo1950Surnames from '../../data/frequency/surnamesUsaTo1950.json';
+import usaTo1950FirstNames from '../../data/frequency/firstNamesUsaTo1950.json';
 
 
 type TestCase = {
@@ -11,9 +11,9 @@ type TestCase = {
   nameTwo: string;
   match: boolean;
   attemptOne: [string, string, number[]];
-  attempt2: [string, string, number[]];
-  attempt3: [string, string, number[]];
-  attempt4: [string, string, number[]];
+  attemptTwo: [string, string, number[]];
+  attemptThree: [string, string, number[]];
+  attemptFour: [string, string, number[]];
 };
 
 type FailedTestCase = {
@@ -21,9 +21,9 @@ type FailedTestCase = {
   nameTwo: string;
   match: boolean;
   attemptOne: Attempt | null;
-  attempt2: Attempt | null;
-  attempt3: Attempt | null;
-  attempt4: Attempt | null;
+  attemptTwo: Attempt | null;
+  attemptThree: Attempt | null;
+  attemptFour: Attempt | null;
 };
 
 type WordComboEntry = [string, string, number];
@@ -50,9 +50,9 @@ describe('compareTwoNames with testCases.json', () => {
           nameTwo,
           match: result.match,
           attemptOne: result.attemptOne,
-          attempt2: result.attempt2,
-          attempt3: result.attempt3,
-          attempt4: result.attempt4
+          attemptTwo: result.attemptTwo,
+          attemptThree: result.attemptThree,
+          attemptFour: result.attemptFour
         });
       }
 

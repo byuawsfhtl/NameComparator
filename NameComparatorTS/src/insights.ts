@@ -8,9 +8,9 @@ import { findWordMatchesAndQuality } from "./usefulTools";
  * @returns Whether the names are worth working on further
  */
 export function isWorthContinuing(nameOne: string, nameTwo: string): boolean {
-    const wordCombo = findWordMatchesAndQuality(nameOne, nameTwo);
+    const wordCombos = findWordMatchesAndQuality(nameOne, nameTwo);
     let oneLetterMatchFailCount = 0;
-    for (const match of wordCombo) {
+    for (const match of wordCombos) {
         const wordOne = nameOne[parseInt(match[0])];
         const wordTwo = nameTwo[parseInt(match[1])];
         const score = match[2];
@@ -18,7 +18,7 @@ export function isWorthContinuing(nameOne: string, nameTwo: string): boolean {
             oneLetterMatchFailCount += 1;
         }
     }
-    if (oneLetterMatchFailCount >= 1 && wordCombo.length <= 3) {
+    if (oneLetterMatchFailCount >= 1 && wordCombos.length <= 3) {
         return false;
     }
     return true;    

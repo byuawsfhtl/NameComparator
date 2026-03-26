@@ -14,13 +14,15 @@ import usaTo1950FirstNames from '../data/frequency/firstNamesUsaTo1950.json';
  * 
  * @property {string} nameOne - The version of the first name to be used in this attempt
  * @property {string} nameTwo - The version of the second name to be used in this attempt
- * @property {[string, string, number][]} wordCombo - A list of tuples describing the word matchups and quality
+ * @property {[string, string, number][]} wordCombos - A list of lists describing the word matchups and quality
+ * @property {number} scoreOfAttempt - The score associated with the percent confidence returned from this attempt
  */
 export class Attempt {
   constructor(
     public nameOne: string,
     public nameTwo: string,
-    public wordCombo: [string, string, number][]
+    public wordCombos: [string, string, number][],
+    public scoreOfAttempt: number
   ) {}
 }
 
@@ -36,6 +38,10 @@ export class Attempt {
  * @property {Attempt | null} attemptTwo - Debugging data about the second attempt to compare the names. Defaults to null
  * @property {Attempt | null} attemptThree - Debugging data about the third attempt to compare the names. Defaults to null
  * @property {Attempt | null} attemptFour - Debugging data about the fourth attempt to compare the names. Defaults to null
+ * @property {number} mostRecentAttemptScore - The percent confidence score associated with the most recent attempt that 
+ *                                             was made while comparing the names
+ * @property {number} averageScoreOfCombinedAttempts - The average percent confidence score from all of the attempts that 
+ *                                                     were made while comparing the names
  */
 export class ResultsOfNameComparison {
   constructor(
@@ -47,7 +53,9 @@ export class ResultsOfNameComparison {
     public attemptOne: Attempt | null = null,
     public attemptTwo: Attempt | null = null,
     public attemptThree: Attempt | null = null,
-    public attemptFour: Attempt | null = null
+    public attemptFour: Attempt | null = null,
+    public mostRecentAttemptScore: number = 0,
+    public averageScoreOfCombinedAttempts: number = 0
   ) {}
 }
 
@@ -105,8 +113,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   [nameOne, nameTwo] = removeNicknames(nameOne, nameTwo);
 
   // 1st attempt: Checks if names are a match according to string comparison alone
-  let [match, wordCombo] = compareSpelling(nameOne, nameTwo);
-  results.attemptOne = new Attempt(nameOne, nameTwo, wordCombo);
+  let [match, wordCombos] = compareSpelling(nameOne, nameTwo);
+  results.attemptOne = new Attempt(nameOne, nameTwo, wordCombos);
   if (match) {
     results.match = true;
     return results;
@@ -119,8 +127,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
 
   // 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
   let [modifiedNameOne, modifiedNameTwo] = modifyNamesTogether(nameOne, nameTwo);
-  [match, wordCombo] = compareSpelling(modifiedNameOne, modifiedNameTwo);
-  results.attemptTwo = new Attempt(modifiedNameOne, modifiedNameTwo, wordCombo);
+  [match, wordCombos] = compareSpelling(modifiedNameOne, modifiedNameTwo);
+  results.attemptTwo = new Attempt(modifiedNameOne, modifiedNameTwo, wordCombos);
   if (match) {
     results.match = true;
     return results;
@@ -130,8 +138,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   let ipaOfModifiedNameOne = cleanIpa(getIpa(modifiedNameOne));
   let ipaOfModifiedNameTwo = cleanIpa(getIpa(modifiedNameTwo));
   [ipaOfModifiedNameOne, ipaOfModifiedNameTwo] = modifyIpasByComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo);
-  [match, wordCombo] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
-  results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, wordCombo);
+  [match, wordCombos] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
+  results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, wordCombos);
   if (match) {
     results.match = true;
     return results;
@@ -141,8 +149,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   let ipaOfNameOne = cleanIpa(getIpa(nameOne));
   let ipaOfNameTwo = cleanIpa(getIpa(nameTwo));
   [ipaOfNameOne, ipaOfNameTwo] = modifyIpasByComparison(ipaOfNameOne, ipaOfNameTwo);
-  [match, wordCombo] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
-  results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, wordCombo);
+  [match, wordCombos] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
+  results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, wordCombos);
   if (match) {
     results.match = true;
   }
