@@ -114,7 +114,7 @@ def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, 
 
     Returns:
         A tuple containing the score of how much the edits improved the comparison (can be negative), 
-        the word combo of the original, and the word combo of the edited verison
+        the word combos of the original, and the word combos of the edited verison
     """        
     original_word_combos = find_word_matches_and_quality(name_one, name_two)
     edited_word_combos = find_word_matches_and_quality(name_one_edited, name_two_edited)

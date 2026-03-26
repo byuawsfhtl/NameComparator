@@ -22,6 +22,8 @@ class Attempt(NamedTuple):
         name_one: The version of the first name to be used in this attempt
         name_two: The version of the second name to be used in this attempt
         word_combos: A list of tuples describing the word matchups and quality
+        score_of_attempt: The score associated with the percent confidence 
+            returned from this attempt
     """
     name_one: str
     name_two: str
@@ -42,6 +44,10 @@ class ResultsOfNameComparison:
         attempt_two: Debugging data about the second attempt to compare the names. Defaults to None
         attempt_three: Debugging data about the third attempt to compare the names. Defaults to None
         attempt_four: Debugging data about the fourth attempt to compare the names. Defaults to None
+        most_recent_attempt_score: The percent confidence score associated with the most recent attempt
+            that was made while comparing the names
+        average_score_of_combined_attempts: The average percent confidence score from all of the
+            attempts that were made while comparing the names
     """
     name_one: str
     name_two: str

@@ -48,10 +48,9 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
     to a fuzzy match comparison for all of the accepted word combos.
 
     Args:
-        word_combos_of_names: The word combos of the names, as found in the
-            compare_spelling
         name_one: The first name used in the consonant comparison
         name_two: The second name used in the consonant comparison
+        word_combos: The word combos of the names, as found in compare_spelling
 
     Returns:
         A tuple containing a boolean representing whether or not the two names 
@@ -94,7 +93,7 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
     if number_of_consonant_matches > 0:
         average_score = combined_scores_based_on_consonant_fuzzy_matches / number_of_consonant_matches
 
-    # If enough matches, return true. Otherwise return false
+    # If there are enough matches, return true and a score. Otherwise return false and a score
     return ((number_of_consonant_matches > minimum_required_matches) or (number_of_consonant_matches >= 3)), average_score
     
 def _reduce_to_simple_consonants(string:str) -> str:

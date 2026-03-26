@@ -86,8 +86,8 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
  * @param listOne - a list of indices as strings or null
  * @param listTwo - a list of indices as strings or null
  * 
- * @returns The two words that are the best match and a score representing 
- *          how closely they match
+ * @returns A list of lists containing the two words that are the best match 
+ *          and a score representing how closely they match
  */
 export function identifyBestMatches(scores: number[][], listOne: string[], listTwo: string[]) : [string, string, number][] {
 // Note that as a part of updating this function, I opted for a more well-tested external
@@ -103,7 +103,6 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
     
         const wordOne = listOne[i];
         const wordTwo = listTwo[j];
-        // Check if both listOne[i] and listTwo[j] are not null
         if (wordOne !== "" && wordTwo !== "") {
           const matchupScore = scores[i][j];
           bestCombination.push([wordOne, wordTwo, matchupScore]);
@@ -122,19 +121,19 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
  * @param nameTwoEdited - the edited second name
  * 
  * @returns The score of how much the edits improved the comparison (can be negative),
- *          the word combo of the original, and the word combo of the edited version
+ *          the word combos of the original, and the word combos of the edited version
  */
 export function calculateEditImprovement(nameOne : string, nameTwo : string, nameOneEdited :string, nameTwoEdited : string): [number, [string, string, number][], [string, string, number][]] {
-    let originalWordCombo = findWordMatchesAndQuality(nameOne, nameTwo);
-    let editedWordCombo = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
-    if(!originalWordCombo.length || !editedWordCombo.length) {
-        return [0, originalWordCombo, editedWordCombo]
+    let originalWordCombos = findWordMatchesAndQuality(nameOne, nameTwo);
+    let editedWordCombos = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
+    if(!originalWordCombos.length || !editedWordCombos.length) {
+        return [0, originalWordCombos, editedWordCombos]
     };
-    const originalAverageScore = originalWordCombo.reduce((sum, [, , score]) => sum + score, 0) / originalWordCombo.length;
-    const editedAverageScore = editedWordCombo.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombo.length;
+    const originalAverageScore = originalWordCombos.reduce((sum, [, , score]) => sum + score, 0) / originalWordCombos.length;
+    const editedAverageScore = editedWordCombos.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombos.length;
     const diff = editedAverageScore - originalAverageScore;
 
-    return [diff, originalWordCombo, editedWordCombo];
+    return [diff, originalWordCombos, editedWordCombos];
 };
 
 /**
