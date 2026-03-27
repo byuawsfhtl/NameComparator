@@ -2,8 +2,25 @@ from re import sub as re_sub
 from numpy import ndarray
 from numpy import zeros as numpy_zeros
 from fuzzywuzzy.fuzz import ratio as fuzz_ratio
+from importlib.resources import files
+from json import loads as json_loads
 
 from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality
+
+# Read the various variables from a file
+comparison_variables_as_dict = json_loads(files('NameComparator').joinpath('data/variablesForComparisons.json').read_text())
+
+max_score: int = comparison_variables_as_dict.get("maxScore")
+guaranteed_passing_score: int = comparison_variables_as_dict.get("guaranteedPassingScore")
+conditionally_passing_score: int = comparison_variables_as_dict.get("conditionallyPassingScore")
+further_checks_needed_score: int = comparison_variables_as_dict.get("furtherChecksNeededScore")
+guaranteed_fail_score: int = comparison_variables_as_dict.get("guaranteedFailScore")
+
+fuzzy_comparison_weight: float = comparison_variables_as_dict.get("fuzzyComparisonWeight")
+consonant_comparison_weight: float = comparison_variables_as_dict.get("consonantComparisonWeight")
+
+number_of_valid_combos_to_skip_further_checks: int = comparison_variables_as_dict.get("numberOfValidCombosToSkipFurtherChecks")
+length_needed_for_conditionally_passing_pronunciation_comparison: int = comparison_variables_as_dict.get("lengthNeededForConditionallyPassingPronunciationComparison")
 
 def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
     """Identifies if two names are a match according to a comparison based soley on spelling.
@@ -24,7 +41,7 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
     averaged_scores = 0
 
     for tuple in word_combos:
-        if tuple[2] > 80:
+        if tuple[2] >= guaranteed_passing_score:
             count = count + 1
             combined_scores = combined_scores + tuple[2]
 
@@ -33,14 +50,14 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
     if (count > 0):
         averaged_scores = combined_scores / averaged_scores
 
-    if (count >= 3) or (count == minimum_length):
+    if (count >= number_of_valid_combos_to_skip_further_checks) or (count == minimum_length):
         return True, word_combos, averaged_scores
     
     # Determine if it matches on consonants or not if the whole fuzzy string comparison is unclear
     is_consonant_match, consonant_match_score = _consonant_comparison(name_one, name_two, word_combos)
 
     # Return the values, averaging the score and slightly favoring the initial fuzzy string match ones
-    return is_consonant_match, word_combos, ((averaged_scores * 0.6) + (consonant_match_score * 0.4))
+    return is_consonant_match, word_combos, ((averaged_scores * fuzzy_comparison_weight) + (consonant_match_score * consonant_comparison_weight))
 
 def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[str, str, int]]) -> tuple[bool, float]:
     """Identifies if two names are a match according to consonant comparison and
@@ -76,13 +93,13 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         consonant_ratio = fuzz_ratio(consonants_in_name_one, consonants_in_name_two)
 
         # Continue if bad match
-        if original_score_for_words <= 30:
+        if original_score_for_words <= guaranteed_fail_score:
             continue
         if (len(word_one) != 1) and (len(word_two) != 1): # If neither word is an initial
             lowest_syllable_count = min(consonants_in_name_one.count("*"), consonants_in_name_two.count("*"))
             if lowest_syllable_count < 2:
                 continue
-        if (consonant_ratio <= 80 or original_score_for_words <= 60) and consonant_ratio != 100:
+        if (consonant_ratio < guaranteed_passing_score or original_score_for_words < further_checks_needed_score) and consonant_ratio != max_score:
             continue
 
         # If not rejected, increment the number of matches and increase the total score
@@ -94,7 +111,7 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         average_score = combined_scores_based_on_consonant_fuzzy_matches / number_of_consonant_matches
 
     # If there are enough matches, return true and a score. Otherwise return false and a score
-    return ((number_of_consonant_matches > minimum_required_matches) or (number_of_consonant_matches >= 3)), average_score
+    return ((number_of_consonant_matches > minimum_required_matches) or (number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks)), average_score
     
 def _reduce_to_simple_consonants(string:str) -> str:
     """Reduces a string to its simple consonant componants.
@@ -147,12 +164,12 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
     
     # Return whether pronunciaion match or not
     minimum_length = min(len(ipa_of_name_one.split()), len(ipa_of_name_two.split()))
-    if minimum_length <= 2:
-        if lowest_score >= 80:
+    if minimum_length < length_needed_for_conditionally_passing_pronunciation_comparison:
+        if lowest_score >= guaranteed_passing_score:
             return True, word_combos, lowest_score
         return False, word_combos, lowest_score
-    if minimum_length > 2:
-        if lowest_score > 75:
+    if minimum_length >= length_needed_for_conditionally_passing_pronunciation_comparison:
+        if lowest_score >= conditionally_passing_score:
             return True, word_combos, lowest_score
         return False, word_combos, lowest_score
     

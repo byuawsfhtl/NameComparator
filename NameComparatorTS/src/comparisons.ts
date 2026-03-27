@@ -2,6 +2,22 @@ import { ratio as fuzzball_ratio} from "fuzzball";
 import { identifyBestMatches, findWordMatchesAndQuality } from "./usefulTools";
 import { min as mathjs_min, matrix as mathjs_matrix_function, Matrix as mathjs_matrix_class, zeros as mathjs_zeros } from 'mathjs';
 
+// Read the various variables from a file
+import comparisonVariablesAsDict from '../../data/variablesForComparisons.json';
+
+const maxScore = comparisonVariablesAsDict["maxScore" as keyof typeof comparisonVariablesAsDict]
+const guaranteedPassingScore = comparisonVariablesAsDict["guaranteedPassingScore" as keyof typeof comparisonVariablesAsDict]
+const conditionallyPassingScore = comparisonVariablesAsDict["conditionallyPassingScore" as keyof typeof comparisonVariablesAsDict]
+const furtherChecksNeededScore = comparisonVariablesAsDict["furtherChecksNeededScore" as keyof typeof comparisonVariablesAsDict]
+const guaranteedFailScore = comparisonVariablesAsDict["guaranteedFailScore" as keyof typeof comparisonVariablesAsDict]
+
+const fuzzyComparisonWeight = comparisonVariablesAsDict["fuzzyComparisonWeight" as keyof typeof comparisonVariablesAsDict]
+const consonantComparisonWeight = comparisonVariablesAsDict["consonantComparisonWeight" as keyof typeof comparisonVariablesAsDict]
+
+const numberOfValidCombosToSkipFurtherChecks = comparisonVariablesAsDict["numberOfValidCombosToSkipFurtherChecks" as keyof typeof comparisonVariablesAsDict]
+const lengthNeededForConditionallyPassingPronunciationComparison = comparisonVariablesAsDict["lengthNeededForConditionallyPassingPronunciationComparison" as keyof typeof comparisonVariablesAsDict]
+
+
 /**
  * Identifies if two names are a match according to a comparison based soley on spelling.
  * 
@@ -18,7 +34,7 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
     let averagedScores = 0;
 
     for (const tuple of wordCombos){
-        if (tuple[2] > 80){
+        if (tuple[2] >= guaranteedPassingScore){
             count = count + 1;
             combinedScores = combinedScores + tuple[2]
         };
@@ -30,7 +46,7 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
         averagedScores = combinedScores / count;
     };
 
-    if (count >= 3 || count === minimumLength) {
+    if (count >= numberOfValidCombosToSkipFurtherChecks || count === minimumLength) {
         return [true, wordCombos, averagedScores];
     };
 
@@ -38,7 +54,7 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
     const [isConsonantMatch, consonantMatchScore] = _consonantComparison(nameOne, nameTwo, wordCombos);
 
     // Return the values, averaging the score and slightly favoring the initial fuzzy string match ones
-    return [isConsonantMatch, wordCombos, ((averagedScores * 0.6) + (consonantMatchScore * 0.4) / 2)];
+    return [isConsonantMatch, wordCombos, ((averagedScores * fuzzyComparisonWeight) + (consonantMatchScore * consonantComparisonWeight))];
 }
 
 /**
@@ -69,7 +85,7 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
         const consonantRatio = fuzzball_ratio(consonantsInNameOne, consonantsInNameTwo);
         
         // Continue if bad match
-        if (originalScoreForWords <= 30) {
+        if (originalScoreForWords <= guaranteedFailScore) {
             continue;
         };
         if (wordOne.length !== 1 && wordTwo.length !== 1) { // # If neither word is an initial
@@ -81,7 +97,7 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
                 continue
             };
         };
-        if (consonantRatio <= 80 || (originalScoreForWords <= 60 && consonantRatio !== 100)) {
+        if (consonantRatio < guaranteedPassingScore || (originalScoreForWords < furtherChecksNeededScore && consonantRatio !== maxScore)) {
             continue;
         };
 
@@ -96,7 +112,7 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
     }
 
     // If there are enough matches, return true and a score. Otherwise return false and a score
-    return [((numberOfConsonantMatches > minimumRequiredMatches) || (numberOfConsonantMatches >= 3)), averageScore];
+    return [((numberOfConsonantMatches > minimumRequiredMatches) || (numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks)), averageScore];
 };
 
 /**
@@ -153,14 +169,14 @@ export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: stri
     
     // Return whether pronunciation match or not
     const minimumLength = mathjs_min(ipaOfNameOne.split(/\s+/).length, ipaOfNameTwo.split(/\s+/).length);
-    if (minimumLength <= 2) {
-        if (lowestScore >= 80) {
+    if (minimumLength < lengthNeededForConditionallyPassingPronunciationComparison) {
+        if (lowestScore >= guaranteedPassingScore) {
             return [true, wordCombos];
         };
         return [false, wordCombos];
     };
-    if (minimumLength > 2) {
-        if (lowestScore > 75) {
+    if (minimumLength >= lengthNeededForConditionallyPassingPronunciationComparison) {
+        if (lowestScore >= conditionallyPassingScore) {
             return [true, wordCombos];
         };
         return [false, wordCombos];

@@ -1,7 +1,7 @@
 import memoize from 'memoizee';
 import unidecode from 'unidecode';
-import ipaAllNames from '../data/pronunciation/ipaAllNames.json';
-import ipaCommonWordParts from '../data/pronunciation/ipaCommonWordParts.json';
+import ipaAllNames from '../../data/pronunciation/ipaAllNames.json';
+import ipaCommonWordParts from '../../data/pronunciation/ipaCommonWordParts.json';
 
 // const memoized = memoize(function, {max: 1000});
 
