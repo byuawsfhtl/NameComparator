@@ -5,6 +5,10 @@ from fuzzywuzzy.fuzz import ratio as fuzz_ratio
 
 from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality
 
+passing_score: int = 80
+fuzzy_comparison_weight: float = 0.6
+consonant_comparison_weight: float = 0.4
+
 def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
     """Identifies if two names are a match according to a comparison based soley on spelling.
 
