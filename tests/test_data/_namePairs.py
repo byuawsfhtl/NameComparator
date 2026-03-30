@@ -1,4 +1,8 @@
 # These are not all matches. They were labeled as such a long time ago by an older version of compare names, and many are wrong
+
+# Update while converting this and adding it to the main repo: I'm not the original developer of this section and I'm not
+# sure how to tell if these are actually matches or not. I have them here informationally, but it would probably be a good
+# idea to figure out how to make them into more valid test cases than they currently are.
 matches = [
     "(miss) olwen e. jones;olwen e. jones",
     "(mr.) marion hollingsworth;marion hollingsworth",
