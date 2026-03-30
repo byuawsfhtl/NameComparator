@@ -269,7 +269,7 @@ function _dealWithDashes(nameOne: string, nameTwo: string): [string, string] {
  * 
  * @param nameOne - The first name to clean
  * @param nameTwo - The second name to clean
- * @returns The modified names
+ * @returns Whether or not the names were modified and the modified names
  */
 function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string, string] {
 
