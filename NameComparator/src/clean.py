@@ -242,7 +242,7 @@ def _deal_with_dashes(name_one:str, name_two:str) -> tuple[str, str]:
     # Return the edited names
     return name_one_edited, name_two_edited
 
-def _combine_split_words(name_one:str, name_two:str) -> tuple[str, str]:
+def _combine_split_words(name_one:str, name_two:str) -> tuple[bool, str, str]:
     """Combines words within one of the names if that combination is one word in the other name.
 
     Args:
@@ -250,7 +250,7 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[str, str]:
         name_two: The second name to clean
 
     Returns:
-        A tuple containing the modified names
+        A tuple containing whether or not the names were modified and the modified names
     """        
 
     words_in_name_one = name_one.split()

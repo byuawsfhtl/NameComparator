@@ -103,7 +103,7 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
                 best_combinations.append((list_one[i], list_two[j], matchup_score))
         return best_combinations
 
-def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, name_two_edited:str) -> tuple[float, tuple, tuple]:
+def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, name_two_edited:str) -> tuple[float, list[tuple[str, str, int]], list[tuple[str, str, int]]]:
     """Calculates how much editing a name or both names improved the score in comparison to the original names.
 
     Args:
