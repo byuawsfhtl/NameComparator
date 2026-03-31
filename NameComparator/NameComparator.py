@@ -61,6 +61,25 @@ class ResultsOfNameComparison:
     most_recent_attempt_score: float = 0
     average_score_of_combined_attempts: float = 0
 
+class FlexibleName:
+    """ This class represents a name in a way that allows for more
+    flexible comparison and for determining the most complete and full
+    version of a name when given a list of possible name inputs.
+
+    Attributes:
+        original_name_list: The list of possible name variations as
+            originally input into the class
+        cleaned_name_list: The original name list with irrelevant or
+            unlikely names removed from it
+        best_name_from_list: The best name that is retrieved from the
+            list
+        extrapolated_name: The complete name as extrapolated from
+            all of the name variations in the name list
+    """
+    # TODO: Build functions to allow for all of these different variables and
+    # outputs to be determined, probably when the class is constructed. Also
+    # allow for different constructor variants if that feels appropriate
+
 def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|None = None) -> ResultsOfNameComparison:
     """Compares two names to identify whether or not they are a match.
 
