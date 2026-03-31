@@ -1,8 +1,7 @@
 """This file has a list of article name comparisons and the expected outcome.
 These have been individually looked at by a real person to determine the 
 expected outcome of each. The current version of NameComparator has a high 
-level of accuracy at predicting the expected outcome, 
-		though it is not 
+level of accuracy at predicting the expected outcome, though it is not 
 perfect."""
 
 articleNames = [
