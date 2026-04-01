@@ -9,14 +9,18 @@ list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J
 
 # TODO: NOTE: What do we want to do with this next one? It won't be possible 
 # to get the full final name and it will be difficult to determine where
-# the extra J should go. You'll need to think through this
+# the extra J should go. You'll need to think through this. It might have
+# overlap with the test case after this one, at least in terms of figuring
+# out the logic
 
 another_full_final_name = 'John Jacob Jingleheimer Schmidtt'
 
+returned_still_unknown_names = [] # Empty because there should be no unknowns left
+
 list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J. S.']
 
-# TODO: NOTE: What do we want to do with this next one? It will be difficult to determine
-# which of the similar but conflicting names might be the best for it's position
+# TODO: NOTE: For this next one if there are two possible names with an unclear 'winner',
+# we should probably just take the initial of the name and use that for now
 
 # TODO: NOTE: This next test case would also be a *GREAT* one to use for the add another
 # name function to help clarify more information as part of the flexible name
@@ -29,3 +33,10 @@ returned_still_unknown_names = ['John', 'Jacob'] # We would hold on to these as 
                                                  # like an add name function for FlexibleName
 
 list_of_input_names = ['J J J S', 'John Jingleheimer Schmidtt', 'Jacob Jingleheimer Schmidtt']
+
+# TODO: NOTE: None of these cases figure out what we should do with abbreviations or titles
+# you will need to figure out how to handle those. I think we should probably just have a list
+# of titles such as ms., mr., mrs., lt., etc. that we should just note to throw at the beginning
+# or end based on where they were before. But for abbreviations things will be a little bit
+# trickier. Can I borrow some code from what is already inside of NameComparator somewhere else
+# that factors that in? 
