@@ -41,10 +41,11 @@ list_of_input_names = ['J J J S', 'John Jingleheimer Schmidtt', 'Jacob Jinglehei
 # trickier. Can I borrow some code from what is already inside of NameComparator somewhere else
 # that factors that in?
 
+
 # NOTE: This particular case is used to determine uncertainty when a new name is introduced to a seemingly solved situation.
 # This could also be incredibly helpful as a test case for if a new name is introduced. It's worth considering how we want
 # this handled, especially if there are multiple occurences of one of the names (which we would want to prioritize over
-# a single anomolous occurence, of course).
+# a single anomolous occurence, of course)
 
 unusual_situation_full_name = 'John Jacob Jingleheimer Schmidtt'
 
@@ -55,3 +56,6 @@ returned_unkown_names_for_unusual_situation = ['Jacob', 'Jangle'] # Do we want t
 
 list_of_input_names = ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jangle Jingleheimer Schmidtt']
 
+# NOTE: Fortunately, I think that it would be best to not factor the aboce test case when it comes to a new name being
+# added to an already finished FlexibleName. The only exception to that woud be if it would slot into an unkown space in the
+# same spot as something else that is unkown, based on the new info from the added name
