@@ -59,3 +59,10 @@ list_of_input_names = ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jang
 # NOTE: Fortunately, I think that it would be best to not factor the aboce test case when it comes to a new name being
 # added to an already finished FlexibleName. The only exception to that woud be if it would slot into an unkown space in the
 # same spot as something else that is unkown, based on the new info from the added name
+
+
+# TODO: NOTE: None of these factor in the possibility of a Spanish last name like Maria-Sanchez, which could
+# be represented as Maria Sanchez, Maria, Sanchez, or Maria-Sanchez. Ideally there would be some kind of logic
+# that looks for hypenated names and either breaks them up (but notes they have the same possible position)
+# or checks names against the hyphenated name to see if it's contained within that surname and then determine
+# that the hyphenated name is going to be more accurate. Or something like that
