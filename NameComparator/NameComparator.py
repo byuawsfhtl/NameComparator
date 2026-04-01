@@ -182,7 +182,7 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     return results
 
 
-def find_best_name_in_list(cleaned_list_of_names) -> str:
+def extrapolate_best_full_name(cleaned_list_of_names) -> str:
     
     # If there is nothing left in the cleaned names, we can't
     # determine the best name so return an empty string
@@ -197,45 +197,59 @@ def find_best_name_in_list(cleaned_list_of_names) -> str:
     
     broken_name_list = []
     current_index_in_name_list = 0
+    index_of_name_with_most_fragments = 0
+    fragments_in_name_with_most_fragments = 0
     for name in cleaned_list_of_names:
 
         # Split the name by likely indicators of different names (eg, surname, first name, etc)
         split_name = re_split(r'[. ,]\s*', name)
 
+        total_name_fragments = len(split_name)
+
+        if fragments_in_name_with_most_fragments < total_name_fragments:
+            fragments_in_name_with_most_fragments = total_name_fragments
+            index_of_name_with_most_fragments = current_index_in_name_list
+
         # Create a dictionary to add to a list for later comparison of fragments
         dictionary_to_add_to_broken_name_list = {
             'complete_name': name,
             'complete_name_position_in_list': current_index_in_name_list,
-            'total_fragments': len(split_name),
+            'total_fragments': total_name_fragments,
             'fragment_list': []
         }
 
         # Remove spaces, commas, and periods from name fragments to get accurate info on them
         for name_fragment in split_name:
-            name_fragment.strip()
-            name_fragment = name_fragment.replace('.', '')
-            name_fragment = name_fragment.replace(',', '')
-            length_of_fragment = len(list(name_fragment))
+            initial_fragment = name_fragment
+            edited_name_fragment = name_fragment.strip()
+            edited_name_fragment = edited_name_fragment.replace('.', '')
+            edited_name_fragment = edited_name_fragment.replace(',', '')
+            length_of_fragment = len(list(edited_name_fragment))
 
-            # If the fragment isn't just an initial, we want to factor it into the best name
-            # decision. Add it to the list of fragments in the name
-            if length_of_fragment >= 1:
-                fragment_to_add = {
-                    'fragment_string': name_fragment,
-                    'fragment_length': length_of_fragment
-                }
-                dictionary_to_add_to_broken_name_list['fragment_list'].append[fragment_to_add]
-
-        # Update this so we know where we are in the cleaned list of names    
-        current_index_in_name_list = current_index_in_name_list + 1
+            # Add the fragment to the list of fragments in the name
+            fragment_to_add = {
+                'unedited_fragment': initial_fragment,
+                'edited_fragment': edited_name_fragment,
+                'edited_fragment_length': length_of_fragment
+            }
+            dictionary_to_add_to_broken_name_list['fragment_list'].append[fragment_to_add]
 
         # Add the fully constructed dictionary to the list of broken up names
         broken_name_list.append(dictionary_to_add_to_broken_name_list)
 
-    # Compare items in the list of broken up names to determine what is going to be the best name
-    # from the entire list
-    for item in broken_name_list:
-        apple = 0
+        # Update this so we know where we are in the cleaned list of names    
+        current_index_in_name_list = current_index_in_name_list + 1
+
+    # Populate an initial array of strings equal to the length of the name with the most
+    # fragments, using the fragments from that name as the starting point
+    best_name_as_fragments = []
+    for initial_name_fragment in broken_name_list[index_of_name_with_most_fragments]['fragment_list']:
+        best_name_as_fragments.append(initial_name_fragment['unedited_fragment'])
+
+    # Go through each of the name fragments and compare them to the current list of best fragments
+    # to determine if there is a better possible name
+    
+
 
 
 def clean_name_list(input_list_of_names) -> list[str]:
