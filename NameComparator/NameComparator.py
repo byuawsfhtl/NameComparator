@@ -248,7 +248,14 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
 
     # Go through each of the name fragments and compare them to the current list of best fragments
     # to determine if there is a better possible name
-    
+    for broken_name in broken_name_list:
+        
+        # If the number of fragments matches the max number of fragments, we can probably safely assume that
+        # the names have similar positions as long as their first letters match.
+        if len(broken_name['fragment_list']) == fragments_in_name_with_most_fragments:
+            for specific_fragment in broken_name['fragment_list']:
+                # Probably turn this into a helper functino eventually but for now I'm just going to let it be gross
+
 
 
 

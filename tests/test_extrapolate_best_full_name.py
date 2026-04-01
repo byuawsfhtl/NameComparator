@@ -27,7 +27,7 @@ list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J
 
 yet_another_full_final_name = 'John Jacob Jingleheimer Schmidtt'
 
-intended_final_result_if_no_new_info = 'J J Jingleheimer Schmidtt' # This works since we know that Jingleheimer has to be after both John and Jacob to work
+intended_final_result_if_no_new_info = 'J. J. Jingleheimer Schmidtt' # This works since we know that Jingleheimer has to be after both John and Jacob to work
 
 returned_still_unknown_names = ['John', 'Jacob'] # We would hold on to these as having an unknown position in case we get more information later, in something
                                                  # like an add name function for FlexibleName
@@ -39,4 +39,19 @@ list_of_input_names = ['J J J S', 'John Jingleheimer Schmidtt', 'Jacob Jinglehei
 # of titles such as ms., mr., mrs., lt., etc. that we should just note to throw at the beginning
 # or end based on where they were before. But for abbreviations things will be a little bit
 # trickier. Can I borrow some code from what is already inside of NameComparator somewhere else
-# that factors that in? 
+# that factors that in?
+
+# NOTE: This particular case is used to determine uncertainty when a new name is introduced to a seemingly solved situation.
+# This could also be incredibly helpful as a test case for if a new name is introduced. It's worth considering how we want
+# this handled, especially if there are multiple occurences of one of the names (which we would want to prioritize over
+# a single anomolous occurence, of course).
+
+unusual_situation_full_name = 'John Jacob Jingleheimer Schmidtt'
+
+intended_final_result_of_unusual_situation = 'John J. Jingleheimer Schmidtt'
+
+returned_unkown_names_for_unusual_situation = ['Jacob', 'Jangle'] # Do we want to include an expected index for all of these to help with this process? This would probably be
+                                                                  # fairly situational to something odd like this though
+
+list_of_input_names = ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jangle Jingleheimer Schmidtt']
+
