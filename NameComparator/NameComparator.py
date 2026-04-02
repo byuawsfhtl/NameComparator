@@ -224,13 +224,15 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
             edited_name_fragment = name_fragment.strip()
             edited_name_fragment = edited_name_fragment.replace('.', '')
             edited_name_fragment = edited_name_fragment.replace(',', '')
-            length_of_fragment = len(list(edited_name_fragment))
+            length_of_fragment = len(name_fragment)
+            length_of_edited_fragment = len(list(edited_name_fragment))
 
             # Add the fragment to the list of fragments in the name
             fragment_to_add = {
                 'unedited_fragment': initial_fragment,
                 'edited_fragment': edited_name_fragment,
-                'edited_fragment_length': length_of_fragment
+                'length_of_unedited_fragment': length_of_fragment,
+                'edited_fragment_length': length_of_edited_fragment
             }
             dictionary_to_add_to_broken_name_list['fragment_list'].append[fragment_to_add]
 
@@ -253,8 +255,40 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
         # If the number of fragments matches the max number of fragments, we can probably safely assume that
         # the names have similar positions as long as their first letters match.
         if len(broken_name['fragment_list']) == fragments_in_name_with_most_fragments:
+            fragment_index = 0
             for specific_fragment in broken_name['fragment_list']:
-                # Probably turn this into a helper functino eventually but for now I'm just going to let it be gross
+                # Probably turn this into a helper function eventually but for now I'm just going to let it be gross
+                if list(specific_fragment)[0] == list(best_name_as_fragments[fragment_index])[0]:
+                    if specific_fragment['length_of_unedited_fragment'] > best_name_as_fragments[fragment_index]:
+                        # TODO: NOTE: WARNING: Will this return true for an initial? If not, it may cause issues
+                        if compare_two_names(specific_fragment, best_name_as_fragments[fragment_index]).match:
+                            best_name_as_fragments[fragment_index] = specific_fragment
+                            # TODO: NOTE: It would probably be best to add this to a list of 'potential names' or
+                            # something like that so that later on if there is a conflict and it's unclear which
+                            # name should 'win' in a space we can detect if it should just be an initial or not
+
+        # If the number of fragments doesn't match the max number of fragments, we'll need to handle the logic
+        # a little bit differently
+        else:
+            for specific_fragment in broken_name['fragment_list']:
+                index_of_fragment_in_best_name_list = 0
+                possible_name_matches_for_specific_fragment = []
+                for fragment_of_best_name in best_name_as_fragments:
+                    # If the first letter of the fragment matches the first letter of a fragment from the best
+                    # name option, list it as a possible match. If it doesn't match any, list it as an
+                    # unknown location
+                    if list(specific_fragment)[0] == list(fragment_of_best_name)[0]:
+                        possible_name_matches_for_specific_fragment.append(index_of_fragment_in_best_name_list)
+                
+                # If there's only one possible matching slot, we're just going to take that one
+                if len(possible_name_matches_for_specific_fragment) == 1:
+                    if len(specific_fragment) > len(best_name_as_fragments[possible_name_matches_for_specific_fragment[0]]):
+                        # TODO: NOTE: WARNING: Will this return true for an initial? If not, it may cause issues
+                        if compare_two_names(specific_fragment, best_name_as_fragments[possible_name_matches_for_specific_fragment[0]]).match:
+                            
+
+
+
 
 
 
