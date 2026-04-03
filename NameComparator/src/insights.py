@@ -1,4 +1,4 @@
-from NameComparator.src.usefulTools import find_word_matches_and_quality
+from NameComparator.src.useful_tools import find_word_matches_and_quality
 
 def is_worth_continuing(name_one:str, name_two:str) -> bool:
     """Identifies if a name comparison will always prove false.

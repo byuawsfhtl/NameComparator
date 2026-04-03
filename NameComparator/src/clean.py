@@ -3,7 +3,7 @@ from unidecode import unidecode
 from fuzzywuzzy.fuzz import ratio as fuzz_ratio, partial_ratio as fuzz_partial_ratio
 
 from NameComparator.src.comparisons import compare_spelling
-from NameComparator.src.usefulTools import calculate_edit_improvement, get_matching_words_and_indices, NameEditor
+from NameComparator.src.useful_tools import calculate_edit_improvement, get_matching_words_and_indices, NameEditor
 
 def clean_name(name:str) -> str:
     """Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.

@@ -4,7 +4,7 @@ from json import loads as json_loads
 from importlib.resources import files
 
 from fuzzywuzzy.fuzz import ratio as fuzz_ratio
-from NameComparator.src.usefulTools import find_word_matches_and_quality, get_matching_words_and_indices, NameEditor
+from NameComparator.src.useful_tools import find_word_matches_and_quality, get_matching_words_and_indices, NameEditor
 
 unparsed_spelling_rules = files('NameComparator').joinpath('data/rules/rulesSpelling.json').read_text()
 unparsed_ipa_rules = files('NameComparator').joinpath('data/rules/rulesIpa.json').read_text()

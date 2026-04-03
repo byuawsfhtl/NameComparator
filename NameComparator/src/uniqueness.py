@@ -1,7 +1,7 @@
 from typing import NamedTuple
 from enum import Enum
 
-from NameComparator.src.usefulTools import get_matching_words_and_indices
+from NameComparator.src.useful_tools import get_matching_words_and_indices
 
 class FrequencyData(NamedTuple):
     """A named tuple that stores the name frequencies for first names and surnames 
