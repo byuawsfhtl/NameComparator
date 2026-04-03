@@ -249,7 +249,8 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
         best_name_as_fragments.append(initial_name_fragment['unedited_fragment'])
 
     # Go through each of the name fragments and compare them to the current list of best fragments
-    # to determine if there is a better possible name
+    # to determine if there is a better possible name. Store unknown data to parse through later
+    multiple_possible_matches_dictionary = {}
     for broken_name in broken_name_list:
         
         # If the number of fragments matches the max number of fragments, we can probably safely assume that
@@ -278,13 +279,41 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
                     # name option, list it as a possible match. If it doesn't match any, list it as an
                     # unknown location
                     if list(specific_fragment)[0] == list(fragment_of_best_name)[0]:
-                        possible_name_matches_for_specific_fragment.append(index_of_fragment_in_best_name_list)
+                        possible_name_matches_for_specific_fragment.append(index_of_fragment_in_best_name_list) # Note that this only tracks the possible fragment location matches (thier indices)
+                    index_of_fragment_in_best_name_list = index_of_fragment_in_best_name_list + 1
                 
-                # If there's only one possible matching slot, we're just going to take that one
+                # If there's only one possible matching slot, we're just going to take that one given that the new fragment is better
                 if len(possible_name_matches_for_specific_fragment) == 1:
                     if len(specific_fragment) > len(best_name_as_fragments[possible_name_matches_for_specific_fragment[0]]):
                         # TODO: NOTE: WARNING: Will this return true for an initial? If not, it may cause issues
                         if compare_two_names(specific_fragment, best_name_as_fragments[possible_name_matches_for_specific_fragment[0]]).match:
+                            best_name_as_fragments[possible_name_matches_for_specific_fragment[0]] = specific_fragment
+
+                # If there are several possible matching slots, we need to store that info for later use
+                elif len(possible_name_matches_for_specific_fragment) > 1:
+                    for index in possible_name_matches_for_specific_fragment:
+                        if multiple_possible_matches_dictionary.get(index, ''):
+                            multiple_possible_matches_dictionary[index].append(specific_fragment)
+                        else:
+                            multiple_possible_matches_dictionary[index] = [specific_fragment]
+
+                # Now that we have more info, we need to go through each name fragment with an unknown slot
+                # and determine if any of them have a more clear location or if they have something equivalent
+                # that's been figured out
+
+
+
+
+
+    # After everything else is done, recompile the name fragments into one complete name and return it as a string
+    complete_extrapolated_name = ''
+    add_spaces_index_checker = 1
+    for best_fragment in best_name_as_fragments:
+        complete_extrapolated_name = complete_extrapolated_name + best_fragment
+        if add_spaces_index_checker < len(best_name_as_fragments):
+            complete_extrapolated_name = complete_extrapolated_name + ' '
+
+    return complete_extrapolated_name
                             
 
 
