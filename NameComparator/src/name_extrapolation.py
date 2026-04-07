@@ -215,25 +215,20 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
                         # Hopefully by running this process we can either entirely empty or mostly empty the keys of their values
                         # if there's anything conclusive within them
 
-                    # If the item in the name fragment associated with this isn't still an initial, we should remove any names
-                    # that don't come back as a match with it from the index_key list and check any names that *do* match with
-                    # it to see if they are a more complete name version that should replace it
-
                     # After that, we should see if there are even enough other names to be worth thinking about an alternate name
                     # being a possibility. If there aren't, we should simply increment some kind of counter on those possible names
-                    # and then remove them from the list of key_items.
+                    # and then remove them from the list of key_items (Actually, maybe we shouldn't do this one?).
 
                     # NOTE: TODO: Probably we should implement some kind of check on the number of times that the name has appeared
-                    # inside of the fragment at the beginning of this to use as a preliminary filter of sorts
+                    # inside of the fragment at the beginning of this to use as a preliminary filter of sorts (Eh, actually maybe not)
 
                     # At the end of this, if there is nothing left in the key, we want to completely remove the key
-
-                    # NOTE: TODO: I feel like the above things should be helper functions that we just run again
-                    # in this segment, actually
-
+                    if not multiple_possible_matches_dictionary[index_key]:
+                        multiple_possible_matches_dictionary.pop(index_key, None)
 
 
-
+                    # NOTE: TODO: I feel like a *lot* of the things inside of this code should really be helper functions. This would
+                    # likely both improve efficiency and reduce a meaningful amount of redundancy that is currently in the code
 
     # After everything else is done, recompile the name fragments into one complete name and return it as a string
     complete_extrapolated_name = ''
