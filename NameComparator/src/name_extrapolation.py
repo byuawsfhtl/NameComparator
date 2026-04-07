@@ -121,6 +121,39 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
                 # that's been figured out
                 for index_key in multiple_possible_matches_dictionary:
 
+                    # If the item in the name fragments is still an initial, we should definitely look at it
+
+                        # We need to make sure there are no other names that start with just the same letter as an 
+                        # initial though, or this needs to remain unknown
+
+                        # If there are no others that are just an initial, we can check each item inside of the index
+                        # key to see if it matches the other names that start with the same letter (if there are any)
+
+                        # If the name matches another section with a name starting with the same letter, we can probably
+                        # just remove it from this key and assume it's a safe thing to cut
+
+                        # TODO: NOTE: There will be an exception to this if the name in the list isn't inside of another
+                        # key, inside of another name fragment, AND doesn't match the name inside of the particular index
+                        # that it's assigned to. In this case, we want to keep it inside of the dictionary and later compare
+                        # it for frequency. Otherwise we'll just leave the initial in it's place
+
+                        # Note also that if there is a name that is clearly more common inside of the list of possible names
+                        # associated with the index key at this point that follows all of the above rules and notes, we should
+                        # probably take the one that is more common than the others
+
+                        # If we end up taking a name, we may want to track it's frequency inside of the key associated with the
+                        # index to help with the process of iterating through the names and figuring out which one is the most
+                        # common / most likely to be accurate
+
+                        # TODO: NOTE: Do we want to factor in more common names here and say that names that are more common for
+                        # a specific era are also more likely to be correct? Or just go off of the frequency of their appearance
+                        # and not assume anything? I'm leaning towards not assuming anything but think it's worth checking / asking
+
+                        # Hopefully by running this process we can either entirely empty or mostly empty the keys of their values
+                        # if there's anything conclusive within them
+
+                    # At the end of this, if there is nothing left in the key, we want to completely remove the key
+
                     # NOTE: TODO: I feel like the above things should be helper functions that we just run again
                     # in this segment, actually
 

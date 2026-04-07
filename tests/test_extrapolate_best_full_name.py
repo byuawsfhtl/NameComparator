@@ -56,9 +56,14 @@ returned_unkown_names_for_unusual_situation = ['Jacob', 'Jangle'] # Do we want t
 
 list_of_input_names = ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jangle Jingleheimer Schmidtt']
 
-# NOTE: Fortunately, I think that it would be best to not factor the aboce test case when it comes to a new name being
+# NOTE: Fortunately, I think that it would be best to not factor the above test case when it comes to a new name being
 # added to an already finished FlexibleName. The only exception to that woud be if it would slot into an unkown space in the
 # same spot as something else that is unkown, based on the new info from the added name
+
+
+# TODO: NOTE: Would this handle a case where the guy's name is something odd like "Jacob John John Joshua"? Or would it be
+# super confusing to the name extrapolator? It's definitely going to be worth testing this to make sure that it handles
+# that alright, especially if it's not clear that the names are right next to each other at first.
 
 
 # TODO: NOTE: None of these factor in the possibility of a Spanish last name like Maria-Sanchez, which could
