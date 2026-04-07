@@ -1,9 +1,12 @@
 import pytest
 from test_data._articleNames import articleNames as list_of_names_with_articles
+from pyscripttestutils import PyScriptTestRunner
 # Set up the test runner stuff in the imports
 
 # Note that the format of the test cases is as follows:
 # a dictionary with an input, expected, and description (of the test)
+
+test_runner = PyScriptTestRunner()
 
 @pytest.mark.parameterize('name_with_article_to_test', list_of_names_with_articles, ids=lambda x: x[''])
 def test_on_names_with_articles(name_with_article_to_test):
