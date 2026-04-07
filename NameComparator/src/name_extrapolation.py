@@ -122,28 +122,91 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
                 for index_key in multiple_possible_matches_dictionary:
 
                     # If the item in the name fragments is still an initial, we should definitely look at it
+                    check_for_initial_in_name_fragment = best_name_as_fragments[index_key].strip().replace('.', '').replace(',', '')
+                    if len(check_for_initial_in_name_fragment) > 1:
 
-                        # We need to make sure there are no other names that start with just the same letter as an 
-                        # initial though, or this needs to remain unknown
+                        # We need to make sure there are no other names that are an initial that matches the letter
+                        # that the index key names start with
+                        index_of_other_name_fragment = 0
+                        two_or_more_fragments_are_the_same_initial = False
+                        for other_name_fragment in best_name_as_fragments:
+                            # Make sure that we aren't accidentally reading in the same fragment a second time
+                            if index_of_other_name_fragment == index_key:
+                                index_of_other_name_fragment = index_of_other_name_fragment + 1
+                                continue
+                            # If it's not, find out if the other name fragment in an initial. If it's not, we can move on. If it is
+                            # we need to note that there's another name that could possibly have this one as a match that's just an
+                            # initial, so we'll need to move on and skip this particular name fragment check for now.
+
+                            # NOTE: TODO: This logic as it currently is could be slightly wrong if there's a frequency mismatch between
+                            # the two names with the same initial, in which case we should probably put the more frequent name into
+                            # each fragment. But we also probably want to do that check at the end after running all of the other comparison
+                            # stuff that we can. Rather than doing it here. This will also introduce a need for more weirdness at the end though
+                            # to make sure that the frequencies haven't changed and demoted a particular name's status / confidence in it's
+                            # match to be incomplete and result in an initial again
+                            else:
+                                check_for_initial_in_other_name_fragment = other_name_fragment.strip().replace('.', '').replace(',', '')
+                                if check_for_initial_in_other_name_fragment > 1:
+                                    index_of_other_name_fragment = index_of_other_name_fragment + 1
+                                    continue
+                                else:
+                                    if check_for_initial_in_other_name_fragment == check_for_initial_in_name_fragment:
+                                        two_or_more_fragments_are_the_same_initial = True
+                                        break
+
+                        # If there are two or more fragments with the same initial, we'll want to shelve the rest of the
+                        # efforts to determine this segment of the name for now
+                        if two_or_more_fragments_are_the_same_initial:
+                            continue
 
                         # If there are no others that are just an initial, we can check each item inside of the index
-                        # key to see if it matches the other names that start with the same letter (if there are any)
+                        # key to see if it matches the other name fragments that are currently accepted
+                        # NOTE: This segment is likely to cause weird issues if there is a person with two of the
+                        # same name in their full name, so it's worth having this in the back of your mind if one of
+                        # the test cases is acting funky
+                        # NOTE: Another thing that could definitely go wrong here is that we're permutating a list
+                        # as we're going through it, which could result in certain items being skipped when they
+                        # shouldn't be. You should probably clean this up so that it isn't a risk once you've
+                        # gotten the core of the code and the test cases written out
+                        found_an_initial_replacement = False
+                        for fragment_to_test_for_belonging in multiple_possible_matches_dictionary[index_key]:
+                            # Search to see if there's another fragment that matches this particular name
+                            found_matching_fragment_in_other_location = False
+                            for currently_accepted_name_fragment in best_name_as_fragments:
+                                fragments_are_likely_the_same = compare_two_names(fragment_to_test_for_belonging, currently_accepted_name_fragment).match
+                                if fragments_are_likely_the_same:
+                                    found_matching_fragment_in_other_location = True
+                                    break
+                            # If there is another matching fragment, we don't really want to put it here since it's
+                            # unlikely to belong in this slot
+                            if found_matching_fragment_in_other_location:
+                                multiple_possible_matches_dictionary[index_key].remove(fragment_to_test_for_belonging)
+                                continue
+                            # If it doesn't match anything else, it probably does go in that slot NOTE: (unless there's 
+                            # a more frequent alternative maybe?)
+                            else:
+                                best_name_as_fragments[index_key] = fragment_to_test_for_belonging
+                                found_an_initial_replacement = True
+                                multiple_possible_matches_dictionary[index_key].remove(fragment_to_test_for_belonging)
+                                break  
 
-                        # If the name matches another section with a name starting with the same letter, we can probably
-                        # just remove it from this key and assume it's a safe thing to cut
+                        # If we found any replacements in the previous step, we need to iterate through the remaining
+                        # possible matches in the dictionary to determine if any of them are a more complete version
+                        # of the name than the one we took in as a replacement for the initial
+                        if found_an_initial_replacement:
+                            for fragment_to_test_as_better_option in multiple_possible_matches_dictionary[index_key]:
+                                if len(fragment_to_test_as_better_option) > len(best_name_as_fragments[index_key]):
+                                    if compare_two_names(fragment_to_test_as_better_option, best_name_as_fragments[index_key]).match:
+                                        best_name_as_fragments[index_key] = fragment_to_test_as_better_option
+                                    multiple_possible_matches_dictionary[index_key].remove(fragment_to_test_as_better_option)
+
+
 
                         # TODO: NOTE: There will be an exception to this if the name in the list isn't inside of another
                         # key, inside of another name fragment, AND doesn't match the name inside of the particular index
                         # that it's assigned to. In this case, we want to keep it inside of the dictionary and later compare
-                        # it for frequency. Otherwise we'll just leave the initial in it's place
-
-                        # Note also that if there is a name that is clearly more common inside of the list of possible names
-                        # associated with the index key at this point that follows all of the above rules and notes, we should
-                        # probably take the one that is more common than the others
-
-                        # If we end up taking a name, we may want to track it's frequency inside of the key associated with the
-                        # index to help with the process of iterating through the names and figuring out which one is the most
-                        # common / most likely to be accurate
+                        # it for frequency. Otherwise we'll just leave the initial in it's place (wait, do we actually want
+                        # to do this???)
 
                         # TODO: NOTE: Do we want to factor in more common names here and say that names that are more common for
                         # a specific era are also more likely to be correct? Or just go off of the frequency of their appearance
@@ -152,13 +215,21 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
                         # Hopefully by running this process we can either entirely empty or mostly empty the keys of their values
                         # if there's anything conclusive within them
 
+                    # If the item in the name fragment associated with this isn't still an initial, we should remove any names
+                    # that don't come back as a match with it from the index_key list and check any names that *do* match with
+                    # it to see if they are a more complete name version that should replace it
+
+                    # After that, we should see if there are even enough other names to be worth thinking about an alternate name
+                    # being a possibility. If there aren't, we should simply increment some kind of counter on those possible names
+                    # and then remove them from the list of key_items.
+
+                    # NOTE: TODO: Probably we should implement some kind of check on the number of times that the name has appeared
+                    # inside of the fragment at the beginning of this to use as a preliminary filter of sorts
+
                     # At the end of this, if there is nothing left in the key, we want to completely remove the key
 
                     # NOTE: TODO: I feel like the above things should be helper functions that we just run again
                     # in this segment, actually
-
-                    apple = 0 # NOTE: TODO: This is dummy filler code to temporarily remove an error. Remove it 
-                              # once you have real code here
 
 
 

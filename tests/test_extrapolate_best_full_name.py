@@ -63,11 +63,30 @@ list_of_input_names = ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jang
 
 # TODO: NOTE: Would this handle a case where the guy's name is something odd like "Jacob John John Joshua"? Or would it be
 # super confusing to the name extrapolator? It's definitely going to be worth testing this to make sure that it handles
-# that alright, especially if it's not clear that the names are right next to each other at first.
+# that alright, especially if it's not clear that the names are right next to each other at first. Here's an example test
+# case: [J J J J, Jacob John John, Jacob J John, Jacob John Joshua, Jacob John, Jacob Joshua, Jacob J John Joshua]
+# In this test case, we want the function to assume that Joshua must come after the Johns and that Jacob must come before
+# the Johns, since that is the best assumption based on the data that is given and their positionality to each other.
+# It might be helpful to note in this case that Jacob *can't* be in the third or fourth position, logically speaking due to
+# it being in front of at least 2 other names in one of the test cases. This same logic can also be used to know that Joshua
+# *can't* be in the first two names.
 
+
+
+# NOTE: This next test case is probably better implemented *after* you get the rest of this working, so prioritize that
+# and then come back to this with more info and an otherwise working application first
 
 # TODO: NOTE: None of these factor in the possibility of a Spanish last name like Maria-Sanchez, which could
 # be represented as Maria Sanchez, Maria, Sanchez, or Maria-Sanchez. Ideally there would be some kind of logic
 # that looks for hypenated names and either breaks them up (but notes they have the same possible position)
 # or checks names against the hyphenated name to see if it's contained within that surname and then determine
 # that the hyphenated name is going to be more accurate. Or something like that
+
+# NOTE: For the case above, it's probably worth having some sort of check for hypens across names. If a hypen
+# is found between two name fragments, create some sort of flag to factor in that it's now a hypenated name and
+# then run through the name fragments to determine which ones can likely be collapsed into the hypenated one.
+# This should definitely factor in proximity of the fragment to the combined one though, so that if the name is
+# something like "Juanita Maria Maria-Sanchez", it doesn't also collapse the middle name into the hypenated
+# last name. A good test case for this might be something like [Juanita M Sanchez, Juanita M Maria, Juanita Maria M,
+# Juanita Maria S, Juanita Maria Maria Sanchez, Juanita M M-S, Juanita Maria-Sanchez] or something similar. Possibly
+# reorder that to make it cleaner though
