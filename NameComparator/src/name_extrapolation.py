@@ -200,27 +200,12 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
                                         best_name_as_fragments[index_key] = fragment_to_test_as_better_option
                                     multiple_possible_matches_dictionary[index_key].remove(fragment_to_test_as_better_option)
 
-
-
                         # TODO: NOTE: There will be an exception to this if the name in the list isn't inside of another
                         # key, inside of another name fragment, AND doesn't match the name inside of the particular index
                         # that it's assigned to. In this case, we want to keep it inside of the dictionary and later compare
                         # it for frequency. Otherwise we'll just leave the initial in it's place (wait, do we actually want
-                        # to do this???)
-
-                        # TODO: NOTE: Do we want to factor in more common names here and say that names that are more common for
-                        # a specific era are also more likely to be correct? Or just go off of the frequency of their appearance
-                        # and not assume anything? I'm leaning towards not assuming anything but think it's worth checking / asking
-
-                        # Hopefully by running this process we can either entirely empty or mostly empty the keys of their values
-                        # if there's anything conclusive within them
-
-                    # After that, we should see if there are even enough other names to be worth thinking about an alternate name
-                    # being a possibility. If there aren't, we should simply increment some kind of counter on those possible names
-                    # and then remove them from the list of key_items (Actually, maybe we shouldn't do this one?).
-
-                    # NOTE: TODO: Probably we should implement some kind of check on the number of times that the name has appeared
-                    # inside of the fragment at the beginning of this to use as a preliminary filter of sorts (Eh, actually maybe not)
+                        # to do this???) (Actually, maybe we do since it will handle conflicting info if we get new name
+                        # information added. It will definitely require upgrading the step right above this one though)
 
                     # At the end of this, if there is nothing left in the key, we want to completely remove the key
                     if not multiple_possible_matches_dictionary[index_key]:
@@ -240,12 +225,6 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
 
     return complete_extrapolated_name
                             
-
-
-
-
-
-
 
 def clean_name_list(input_list_of_names) -> list[str]:
 
