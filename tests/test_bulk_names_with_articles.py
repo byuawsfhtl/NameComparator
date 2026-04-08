@@ -1,6 +1,7 @@
 import pytest
 from test_data._articleNames import articleNames as list_of_names_with_articles
 from pyscripttestutils import PyScriptTestRunner
+from NameComparator.NameComparator import compare_two_names
 # Set up the test runner stuff in the imports
 
 # Note that the format of the test cases is as follows:

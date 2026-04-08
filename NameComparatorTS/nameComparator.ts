@@ -113,8 +113,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   [nameOne, nameTwo] = removeNicknames(nameOne, nameTwo);
 
   // 1st attempt: Checks if names are a match according to string comparison alone
-  let [match, wordCombos] = compareSpelling(nameOne, nameTwo);
-  results.attemptOne = new Attempt(nameOne, nameTwo, wordCombos);
+  let [match, wordCombos, resultingScore] = compareSpelling(nameOne, nameTwo);
+  results.attemptOne = new Attempt(nameOne, nameTwo, wordCombos, resultingScore);
   if (match) {
     results.match = true;
     return results;
@@ -127,8 +127,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
 
   // 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
   let [modifiedNameOne, modifiedNameTwo] = modifyNamesTogether(nameOne, nameTwo);
-  [match, wordCombos] = compareSpelling(modifiedNameOne, modifiedNameTwo);
-  results.attemptTwo = new Attempt(modifiedNameOne, modifiedNameTwo, wordCombos);
+  [match, wordCombos, resultingScore] = compareSpelling(modifiedNameOne, modifiedNameTwo);
+  results.attemptTwo = new Attempt(modifiedNameOne, modifiedNameTwo, wordCombos, resultingScore);
   if (match) {
     results.match = true;
     return results;
@@ -138,8 +138,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   let ipaOfModifiedNameOne = cleanIpa(getIpa(modifiedNameOne));
   let ipaOfModifiedNameTwo = cleanIpa(getIpa(modifiedNameTwo));
   [ipaOfModifiedNameOne, ipaOfModifiedNameTwo] = modifyIpasByComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo);
-  [match, wordCombos] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
-  results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, wordCombos);
+  [match, wordCombos, resultingScore] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
+  results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, wordCombos, resultingScore);
   if (match) {
     results.match = true;
     return results;
@@ -149,8 +149,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   let ipaOfNameOne = cleanIpa(getIpa(nameOne));
   let ipaOfNameTwo = cleanIpa(getIpa(nameTwo));
   [ipaOfNameOne, ipaOfNameTwo] = modifyIpasByComparison(ipaOfNameOne, ipaOfNameTwo);
-  [match, wordCombos] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
-  results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, wordCombos);
+  [match, wordCombos, resultingScore] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
+  results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, wordCombos, resultingScore);
   if (match) {
     results.match = true;
   }

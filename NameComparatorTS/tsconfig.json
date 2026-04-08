@@ -3,6 +3,9 @@
       "target": "ESNext",
       "module": "ESNext",
       "declaration": true,
+      "declarationMap": true,
+      "sourceMap": true,
+      "rootDir": ".",
       "outDir": "dist",
       "moduleResolution": "node",
       "esModuleInterop": true,
@@ -10,8 +13,9 @@
       "forceConsistentCasingInFileNames": true,
       "strict": true,
       "skipLibCheck": true,
-      "typeRoots": ["./node_modules/@types", "./src/types"]
+      "typeRoots": ["./node_modules/@types", "./src/types", "../node_modules/@types"]
     },
-    "include": ["src", "data", "../data/rules"]
+    "include": ["src", "bridge_for_tests.ts", "nameComparator.ts", "data"],
+    "exclude": ["node_modules", "dist"]
   }
   

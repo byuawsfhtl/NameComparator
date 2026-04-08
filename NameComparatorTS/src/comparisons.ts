@@ -140,7 +140,7 @@ function _reduceToSimpleConsonants(string: string): string {
  * 
  * @returns Whether or not the name was a match and the word combo
  */
-export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: string, nameOne: string, nameTwo: string): [boolean, [string, string, number][]] {
+export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: string, nameOne: string, nameTwo: string): [boolean, [string, string, number][], number] {
 
     // Initialize empty list to store scores
     var wordsFromIpaOne = ipaOfNameOne.split(/\s+/);
@@ -171,19 +171,19 @@ export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: stri
     const minimumLength = mathjs_min(ipaOfNameOne.split(/\s+/).length, ipaOfNameTwo.split(/\s+/).length);
     if (minimumLength < lengthNeededForConditionallyPassingPronunciationComparison) {
         if (lowestScore >= guaranteedPassingScore) {
-            return [true, wordCombos];
+            return [true, wordCombos, lowestScore];
         };
-        return [false, wordCombos];
+        return [false, wordCombos, lowestScore];
     };
     if (minimumLength >= lengthNeededForConditionallyPassingPronunciationComparison) {
         if (lowestScore >= conditionallyPassingScore) {
-            return [true, wordCombos];
+            return [true, wordCombos, lowestScore];
         };
-        return [false, wordCombos];
+        return [false, wordCombos, lowestScore];
     };
     
     // Default return just in case something gets here
-    return [false, wordCombos];
+    return [false, wordCombos, lowestScore];
 };
 
 /**
