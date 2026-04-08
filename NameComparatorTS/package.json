@@ -1,14 +1,14 @@
 {
   "name": "namecomparator-ts",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "Record Linking Lab",
   "license": "ISC",
   "dependencies": {
     "fuzzball": "^2.2.2",

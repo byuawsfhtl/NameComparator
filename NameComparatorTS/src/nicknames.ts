@@ -1,4 +1,4 @@
-import nicknameToIdData from "../../data/nicknames/nicknameTold.json";
+import nicknameToIdData from "../../data/nicknames/nicknameToId.json";
 import idToNicknameSetData from "../../data/nicknames/nameVariants.json";
 
 /**

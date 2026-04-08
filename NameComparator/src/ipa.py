@@ -3,8 +3,8 @@ from unidecode import unidecode
 from json import loads as json_loads
 from importlib.resources import files
 
-unparsed_all_ipa_names = files('NameComparator').joinpath('data/pronunciation/ipaAllNames.json').read_text()
-unparsed_common_ipa_word_parts = files('NameComparator').joinpath('data/pronunciation/ipaCommonWordParts.json').read_text()
+unparsed_all_ipa_names = files('data').joinpath('pronunciation/ipaAllNames.json').read_text()
+unparsed_common_ipa_word_parts = files('data').joinpath('pronunciation/ipaCommonWordParts.json').read_text()
 
 def get_ipa(name:str) -> str:
     """Gets the pronunciation of a name.

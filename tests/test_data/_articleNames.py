@@ -6,13547 +6,16256 @@ perfect."""
 
 articleNames = [
     {
-		'input': 'a bertram lemon;a. bertram lemon', 
+		'name_one': 'a bertram lemon',
+		'name_two': 'a. bertram lemon', 
 		'expected': True, 
 		'description': 'a bertram lemon comparison with article'
 	},
     {
-		'input': 'a c la follette;arthur c. la follette', 
+		'name_one': 'a c la follette',
+		'name_two': 'arthur c. la follette', 
 		'expected': True, 
 		'description': 'a c la follette comparison with article'
 	},
     {
-		'input': 'a harold lancour;harold lancour', 
+		'name_one': 'a harold lancour',
+		'name_two': 'harold lancour', 
 		'expected': True, 
 		'description': 'a harold lancour comparison with article'
 	},
     {
-		'input': 'a henry detweiler;albert henry detweiler', 
+		'name_one': 'a henry detweiler',
+		'name_two': 'albert henry detweiler', 
 		'expected': True, 
 		'description': 'a henry detweiler comparison with article'
 	},
     {
-		'input': 'a laurence mortensen;alfred laurence mortensen', 
+		'name_one': 'a laurence mortensen',
+		'name_two': 'alfred laurence mortensen', 
 		'expected': True, 
 		'description': 'a laurence mortensen comparison with article'
 	},
     {
-		'input': 'a lee dunlap;archibald lee dunlap', 
+		'name_one': 'a lee dunlap',
+		'name_two': 'archibald lee dunlap', 
 		'expected': True, 
 		'description': 'a lee dunlap comparison with article'
 	},
     {
-		'input': 'a leland beam;a. leland beam', 
+		'name_one': 'a leland beam',
+		'name_two': 'a. leland beam', 
 		'expected': True, 
 		'description': 'a leland beam comparison with article'
 	},
     {
-		'input': 'a leo oppenheim;adolf leo oppenheim', 
+		'name_one': 'a leo oppenheim',
+		'name_two': 'adolf leo oppenheim', 
 		'expected': True, 
 		'description': 'a leo oppenheim comparison with article'
 	},
     {
-		'input': 'a m de la torre;antonio marcial de la torre', 
+		'name_one': 'a m de la torre',
+		'name_two': 'antonio marcial de la torre', 
 		'expected': True, 
 		'description': 'a m de la torre comparison with article'
 	},
     {
-		'input': 'a michael deluca;a. michael de luca', 
+		'name_one': 'a michael deluca',
+		'name_two': 'a. michael de luca', 
 		'expected': True, 
 		'description': 'a michael deluca comparison with article'
 	},
     {
-		'input': 'a willis dearing;a. willis dearing', 
+		'name_one': 'a willis dearing',
+		'name_two': 'a. willis dearing', 
 		'expected': True, 
 		'description': 'a willis dearing comparison with article'
 	},
     {
-		'input': 'aaron donnelly;aaron van donnelly', 
+		'name_one': 'aaron donnelly',
+		'name_two': 'aaron van donnelly', 
 		'expected': True, 
 		'description': 'aaron donnelly comparison with article'
 	},
     {
-		'input': 'abba p lerner;abba p. lerner', 
+		'name_one': 'abba p lerner',
+		'name_two': 'abba p. lerner', 
 		'expected': True, 
 		'description': 'abba p lerner comparison with article'
 	},
     {
-		'input': 'able levitt;abel levitt', 
+		'name_one': 'able levitt',
+		'name_two': 'abel levitt', 
 		'expected': True, 
 		'description': 'able levitt comparison with article'
 	},
     {
-		'input': 'abraham h levy;abraham h. levy', 
+		'name_one': 'abraham h levy',
+		'name_two': 'abraham h. levy', 
 		'expected': True, 
 		'description': 'abraham h levy comparison with article'
 	},
     {
-		'input': 'abraham levinson;abraham levinson', 
+		'name_one': 'abraham levinson',
+		'name_two': 'abraham levinson', 
 		'expected': True, 
 		'description': 'abraham levinson comparison with article'
 	},
     {
-		'input': 'abram l sachar;abram leon sachar', 
+		'name_one': 'abram l sachar',
+		'name_two': 'abram leon sachar', 
 		'expected': True, 
 		'description': 'abram l sachar comparison with article'
 	},
     {
-		'input': 'abram william vander meer;abram w. vandermeer', 
+		'name_one': 'abram william vander meer',
+		'name_two': 'abram w. vandermeer', 
 		'expected': True, 
 		'description': 'abram william vander meer comparison with article'
 	},
     {
-		'input': 'ada lee hawkins;ada hawkins', 
+		'name_one': 'ada lee hawkins',
+		'name_two': 'ada hawkins', 
 		'expected': True, 
 		'description': 'ada lee hawkins comparison with article'
 	},
     {
-		'input': 'adah lewis;adah lewis', 
+		'name_one': 'adah lewis',
+		'name_two': 'adah lewis', 
 		'expected': True, 
 		'description': 'adah lewis comparison with article'
 	},
     {
-		'input': 'addison e lee;addison e. lee', 
+		'name_one': 'addison e lee',
+		'name_two': 'addison e. lee', 
 		'expected': True, 
 		'description': 'addison e lee comparison with article'
 	},
     {
-		'input': 'adelaide e deters;emma e. deters', 
+		'name_one': 'adelaide e deters',
+		'name_two': 'emma e. deters', 
 		'expected': False, 
 		'description': 'adelaide e deters comparison with article'
 	},
     {
-		'input': 'adelle h land;adelle h. land', 
+		'name_one': 'adelle h land',
+		'name_two': 'adelle h. land', 
 		'expected': True, 
 		'description': 'adelle h land comparison with article'
 	},
     {
-		'input': 'adolph desanctis;adolph g. desanctis', 
+		'name_one': 'adolph desanctis',
+		'name_two': 'adolph g. desanctis', 
 		'expected': True, 
 		'description': 'adolph desanctis comparison with article'
 	},
     {
-		'input': 'adolph dettloff;adolph mansen dettloff', 
+		'name_one': 'adolph dettloff',
+		'name_two': 'adolph mansen dettloff', 
 		'expected': True, 
 		'description': 'adolph dettloff comparison with article'
 	},
     {
-		'input': 'adolph ladru jensen;adolph ladru jensen', 
+		'name_one': 'adolph ladru jensen',
+		'name_two': 'adolph ladru jensen', 
 		'expected': True, 
 		'description': 'adolph ladru jensen comparison with article'
 	},
     {
-		'input': 'adolph leschnitzer;adolf f. leschnitzer', 
+		'name_one': 'adolph leschnitzer',
+		'name_two': 'adolf f. leschnitzer', 
 		'expected': True, 
 		'description': 'adolph leschnitzer comparison with article'
 	},
     {
-		'input': 'adrian r legault;adrian r. legault', 
+		'name_one': 'adrian r legault',
+		'name_two': 'adrian r. legault', 
 		'expected': True, 
 		'description': 'adrian r legault comparison with article'
 	},
     {
-		'input': 'agnes gregory;agnes lee gregory', 
+		'name_one': 'agnes gregory',
+		'name_two': 'agnes lee gregory', 
 		'expected': True, 
 		'description': 'agnes gregory comparison with article'
 	},
     {
-		'input': 'agnes k michels;agnes kirsopp lake michels', 
+		'name_one': 'agnes k michels',
+		'name_two': 'agnes kirsopp lake michels', 
 		'expected': True, 
 		'description': 'agnes k michels comparison with article'
 	},
     {
-		'input': 'agnes m. larson;agnes m. larson', 
+		'name_one': 'agnes m. larson',
+		'name_two': 'agnes m. larson', 
 		'expected': True, 
 		'description': 'agnes m. larson comparison with article'
 	},
     {
-		'input': 'agnes o leindorff;agnes olson leindorff', 
+		'name_one': 'agnes o leindorff',
+		'name_two': 'agnes olson leindorff', 
 		'expected': True, 
 		'description': 'agnes o leindorff comparison with article'
 	},
     {
-		'input': 'alan v mcgee;alan van keuren mcgee', 
+		'name_one': 'alan v mcgee',
+		'name_two': 'alan van keuren mcgee', 
 		'expected': True, 
 		'description': 'alan v mcgee comparison with article'
 	},
     {
-		'input': 'albert a la plante, a. jr;albert aurel la plante', 
+		'name_one': 'albert a la plante, a. jr',
+		'name_two': 'albert aurel la plante', 
 		'expected': True, 
 		'description': 'albert a la plante, a. jr comparison with article'
 	},
     {
-		'input': 'albert b m lewis;albert dale milton lewis', 
+		'name_one': 'albert b m lewis',
+		'name_two': 'albert dale milton lewis', 
 		'expected': True, 
 		'description': 'albert b m lewis comparison with article'
 	},
     {
-		'input': 'albert c vandusen;albert clarence van dusen', 
+		'name_one': 'albert c vandusen',
+		'name_two': 'albert clarence van dusen', 
 		'expected': True, 
 		'description': 'albert c vandusen comparison with article'
 	},
     {
-		'input': 'albert d kirwan;albert dennis kirwan', 
+		'name_one': 'albert d kirwan',
+		'name_two': 'albert dennis kirwan', 
 		'expected': True, 
 		'description': 'albert d kirwan comparison with article'
 	},
     {
-		'input': 'albert d lebau;albert c. baugh', 
+		'name_one': 'albert d lebau',
+		'name_two': 'albert c. baugh', 
 		'expected': False, 
 		'description': 'albert d lebau comparison with article'
 	},
     {
-		'input': 'albert degroat;albert degroat', 
+		'name_one': 'albert degroat',
+		'name_two': 'albert degroat', 
 		'expected': True, 
 		'description': 'albert degroat comparison with article'
 	},
     {
-		'input': 'albert delisle;albert l. delisle', 
+		'name_one': 'albert delisle',
+		'name_two': 'albert l. delisle', 
 		'expected': True, 
 		'description': 'albert delisle comparison with article'
 	},
     {
-		'input': 'albert e babb;albert leslie babb', 
+		'name_one': 'albert e babb',
+		'name_two': 'albert leslie babb', 
 		'expected': False, 
 		'description': 'albert e babb comparison with article'
 	},
     {
-		'input': 'albert fritz;karl albert kurt von fritz', 
+		'name_one': 'albert fritz',
+		'name_two': 'karl albert kurt von fritz', 
 		'expected': True, 
 		'description': 'albert fritz comparison with article'
 	},
     {
-		'input': 'albert hyler;albert leroy hilliard', 
+		'name_one': 'albert hyler',
+		'name_two': 'albert leroy hilliard', 
 		'expected': False, 
 		'description': 'albert hyler comparison with article'
 	},
     {
-		'input': 'albert j latham;albert j. latham', 
+		'name_one': 'albert j latham',
+		'name_two': 'albert j. latham', 
 		'expected': True, 
 		'description': 'albert j latham comparison with article'
 	},
     {
-		'input': 'albert l demaree;albert lowther demaree', 
+		'name_one': 'albert l demaree',
+		'name_two': 'albert lowther demaree', 
 		'expected': True, 
 		'description': 'albert l demaree comparison with article'
 	},
     {
-		'input': 'albert l franzke;albert leonard franzke', 
+		'name_one': 'albert l franzke',
+		'name_two': 'albert leonard franzke', 
 		'expected': True, 
 		'description': 'albert l franzke comparison with article'
 	},
     {
-		'input': 'albert l hoffman;elbert lee hoffman', 
+		'name_one': 'albert l hoffman',
+		'name_two': 'elbert lee hoffman', 
 		'expected': True, 
 		'description': 'albert l hoffman comparison with article'
 	},
     {
-		'input': 'albert l leduc, jr;albert l. leduc', 
+		'name_one': 'albert l leduc, jr',
+		'name_two': 'albert l. leduc', 
 		'expected': True, 
 		'description': 'albert l leduc, jr comparison with article'
 	},
     {
-		'input': 'albert l sturm;albert lee sturm', 
+		'name_one': 'albert l sturm',
+		'name_two': 'albert lee sturm', 
 		'expected': True, 
 		'description': 'albert l sturm comparison with article'
 	},
     {
-		'input': 'albert laubengayer;albert w. laubengayer', 
+		'name_one': 'albert laubengayer',
+		'name_two': 'albert w. laubengayer', 
 		'expected': True, 
 		'description': 'albert laubengayer comparison with article'
 	},
     {
-		'input': 'albert lazan;albert lazan', 
+		'name_one': 'albert lazan',
+		'name_two': 'albert lazan', 
 		'expected': True, 
 		'description': 'albert lazan comparison with article'
 	},
     {
-		'input': 'albert le mieux;albert a lemieux', 
+		'name_one': 'albert le mieux',
+		'name_two': 'albert a lemieux', 
 		'expected': True, 
 		'description': 'albert le mieux comparison with article'
 	},
     {
-		'input': 'albert le roy taylor;albert leroy taylor', 
+		'name_one': 'albert le roy taylor',
+		'name_two': 'albert leroy taylor', 
 		'expected': True, 
 		'description': 'albert le roy taylor comparison with article'
 	},
     {
-		'input': 'albert levine;samuel albert levine', 
+		'name_one': 'albert levine',
+		'name_two': 'samuel albert levine', 
 		'expected': True, 
 		'description': 'albert levine comparison with article'
 	},
     {
-		'input': 'albert levy;albert w. levi', 
+		'name_one': 'albert levy',
+		'name_two': 'albert w. levi', 
 		'expected': True, 
 		'description': 'albert levy comparison with article'
 	},
     {
-		'input': 'albert r lamb;albert r. lamb', 
+		'name_one': 'albert r lamb',
+		'name_two': 'albert r. lamb', 
 		'expected': True, 
 		'description': 'albert r lamb comparison with article'
 	},
     {
-		'input': 'albert r lang;albert ray lang', 
+		'name_one': 'albert r lang',
+		'name_two': 'albert ray lang', 
 		'expected': True, 
 		'description': 'albert r lang comparison with article'
 	},
     {
-		'input': 'albert s dealaman, jr;gellert s. alleman', 
+		'name_one': 'albert s dealaman, jr',
+		'name_two': 'gellert s. alleman', 
 		'expected': True, 
 		'description': 'albert s dealaman, jr comparison with article'
 	},
     {
-		'input': 'albert s lada;milan s. la du', 
+		'name_one': 'albert s lada',
+		'name_two': 'milan s. la du', 
 		'expected': False, 
 		'description': 'albert s lada comparison with article'
 	},
     {
-		'input': 'albert w van ness;albert w. van ness', 
+		'name_one': 'albert w van ness',
+		'name_two': 'albert w. van ness', 
 		'expected': True, 
 		'description': 'albert w van ness comparison with article'
 	},
     {
-		'input': 'alberta k levine;albert k. levine', 
+		'name_one': 'alberta k levine',
+		'name_two': 'albert k. levine', 
 		'expected': True, 
 		'description': 'alberta k levine comparison with article'
 	},
     {
-		'input': 'alberta m price;m. lawrence price', 
+		'name_one': 'alberta m price',
+		'name_two': 'm. lawrence price', 
 		'expected': False, 
 		'description': 'alberta m price comparison with article'
 	},
     {
-		'input': 'alden crittenden;alden larue crittenden', 
+		'name_one': 'alden crittenden',
+		'name_two': 'alden larue crittenden', 
 		'expected': True, 
 		'description': 'alden crittenden comparison with article'
 	},
     {
-		'input': 'aldon s lang;aldon s. lang', 
+		'name_one': 'aldon s lang',
+		'name_two': 'aldon s. lang', 
 		'expected': True, 
 		'description': 'aldon s lang comparison with article'
 	},
     {
-		'input': 'alex lawrie;alex laurie', 
+		'name_one': 'alex lawrie',
+		'name_two': 'alex laurie', 
 		'expected': True, 
 		'description': 'alex lawrie comparison with article'
 	},
     {
-		'input': 'alex s levens;alexander s. levens', 
+		'name_one': 'alex s levens',
+		'name_two': 'alexander s. levens', 
 		'expected': True, 
 		'description': 'alex s levens comparison with article'
 	},
     {
-		'input': 'alexander a rowell, sr;gillie a. larew', 
+		'name_one': 'alexander a rowell, sr',
+		'name_two': 'gillie a. larew', 
 		'expected': False, 
 		'description': 'alexander a rowell, sr comparison with article'
 	},
     {
-		'input': 'alexander h lighton;alexander h. leighton', 
+		'name_one': 'alexander h lighton',
+		'name_two': 'alexander h. leighton', 
 		'expected': True, 
 		'description': 'alexander h lighton comparison with article'
 	},
     {
-		'input': 'alexander kreisler;alexander von kreisler', 
+		'name_one': 'alexander kreisler',
+		'name_two': 'alexander von kreisler', 
 		'expected': True, 
 		'description': 'alexander kreisler comparison with article'
 	},
     {
-		'input': 'alexander l geisenheimer;alexander leopold geisenheimer', 
+		'name_one': 'alexander l geisenheimer',
+		'name_two': 'alexander leopold geisenheimer', 
 		'expected': True, 
 		'description': 'alexander l geisenheimer comparison with article'
 	},
     {
-		'input': 'alexander leitch;alexander leitch', 
+		'name_one': 'alexander leitch',
+		'name_two': 'alexander leitch', 
 		'expected': True, 
 		'description': 'alexander leitch comparison with article'
 	},
     {
-		'input': 'alexander levine;alexander levine', 
+		'name_one': 'alexander levine',
+		'name_two': 'alexander levine', 
 		'expected': True, 
 		'description': 'alexander levine comparison with article'
 	},
     {
-		'input': 'alexander popov;alexander van popov', 
+		'name_one': 'alexander popov',
+		'name_two': 'alexander van popov', 
 		'expected': True, 
 		'description': 'alexander popov comparison with article'
 	},
     {
-		'input': 'alfa c latzke;alpha corinne latzke', 
+		'name_one': 'alfa c latzke',
+		'name_two': 'alpha corinne latzke', 
 		'expected': True, 
 		'description': 'alfa c latzke comparison with article'
 	},
     {
-		'input': 'alfred a devellio;claude alvin villee', 
+		'name_one': 'alfred a devellio',
+		'name_two': 'claude alvin villee', 
 		'expected': False, 
 		'description': 'alfred a devellio comparison with article'
 	},
     {
-		'input': 'alfred biggs;alfred debard biggs', 
+		'name_one': 'alfred biggs',
+		'name_two': 'alfred debard biggs', 
 		'expected': True, 
 		'description': 'alfred biggs comparison with article'
 	},
     {
-		'input': 'alfred d longhouse;alfred delbert longhouse', 
+		'name_one': 'alfred d longhouse',
+		'name_two': 'alfred delbert longhouse', 
 		'expected': True, 
 		'description': 'alfred d longhouse comparison with article'
 	},
     {
-		'input': 'alfred d simpson;alfred dexter simpson', 
+		'name_one': 'alfred d simpson',
+		'name_two': 'alfred dexter simpson', 
 		'expected': True, 
 		'description': 'alfred d simpson comparison with article'
 	},
     {
-		'input': 'alfred l burt;alfred leroy burt', 
+		'name_one': 'alfred l burt',
+		'name_two': 'alfred leroy burt', 
 		'expected': True, 
 		'description': 'alfred l burt comparison with article'
 	},
     {
-		'input': 'alfred l clapp;alfred lester clapp', 
+		'name_one': 'alfred l clapp',
+		'name_two': 'alfred lester clapp', 
 		'expected': True, 
 		'description': 'alfred l clapp comparison with article'
 	},
     {
-		'input': 'alfred l edwards;alfred leroy edwards', 
+		'name_one': 'alfred l edwards',
+		'name_two': 'alfred leroy edwards', 
 		'expected': True, 
 		'description': 'alfred l edwards comparison with article'
 	},
     {
-		'input': 'alfred l gausewitz;alfred leroy gausewitz', 
+		'name_one': 'alfred l gausewitz',
+		'name_two': 'alfred leroy gausewitz', 
 		'expected': True, 
 		'description': 'alfred l gausewitz comparison with article'
 	},
     {
-		'input': 'alfred l lomax;alfred lewis lomax', 
+		'name_one': 'alfred l lomax',
+		'name_two': 'alfred lewis lomax', 
 		'expected': True, 
 		'description': 'alfred l lomax comparison with article'
 	},
     {
-		'input': 'alfred l miller;alfred lawrence miller', 
+		'name_one': 'alfred l miller',
+		'name_two': 'alfred lawrence miller', 
 		'expected': True, 
 		'description': 'alfred l miller comparison with article'
 	},
     {
-		'input': 'alfred l wilds;alfred lawrence wilds', 
+		'name_one': 'alfred l wilds',
+		'name_two': 'alfred lawrence wilds', 
 		'expected': True, 
 		'description': 'alfred l wilds comparison with article'
 	},
     {
-		'input': 'alfred lande;alfred lande', 
+		'name_one': 'alfred lande',
+		'name_two': 'alfred lande', 
 		'expected': True, 
 		'description': 'alfred lande comparison with article'
 	},
     {
-		'input': 'alfred leimdorfer;alfred leimdorfer', 
+		'name_one': 'alfred leimdorfer',
+		'name_two': 'alfred leimdorfer', 
 		'expected': True, 
 		'description': 'alfred leimdorfer comparison with article'
 	},
     {
-		'input': 'alfred m lee;alfred mcclung lee', 
+		'name_one': 'alfred m lee',
+		'name_two': 'alfred mcclung lee', 
 		'expected': True, 
 		'description': 'alfred m lee comparison with article'
 	},
     {
-		'input': 'alfred s lazarus;alfred s. lazarus', 
+		'name_one': 'alfred s lazarus',
+		'name_two': 'alfred s. lazarus', 
 		'expected': True, 
 		'description': 'alfred s lazarus comparison with article'
 	},
     {
-		'input': 'alfred schmied;alfred leo schmied', 
+		'name_one': 'alfred schmied',
+		'name_two': 'alfred leo schmied', 
 		'expected': True, 
 		'description': 'alfred schmied comparison with article'
 	},
     {
-		'input': 'alfred vacchio;alfred del vecchio', 
+		'name_one': 'alfred vacchio',
+		'name_two': 'alfred del vecchio', 
 		'expected': True, 
 		'description': 'alfred vacchio comparison with article'
 	},
     {
-		'input': 'alice j vandermeulen;alice john vandermeulen', 
+		'name_one': 'alice j vandermeulen',
+		'name_two': 'alice john vandermeulen', 
 		'expected': True, 
 		'description': 'alice j vandermeulen comparison with article'
 	},
     {
-		'input': 'alice l hodgson;linwood lamb hodgdon', 
+		'name_one': 'alice l hodgson',
+		'name_two': 'linwood lamb hodgdon', 
 		'expected': False, 
 		'description': 'alice l hodgson comparison with article'
 	},
     {
-		'input': 'alice lazerowitz;alice loman ambrose lazerowitz', 
+		'name_one': 'alice lazerowitz',
+		'name_two': 'alice loman ambrose lazerowitz', 
 		'expected': True, 
 		'description': 'alice lazerowitz comparison with article'
 	},
     {
-		'input': 'alice m demeritt;m. mauritia', 
+		'name_one': 'alice m demeritt',
+		'name_two': 'm. mauritia', 
 		'expected': True, 
 		'description': 'alice m demeritt comparison with article'
 	},
     {
-		'input': 'alice m vau de voort;alice van de voort', 
+		'name_one': 'alice m vau de voort',
+		'name_two': 'alice van de voort', 
 		'expected': True, 
 		'description': 'alice m vau de voort comparison with article'
 	},
     {
-		'input': 'alice w leland;thomas w. leland', 
+		'name_one': 'alice w leland',
+		'name_two': 'thomas w. leland', 
 		'expected': False, 
 		'description': 'alice w leland comparison with article'
 	},
     {
-		'input': 'allan c de lacy;allan clark delacy', 
+		'name_one': 'allan c de lacy',
+		'name_two': 'allan clark delacy', 
 		'expected': True, 
 		'description': 'allan c de lacy comparison with article'
 	},
     {
-		'input': 'allan l strout;alan lang strout', 
+		'name_one': 'allan l strout',
+		'name_two': 'alan lang strout', 
 		'expected': True, 
 		'description': 'allan l strout comparison with article'
 	},
     {
-		'input': 'allen a lasko;alvin a. lasko', 
+		'name_one': 'allen a lasko',
+		'name_two': 'alvin a. lasko', 
 		'expected': True, 
 		'description': 'allen a lasko comparison with article'
 	},
     {
-		'input': 'allen b lambdin;allen b. lambdin', 
+		'name_one': 'allen b lambdin',
+		'name_two': 'allen b. lambdin', 
 		'expected': True, 
 		'description': 'allen b lambdin comparison with article'
 	},
     {
-		'input': 'allen d cooper;allen lamar cooper', 
+		'name_one': 'allen d cooper',
+		'name_two': 'allen lamar cooper', 
 		'expected': False, 
 		'description': 'allen d cooper comparison with article'
 	},
     {
-		'input': 'allen l king;allen lewis king', 
+		'name_one': 'allen l king',
+		'name_two': 'allen lewis king', 
 		'expected': True, 
 		'description': 'allen l king comparison with article'
 	},
     {
-		'input': 'allen l lorincz;allan levente lorincz', 
+		'name_one': 'allen l lorincz',
+		'name_two': 'allan levente lorincz', 
 		'expected': True, 
 		'description': 'allen l lorincz comparison with article'
 	},
     {
-		'input': 'allen lein;allen lein', 
+		'name_one': 'allen lein',
+		'name_two': 'allen lein', 
 		'expected': True, 
 		'description': 'allen lein comparison with article'
 	},
     {
-		'input': 'alonzo a leifeste;a. a. liefeste', 
+		'name_one': 'alonzo a leifeste',
+		'name_two': 'a. a. liefeste', 
 		'expected': True, 
 		'description': 'alonzo a leifeste comparison with article'
 	},
     {
-		'input': 'alva l kerbow;alva lee kerbow', 
+		'name_one': 'alva l kerbow',
+		'name_two': 'alva lee kerbow', 
 		'expected': True, 
 		'description': 'alva l kerbow comparison with article'
 	},
     {
-		'input': 'alva leroy prickett;alva leroy prickett', 
+		'name_one': 'alva leroy prickett',
+		'name_two': 'alva leroy prickett', 
 		'expected': True, 
 		'description': 'alva leroy prickett comparison with article'
 	},
     {
-		'input': 'alvah l newcomb;alvah lay newcomb', 
+		'name_one': 'alvah l newcomb',
+		'name_two': 'alvah lay newcomb', 
 		'expected': True, 
 		'description': 'alvah l newcomb comparison with article'
 	},
     {
-		'input': 'alvan l barach;alvan leroy barach', 
+		'name_one': 'alvan l barach',
+		'name_two': 'alvan leroy barach', 
 		'expected': True, 
 		'description': 'alvan l barach comparison with article'
 	},
     {
-		'input': 'alvin d etlers;alvin derald etler', 
+		'name_one': 'alvin d etlers',
+		'name_two': 'alvin derald etler', 
 		'expected': True, 
 		'description': 'alvin d etlers comparison with article'
 	},
     {
-		'input': 'alvin g law;alvin g. law', 
+		'name_one': 'alvin g law',
+		'name_two': 'alvin g. law', 
 		'expected': True, 
 		'description': 'alvin g law comparison with article'
 	},
     {
-		'input': 'alvin l lang;alvin l. lang', 
+		'name_one': 'alvin l lang',
+		'name_two': 'alvin l. lang', 
 		'expected': True, 
 		'description': 'alvin l lang comparison with article'
 	},
     {
-		'input': 'amance a desautels;agnes de st louis', 
+		'name_one': 'amance a desautels',
+		'name_two': 'agnes de st louis', 
 		'expected': False, 
 		'description': 'amance a desautels comparison with article'
 	},
     {
-		'input': 'amanda l forkner;hamden landon forkner', 
+		'name_one': 'amanda l forkner',
+		'name_two': 'hamden landon forkner', 
 		'expected': False, 
 		'description': 'amanda l forkner comparison with article'
 	},
     {
-		'input': 'amelia delrio;amelia a. de del rio', 
+		'name_one': 'amelia delrio',
+		'name_two': 'amelia a. de del rio', 
 		'expected': True, 
 		'description': 'amelia delrio comparison with article'
 	},
     {
-		'input': 'amos p leib;amos p. leib', 
+		'name_one': 'amos p leib',
+		'name_two': 'amos p. leib', 
 		'expected': True, 
 		'description': 'amos p leib comparison with article'
 	},
     {
-		'input': 'amy l turner;amy lee turner', 
+		'name_one': 'amy l turner',
+		'name_two': 'amy lee turner', 
 		'expected': True, 
 		'description': 'amy l turner comparison with article'
 	},
     {
-		'input': 'anastasia vanbebber;anastasia van bebber', 
+		'name_one': 'anastasia vanbebber',
+		'name_two': 'anastasia van bebber', 
 		'expected': True, 
 		'description': 'anastasia vanbebber comparison with article'
 	},
     {
-		'input': 'anastasia vanburkalow;anastasia van burkalow', 
+		'name_one': 'anastasia vanburkalow',
+		'name_two': 'anastasia van burkalow', 
 		'expected': True, 
 		'description': 'anastasia vanburkalow comparison with article'
 	},
     {
-		'input': 'andre c leveque;andre camille leveque', 
+		'name_one': 'andre c leveque',
+		'name_two': 'andre camille leveque', 
 		'expected': True, 
 		'description': 'andre c leveque comparison with article'
 	},
     {
-		'input': 'andre von gronicka;andre von gronicka', 
+		'name_one': 'andre von gronicka',
+		'name_two': 'andre von gronicka', 
 		'expected': True, 
 		'description': 'andre von gronicka comparison with article'
 	},
     {
-		'input': 'andree de c heller;andree heller', 
+		'name_one': 'andree de c heller',
+		'name_two': 'andree heller', 
 		'expected': True, 
 		'description': 'andree de c heller comparison with article'
 	},
     {
-		'input': 'andrew l papailion;laura van pappelendam', 
+		'name_one': 'andrew l papailion',
+		'name_two': 'laura van pappelendam', 
 		'expected': False, 
 		'description': 'andrew l papailion comparison with article'
 	},
     {
-		'input': 'andrew malon;peter andrew van der meulen', 
+		'name_one': 'andrew malon',
+		'name_two': 'peter andrew van der meulen', 
 		'expected': True, 
 		'description': 'andrew malon comparison with article'
 	},
     {
-		'input': 'andrew p van hook;andrew p. van hook', 
+		'name_one': 'andrew p van hook',
+		'name_two': 'andrew p. van hook', 
 		'expected': True, 
 		'description': 'andrew p van hook comparison with article'
 	},
     {
-		'input': 'andrew p vanderpoel;priscilla paine van der poel', 
+		'name_one': 'andrew p vanderpoel',
+		'name_two': 'priscilla paine van der poel', 
 		'expected': False, 
 		'description': 'andrew p vanderpoel comparison with article'
 	},
     {
-		'input': 'andrew w lawson, jr;andrew werner lawson', 
+		'name_one': 'andrew w lawson, jr',
+		'name_two': 'andrew werner lawson', 
 		'expected': True, 
 		'description': 'andrew w lawson, jr comparison with article'
 	},
     {
-		'input': 'angel delrio;angel del rio', 
+		'name_one': 'angel delrio',
+		'name_two': 'angel del rio', 
 		'expected': True, 
 		'description': 'angel delrio comparison with article'
 	},
     {
-		'input': 'angela d oglesby;dwayne la vergne oglesby', 
+		'name_one': 'angela d oglesby',
+		'name_two': 'dwayne la vergne oglesby', 
 		'expected': False, 
 		'description': 'angela d oglesby comparison with article'
 	},
     {
-		'input': 'angela g lardner;gerhart ladner', 
+		'name_one': 'angela g lardner',
+		'name_two': 'gerhart ladner', 
 		'expected': True, 
 		'description': 'angela g lardner comparison with article'
 	},
     {
-		'input': 'angelina la piana;angeline la piana', 
+		'name_one': 'angelina la piana',
+		'name_two': 'angeline la piana', 
 		'expected': True, 
 		'description': 'angelina la piana comparison with article'
 	},
     {
-		'input': 'angelo degennaro;angelo a. de gennaro', 
+		'name_one': 'angelo degennaro',
+		'name_two': 'angelo a. de gennaro', 
 		'expected': True, 
 		'description': 'angelo degennaro comparison with article'
 	},
     {
-		'input': 'angie t king;angie lena turner king', 
+		'name_one': 'angie t king',
+		'name_two': 'angie lena turner king', 
 		'expected': True, 
 		'description': 'angie t king comparison with article'
 	},
     {
-		'input': 'ann deeds;ann catherine deeds', 
+		'name_one': 'ann deeds',
+		'name_two': 'ann catherine deeds', 
 		'expected': True, 
 		'description': 'ann deeds comparison with article'
 	},
     {
-		'input': 'ann k ann k,;nancy van anne', 
+		'name_one': 'ann k ann k,',
+		'name_two': 'nancy van anne', 
 		'expected': False, 
 		'description': 'ann k ann k, comparison with article'
 	},
     {
-		'input': 'ann l diem;william l. deam', 
+		'name_one': 'ann l diem',
+		'name_two': 'william l. deam', 
 		'expected': False, 
 		'description': 'ann l diem comparison with article'
 	},
     {
-		'input': 'ann lankford;ann elizabeth lankford', 
+		'name_one': 'ann lankford',
+		'name_two': 'ann elizabeth lankford', 
 		'expected': True, 
 		'description': 'ann lankford comparison with article'
 	},
     {
-		'input': 'ann s lettle;elizabeth ann liddle', 
+		'name_one': 'ann s lettle',
+		'name_two': 'elizabeth ann liddle', 
 		'expected': False, 
 		'description': 'ann s lettle comparison with article'
 	},
     {
-		'input': 'anna c lageragen;anna constantia lagergren', 
+		'name_one': 'anna c lageragen',
+		'name_two': 'anna constantia lagergren', 
 		'expected': True, 
 		'description': 'anna c lageragen comparison with article'
 	},
     {
-		'input': 'anna e. lange;e. o. lange', 
+		'name_one': 'anna e. lange',
+		'name_two': 'e. o. lange', 
 		'expected': False, 
 		'description': 'anna e. lange comparison with article'
 	},
     {
-		'input': 'anna j de armond;anna janney dearmond', 
+		'name_one': 'anna j de armond',
+		'name_two': 'anna janney dearmond', 
 		'expected': True, 
 		'description': 'anna j de armond comparison with article'
 	},
     {
-		'input': 'anna l cochran;elmer lendell cockrum', 
+		'name_one': 'anna l cochran',
+		'name_two': 'elmer lendell cockrum', 
 		'expected': False, 
 		'description': 'anna l cochran comparison with article'
 	},
     {
-		'input': 'anna p lauterbur;anna p. lauterbur', 
+		'name_one': 'anna p lauterbur',
+		'name_two': 'anna p. lauterbur', 
 		'expected': True, 
 		'description': 'anna p lauterbur comparison with article'
 	},
     {
-		'input': 'anne b lay;anne brownlee lay', 
+		'name_one': 'anne b lay',
+		'name_two': 'anne brownlee lay', 
 		'expected': True, 
 		'description': 'anne b lay comparison with article'
 	},
     {
-		'input': 'anne l lewis;anne louise lewis', 
+		'name_one': 'anne l lewis',
+		'name_two': 'anne louise lewis', 
 		'expected': True, 
 		'description': 'anne l lewis comparison with article'
 	},
     {
-		'input': 'annita delano;annita delano', 
+		'name_one': 'annita delano',
+		'name_two': 'annita delano', 
 		'expected': True, 
 		'description': 'annita delano comparison with article'
 	},
     {
-		'input': 'anthonie van harreveld, jr;anthonie van harreveld', 
+		'name_one': 'anthonie van harreveld, jr',
+		'name_two': 'anthonie van harreveld', 
 		'expected': True, 
 		'description': 'anthonie van harreveld, jr comparison with article'
 	},
     {
-		'input': 'anthony de michele;laurence anthony michel', 
+		'name_one': 'anthony de michele',
+		'name_two': 'laurence anthony michel', 
 		'expected': True, 
 		'description': 'anthony de michele comparison with article'
 	},
     {
-		'input': 'anthony de oreo;gerard anthony de oreo', 
+		'name_one': 'anthony de oreo',
+		'name_two': 'gerard anthony de oreo', 
 		'expected': True, 
 		'description': 'anthony de oreo comparison with article'
 	},
     {
-		'input': 'anthony j defilipps;a. j. defilipps', 
+		'name_one': 'anthony j defilipps',
+		'name_two': 'a. j. defilipps', 
 		'expected': True, 
 		'description': 'anthony j defilipps comparison with article'
 	},
     {
-		'input': 'anthony j del mastro;anthony j. del mastro', 
+		'name_one': 'anthony j del mastro',
+		'name_two': 'anthony j. del mastro', 
 		'expected': True, 
 		'description': 'anthony j del mastro comparison with article'
 	},
     {
-		'input': 'anthony l turkevich;anthony leonid turkevich', 
+		'name_one': 'anthony l turkevich',
+		'name_two': 'anthony leonid turkevich', 
 		'expected': True, 
 		'description': 'anthony l turkevich comparison with article'
 	},
     {
-		'input': 'anton lang;anton lang', 
+		'name_one': 'anton lang',
+		'name_two': 'anton lang', 
 		'expected': True, 
 		'description': 'anton lang comparison with article'
 	},
     {
-		'input': 'arch lauterer;arch lauterer', 
+		'name_one': 'arch lauterer',
+		'name_two': 'arch lauterer', 
 		'expected': True, 
 		'description': 'arch lauterer comparison with article'
 	},
     {
-		'input': 'archbald laforte;archibald smith foord', 
+		'name_one': 'archbald laforte',
+		'name_two': 'archibald smith foord', 
 		'expected': False, 
 		'description': 'archbald laforte comparison with article'
 	},
     {
-		'input': 'archibald s dean;archibald s. dean', 
+		'name_one': 'archibald s dean',
+		'name_two': 'archibald s. dean', 
 		'expected': True, 
 		'description': 'archibald s dean comparison with article'
 	},
     {
-		'input': 'archie l leonard;archie leroy leonard', 
+		'name_one': 'archie l leonard',
+		'name_two': 'archie leroy leonard', 
 		'expected': True, 
 		'description': 'archie l leonard comparison with article'
 	},
     {
-		'input': 'ariel f lausche;luverne frederick lausche', 
+		'name_one': 'ariel f lausche',
+		'name_two': 'luverne frederick lausche', 
 		'expected': False, 
 		'description': 'ariel f lausche comparison with article'
 	},
     {
-		'input': 'arman j lawrence;armon jay lawrence', 
+		'name_one': 'arman j lawrence',
+		'name_two': 'armon jay lawrence', 
 		'expected': True, 
 		'description': 'arman j lawrence comparison with article'
 	},
     {
-		'input': 'armand desautel;armand h. desautels', 
+		'name_one': 'armand desautel',
+		'name_two': 'armand h. desautels', 
 		'expected': True, 
 		'description': 'armand desautel comparison with article'
 	},
     {
-		'input': 'arnand b leavelle;arnaud b. leavelle', 
+		'name_one': 'arnand b leavelle',
+		'name_two': 'arnaud b. leavelle', 
 		'expected': True, 
 		'description': 'arnand b leavelle comparison with article'
 	},
     {
-		'input': 'arno t lenz;arno thomas lenz', 
+		'name_one': 'arno t lenz',
+		'name_two': 'arno thomas lenz', 
 		'expected': True, 
 		'description': 'arno t lenz comparison with article'
 	},
     {
-		'input': 'arnold lazerow;arnold lazarow', 
+		'name_one': 'arnold lazerow',
+		'name_two': 'arnold lazarow', 
 		'expected': True, 
 		'description': 'arnold lazerow comparison with article'
 	},
     {
-		'input': 'arnold w lapp;arnold w. lapp', 
+		'name_one': 'arnold w lapp',
+		'name_two': 'arnold w. lapp', 
 		'expected': True, 
 		'description': 'arnold w lapp comparison with article'
 	},
     {
-		'input': 'arthur a lewis;arthur o. lewis', 
+		'name_one': 'arthur a lewis',
+		'name_two': 'arthur o. lewis', 
 		'expected': False, 
 		'description': 'arthur a lewis comparison with article'
 	},
     {
-		'input': 'arthur b leible;arthur blank leible', 
+		'name_one': 'arthur b leible',
+		'name_two': 'arthur blank leible', 
 		'expected': True, 
 		'description': 'arthur b leible comparison with article'
 	},
     {
-		'input': 'arthur b lewis;arthur beverly lewis', 
+		'name_one': 'arthur b lewis',
+		'name_two': 'arthur beverly lewis', 
 		'expected': True, 
 		'description': 'arthur b lewis comparison with article'
 	},
     {
-		'input': 'arthur brandon;arthur leon brandon', 
+		'name_one': 'arthur brandon',
+		'name_two': 'arthur leon brandon', 
 		'expected': True, 
 		'description': 'arthur brandon comparison with article'
 	},
     {
-		'input': 'arthur d butterfield;arthur dexter butterfield', 
+		'name_one': 'arthur d butterfield',
+		'name_two': 'arthur dexter butterfield', 
 		'expected': True, 
 		'description': 'arthur d butterfield comparison with article'
 	},
     {
-		'input': 'arthur d les?eut;arthur m. lassek', 
+		'name_one': 'arthur d les?eut',
+		'name_two': 'arthur m. lassek', 
 		'expected': False, 
 		'description': 'arthur d les?eut comparison with article'
 	},
     {
-		'input': 'arthur d moore;arthur dearth moore', 
+		'name_one': 'arthur d moore',
+		'name_two': 'arthur dearth moore', 
 		'expected': True, 
 		'description': 'arthur d moore comparison with article'
 	},
     {
-		'input': 'arthur delez;arthur louis delez', 
+		'name_one': 'arthur delez',
+		'name_two': 'arthur louis delez', 
 		'expected': True, 
 		'description': 'arthur delez comparison with article'
 	},
     {
-		'input': 'arthur denney;arthur c. denney', 
+		'name_one': 'arthur denney',
+		'name_two': 'arthur c. denney', 
 		'expected': True, 
 		'description': 'arthur denney comparison with article'
 	},
     {
-		'input': 'arthur e lamb;arthur e. lamb', 
+		'name_one': 'arthur e lamb',
+		'name_two': 'arthur e. lamb', 
 		'expected': True, 
 		'description': 'arthur e lamb comparison with article'
 	},
     {
-		'input': 'arthur f deam;arthur f. deam', 
+		'name_one': 'arthur f deam',
+		'name_two': 'arthur f. deam', 
 		'expected': True, 
 		'description': 'arthur f deam comparison with article'
 	},
     {
-		'input': 'arthur f watkins;arthur lancaster watkins', 
+		'name_one': 'arthur f watkins',
+		'name_two': 'arthur lancaster watkins', 
 		'expected': False, 
 		'description': 'arthur f watkins comparison with article'
 	},
     {
-		'input': 'arthur h leavitt;arthur h. leavitt', 
+		'name_one': 'arthur h leavitt',
+		'name_two': 'arthur h. leavitt', 
 		'expected': True, 
 		'description': 'arthur h leavitt comparison with article'
 	},
     {
-		'input': 'arthur herbert levy, jr;arthur herbert levy', 
+		'name_one': 'arthur herbert levy, jr',
+		'name_two': 'arthur herbert levy', 
 		'expected': True, 
 		'description': 'arthur herbert levy, jr comparison with article'
 	},
     {
-		'input': 'arthur j lopovsky;arthur j. lapovsky', 
+		'name_one': 'arthur j lopovsky',
+		'name_two': 'arthur j. lapovsky', 
 		'expected': True, 
 		'description': 'arthur j lopovsky comparison with article'
 	},
     {
-		'input': 'arthur l albert;arthur lemuel albert', 
+		'name_one': 'arthur l albert',
+		'name_two': 'arthur lemuel albert', 
 		'expected': True, 
 		'description': 'arthur l albert comparison with article'
 	},
     {
-		'input': 'arthur l anderson;arthur lawrence anderson', 
+		'name_one': 'arthur l anderson',
+		'name_two': 'arthur lawrence anderson', 
 		'expected': True, 
 		'description': 'arthur l anderson comparison with article'
 	},
     {
-		'input': 'arthur l benton;arthur lester benton', 
+		'name_one': 'arthur l benton',
+		'name_two': 'arthur lester benton', 
 		'expected': True, 
 		'description': 'arthur l benton comparison with article'
 	},
     {
-		'input': 'arthur l derring;arthur l. deering', 
+		'name_one': 'arthur l derring',
+		'name_two': 'arthur l. deering', 
 		'expected': True, 
 		'description': 'arthur l derring comparison with article'
 	},
     {
-		'input': 'arthur l goodrich;arthur leonard goodrich', 
+		'name_one': 'arthur l goodrich',
+		'name_two': 'arthur leonard goodrich', 
 		'expected': True, 
 		'description': 'arthur l goodrich comparison with article'
 	},
     {
-		'input': 'arthur l neal;arthur leslie neal', 
+		'name_one': 'arthur l neal',
+		'name_two': 'arthur leslie neal', 
 		'expected': True, 
 		'description': 'arthur l neal comparison with article'
 	},
     {
-		'input': 'arthur l searles;arthur langley searles', 
+		'name_one': 'arthur l searles',
+		'name_two': 'arthur langley searles', 
 		'expected': True, 
 		'description': 'arthur l searles comparison with article'
 	},
     {
-		'input': 'arthur l svenson;arthur lee svenson', 
+		'name_one': 'arthur l svenson',
+		'name_two': 'arthur lee svenson', 
 		'expected': True, 
 		'description': 'arthur l svenson comparison with article'
 	},
     {
-		'input': 'arthur l tatum;arthur lawrie tatum', 
+		'name_one': 'arthur l tatum',
+		'name_two': 'arthur lawrie tatum', 
 		'expected': True, 
 		'description': 'arthur l tatum comparison with article'
 	},
     {
-		'input': 'arthur l townsend;arthur lawrence townsend', 
+		'name_one': 'arthur l townsend',
+		'name_two': 'arthur lawrence townsend', 
 		'expected': True, 
 		'description': 'arthur l townsend comparison with article'
 	},
     {
-		'input': 'arthur l vollman;ludwig von sallmann', 
+		'name_one': 'arthur l vollman',
+		'name_two': 'ludwig von sallmann', 
 		'expected': False, 
 		'description': 'arthur l vollman comparison with article'
 	},
     {
-		'input': 'arthur l young;arthur leighton young', 
+		'name_one': 'arthur l young',
+		'name_two': 'arthur leighton young', 
 		'expected': True, 
 		'description': 'arthur l young comparison with article'
 	},
     {
-		'input': 'arthur lamay;mark arthur may', 
+		'name_one': 'arthur lamay',
+		'name_two': 'mark arthur may', 
 		'expected': True, 
 		'description': 'arthur lamay comparison with article'
 	},
     {
-		'input': 'arthur larson;arthur larson', 
+		'name_one': 'arthur larson',
+		'name_two': 'arthur larson', 
 		'expected': True, 
 		'description': 'arthur larson comparison with article'
 	},
     {
-		'input': 'arthur lawrence bakke;arthur lawrence bakke', 
+		'name_one': 'arthur lawrence bakke',
+		'name_two': 'arthur lawrence bakke', 
 		'expected': True, 
 		'description': 'arthur lawrence bakke comparison with article'
 	},
     {
-		'input': 'arthur lenhoff;arthur lenhoff', 
+		'name_one': 'arthur lenhoff',
+		'name_two': 'arthur lenhoff', 
 		'expected': True, 
 		'description': 'arthur lenhoff comparison with article'
 	},
     {
-		'input': 'arthur lesser;arthur lesser', 
+		'name_one': 'arthur lesser',
+		'name_two': 'arthur lesser', 
 		'expected': True, 
 		'description': 'arthur lesser comparison with article'
 	},
     {
-		'input': 'arthur lewis;arthur lewis', 
+		'name_one': 'arthur lewis',
+		'name_two': 'arthur lewis', 
 		'expected': True, 
 		'description': 'arthur lewis comparison with article'
 	},
     {
-		'input': 'arthur prince;arthur leslie prince', 
+		'name_one': 'arthur prince',
+		'name_two': 'arthur leslie prince', 
 		'expected': True, 
 		'description': 'arthur prince comparison with article'
 	},
     {
-		'input': 'arthur r fisher;arthur lawrence fisher', 
+		'name_one': 'arthur r fisher',
+		'name_two': 'arthur lawrence fisher', 
 		'expected': False, 
 		'description': 'arthur r fisher comparison with article'
 	},
     {
-		'input': 'arthur s levine;arthur sidney levine', 
+		'name_one': 'arthur s levine',
+		'name_two': 'arthur sidney levine', 
 		'expected': True, 
 		'description': 'arthur s levine comparison with article'
 	},
     {
-		'input': 'arthur van mehren;arthur taylor von mehren', 
+		'name_one': 'arthur van mehren',
+		'name_two': 'arthur taylor von mehren', 
 		'expected': True, 
 		'description': 'arthur van mehren comparison with article'
 	},
     {
-		'input': 'arthur w leighton;arthur w. leighton', 
+		'name_one': 'arthur w leighton',
+		'name_two': 'arthur w. leighton', 
 		'expected': True, 
 		'description': 'arthur w leighton comparison with article'
 	},
     {
-		'input': 'arvo vanalstyne;arvo van alstyne', 
+		'name_one': 'arvo vanalstyne',
+		'name_two': 'arvo van alstyne', 
 		'expected': True, 
 		'description': 'arvo vanalstyne comparison with article'
 	},
     {
-		'input': 'ashton welsh;ashton leroy welsh', 
+		'name_one': 'ashton welsh',
+		'name_two': 'ashton leroy welsh', 
 		'expected': True, 
 		'description': 'ashton welsh comparison with article'
 	},
     {
-		'input': 'aubrey landers;aubrey w. landers', 
+		'name_one': 'aubrey landers',
+		'name_two': 'aubrey w. landers', 
 		'expected': True, 
 		'description': 'aubrey landers comparison with article'
 	},
     {
-		'input': 'august d lang;arch d. lang', 
+		'name_one': 'august d lang',
+		'name_two': 'arch d. lang', 
 		'expected': False, 
 		'description': 'august d lang comparison with article'
 	},
     {
-		'input': 'august r leisner;a. roberts leisner', 
+		'name_one': 'august r leisner',
+		'name_two': 'a. roberts leisner', 
 		'expected': True, 
 		'description': 'august r leisner comparison with article'
 	},
     {
-		'input': 'augustin cosgrove;augustin lawrence cosgrove', 
+		'name_one': 'augustin cosgrove',
+		'name_two': 'augustin lawrence cosgrove', 
 		'expected': True, 
 		'description': 'augustin cosgrove comparison with article'
 	},
     {
-		'input': 'austin lamont;austin lamont', 
+		'name_one': 'austin lamont',
+		'name_two': 'austin lamont', 
 		'expected': True, 
 		'description': 'austin lamont comparison with article'
 	},
     {
-		'input': 'avis graham;avis exalee lair graham', 
+		'name_one': 'avis graham',
+		'name_two': 'avis exalee lair graham', 
 		'expected': True, 
 		'description': 'avis graham comparison with article'
 	},
     {
-		'input': 'babette levy;babette m. levy', 
+		'name_one': 'babette levy',
+		'name_two': 'babette m. levy', 
 		'expected': True, 
 		'description': 'babette levy comparison with article'
 	},
     {
-		'input': 'barbara lee;barbara lee', 
+		'name_one': 'barbara lee',
+		'name_two': 'barbara lee', 
 		'expected': True, 
 		'description': 'barbara lee comparison with article'
 	},
     {
-		'input': 'barboar l herrington;barbour lawson herrington', 
+		'name_one': 'barboar l herrington',
+		'name_two': 'barbour lawson herrington', 
 		'expected': True, 
 		'description': 'barboar l herrington comparison with article'
 	},
     {
-		'input': 'barclay leathem;barclay s. leathem', 
+		'name_one': 'barclay leathem',
+		'name_two': 'barclay s. leathem', 
 		'expected': True, 
 		'description': 'barclay leathem comparison with article'
 	},
     {
-		'input': 'barnes f lathrop;barnes f. lathrop', 
+		'name_one': 'barnes f lathrop',
+		'name_two': 'barnes f. lathrop', 
 		'expected': True, 
 		'description': 'barnes f lathrop comparison with article'
 	},
     {
-		'input': 'barnet m levy;barnet m. levy', 
+		'name_one': 'barnet m levy',
+		'name_two': 'barnet m. levy', 
 		'expected': True, 
 		'description': 'barnet m levy comparison with article'
 	},
     {
-		'input': 'basil l sherrill;basil lamar sherrill', 
+		'name_one': 'basil l sherrill',
+		'name_two': 'basil lamar sherrill', 
 		'expected': True, 
 		'description': 'basil l sherrill comparison with article'
 	},
     {
-		'input': 'beatrice m la vigne;beatrice lavigne', 
+		'name_one': 'beatrice m la vigne',
+		'name_two': 'beatrice lavigne', 
 		'expected': True, 
 		'description': 'beatrice m la vigne comparison with article'
 	},
     {
-		'input': 'beatrice von keller;beatrice von keller', 
+		'name_one': 'beatrice von keller',
+		'name_two': 'beatrice von keller', 
 		'expected': True, 
 		'description': 'beatrice von keller comparison with article'
 	},
     {
-		'input': 'beautine h de costa;beautine h. decosta', 
+		'name_one': 'beautine h de costa',
+		'name_two': 'beautine h. decosta', 
 		'expected': True, 
 		'description': 'beautine h de costa comparison with article'
 	},
     {
-		'input': 'ben f lemert;benjamin franklin lemert', 
+		'name_one': 'ben f lemert',
+		'name_two': 'benjamin franklin lemert', 
 		'expected': True, 
 		'description': 'ben f lemert comparison with article'
 	},
     {
-		'input': 'ben l. love;ben del love', 
+		'name_one': 'ben l. love',
+		'name_two': 'ben del love', 
 		'expected': True, 
 		'description': 'ben l. love comparison with article'
 	},
     {
-		'input': 'benjamin averbook;benjamin lewis averbach', 
+		'name_one': 'benjamin averbook',
+		'name_two': 'benjamin lewis averbach', 
 		'expected': False, 
 		'description': 'benjamin averbook comparison with article'
 	},
     {
-		'input': 'benjamin d leith;benjamin donald leith', 
+		'name_one': 'benjamin d leith',
+		'name_two': 'benjamin donald leith', 
 		'expected': True, 
 		'description': 'benjamin d leith comparison with article'
 	},
     {
-		'input': 'benjamin h lehman;benjamin h. lehman', 
+		'name_one': 'benjamin h lehman',
+		'name_two': 'benjamin h. lehman', 
 		'expected': True, 
 		'description': 'benjamin h lehman comparison with article'
 	},
     {
-		'input': 'benjamin l smits;benjamin levi smits', 
+		'name_one': 'benjamin l smits',
+		'name_two': 'benjamin levi smits', 
 		'expected': True, 
 		'description': 'benjamin l smits comparison with article'
 	},
     {
-		'input': 'benjamin lease;benjamin lease', 
+		'name_one': 'benjamin lease',
+		'name_two': 'benjamin lease', 
 		'expected': True, 
 		'description': 'benjamin lease comparison with article'
 	},
     {
-		'input': 'benjimine r lacy;benjamin rice lacy', 
+		'name_one': 'benjimine r lacy',
+		'name_two': 'benjamin rice lacy', 
 		'expected': True, 
 		'description': 'benjimine r lacy comparison with article'
 	},
     {
-		'input': 'benno landsberger;benno landsberger', 
+		'name_one': 'benno landsberger',
+		'name_two': 'benno landsberger', 
 		'expected': True, 
 		'description': 'benno landsberger comparison with article'
 	},
     {
-		'input': 'benson j. lamp;benson j. lamp', 
+		'name_one': 'benson j. lamp',
+		'name_two': 'benson j. lamp', 
 		'expected': True, 
 		'description': 'benson j. lamp comparison with article'
 	},
     {
-		'input': 'bernard h larsen, jr;bernard boysen larsen', 
+		'name_one': 'bernard h larsen, jr',
+		'name_two': 'bernard boysen larsen', 
 		'expected': False, 
 		'description': 'bernard h larsen, jr comparison with article'
 	},
     {
-		'input': 'bernard karten;bernard leon kartin', 
+		'name_one': 'bernard karten',
+		'name_two': 'bernard leon kartin', 
 		'expected': True, 
 		'description': 'bernard karten comparison with article'
 	},
     {
-		'input': 'bernard lander;bernard lander', 
+		'name_one': 'bernard lander',
+		'name_two': 'bernard lander', 
 		'expected': True, 
 		'description': 'bernard lander comparison with article'
 	},
     {
-		'input': 'bernard lemann;bernard lemann', 
+		'name_one': 'bernard lemann',
+		'name_two': 'bernard lemann', 
 		'expected': True, 
 		'description': 'bernard lemann comparison with article'
 	},
     {
-		'input': 'bernard levy;bernard levy', 
+		'name_one': 'bernard levy',
+		'name_two': 'bernard levy', 
 		'expected': True, 
 		'description': 'bernard levy comparison with article'
 	},
     {
-		'input': 'bernard liebman;o. bernard leibman', 
+		'name_one': 'bernard liebman',
+		'name_two': 'o. bernard leibman', 
 		'expected': True, 
 		'description': 'bernard liebman comparison with article'
 	},
     {
-		'input': 'bernhardt lemmel;bernhardt lemmel', 
+		'name_one': 'bernhardt lemmel',
+		'name_two': 'bernhardt lemmel', 
 		'expected': True, 
 		'description': 'bernhardt lemmel comparison with article'
 	},
     {
-		'input': 'bernt o larson;bernt o. larson', 
+		'name_one': 'bernt o larson',
+		'name_two': 'bernt o. larson', 
 		'expected': True, 
 		'description': 'bernt o larson comparison with article'
 	},
     {
-		'input': 'bertha m levy;bertha marion levy', 
+		'name_one': 'bertha m levy',
+		'name_two': 'bertha marion levy', 
 		'expected': True, 
 		'description': 'bertha m levy comparison with article'
 	},
     {
-		'input': 'bertha v lederar;bertha v. lederer', 
+		'name_one': 'bertha v lederar',
+		'name_two': 'bertha v. lederer', 
 		'expected': True, 
 		'description': 'bertha v lederar comparison with article'
 	},
     {
-		'input': 'bertina laborde;bertina anne laborde', 
+		'name_one': 'bertina laborde',
+		'name_two': 'bertina anne laborde', 
 		'expected': True, 
 		'description': 'bertina laborde comparison with article'
 	},
     {
-		'input': 'bertram levinson;bertram levinson', 
+		'name_one': 'bertram levinson',
+		'name_two': 'bertram levinson', 
 		'expected': True, 
 		'description': 'bertram levinson comparison with article'
 	},
     {
-		'input': 'bessie g campbell;bessie lee gambrill', 
+		'name_one': 'bessie g campbell',
+		'name_two': 'bessie lee gambrill', 
 		'expected': False, 
 		'description': 'bessie g campbell comparison with article'
 	},
     {
-		'input': 'betty a land;betty aiken land', 
+		'name_one': 'betty a land',
+		'name_two': 'betty aiken land', 
 		'expected': True, 
 		'description': 'betty a land comparison with article'
 	},
     {
-		'input': 'betty c delavan;betty c. delavan', 
+		'name_one': 'betty c delavan',
+		'name_two': 'betty c. delavan', 
 		'expected': True, 
 		'description': 'betty c delavan comparison with article'
 	},
     {
-		'input': 'bevin lewis;bevan blau lewis', 
+		'name_one': 'bevin lewis',
+		'name_two': 'bevan blau lewis', 
 		'expected': True, 
 		'description': 'bevin lewis comparison with article'
 	},
     {
-		'input': 'bianca del vecchio;bianca del vecchio', 
+		'name_one': 'bianca del vecchio',
+		'name_two': 'bianca del vecchio', 
 		'expected': True, 
 		'description': 'bianca del vecchio comparison with article'
 	},
     {
-		'input': 'billy j van gundy;justine van gundy', 
+		'name_one': 'billy j van gundy',
+		'name_two': 'justine van gundy', 
 		'expected': True, 
 		'description': 'billy j van gundy comparison with article'
 	},
     {
-		'input': 'blaine de lancey;blaine delancey', 
+		'name_one': 'blaine de lancey',
+		'name_two': 'blaine delancey', 
 		'expected': True, 
 		'description': 'blaine de lancey comparison with article'
 	},
     {
-		'input': 'blake ragsdale von leer;blake ragsdale van leer', 
+		'name_one': 'blake ragsdale von leer',
+		'name_two': 'blake ragsdale van leer', 
 		'expected': True, 
 		'description': 'blake ragsdale von leer comparison with article'
 	},
     {
-		'input': 'boni j delaureal;boni james delaureal', 
+		'name_one': 'boni j delaureal',
+		'name_two': 'boni james delaureal', 
 		'expected': True, 
 		'description': 'boni j delaureal comparison with article'
 	},
     {
-		'input': 'boris leaf;boris leaf', 
+		'name_one': 'boris leaf',
+		'name_two': 'boris leaf', 
 		'expected': True, 
 		'description': 'boris leaf comparison with article'
 	},
     {
-		'input': 'boris levinson;boris m. levinson', 
+		'name_one': 'boris levinson',
+		'name_two': 'boris m. levinson', 
 		'expected': True, 
 		'description': 'boris levinson comparison with article'
 	},
     {
-		'input': 'borisz deballa;borisz de balla', 
+		'name_one': 'borisz deballa',
+		'name_two': 'borisz de balla', 
 		'expected': True, 
 		'description': 'borisz deballa comparison with article'
 	},
     {
-		'input': 'boyd l o\'dell;boyd lee o\'dell', 
+		'name_one': 'boyd l o\'dell',
+		'name_two': 'boyd lee o\'dell', 
 		'expected': True, 
 		'description': 'boyd l o\'dell comparison with article'
 	},
     {
-		'input': 'bradley d thompson;bradley deforrest thompson', 
+		'name_one': 'bradley d thompson',
+		'name_two': 'bradley deforrest thompson', 
 		'expected': True, 
 		'description': 'bradley d thompson comparison with article'
 	},
     {
-		'input': 'bror l grondal;bror leonard grondal', 
+		'name_one': 'bror l grondal',
+		'name_two': 'bror leonard grondal', 
 		'expected': True, 
 		'description': 'bror l grondal comparison with article'
 	},
     {
-		'input': 'bruce despelder;bruce e. despelder', 
+		'name_one': 'bruce despelder',
+		'name_two': 'bruce e. despelder', 
 		'expected': True, 
 		'description': 'bruce despelder comparison with article'
 	},
     {
-		'input': 'bruce g dearing;bruce dearing', 
+		'name_one': 'bruce g dearing',
+		'name_two': 'bruce dearing', 
 		'expected': True, 
 		'description': 'bruce g dearing comparison with article'
 	},
     {
-		'input': 'bruce l cartter;bruce lanpher cartter', 
+		'name_one': 'bruce l cartter',
+		'name_two': 'bruce lanpher cartter', 
 		'expected': True, 
 		'description': 'bruce l cartter comparison with article'
 	},
     {
-		'input': 'bruce weidner;bruce van scoyoc weidner', 
+		'name_one': 'bruce weidner',
+		'name_two': 'bruce van scoyoc weidner', 
 		'expected': True, 
 		'description': 'bruce weidner comparison with article'
 	},
     {
-		'input': 'brunell d faris;brunel debost faris', 
+		'name_one': 'brunell d faris',
+		'name_two': 'brunel debost faris', 
 		'expected': True, 
 		'description': 'brunell d faris comparison with article'
 	},
     {
-		'input': 'bryan c landreth;catherine landreth', 
+		'name_one': 'bryan c landreth',
+		'name_two': 'catherine landreth', 
 		'expected': True, 
 		'description': 'bryan c landreth comparison with article'
 	},
     {
-		'input': 'burtis lawson;burtis carl lawson', 
+		'name_one': 'burtis lawson',
+		'name_two': 'burtis carl lawson', 
 		'expected': True, 
 		'description': 'burtis lawson comparison with article'
 	},
     {
-		'input': 'byron e lauer;bryon elmer lauer', 
+		'name_one': 'byron e lauer',
+		'name_two': 'bryon elmer lauer', 
 		'expected': True, 
 		'description': 'byron e lauer comparison with article'
 	},
     {
-		'input': 'byron l jr burford;bryon leslie burford', 
+		'name_one': 'byron l jr burford',
+		'name_two': 'bryon leslie burford', 
 		'expected': True, 
 		'description': 'byron l jr burford comparison with article'
 	},
     {
-		'input': 'c lee harwell;c. lee harwell', 
+		'name_one': 'c lee harwell',
+		'name_two': 'c. lee harwell', 
 		'expected': True, 
 		'description': 'c lee harwell comparison with article'
 	},
     {
-		'input': 'c leonard huskins;charles leonard huskins', 
+		'name_one': 'c leonard huskins',
+		'name_two': 'charles leonard huskins', 
 		'expected': True, 
 		'description': 'c leonard huskins comparison with article'
 	},
     {
-		'input': 'c lewis hafermekl;charles louis hafermehl', 
+		'name_one': 'c lewis hafermekl',
+		'name_two': 'charles louis hafermehl', 
 		'expected': True, 
 		'description': 'c lewis hafermekl comparison with article'
 	},
     {
-		'input': 'c lowell lees;c. lowell lees', 
+		'name_one': 'c lowell lees',
+		'name_two': 'c. lowell lees', 
 		'expected': True, 
 		'description': 'c lowell lees comparison with article'
 	},
     {
-		'input': 'c marshall lee;c. marshall lee', 
+		'name_one': 'c marshall lee',
+		'name_two': 'c. marshall lee', 
 		'expected': True, 
 		'description': 'c marshall lee comparison with article'
 	},
     {
-		'input': 'c theodore larson;c. theodore larson', 
+		'name_one': 'c theodore larson',
+		'name_two': 'c. theodore larson', 
 		'expected': True, 
 		'description': 'c theodore larson comparison with article'
 	},
     {
-		'input': 'camile j le vois;camille joseph le vois', 
+		'name_one': 'camile j le vois',
+		'name_two': 'camille joseph le vois', 
 		'expected': True, 
 		'description': 'camile j le vois comparison with article'
 	},
     {
-		'input': 'carl a leopold;aldo carl leopold', 
+		'name_one': 'carl a leopold',
+		'name_two': 'aldo carl leopold', 
 		'expected': True, 
 		'description': 'carl a leopold comparison with article'
 	},
     {
-		'input': 'carl a. lamey;carl a. lamey', 
+		'name_one': 'carl a. lamey',
+		'name_two': 'carl a. lamey', 
 		'expected': True, 
 		'description': 'carl a. lamey comparison with article'
 	},
     {
-		'input': 'carl de zeeuw;carl h. dezeeuw', 
+		'name_one': 'carl de zeeuw',
+		'name_two': 'carl h. dezeeuw', 
 		'expected': True, 
 		'description': 'carl de zeeuw comparison with article'
 	},
     {
-		'input': 'carl e liangenhop;carl e. langenhop', 
+		'name_one': 'carl e liangenhop',
+		'name_two': 'carl e. langenhop', 
 		'expected': True, 
 		'description': 'carl e liangenhop comparison with article'
 	},
     {
-		'input': 'carl frank lagler;karl f. lagler', 
+		'name_one': 'carl frank lagler',
+		'name_two': 'karl f. lagler', 
 		'expected': True, 
 		'description': 'carl frank lagler comparison with article'
 	},
     {
-		'input': 'carl g debono;gabriel bonno', 
+		'name_one': 'carl g debono',
+		'name_two': 'gabriel bonno', 
 		'expected': True, 
 		'description': 'carl g debono comparison with article'
 	},
     {
-		'input': 'carl g van buskirk;carl george van buskirk', 
+		'name_one': 'carl g van buskirk',
+		'name_two': 'carl george van buskirk', 
 		'expected': True, 
 		'description': 'carl g van buskirk comparison with article'
 	},
     {
-		'input': 'carl h lenhart;carl h. lenhart', 
+		'name_one': 'carl h lenhart',
+		'name_two': 'carl h. lenhart', 
 		'expected': True, 
 		'description': 'carl h lenhart comparison with article'
 	},
     {
-		'input': 'carl l de graff;edwin charles greif', 
+		'name_one': 'carl l de graff',
+		'name_two': 'edwin charles greif', 
 		'expected': False, 
 		'description': 'carl l de graff comparison with article'
 	},
     {
-		'input': 'carl l gillies;carl lewis gillies', 
+		'name_one': 'carl l gillies',
+		'name_two': 'carl lewis gillies', 
 		'expected': True, 
 		'description': 'carl l gillies comparison with article'
 	},
     {
-		'input': 'carl l heyerdahl;carl lewis heyerdahl', 
+		'name_one': 'carl l heyerdahl',
+		'name_two': 'carl lewis heyerdahl', 
 		'expected': True, 
 		'description': 'carl l heyerdahl comparison with article'
 	},
     {
-		'input': 'carl l huffaker;carl leo huffaker', 
+		'name_one': 'carl l huffaker',
+		'name_two': 'carl leo huffaker', 
 		'expected': True, 
 		'description': 'carl l huffaker comparison with article'
 	},
     {
-		'input': 'carl landauer;carl landauer', 
+		'name_one': 'carl landauer',
+		'name_two': 'carl landauer', 
 		'expected': True, 
 		'description': 'carl landauer comparison with article'
 	},
     {
-		'input': 'carl w lawton;carl william lawton', 
+		'name_one': 'carl w lawton',
+		'name_two': 'carl william lawton', 
 		'expected': True, 
 		'description': 'carl w lawton comparison with article'
 	},
     {
-		'input': 'carl w schwette;karl de schweinitz', 
+		'name_one': 'carl w schwette',
+		'name_two': 'karl de schweinitz', 
 		'expected': False, 
 		'description': 'carl w schwette comparison with article'
 	},
     {
-		'input': 'carlo l lastrucci;carlo l. lastrucci', 
+		'name_one': 'carlo l lastrucci',
+		'name_two': 'carlo l. lastrucci', 
 		'expected': True, 
 		'description': 'carlo l lastrucci comparison with article'
 	},
     {
-		'input': 'carlton h larrabee, male;carlton h. larrabee', 
+		'name_one': 'carlton h larrabee, male',
+		'name_two': 'carlton h. larrabee', 
 		'expected': True, 
 		'description': 'carlton h larrabee, male comparison with article'
 	},
     {
-		'input': 'carlyn c delavan;carlyn c. delavan', 
+		'name_one': 'carlyn c delavan',
+		'name_two': 'carlyn c. delavan', 
 		'expected': True, 
 		'description': 'carlyn c delavan comparison with article'
 	},
     {
-		'input': 'carmela d laskin;d. s. laskin', 
+		'name_one': 'carmela d laskin',
+		'name_two': 'd. s. laskin', 
 		'expected': False, 
 		'description': 'carmela d laskin comparison with article'
 	},
     {
-		'input': 'carney landis;carney landis', 
+		'name_one': 'carney landis',
+		'name_two': 'carney landis', 
 		'expected': True, 
 		'description': 'carney landis comparison with article'
 	},
     {
-		'input': 'caroline a lester;caroline a. lester', 
+		'name_one': 'caroline a lester',
+		'name_two': 'caroline a. lester', 
 		'expected': True, 
 		'description': 'caroline a lester comparison with article'
 	},
     {
-		'input': 'caroll meeks;carroll louis vanderslice meeks', 
+		'name_one': 'caroll meeks',
+		'name_two': 'carroll louis vanderslice meeks', 
 		'expected': True, 
 		'description': 'caroll meeks comparison with article'
 	},
     {
-		'input': 'carolyn l widmer;carolyn ladd widmer', 
+		'name_one': 'carolyn l widmer',
+		'name_two': 'carolyn ladd widmer', 
 		'expected': True, 
 		'description': 'carolyn l widmer comparison with article'
 	},
     {
-		'input': 'carrol l. birch;carroll la fleur birch', 
+		'name_one': 'carrol l. birch',
+		'name_two': 'carroll la fleur birch', 
 		'expected': True, 
 		'description': 'carrol l. birch comparison with article'
 	},
     {
-		'input': 'carroll l christenson;carroll lawrence christenson', 
+		'name_one': 'carroll l christenson',
+		'name_two': 'carroll lawrence christenson', 
 		'expected': True, 
 		'description': 'carroll l christenson comparison with article'
 	},
     {
-		'input': 'carroll l. mann;carroll lamb mann', 
+		'name_one': 'carroll l. mann',
+		'name_two': 'carroll lamb mann', 
 		'expected': True, 
 		'description': 'carroll l. mann comparison with article'
 	},
     {
-		'input': 'carroll v glines;carroll vane glines', 
+		'name_one': 'carroll v glines',
+		'name_two': 'carroll vane glines', 
 		'expected': True, 
 		'description': 'carroll v glines comparison with article'
 	},
     {
-		'input': 'carroll. l. shartle;carroll leonard shartle', 
+		'name_one': 'carroll. l. shartle',
+		'name_two': 'carroll leonard shartle', 
 		'expected': True, 
 		'description': 'carroll. l. shartle comparison with article'
 	},
     {
-		'input': 'carter marshall, jr;carter lee marshall', 
+		'name_one': 'carter marshall, jr',
+		'name_two': 'carter lee marshall', 
 		'expected': True, 
 		'description': 'carter marshall, jr comparison with article'
 	},
     {
-		'input': 'catherine j phelps;catherine denny phelps', 
+		'name_one': 'catherine j phelps',
+		'name_two': 'catherine denny phelps', 
 		'expected': False, 
 		'description': 'catherine j phelps comparison with article'
 	},
     {
-		'input': 'catherine l lipscomb;winifred lawrence lipscomb', 
+		'name_one': 'catherine l lipscomb',
+		'name_two': 'winifred lawrence lipscomb', 
 		'expected': False, 
 		'description': 'catherine l lipscomb comparison with article'
 	},
     {
-		'input': 'catherine lawlor;anna catherine lawlor', 
+		'name_one': 'catherine lawlor',
+		'name_two': 'anna catherine lawlor', 
 		'expected': True, 
 		'description': 'catherine lawlor comparison with article'
 	},
     {
-		'input': 'cecil y lang;cecil tavener lane', 
+		'name_one': 'cecil y lang',
+		'name_two': 'cecil tavener lane', 
 		'expected': False, 
 		'description': 'cecil y lang comparison with article'
 	},
     {
-		'input': 'cecil y lang;cecil yelverton lang', 
+		'name_one': 'cecil y lang',
+		'name_two': 'cecil yelverton lang', 
 		'expected': True, 
 		'description': 'cecil y lang comparison with article'
 	},
     {
-		'input': 'cecile debanke;cecile de banke', 
+		'name_one': 'cecile debanke',
+		'name_two': 'cecile de banke', 
 		'expected': True, 
 		'description': 'cecile debanke comparison with article'
 	},
     {
-		'input': 'cecilie leuchtenberger;cecilie leuchtenberger', 
+		'name_one': 'cecilie leuchtenberger',
+		'name_two': 'cecilie leuchtenberger', 
 		'expected': True, 
 		'description': 'cecilie leuchtenberger comparison with article'
 	},
     {
-		'input': 'charle leonard lundin;charles leonard lundin', 
+		'name_one': 'charle leonard lundin',
+		'name_two': 'charles leonard lundin', 
 		'expected': True, 
 		'description': 'charle leonard lundin comparison with article'
 	},
     {
-		'input': 'charles a lee;charles a. lee', 
+		'name_one': 'charles a lee',
+		'name_two': 'charles a. lee', 
 		'expected': True, 
 		'description': 'charles a lee comparison with article'
 	},
     {
-		'input': 'charles a nelson;charles leblanc nelson', 
+		'name_one': 'charles a nelson',
+		'name_two': 'charles leblanc nelson', 
 		'expected': False, 
 		'description': 'charles a nelson comparison with article'
 	},
     {
-		'input': 'charles a roover;raymond a. de roover', 
+		'name_one': 'charles a roover',
+		'name_two': 'raymond a. de roover', 
 		'expected': False, 
 		'description': 'charles a roover comparison with article'
 	},
     {
-		'input': 'charles b deibel;wallace b. diboll', 
+		'name_one': 'charles b deibel',
+		'name_two': 'wallace b. diboll', 
 		'expected': False, 
 		'description': 'charles b deibel comparison with article'
 	},
     {
-		'input': 'charles c flick;charles lewis fluke', 
+		'name_one': 'charles c flick',
+		'name_two': 'charles lewis fluke', 
 		'expected': False, 
 		'description': 'charles c flick comparison with article'
 	},
     {
-		'input': 'charles c lasater;chas. crawford lasater', 
+		'name_one': 'charles c lasater',
+		'name_two': 'chas. crawford lasater', 
 		'expected': True, 
 		'description': 'charles c lasater comparison with article'
 	},
     {
-		'input': 'charles c lauritsen;charles christian lauritsen', 
+		'name_one': 'charles c lauritsen',
+		'name_two': 'charles christian lauritsen', 
 		'expected': True, 
 		'description': 'charles c lauritsen comparison with article'
 	},
     {
-		'input': 'charles c lawrence;charles e. lawrence', 
+		'name_one': 'charles c lawrence',
+		'name_two': 'charles e. lawrence', 
 		'expected': False, 
 		'description': 'charles c lawrence comparison with article'
 	},
     {
-		'input': 'charles c leib;charles c. lieb', 
+		'name_one': 'charles c leib',
+		'name_two': 'charles c. lieb', 
 		'expected': True, 
 		'description': 'charles c leib comparison with article'
 	},
     {
-		'input': 'charles d de long;charles clifton delong', 
+		'name_one': 'charles d de long',
+		'name_two': 'charles clifton delong', 
 		'expected': False, 
 		'description': 'charles d de long comparison with article'
 	},
     {
-		'input': 'charles d lamond;charles lamond', 
+		'name_one': 'charles d lamond',
+		'name_two': 'charles lamond', 
 		'expected': True, 
 		'description': 'charles d lamond comparison with article'
 	},
     {
-		'input': 'charles d spotts;charles dewey spotts', 
+		'name_one': 'charles d spotts',
+		'name_two': 'charles dewey spotts', 
 		'expected': True, 
 		'description': 'charles d spotts comparison with article'
 	},
     {
-		'input': 'charles d van cleave;charles durward van cleave', 
+		'name_one': 'charles d van cleave',
+		'name_two': 'charles durward van cleave', 
 		'expected': True, 
 		'description': 'charles d van cleave comparison with article'
 	},
     {
-		'input': 'charles d. davis;charles deforest davis', 
+		'name_one': 'charles d. davis',
+		'name_two': 'charles deforest davis', 
 		'expected': True, 
 		'description': 'charles d. davis comparison with article'
 	},
     {
-		'input': 'charles debartolo;karl t. barthelmess', 
+		'name_one': 'charles debartolo',
+		'name_two': 'karl t. barthelmess', 
 		'expected': False, 
 		'description': 'charles debartolo comparison with article'
 	},
     {
-		'input': 'charles debruler;charles debruler', 
+		'name_one': 'charles debruler',
+		'name_two': 'charles debruler', 
 		'expected': True, 
 		'description': 'charles debruler comparison with article'
 	},
     {
-		'input': 'charles derleth, jr;charles derleth', 
+		'name_one': 'charles derleth, jr',
+		'name_two': 'charles derleth', 
 		'expected': True, 
 		'description': 'charles derleth, jr comparison with article'
 	},
     {
-		'input': 'charles e deckbar;p. e. dicker', 
+		'name_one': 'charles e deckbar',
+		'name_two': 'p. e. dicker', 
 		'expected': False, 
 		'description': 'charles e deckbar comparison with article'
 	},
     {
-		'input': 'charles e decker;charles elijah decker', 
+		'name_one': 'charles e decker',
+		'name_two': 'charles elijah decker', 
 		'expected': True, 
 		'description': 'charles e decker comparison with article'
 	},
     {
-		'input': 'charles e dewey;charles s. dewey', 
+		'name_one': 'charles e dewey',
+		'name_two': 'charles s. dewey', 
 		'expected': False, 
 		'description': 'charles e dewey comparison with article'
 	},
     {
-		'input': 'charles e hubbs;carl leavitt hubbs', 
+		'name_one': 'charles e hubbs',
+		'name_two': 'carl leavitt hubbs', 
 		'expected': False, 
 		'description': 'charles e hubbs comparison with article'
 	},
     {
-		'input': 'charles e hurd;charles dewitt hurd', 
+		'name_one': 'charles e hurd',
+		'name_two': 'charles dewitt hurd', 
 		'expected': False, 
 		'description': 'charles e hurd comparison with article'
 	},
     {
-		'input': 'charles e landon;charles earl landon', 
+		'name_one': 'charles e landon',
+		'name_two': 'charles earl landon', 
 		'expected': True, 
 		'description': 'charles e landon comparison with article'
 	},
     {
-		'input': 'charles e lane;charles e. lane', 
+		'name_one': 'charles e lane',
+		'name_two': 'charles e. lane', 
 		'expected': True, 
 		'description': 'charles e lane comparison with article'
 	},
     {
-		'input': 'charles e lauer;charles e. lauer', 
+		'name_one': 'charles e lauer',
+		'name_two': 'charles e. lauer', 
 		'expected': True, 
 		'description': 'charles e lauer comparison with article'
 	},
     {
-		'input': 'charles e leach;charles edward leach', 
+		'name_one': 'charles e leach',
+		'name_two': 'charles edward leach', 
 		'expected': True, 
 		'description': 'charles e leach comparison with article'
 	},
     {
-		'input': 'charles f dean;robert charles dean', 
+		'name_one': 'charles f dean',
+		'name_two': 'robert charles dean', 
 		'expected': False, 
 		'description': 'charles f dean comparison with article'
 	},
     {
-		'input': 'charles f deiss;charles frederick deiss', 
+		'name_one': 'charles f deiss',
+		'name_two': 'charles frederick deiss', 
 		'expected': True, 
 		'description': 'charles f deiss comparison with article'
 	},
     {
-		'input': 'charles f lewis;charles frederick lewis', 
+		'name_one': 'charles f lewis',
+		'name_two': 'charles frederick lewis', 
 		'expected': True, 
 		'description': 'charles f lewis comparison with article'
 	},
     {
-		'input': 'charles f van cleve;charles f. van cleve', 
+		'name_one': 'charles f van cleve',
+		'name_two': 'charles f. van cleve', 
 		'expected': True, 
 		'description': 'charles f van cleve comparison with article'
 	},
     {
-		'input': 'charles g decker;charles garfield decker', 
+		'name_one': 'charles g decker',
+		'name_two': 'charles garfield decker', 
 		'expected': True, 
 		'description': 'charles g decker comparison with article'
 	},
     {
-		'input': 'charles g lencaln;charles g. lincoln', 
+		'name_one': 'charles g lencaln',
+		'name_two': 'charles g. lincoln', 
 		'expected': True, 
 		'description': 'charles g lencaln comparison with article'
 	},
     {
-		'input': 'charles h desgrey;arthur h. desgrey', 
+		'name_one': 'charles h desgrey',
+		'name_two': 'arthur h. desgrey', 
 		'expected': False, 
 		'description': 'charles h desgrey comparison with article'
 	},
     {
-		'input': 'charles h lange;charles h. lange', 
+		'name_one': 'charles h lange',
+		'name_two': 'charles h. lange', 
 		'expected': True, 
 		'description': 'charles h lange comparison with article'
 	},
     {
-		'input': 'charles h lawshe;charles hubert lawshe', 
+		'name_one': 'charles h lawshe',
+		'name_two': 'charles hubert lawshe', 
 		'expected': True, 
 		'description': 'charles h lawshe comparison with article'
 	},
     {
-		'input': 'charles h lehman;charles h lehman', 
+		'name_one': 'charles h lehman',
+		'name_two': 'charles h lehman', 
 		'expected': True, 
 		'description': 'charles h lehman comparison with article'
 	},
     {
-		'input': 'charles h lesesne, jr;charles haynesworth lesesne', 
+		'name_one': 'charles h lesesne, jr',
+		'name_two': 'charles haynesworth lesesne', 
 		'expected': True, 
 		'description': 'charles h lesesne, jr comparison with article'
 	},
     {
-		'input': 'charles h vanduzer;charles h. van duzer', 
+		'name_one': 'charles h vanduzer',
+		'name_two': 'charles h. van duzer', 
 		'expected': True, 
 		'description': 'charles h vanduzer comparison with article'
 	},
     {
-		'input': 'charles j fawcett;charles dev. fawcett', 
+		'name_one': 'charles j fawcett',
+		'name_two': 'charles dev. fawcett', 
 		'expected': False, 
 		'description': 'charles j fawcett comparison with article'
 	},
     {
-		'input': 'charles j lakofsky;charles j. lakofsky', 
+		'name_one': 'charles j lakofsky',
+		'name_two': 'charles j. lakofsky', 
 		'expected': True, 
 		'description': 'charles j lakofsky comparison with article'
 	},
     {
-		'input': 'charles l allen;charles laurel allen', 
+		'name_one': 'charles l allen',
+		'name_two': 'charles laurel allen', 
 		'expected': True, 
 		'description': 'charles l allen comparison with article'
 	},
     {
-		'input': 'charles l brown;charles lafayette brown', 
+		'name_one': 'charles l brown',
+		'name_two': 'charles lafayette brown', 
 		'expected': True, 
 		'description': 'charles l brown comparison with article'
 	},
     {
-		'input': 'charles l carroll;charles lemuel carroll', 
+		'name_one': 'charles l carroll',
+		'name_two': 'charles lemuel carroll', 
 		'expected': True, 
 		'description': 'charles l carroll comparison with article'
 	},
     {
-		'input': 'charles l jamison;charles laselle jamison', 
+		'name_one': 'charles l jamison',
+		'name_two': 'charles laselle jamison', 
 		'expected': True, 
 		'description': 'charles l jamison comparison with article'
 	},
     {
-		'input': 'charles l latimer;charles trowbridge latimer', 
+		'name_one': 'charles l latimer',
+		'name_two': 'charles trowbridge latimer', 
 		'expected': False, 
 		'description': 'charles l latimer comparison with article'
 	},
     {
-		'input': 'charles l ozer;charles leonard ozer', 
+		'name_one': 'charles l ozer',
+		'name_two': 'charles leonard ozer', 
 		'expected': True, 
 		'description': 'charles l ozer comparison with article'
 	},
     {
-		'input': 'charles l parmenter;charles leroy parmenter', 
+		'name_one': 'charles l parmenter',
+		'name_two': 'charles leroy parmenter', 
 		'expected': True, 
 		'description': 'charles l parmenter comparison with article'
 	},
     {
-		'input': 'charles l peacock, sr;charles leroy peacock', 
+		'name_one': 'charles l peacock, sr',
+		'name_two': 'charles leroy peacock', 
 		'expected': True, 
 		'description': 'charles l peacock, sr comparison with article'
 	},
     {
-		'input': 'charles l remington;charles lee remington', 
+		'name_one': 'charles l remington',
+		'name_two': 'charles lee remington', 
 		'expected': True, 
 		'description': 'charles l remington comparison with article'
 	},
     {
-		'input': 'charles l sherman;charles lawton sherman', 
+		'name_one': 'charles l sherman',
+		'name_two': 'charles lawton sherman', 
 		'expected': True, 
 		'description': 'charles l sherman comparison with article'
 	},
     {
-		'input': 'charles l stewart;charles leslie stewart', 
+		'name_one': 'charles l stewart',
+		'name_two': 'charles leslie stewart', 
 		'expected': True, 
 		'description': 'charles l stewart comparison with article'
 	},
     {
-		'input': 'charles larocco;charles gerald la rocco', 
+		'name_one': 'charles larocco',
+		'name_two': 'charles gerald la rocco', 
 		'expected': True, 
 		'description': 'charles larocco comparison with article'
 	},
     {
-		'input': 'charles lassiter;charles albert lassiter', 
+		'name_one': 'charles lassiter',
+		'name_two': 'charles albert lassiter', 
 		'expected': True, 
 		'description': 'charles lassiter comparison with article'
 	},
     {
-		'input': 'charles leroy atkinson;charles l. atkinson', 
+		'name_one': 'charles leroy atkinson',
+		'name_two': 'charles l. atkinson', 
 		'expected': True, 
 		'description': 'charles leroy atkinson comparison with article'
 	},
     {
-		'input': 'charles lewis rasor;charles lewis rasor', 
+		'name_one': 'charles lewis rasor',
+		'name_two': 'charles lewis rasor', 
 		'expected': True, 
 		'description': 'charles lewis rasor comparison with article'
 	},
     {
-		'input': 'charles m wildes;karl leland wildes', 
+		'name_one': 'charles m wildes',
+		'name_two': 'karl leland wildes', 
 		'expected': False, 
 		'description': 'charles m wildes comparison with article'
 	},
     {
-		'input': 'charles n lanier, jr;charles n. lanier', 
+		'name_one': 'charles n lanier, jr',
+		'name_two': 'charles n. lanier', 
 		'expected': True, 
 		'description': 'charles n lanier, jr comparison with article'
 	},
     {
-		'input': 'charles n lebeaux;charles n. lebeaux', 
+		'name_one': 'charles n lebeaux',
+		'name_two': 'charles n. lebeaux', 
 		'expected': True, 
 		'description': 'charles n lebeaux comparison with article'
 	},
     {
-		'input': 'charles r deprima;charles r. deprima', 
+		'name_one': 'charles r deprima',
+		'name_two': 'charles r. deprima', 
 		'expected': True, 
 		'description': 'charles r deprima comparison with article'
 	},
     {
-		'input': 'charles r masters;charles a. lemaistre', 
+		'name_one': 'charles r masters',
+		'name_two': 'charles a. lemaistre', 
 		'expected': False, 
 		'description': 'charles r masters comparison with article'
 	},
     {
-		'input': 'charles s lane;cecelia s. lane', 
+		'name_one': 'charles s lane',
+		'name_two': 'cecelia s. lane', 
 		'expected': False, 
 		'description': 'charles s lane comparison with article'
 	},
     {
-		'input': 'charles schalwitz;karl de schweinitz', 
+		'name_one': 'charles schalwitz',
+		'name_two': 'karl de schweinitz', 
 		'expected': False, 
 		'description': 'charles schalwitz comparison with article'
 	},
     {
-		'input': 'charles stone;charles leonard stone', 
+		'name_one': 'charles stone',
+		'name_two': 'charles leonard stone', 
 		'expected': True, 
 		'description': 'charles stone comparison with article'
 	},
     {
-		'input': 'charles t lester;charles t. lester', 
+		'name_one': 'charles t lester',
+		'name_two': 'charles t. lester', 
 		'expected': True, 
 		'description': 'charles t lester comparison with article'
 	},
     {
-		'input': 'charles vanbuskirk;chas. van buskirk', 
+		'name_one': 'charles vanbuskirk',
+		'name_two': 'chas. van buskirk', 
 		'expected': True, 
 		'description': 'charles vanbuskirk comparison with article'
 	},
     {
-		'input': 'charles vanderkar;charles william cares', 
+		'name_one': 'charles vanderkar',
+		'name_two': 'charles william cares', 
 		'expected': False, 
 		'description': 'charles vanderkar comparison with article'
 	},
     {
-		'input': 'charles w devier;charles w. devier', 
+		'name_one': 'charles w devier',
+		'name_two': 'charles w. devier', 
 		'expected': True, 
 		'description': 'charles w devier comparison with article'
 	},
     {
-		'input': 'charles w lawrence;charles wilson lawrence', 
+		'name_one': 'charles w lawrence',
+		'name_two': 'charles wilson lawrence', 
 		'expected': True, 
 		'description': 'charles w lawrence comparison with article'
 	},
     {
-		'input': 'charles z lesher;charles zaner lesher', 
+		'name_one': 'charles z lesher',
+		'name_two': 'charles zaner lesher', 
 		'expected': True, 
 		'description': 'charles z lesher comparison with article'
 	},
     {
-		'input': 'charlotte i lee;charlotte i. lee', 
+		'name_one': 'charlotte i lee',
+		'name_two': 'charlotte i. lee', 
 		'expected': True, 
 		'description': 'charlotte i lee comparison with article'
 	},
     {
-		'input': 'chas a. larwood;charles h. larwood', 
+		'name_one': 'chas a. larwood',
+		'name_two': 'charles h. larwood', 
 		'expected': False, 
 		'description': 'chas a. larwood comparison with article'
 	},
     {
-		'input': 'chase kearl;chase delmar kearl', 
+		'name_one': 'chase kearl',
+		'name_two': 'chase delmar kearl', 
 		'expected': True, 
 		'description': 'chase kearl comparison with article'
 	},
     {
-		'input': 'chauncey d harris;chauncy dennison harris', 
+		'name_one': 'chauncey d harris',
+		'name_two': 'chauncy dennison harris', 
 		'expected': True, 
 		'description': 'chauncey d harris comparison with article'
 	},
     {
-		'input': 'chauncey d holmes;chauncey deppew holmes', 
+		'name_one': 'chauncey d holmes',
+		'name_two': 'chauncey deppew holmes', 
 		'expected': True, 
 		'description': 'chauncey d holmes comparison with article'
 	},
     {
-		'input': 'chester a dow;chester laurens dawes', 
+		'name_one': 'chester a dow',
+		'name_two': 'chester laurens dawes', 
 		'expected': False, 
 		'description': 'chester a dow comparison with article'
 	},
     {
-		'input': 'chester a palmer;chester leroy palmer', 
+		'name_one': 'chester a palmer',
+		'name_two': 'chester leroy palmer', 
 		'expected': False, 
 		'description': 'chester a palmer comparison with article'
 	},
     {
-		'input': 'chester d lee;chester daniel lee', 
+		'name_one': 'chester d lee',
+		'name_two': 'chester daniel lee', 
 		'expected': True, 
 		'description': 'chester d lee comparison with article'
 	},
     {
-		'input': 'chester f lay;chester f. lay', 
+		'name_one': 'chester f lay',
+		'name_two': 'chester f. lay', 
 		'expected': True, 
 		'description': 'chester f lay comparison with article'
 	},
     {
-		'input': 'chester m destler;chester mcarthur destler', 
+		'name_one': 'chester m destler',
+		'name_two': 'chester mcarthur destler', 
 		'expected': True, 
 		'description': 'chester m destler comparison with article'
 	},
     {
-		'input': 'chet h lamoure;chet harmon lamore', 
+		'name_one': 'chet h lamoure',
+		'name_two': 'chet harmon lamore', 
 		'expected': True, 
 		'description': 'chet h lamoure comparison with article'
 	},
     {
-		'input': 'chiles b van antwerp;chiles van antwerp', 
+		'name_one': 'chiles b van antwerp',
+		'name_two': 'chiles van antwerp', 
 		'expected': True, 
 		'description': 'chiles b van antwerp comparison with article'
 	},
     {
-		'input': 'christian j lambertien;christian j. lambertsen', 
+		'name_one': 'christian j lambertien',
+		'name_two': 'christian j. lambertsen', 
 		'expected': True, 
 		'description': 'christian j lambertien comparison with article'
 	},
     {
-		'input': 'churchill p lathrop;churchill pierce lathrop', 
+		'name_one': 'churchill p lathrop',
+		'name_two': 'churchill pierce lathrop', 
 		'expected': True, 
 		'description': 'churchill p lathrop comparison with article'
 	},
     {
-		'input': 'clair v langton;c. v. langton', 
+		'name_one': 'clair v langton',
+		'name_two': 'c. v. langton', 
 		'expected': True, 
 		'description': 'clair v langton comparison with article'
 	},
     {
-		'input': 'clair v langton;c. v. n. langton', 
+		'name_one': 'clair v langton',
+		'name_two': 'c. v. n. langton', 
 		'expected': True, 
 		'description': 'clair v langton comparison with article'
 	},
     {
-		'input': 'claire m van leeuven;myron james van leeuwen', 
+		'name_one': 'claire m van leeuven',
+		'name_two': 'myron james van leeuwen', 
 		'expected': False, 
 		'description': 'claire m van leeuven comparison with article'
 	},
     {
-		'input': 'clara l de land;clara hockridge de land', 
+		'name_one': 'clara l de land',
+		'name_two': 'clara hockridge de land', 
 		'expected': False, 
 		'description': 'clara l de land comparison with article'
 	},
     {
-		'input': 'clara l van nins;l. nanni', 
+		'name_one': 'clara l van nins',
+		'name_two': 'l. nanni', 
 		'expected': False, 
 		'description': 'clara l van nins comparison with article'
 	},
     {
-		'input': 'clara lee tanner;clara lee tanner', 
+		'name_one': 'clara lee tanner',
+		'name_two': 'clara lee tanner', 
 		'expected': True, 
 		'description': 'clara lee tanner comparison with article'
 	},
     {
-		'input': 'clarance vanepps;clarence van epps', 
+		'name_one': 'clarance vanepps',
+		'name_two': 'clarence van epps', 
 		'expected': True, 
 		'description': 'clarance vanepps comparison with article'
 	},
     {
-		'input': 'clare l marquette;clare leslie marquette', 
+		'name_one': 'clare l marquette',
+		'name_two': 'clare leslie marquette', 
 		'expected': True, 
 		'description': 'clare l marquette comparison with article'
 	},
     {
-		'input': 'clare russell;clare dewitt russell', 
+		'name_one': 'clare russell',
+		'name_two': 'clare dewitt russell', 
 		'expected': True, 
 		'description': 'clare russell comparison with article'
 	},
     {
-		'input': 'clarence b hogan;clarence lester hogan', 
+		'name_one': 'clarence b hogan',
+		'name_two': 'clarence lester hogan', 
 		'expected': False, 
 		'description': 'clarence b hogan comparison with article'
 	},
     {
-		'input': 'clarence b lafromboise;clarence brown lafromboise', 
+		'name_one': 'clarence b lafromboise',
+		'name_two': 'clarence brown lafromboise', 
 		'expected': True, 
 		'description': 'clarence b lafromboise comparison with article'
 	},
     {
-		'input': 'clarence c lee;clarence pendleton lee', 
+		'name_one': 'clarence c lee',
+		'name_two': 'clarence pendleton lee', 
 		'expected': False, 
 		'description': 'clarence c lee comparison with article'
 	},
     {
-		'input': 'clarence d dieter;clarence dewey dieter', 
+		'name_one': 'clarence d dieter',
+		'name_two': 'clarence dewey dieter', 
 		'expected': True, 
 		'description': 'clarence d dieter comparison with article'
 	},
     {
-		'input': 'clarence d thorpe;clarence dewitt thorpe', 
+		'name_one': 'clarence d thorpe',
+		'name_two': 'clarence dewitt thorpe', 
 		'expected': True, 
 		'description': 'clarence d thorpe comparison with article'
 	},
     {
-		'input': 'clarence e deakins;clarence earl deakins', 
+		'name_one': 'clarence e deakins',
+		'name_two': 'clarence earl deakins', 
 		'expected': True, 
 		'description': 'clarence e deakins comparison with article'
 	},
     {
-		'input': 'clarence f lewis;clarence flavius lewis', 
+		'name_one': 'clarence f lewis',
+		'name_two': 'clarence flavius lewis', 
 		'expected': True, 
 		'description': 'clarence f lewis comparison with article'
 	},
     {
-		'input': 'clarence i lewis;clarence irving lewis', 
+		'name_one': 'clarence i lewis',
+		'name_two': 'clarence irving lewis', 
 		'expected': True, 
 		'description': 'clarence i lewis comparison with article'
 	},
     {
-		'input': 'clarence l miller;clarence lee miller', 
+		'name_one': 'clarence l miller',
+		'name_two': 'clarence lee miller', 
 		'expected': True, 
 		'description': 'clarence l miller comparison with article'
 	},
     {
-		'input': 'clarence l nystrom;clarence leroy nystrom', 
+		'name_one': 'clarence l nystrom',
+		'name_two': 'clarence leroy nystrom', 
 		'expected': True, 
 		'description': 'clarence l nystrom comparison with article'
 	},
     {
-		'input': 'clarence l turner;clarence lester turner', 
+		'name_one': 'clarence l turner',
+		'name_two': 'clarence lester turner', 
 		'expected': True, 
 		'description': 'clarence l turner comparison with article'
 	},
     {
-		'input': 'clarence l van sickle;clarence l. vansickle', 
+		'name_one': 'clarence l van sickle',
+		'name_two': 'clarence l. vansickle', 
 		'expected': True, 
 		'description': 'clarence l van sickle comparison with article'
 	},
     {
-		'input': 'clarence lee furrow;clarence lee furrow', 
+		'name_one': 'clarence lee furrow',
+		'name_two': 'clarence lee furrow', 
 		'expected': True, 
 		'description': 'clarence lee furrow comparison with article'
 	},
     {
-		'input': 'clarence n oliver;clarence leslie oliver', 
+		'name_one': 'clarence n oliver',
+		'name_two': 'clarence leslie oliver', 
 		'expected': False, 
 		'description': 'clarence n oliver comparison with article'
 	},
     {
-		'input': 'clark j laus;clark john laus', 
+		'name_one': 'clark j laus',
+		'name_two': 'clark john laus', 
 		'expected': True, 
 		'description': 'clark j laus comparison with article'
 	},
     {
-		'input': 'clark l allen;clark lee allen', 
+		'name_one': 'clark l allen',
+		'name_two': 'clark lee allen', 
 		'expected': True, 
 		'description': 'clark l allen comparison with article'
 	},
     {
-		'input': 'clark l thayer;clark leonard thayer', 
+		'name_one': 'clark l thayer',
+		'name_two': 'clark leonard thayer', 
 		'expected': True, 
 		'description': 'clark l thayer comparison with article'
 	},
     {
-		'input': 'clark o lamberton;clark d. lamberton', 
+		'name_one': 'clark o lamberton',
+		'name_two': 'clark d. lamberton', 
 		'expected': False, 
 		'description': 'clark o lamberton comparison with article'
 	},
     {
-		'input': 'claude e lett, jr;martin e. lichte', 
+		'name_one': 'claude e lett, jr',
+		'name_two': 'martin e. lichte', 
 		'expected': False, 
 		'description': 'claude e lett, jr comparison with article'
 	},
     {
-		'input': 'claude k deischer;claude knauss deischer', 
+		'name_one': 'claude k deischer',
+		'name_two': 'claude knauss deischer', 
 		'expected': True, 
 		'description': 'claude k deischer comparison with article'
 	},
     {
-		'input': 'claude l finney;claude lee finney', 
+		'name_one': 'claude l finney',
+		'name_two': 'claude lee finney', 
 		'expected': True, 
 		'description': 'claude l finney comparison with article'
 	},
     {
-		'input': 'claude s la dow;claude s. ladow', 
+		'name_one': 'claude s la dow',
+		'name_two': 'claude s. ladow', 
 		'expected': True, 
 		'description': 'claude s la dow comparison with article'
 	},
     {
-		'input': 'claudine mason;claudine van cleave mason', 
+		'name_one': 'claudine mason',
+		'name_two': 'claudine van cleave mason', 
 		'expected': True, 
 		'description': 'claudine mason comparison with article'
 	},
     {
-		'input': 'clayton l farrar;clayton leon farrar', 
+		'name_one': 'clayton l farrar',
+		'name_two': 'clayton leon farrar', 
 		'expected': True, 
 		'description': 'clayton l farrar comparison with article'
 	},
     {
-		'input': 'clem a. leonard;a. byron leonard', 
+		'name_one': 'clem a. leonard',
+		'name_two': 'a. byron leonard', 
 		'expected': False, 
 		'description': 'clem a. leonard comparison with article'
 	},
     {
-		'input': 'clifford barrett;clifford leslie barrett', 
+		'name_one': 'clifford barrett',
+		'name_two': 'clifford leslie barrett', 
 		'expected': True, 
 		'description': 'clifford barrett comparison with article'
 	},
     {
-		'input': 'clifford e lampman;clifford e. lampman', 
+		'name_one': 'clifford e lampman',
+		'name_two': 'clifford e. lampman', 
 		'expected': True, 
 		'description': 'clifford e lampman comparison with article'
 	},
     {
-		'input': 'clifford l whitman;clifford ler. whitman', 
+		'name_one': 'clifford l whitman',
+		'name_two': 'clifford ler. whitman', 
 		'expected': True, 
 		'description': 'clifford l whitman comparison with article'
 	},
     {
-		'input': 'clifford l. brownell;clifford lee brownell', 
+		'name_one': 'clifford l. brownell',
+		'name_two': 'clifford lee brownell', 
 		'expected': True, 
 		'description': 'clifford l. brownell comparison with article'
 	},
     {
-		'input': 'clifton e. van sickle;c. e. vansickle', 
+		'name_one': 'clifton e. van sickle',
+		'name_two': 'c. e. vansickle', 
 		'expected': True, 
 		'description': 'clifton e. van sickle comparison with article'
 	},
     {
-		'input': 'clinton f larson;clinton f. larson', 
+		'name_one': 'clinton f larson',
+		'name_two': 'clinton f. larson', 
 		'expected': True, 
 		'description': 'clinton f larson comparison with article'
 	},
     {
-		'input': 'clinton l compere;clinton lee compere', 
+		'name_one': 'clinton l compere',
+		'name_two': 'clinton lee compere', 
 		'expected': True, 
 		'description': 'clinton l compere comparison with article'
 	},
     {
-		'input': 'clyde d mueller;clyde dewey mueller', 
+		'name_one': 'clyde d mueller',
+		'name_two': 'clyde dewey mueller', 
 		'expected': True, 
 		'description': 'clyde d mueller comparison with article'
 	},
     {
-		'input': 'clyde deming, jr;clyde leroy deming', 
+		'name_one': 'clyde deming, jr',
+		'name_two': 'clyde leroy deming', 
 		'expected': True, 
 		'description': 'clyde deming, jr comparison with article'
 	},
     {
-		'input': 'clyde l colson;clyde lemuel colson', 
+		'name_one': 'clyde l colson',
+		'name_two': 'clyde lemuel colson', 
 		'expected': True, 
 		'description': 'clyde l colson comparison with article'
 	},
     {
-		'input': 'clyde l farrar;clyde leo farrar', 
+		'name_one': 'clyde l farrar',
+		'name_two': 'clyde leo farrar', 
 		'expected': True, 
 		'description': 'clyde l farrar comparison with article'
 	},
     {
-		'input': 'clyde v lee;clyde v. lee', 
+		'name_one': 'clyde v lee',
+		'name_two': 'clyde v. lee', 
 		'expected': True, 
 		'description': 'clyde v lee comparison with article'
 	},
     {
-		'input': 'constant van de wall;constant van de wall', 
+		'name_one': 'constant van de wall',
+		'name_two': 'constant van de wall', 
 		'expected': True, 
 		'description': 'constant van de wall comparison with article'
 	},
     {
-		'input': 'cora lee coleman;amoss lee coleman', 
+		'name_one': 'cora lee coleman',
+		'name_two': 'amoss lee coleman', 
 		'expected': False, 
 		'description': 'cora lee coleman comparison with article'
 	},
     {
-		'input': 'cristo g coutsibos;r. g. lacount', 
+		'name_one': 'cristo g coutsibos',
+		'name_two': 'r. g. lacount', 
 		'expected': False, 
 		'description': 'cristo g coutsibos comparison with article'
 	},
     {
-		'input': 'curt leben;curt charles leben', 
+		'name_one': 'curt leben',
+		'name_two': 'curt charles leben', 
 		'expected': True, 
 		'description': 'curt leben comparison with article'
 	},
     {
-		'input': 'curtis l farrington;curtis leon farrington', 
+		'name_one': 'curtis l farrington',
+		'name_two': 'curtis leon farrington', 
 		'expected': True, 
 		'description': 'curtis l farrington comparison with article'
 	},
     {
-		'input': 'cyril l vance;cyril vance', 
+		'name_one': 'cyril l vance',
+		'name_two': 'cyril vance', 
 		'expected': True, 
 		'description': 'cyril l vance comparison with article'
 	},
     {
-		'input': 'cyril r delaney;cyril r. delaney', 
+		'name_one': 'cyril r delaney',
+		'name_two': 'cyril r. delaney', 
 		'expected': True, 
 		'description': 'cyril r delaney comparison with article'
 	},
     {
-		'input': 'cyrus l day;cyrus lawrence day', 
+		'name_one': 'cyrus l day',
+		'name_two': 'cyrus lawrence day', 
 		'expected': True, 
 		'description': 'cyrus l day comparison with article'
 	},
     {
-		'input': 'd leo hayes;daniel leo hayes', 
+		'name_one': 'd leo hayes',
+		'name_two': 'daniel leo hayes', 
 		'expected': True, 
 		'description': 'd leo hayes comparison with article'
 	},
     {
-		'input': 'd, jack rogers,;jack dean rogers', 
+		'name_one': 'd, jack rogers,',
+		'name_two': 'jack dean rogers', 
 		'expected': True, 
 		'description': 'd, jack rogers, comparison with article'
 	},
     {
-		'input': 'dagobert de levie;dagobert de levie', 
+		'name_one': 'dagobert de levie',
+		'name_two': 'dagobert de levie', 
 		'expected': True, 
 		'description': 'dagobert de levie comparison with article'
 	},
     {
-		'input': 'dallas m lancaster;dallas m. lancaster', 
+		'name_one': 'dallas m lancaster',
+		'name_two': 'dallas m. lancaster', 
 		'expected': True, 
 		'description': 'dallas m lancaster comparison with article'
 	},
     {
-		'input': 'dana j. demorest;dana j. demorest', 
+		'name_one': 'dana j. demorest',
+		'name_two': 'dana j. demorest', 
 		'expected': True, 
 		'description': 'dana j. demorest comparison with article'
 	},
     {
-		'input': 'danial m laskin;d. m. laskin', 
+		'name_one': 'danial m laskin',
+		'name_two': 'd. m. laskin', 
 		'expected': True, 
 		'description': 'danial m laskin comparison with article'
 	},
     {
-		'input': 'daniel d linglebach;daniel dee linglebach', 
+		'name_one': 'daniel d linglebach',
+		'name_two': 'daniel dee linglebach', 
 		'expected': True, 
 		'description': 'daniel d linglebach comparison with article'
 	},
     {
-		'input': 'daniel e vandraegan;daniel vandraegen', 
+		'name_one': 'daniel e vandraegan',
+		'name_two': 'daniel vandraegen', 
 		'expected': True, 
 		'description': 'daniel e vandraegan comparison with article'
 	},
     {
-		'input': 'daniel h levan;daniel jacob levinson', 
+		'name_one': 'daniel h levan',
+		'name_two': 'daniel jacob levinson', 
 		'expected': False, 
 		'description': 'daniel h levan comparison with article'
 	},
     {
-		'input': 'daniel l delakas;daniel lindviko delakes', 
+		'name_one': 'daniel l delakas',
+		'name_two': 'daniel lindviko delakes', 
 		'expected': True, 
 		'description': 'daniel l delakas comparison with article'
 	},
     {
-		'input': 'daniel v hageman;daniel vanbrunt hegeman', 
+		'name_one': 'daniel v hageman',
+		'name_two': 'daniel vanbrunt hegeman', 
 		'expected': True, 
 		'description': 'daniel v hageman comparison with article'
 	},
     {
-		'input': 'daris g lafferty;daris grover lafferty', 
+		'name_one': 'daris g lafferty',
+		'name_two': 'daris grover lafferty', 
 		'expected': True, 
 		'description': 'daris g lafferty comparison with article'
 	},
     {
-		'input': 'darrell l spriggs;darrell leonard spriggs', 
+		'name_one': 'darrell l spriggs',
+		'name_two': 'darrell leonard spriggs', 
 		'expected': True, 
 		'description': 'darrell l spriggs comparison with article'
 	},
     {
-		'input': 'david a ledet;david a. ledet', 
+		'name_one': 'david a ledet',
+		'name_two': 'david a. ledet', 
 		'expected': True, 
 		'description': 'david a ledet comparison with article'
 	},
     {
-		'input': 'david a mac lennan;david alexander maclennan', 
+		'name_one': 'david a mac lennan',
+		'name_two': 'david alexander maclennan', 
 		'expected': True, 
 		'description': 'david a mac lennan comparison with article'
 	},
     {
-		'input': 'david b dekker;david bliss dekker', 
+		'name_one': 'david b dekker',
+		'name_two': 'david bliss dekker', 
 		'expected': True, 
 		'description': 'david b dekker comparison with article'
 	},
     {
-		'input': 'david d law;david barclay law', 
+		'name_one': 'david d law',
+		'name_two': 'david barclay law', 
 		'expected': False, 
 		'description': 'david d law comparison with article'
 	},
     {
-		'input': 'david f farley;david la bauve farley', 
+		'name_one': 'david f farley',
+		'name_two': 'david la bauve farley', 
 		'expected': False, 
 		'description': 'david f farley comparison with article'
 	},
     {
-		'input': 'david f strain;david o. van strien', 
+		'name_one': 'david f strain',
+		'name_two': 'david o. van strien', 
 		'expected': False, 
 		'description': 'david f strain comparison with article'
 	},
     {
-		'input': 'david j lamotte;david joseph lamothe', 
+		'name_one': 'david j lamotte',
+		'name_two': 'david joseph lamothe', 
 		'expected': True, 
 		'description': 'david j lamotte comparison with article'
 	},
     {
-		'input': 'david k detweiler;david k. detweiler', 
+		'name_one': 'david k detweiler',
+		'name_two': 'david k. detweiler', 
 		'expected': True, 
 		'description': 'david k detweiler comparison with article'
 	},
     {
-		'input': 'david l anderson;david leonard anderson', 
+		'name_one': 'david l anderson',
+		'name_two': 'david leonard anderson', 
 		'expected': True, 
 		'description': 'david l anderson comparison with article'
 	},
     {
-		'input': 'david l arm;david lehr arm', 
+		'name_one': 'david l arm',
+		'name_two': 'david lehr arm', 
 		'expected': True, 
 		'description': 'david l arm comparison with article'
 	},
     {
-		'input': 'david l clark;david lee clark', 
+		'name_one': 'david l clark',
+		'name_two': 'david lee clark', 
 		'expected': True, 
 		'description': 'david l clark comparison with article'
 	},
     {
-		'input': 'david l dodd;david le fevre dodd', 
+		'name_one': 'david l dodd',
+		'name_two': 'david le fevre dodd', 
 		'expected': True, 
 		'description': 'david l dodd comparison with article'
 	},
     {
-		'input': 'david l farley;david la bauve farley', 
+		'name_one': 'david l farley',
+		'name_two': 'david la bauve farley', 
 		'expected': True, 
 		'description': 'david l farley comparison with article'
 	},
     {
-		'input': 'david l lawson;edwin david lawson', 
+		'name_one': 'david l lawson',
+		'name_two': 'edwin david lawson', 
 		'expected': False, 
 		'description': 'david l lawson comparison with article'
 	},
     {
-		'input': 'david l mackintosh;david leslie mackintosh', 
+		'name_one': 'david l mackintosh',
+		'name_two': 'david leslie mackintosh', 
 		'expected': True, 
 		'description': 'david l mackintosh comparison with article'
 	},
     {
-		'input': 'david lewis;david lewis', 
+		'name_one': 'david lewis',
+		'name_two': 'david lewis', 
 		'expected': True, 
 		'description': 'david lewis comparison with article'
 	},
     {
-		'input': 'david m deforest;david m. deforest', 
+		'name_one': 'david m deforest',
+		'name_two': 'david m. deforest', 
 		'expected': True, 
 		'description': 'david m deforest comparison with article'
 	},
     {
-		'input': 'david m dennison;david mathias dennison', 
+		'name_one': 'david m dennison',
+		'name_two': 'david mathias dennison', 
 		'expected': True, 
 		'description': 'david m dennison comparison with article'
 	},
     {
-		'input': 'david t lapkin;david t. lapkin', 
+		'name_one': 'david t lapkin',
+		'name_two': 'david t. lapkin', 
 		'expected': True, 
 		'description': 'david t lapkin comparison with article'
 	},
     {
-		'input': 'david v lawrence;david lawrence', 
+		'name_one': 'david v lawrence',
+		'name_two': 'david lawrence', 
 		'expected': True, 
 		'description': 'david v lawrence comparison with article'
 	},
     {
-		'input': 'david van meter;david van meter', 
+		'name_one': 'david van meter',
+		'name_two': 'david van meter', 
 		'expected': True, 
 		'description': 'david van meter comparison with article'
 	},
     {
-		'input': 'david van vactor;david g. vanvactor', 
+		'name_one': 'david van vactor',
+		'name_two': 'david g. vanvactor', 
 		'expected': True, 
 		'description': 'david van vactor comparison with article'
 	},
     {
-		'input': 'dean d pearl;herbert dean pearl', 
+		'name_one': 'dean d pearl',
+		'name_two': 'herbert dean pearl', 
 		'expected': False, 
 		'description': 'dean d pearl comparison with article'
 	},
     {
-		'input': 'dean e babbage;e. dean babbage', 
+		'name_one': 'dean e babbage',
+		'name_two': 'e. dean babbage', 
 		'expected': True, 
 		'description': 'dean e babbage comparison with article'
 	},
     {
-		'input': 'deane l lawrence;laszlo lorand', 
+		'name_one': 'deane l lawrence',
+		'name_two': 'laszlo lorand', 
 		'expected': False, 
 		'description': 'deane l lawrence comparison with article'
 	},
     {
-		'input': 'deane lent;deane lent', 
+		'name_one': 'deane lent',
+		'name_two': 'deane lent', 
 		'expected': True, 
 		'description': 'deane lent comparison with article'
 	},
     {
-		'input': 'delbert l rutledge;delbert leroy rutledge', 
+		'name_one': 'delbert l rutledge',
+		'name_two': 'delbert leroy rutledge', 
 		'expected': True, 
 		'description': 'delbert l rutledge comparison with article'
 	},
     {
-		'input': 'delight m maughan;h. delight maughan', 
+		'name_one': 'delight m maughan',
+		'name_two': 'h. delight maughan', 
 		'expected': False, 
 		'description': 'delight m maughan comparison with article'
 	},
     {
-		'input': 'della lehman;della lehman', 
+		'name_one': 'della lehman',
+		'name_two': 'della lehman', 
 		'expected': True, 
 		'description': 'della lehman comparison with article'
 	},
     {
-		'input': 'delmar leighton, jr;delmar leighton', 
+		'name_one': 'delmar leighton, jr',
+		'name_two': 'delmar leighton', 
 		'expected': True, 
 		'description': 'delmar leighton, jr comparison with article'
 	},
     {
-		'input': 'dennis anderson;ira dennis anderson', 
+		'name_one': 'dennis anderson',
+		'name_two': 'ira dennis anderson', 
 		'expected': True, 
 		'description': 'dennis anderson comparison with article'
 	},
     {
-		'input': 'denoe leedy;charles denoe leedy', 
+		'name_one': 'denoe leedy',
+		'name_two': 'charles denoe leedy', 
 		'expected': True, 
 		'description': 'denoe leedy comparison with article'
 	},
     {
-		'input': 'dexter j hill;j. levan hill', 
+		'name_one': 'dexter j hill',
+		'name_two': 'j. levan hill', 
 		'expected': False, 
 		'description': 'dexter j hill comparison with article'
 	},
     {
-		'input': 'dexter levy;dexter s. levy', 
+		'name_one': 'dexter levy',
+		'name_two': 'dexter s. levy', 
 		'expected': True, 
 		'description': 'dexter levy comparison with article'
 	},
     {
-		'input': 'diane j de lotto;marcel j. de lotto', 
+		'name_one': 'diane j de lotto',
+		'name_two': 'marcel j. de lotto', 
 		'expected': False, 
 		'description': 'diane j de lotto comparison with article'
 	},
     {
-		'input': 'dick s vanfleet;dick scott van fleet', 
+		'name_one': 'dick s vanfleet',
+		'name_two': 'dick scott van fleet', 
 		'expected': True, 
 		'description': 'dick s vanfleet comparison with article'
 	},
     {
-		'input': 'dietrich hildebrand;dietrich von hildebrand', 
+		'name_one': 'dietrich hildebrand',
+		'name_two': 'dietrich von hildebrand', 
 		'expected': True, 
 		'description': 'dietrich hildebrand comparison with article'
 	},
     {
-		'input': 'dinna p lipkin;peter p. lapiken', 
+		'name_one': 'dinna p lipkin',
+		'name_two': 'peter p. lapiken', 
 		'expected': False, 
 		'description': 'dinna p lipkin comparison with article'
 	},
     {
-		'input': 'dixy lee ray;dixy lee ray', 
+		'name_one': 'dixy lee ray',
+		'name_two': 'dixy lee ray', 
 		'expected': True, 
 		'description': 'dixy lee ray comparison with article'
 	},
     {
-		'input': 'don d lescohier;don divance lescohier', 
+		'name_one': 'don d lescohier',
+		'name_two': 'don divance lescohier', 
 		'expected': True, 
 		'description': 'don d lescohier comparison with article'
 	},
     {
-		'input': 'don l good;don ladoyt good', 
+		'name_one': 'don l good',
+		'name_two': 'don ladoyt good', 
 		'expected': True, 
 		'description': 'don l good comparison with article'
 	},
     {
-		'input': 'don l. demorest;don l. demorest', 
+		'name_one': 'don l. demorest',
+		'name_two': 'don l. demorest', 
 		'expected': True, 
 		'description': 'don l. demorest comparison with article'
 	},
     {
-		'input': 'don lewis;don lewis', 
+		'name_one': 'don lewis',
+		'name_two': 'don lewis', 
 		'expected': True, 
 		'description': 'don lewis comparison with article'
 	},
     {
-		'input': 'donald a lentz;donald a. lentz', 
+		'name_one': 'donald a lentz',
+		'name_two': 'donald a. lentz', 
 		'expected': True, 
 		'description': 'donald a lentz comparison with article'
 	},
     {
-		'input': 'donald b lawrence;donald b. lawrence', 
+		'name_one': 'donald b lawrence',
+		'name_two': 'donald b. lawrence', 
 		'expected': True, 
 		'description': 'donald b lawrence comparison with article'
 	},
     {
-		'input': 'donald darickson;donald derickson', 
+		'name_one': 'donald darickson',
+		'name_two': 'donald derickson', 
 		'expected': True, 
 		'description': 'donald darickson comparison with article'
 	},
     {
-		'input': 'donald deford;donald dale deford', 
+		'name_one': 'donald deford',
+		'name_two': 'donald dale deford', 
 		'expected': True, 
 		'description': 'donald deford comparison with article'
 	},
     {
-		'input': 'donald devault;don devault', 
+		'name_one': 'donald devault',
+		'name_two': 'don devault', 
 		'expected': True, 
 		'description': 'donald devault comparison with article'
 	},
     {
-		'input': 'donald e stewart;donald dean stewart', 
+		'name_one': 'donald e stewart',
+		'name_two': 'donald dean stewart', 
 		'expected': False, 
 		'description': 'donald e stewart comparison with article'
 	},
     {
-		'input': 'donald e. lowell;edgar lafayette lowell', 
+		'name_one': 'donald e. lowell',
+		'name_two': 'edgar lafayette lowell', 
 		'expected': False, 
 		'description': 'donald e. lowell comparison with article'
 	},
     {
-		'input': 'donald f lake;donald frederick lach', 
+		'name_one': 'donald f lake',
+		'name_two': 'donald frederick lach', 
 		'expected': True, 
 		'description': 'donald f lake comparison with article'
 	},
     {
-		'input': 'donald fabian;donald leroy fabian', 
+		'name_one': 'donald fabian',
+		'name_two': 'donald leroy fabian', 
 		'expected': True, 
 		'description': 'donald fabian comparison with article'
 	},
     {
-		'input': 'donald g lee;donald g. lee', 
+		'name_one': 'donald g lee',
+		'name_two': 'donald g. lee', 
 		'expected': True, 
 		'description': 'donald g lee comparison with article'
 	},
     {
-		'input': 'donald g. decker;donald gilmore decker', 
+		'name_one': 'donald g. decker',
+		'name_two': 'donald gilmore decker', 
 		'expected': True, 
 		'description': 'donald g. decker comparison with article'
 	},
     {
-		'input': 'donald i augustine;donald leslie augustine', 
+		'name_one': 'donald i augustine',
+		'name_two': 'donald leslie augustine', 
 		'expected': False, 
 		'description': 'donald i augustine comparison with article'
 	},
     {
-		'input': 'donald j dettinger;donald j. dettinger', 
+		'name_one': 'donald j dettinger',
+		'name_two': 'donald j. dettinger', 
 		'expected': True, 
 		'description': 'donald j dettinger comparison with article'
 	},
     {
-		'input': 'donald j lewis;donald joseph lewis', 
+		'name_one': 'donald j lewis',
+		'name_two': 'donald joseph lewis', 
 		'expected': True, 
 		'description': 'donald j lewis comparison with article'
 	},
     {
-		'input': 'donald l heinemeyer;donald leroy heinemeyer', 
+		'name_one': 'donald l heinemeyer',
+		'name_two': 'donald leroy heinemeyer', 
 		'expected': True, 
 		'description': 'donald l heinemeyer comparison with article'
 	},
     {
-		'input': 'donald l katz;donald laverne katz', 
+		'name_one': 'donald l katz',
+		'name_two': 'donald laverne katz', 
 		'expected': True, 
 		'description': 'donald l katz comparison with article'
 	},
     {
-		'input': 'donald lake;donald l. lake', 
+		'name_one': 'donald lake',
+		'name_two': 'donald l. lake', 
 		'expected': True, 
 		'description': 'donald lake comparison with article'
 	},
     {
-		'input': 'donald le tendre;donald henry letendre', 
+		'name_one': 'donald le tendre',
+		'name_two': 'donald henry letendre', 
 		'expected': True, 
 		'description': 'donald le tendre comparison with article'
 	},
     {
-		'input': 'donald murphy;donald van dale murphy', 
+		'name_one': 'donald murphy',
+		'name_two': 'donald van dale murphy', 
 		'expected': True, 
 		'description': 'donald murphy comparison with article'
 	},
     {
-		'input': 'donald r larsen;donald r. larson', 
+		'name_one': 'donald r larsen',
+		'name_two': 'donald r. larson', 
 		'expected': True, 
 		'description': 'donald r larsen comparison with article'
 	},
     {
-		'input': 'donald w del carlo;donald w. de carle', 
+		'name_one': 'donald w del carlo',
+		'name_two': 'donald w. de carle', 
 		'expected': True, 
 		'description': 'donald w del carlo comparison with article'
 	},
     {
-		'input': 'doris e lees;doris estabrook lees', 
+		'name_one': 'doris e lees',
+		'name_two': 'doris estabrook lees', 
 		'expected': True, 
 		'description': 'doris e lees comparison with article'
 	},
     {
-		'input': 'doris f larsen;bent f. larsen', 
+		'name_one': 'doris f larsen',
+		'name_two': 'bent f. larsen', 
 		'expected': False, 
 		'description': 'doris f larsen comparison with article'
 	},
     {
-		'input': 'dorothy c lee;shu-ching lee', 
+		'name_one': 'dorothy c lee',
+		'name_two': 'shu-ching lee', 
 		'expected': False, 
 		'description': 'dorothy c lee comparison with article'
 	},
     {
-		'input': 'dorothy dean;dorothy dean', 
+		'name_one': 'dorothy dean',
+		'name_two': 'dorothy dean', 
 		'expected': True, 
 		'description': 'dorothy dean comparison with article'
 	},
     {
-		'input': 'dorothy delany;dorothy celia delany', 
+		'name_one': 'dorothy delany',
+		'name_two': 'dorothy celia delany', 
 		'expected': True, 
 		'description': 'dorothy delany comparison with article'
 	},
     {
-		'input': 'dorothy f deach;dorothy f. deach', 
+		'name_one': 'dorothy f deach',
+		'name_two': 'dorothy f. deach', 
 		'expected': True, 
 		'description': 'dorothy f deach comparison with article'
 	},
     {
-		'input': 'dorothy jean laubacher;dorothy laubacher', 
+		'name_one': 'dorothy jean laubacher',
+		'name_two': 'dorothy laubacher', 
 		'expected': True, 
 		'description': 'dorothy jean laubacher comparison with article'
 	},
     {
-		'input': 'dorothy l fuller;dorothy langford fuller', 
+		'name_one': 'dorothy l fuller',
+		'name_two': 'dorothy langford fuller', 
 		'expected': True, 
 		'description': 'dorothy l fuller comparison with article'
 	},
     {
-		'input': 'dorothy l large;dorothy large', 
+		'name_one': 'dorothy l large',
+		'name_two': 'dorothy large', 
 		'expected': True, 
 		'description': 'dorothy l large comparison with article'
 	},
     {
-		'input': 'dorothy leahy;dorothy leahy', 
+		'name_one': 'dorothy leahy',
+		'name_two': 'dorothy leahy', 
 		'expected': True, 
 		'description': 'dorothy leahy comparison with article'
 	},
     {
-		'input': 'dorothy lee hayes;dorothy hayes', 
+		'name_one': 'dorothy lee hayes',
+		'name_two': 'dorothy hayes', 
 		'expected': True, 
 		'description': 'dorothy lee hayes comparison with article'
 	},
     {
-		'input': 'dorothy levine;dorothy levens', 
+		'name_one': 'dorothy levine',
+		'name_two': 'dorothy levens', 
 		'expected': False, 
 		'description': 'dorothy levine comparison with article'
 	},
     {
-		'input': 'dorothy m lasalle;dorothy m. lasalle', 
+		'name_one': 'dorothy m lasalle',
+		'name_two': 'dorothy m. lasalle', 
 		'expected': True, 
 		'description': 'dorothy m lasalle comparison with article'
 	},
     {
-		'input': 'dorothy mac lean;dorothy g. maclean', 
+		'name_one': 'dorothy mac lean',
+		'name_two': 'dorothy g. maclean', 
 		'expected': True, 
 		'description': 'dorothy mac lean comparison with article'
 	},
     {
-		'input': 'dorothy v a fuller;dorothy van arsdale fuller', 
+		'name_one': 'dorothy v a fuller',
+		'name_two': 'dorothy van arsdale fuller', 
 		'expected': True, 
 		'description': 'dorothy v a fuller comparison with article'
 	},
     {
-		'input': 'dorothy w dennis;dorothy warner dennis', 
+		'name_one': 'dorothy w dennis',
+		'name_two': 'dorothy warner dennis', 
 		'expected': True, 
 		'description': 'dorothy w dennis comparison with article'
 	},
     {
-		'input': 'dorsey d jones;dorsey dee jones', 
+		'name_one': 'dorsey d jones',
+		'name_two': 'dorsey dee jones', 
 		'expected': True, 
 		'description': 'dorsey d jones comparison with article'
 	},
     {
-		'input': 'dorsey e lane;dorsey e. lane', 
+		'name_one': 'dorsey e lane',
+		'name_two': 'dorsey e. lane', 
 		'expected': True, 
 		'description': 'dorsey e lane comparison with article'
 	},
     {
-		'input': 'dorval d despres;solveig d. preus', 
+		'name_one': 'dorval d despres',
+		'name_two': 'solveig d. preus', 
 		'expected': False, 
 		'description': 'dorval d despres comparison with article'
 	},
     {
-		'input': 'douglas d martin;douglas deveny martin', 
+		'name_one': 'douglas d martin',
+		'name_two': 'douglas deveny martin', 
 		'expected': True, 
 		'description': 'douglas d martin comparison with article'
 	},
     {
-		'input': 'douglas e lawson;douglas e. lawson', 
+		'name_one': 'douglas e lawson',
+		'name_two': 'douglas e. lawson', 
 		'expected': True, 
 		'description': 'douglas e lawson comparison with article'
 	},
     {
-		'input': 'douglas h lawrence;douglas howard lawrence', 
+		'name_one': 'douglas h lawrence',
+		'name_two': 'douglas howard lawrence', 
 		'expected': True, 
 		'description': 'douglas h lawrence comparison with article'
 	},
     {
-		'input': 'douglas l kraus;douglas lawrence kraus', 
+		'name_one': 'douglas l kraus',
+		'name_two': 'douglas lawrence kraus', 
 		'expected': True, 
 		'description': 'douglas l kraus comparison with article'
 	},
     {
-		'input': 'douglass lathwell;douglas j. lathwell', 
+		'name_one': 'douglass lathwell',
+		'name_two': 'douglas j. lathwell', 
 		'expected': True, 
 		'description': 'douglass lathwell comparison with article'
 	},
     {
-		'input': 'dr alphonse vonderahe;alphonse r. vonderahe', 
+		'name_one': 'dr alphonse vonderahe',
+		'name_two': 'alphonse r. vonderahe', 
 		'expected': True, 
 		'description': 'dr alphonse vonderahe comparison with article'
 	},
     {
-		'input': 'dr howard l alt;howard lang alt', 
+		'name_one': 'dr howard l alt',
+		'name_two': 'howard lang alt', 
 		'expected': True, 
 		'description': 'dr howard l alt comparison with article'
 	},
     {
-		'input': 'dr leonard aguilino;leonard m. aquilino', 
+		'name_one': 'dr leonard aguilino',
+		'name_two': 'leonard m. aquilino', 
 		'expected': True, 
 		'description': 'dr leonard aguilino comparison with article'
 	},
     {
-		'input': 'dr. lester r cahn;lester r. cahn', 
+		'name_one': 'dr. lester r cahn',
+		'name_two': 'lester r. cahn', 
 		'expected': True, 
 		'description': 'dr. lester r cahn comparison with article'
 	},
     {
-		'input': 'dudley d carroll;dudley dewitt carroll', 
+		'name_one': 'dudley d carroll',
+		'name_two': 'dudley dewitt carroll', 
 		'expected': True, 
 		'description': 'dudley d carroll comparison with article'
 	},
     {
-		'input': 'dwight e lee;dwight erwin lee', 
+		'name_one': 'dwight e lee',
+		'name_two': 'dwight erwin lee', 
 		'expected': True, 
 		'description': 'dwight e lee comparison with article'
 	},
     {
-		'input': 'dwight l ling;dwight leroy ling', 
+		'name_one': 'dwight l ling',
+		'name_two': 'dwight leroy ling', 
 		'expected': True, 
 		'description': 'dwight l ling comparison with article'
 	},
     {
-		'input': 'dwight l spencer, jr;guilford lawson spencer', 
+		'name_one': 'dwight l spencer, jr',
+		'name_two': 'guilford lawson spencer', 
 		'expected': False, 
 		'description': 'dwight l spencer, jr comparison with article'
 	},
     {
-		'input': 'dwight m delong;dwight m. delong', 
+		'name_one': 'dwight m delong',
+		'name_two': 'dwight m. delong', 
 		'expected': True, 
 		'description': 'dwight m delong comparison with article'
 	},
     {
-		'input': 'e donald lawrence;e. donald lawrence', 
+		'name_one': 'e donald lawrence',
+		'name_two': 'e. donald lawrence', 
 		'expected': True, 
 		'description': 'e donald lawrence comparison with article'
 	},
     {
-		'input': 'e harold laws;e. harold laws', 
+		'name_one': 'e harold laws',
+		'name_two': 'e. harold laws', 
 		'expected': True, 
 		'description': 'e harold laws comparison with article'
 	},
     {
-		'input': 'e lane davis;edward lane davis', 
+		'name_one': 'e lane davis',
+		'name_two': 'edward lane davis', 
 		'expected': True, 
 		'description': 'e lane davis comparison with article'
 	},
     {
-		'input': 'e lee goldsborough;e. lee goldsborough', 
+		'name_one': 'e lee goldsborough',
+		'name_two': 'e. lee goldsborough', 
 		'expected': True, 
 		'description': 'e lee goldsborough comparison with article'
 	},
     {
-		'input': 'e lee kinsey;e. lee kinsey', 
+		'name_one': 'e lee kinsey',
+		'name_two': 'e. lee kinsey', 
 		'expected': True, 
 		'description': 'e lee kinsey comparison with article'
 	},
     {
-		'input': 'e lewis morris;lewis r. morris', 
+		'name_one': 'e lewis morris',
+		'name_two': 'lewis r. morris', 
 		'expected': False, 
 		'description': 'e lewis morris comparison with article'
 	},
     {
-		'input': 'e richard larson;e. richard larson', 
+		'name_one': 'e richard larson',
+		'name_two': 'e. richard larson', 
 		'expected': True, 
 		'description': 'e richard larson comparison with article'
 	},
     {
-		'input': 'e virginia lewis;virginia e. lewis', 
+		'name_one': 'e virginia lewis',
+		'name_two': 'virginia e. lewis', 
 		'expected': True, 
 		'description': 'e virginia lewis comparison with article'
 	},
     {
-		'input': 'earl l butz;earl lauer butz', 
+		'name_one': 'earl l butz',
+		'name_two': 'earl lauer butz', 
 		'expected': True, 
 		'description': 'earl l butz comparison with article'
 	},
     {
-		'input': 'earl l core;earl lemley core', 
+		'name_one': 'earl l core',
+		'name_two': 'earl lemley core', 
 		'expected': True, 
 		'description': 'earl l core comparison with article'
 	},
     {
-		'input': 'earl l farmer;earl leroy farmer', 
+		'name_one': 'earl l farmer',
+		'name_two': 'earl leroy farmer', 
 		'expected': True, 
 		'description': 'earl l farmer comparison with article'
 	},
     {
-		'input': 'earl l griggs;earl leslie griggs', 
+		'name_one': 'earl l griggs',
+		'name_two': 'earl leslie griggs', 
 		'expected': True, 
 		'description': 'earl l griggs comparison with article'
 	},
     {
-		'input': 'earl l martin;earl leslie martin', 
+		'name_one': 'earl l martin',
+		'name_two': 'earl leslie martin', 
 		'expected': True, 
 		'description': 'earl l martin comparison with article'
 	},
     {
-		'input': 'earl l stone, jr;earl lewis stone', 
+		'name_one': 'earl l stone, jr',
+		'name_two': 'earl lewis stone', 
 		'expected': True, 
 		'description': 'earl l stone, jr comparison with article'
 	},
     {
-		'input': 'earl l vance;earl lynn vance', 
+		'name_one': 'earl l vance',
+		'name_two': 'earl lynn vance', 
 		'expected': True, 
 		'description': 'earl l vance comparison with article'
 	},
     {
-		'input': 'earl latham;earl latham', 
+		'name_one': 'earl latham',
+		'name_two': 'earl latham', 
 		'expected': True, 
 		'description': 'earl latham comparison with article'
 	},
     {
-		'input': 'earl p lasher, jr;earl parsons lasher', 
+		'name_one': 'earl p lasher, jr',
+		'name_two': 'earl parsons lasher', 
 		'expected': True, 
 		'description': 'earl p lasher, jr comparison with article'
 	},
     {
-		'input': 'earl r leng;earl r. leng', 
+		'name_one': 'earl r leng',
+		'name_two': 'earl r. leng', 
 		'expected': True, 
 		'description': 'earl r leng comparison with article'
 	},
     {
-		'input': 'earl s howard;earl dean howard', 
+		'name_one': 'earl s howard',
+		'name_two': 'earl dean howard', 
 		'expected': False, 
 		'description': 'earl s howard comparison with article'
 	},
     {
-		'input': 'earnest langley;ernest felix langley', 
+		'name_one': 'earnest langley',
+		'name_two': 'ernest felix langley', 
 		'expected': True, 
 		'description': 'earnest langley comparison with article'
 	},
     {
-		'input': 'edgar l lazier;edgar l. lazier', 
+		'name_one': 'edgar l lazier',
+		'name_two': 'edgar l. lazier', 
 		'expected': True, 
 		'description': 'edgar l lazier comparison with article'
 	},
     {
-		'input': 'edgar l mcgowan;edgar leon mcgowan', 
+		'name_one': 'edgar l mcgowan',
+		'name_two': 'edgar leon mcgowan', 
 		'expected': True, 
 		'description': 'edgar l mcgowan comparison with article'
 	},
     {
-		'input': 'edgar lewis winfrey;lewis edgar winfrey', 
+		'name_one': 'edgar lewis winfrey',
+		'name_two': 'lewis edgar winfrey', 
 		'expected': True, 
 		'description': 'edgar lewis winfrey comparison with article'
 	},
     {
-		'input': 'edgar w lacy;edgar wilson lacy', 
+		'name_one': 'edgar w lacy',
+		'name_two': 'edgar wilson lacy', 
 		'expected': True, 
 		'description': 'edgar w lacy comparison with article'
 	},
     {
-		'input': 'edith a laue;edith a. laue', 
+		'name_one': 'edith a laue',
+		'name_two': 'edith a. laue', 
 		'expected': True, 
 		'description': 'edith a laue comparison with article'
 	},
     {
-		'input': 'edith layer;edith e. layer', 
+		'name_one': 'edith layer',
+		'name_two': 'edith e. layer', 
 		'expected': True, 
 		'description': 'edith layer comparison with article'
 	},
     {
-		'input': 'edith m branin;m. lelyn branin', 
+		'name_one': 'edith m branin',
+		'name_two': 'm. lelyn branin', 
 		'expected': False, 
 		'description': 'edith m branin comparison with article'
 	},
     {
-		'input': 'edith m derrick;lawrence m. derickier', 
+		'name_one': 'edith m derrick',
+		'name_two': 'lawrence m. derickier', 
 		'expected': False, 
 		'description': 'edith m derrick comparison with article'
 	},
     {
-		'input': 'edmund d lewandowski;edmund d. lewandowski', 
+		'name_one': 'edmund d lewandowski',
+		'name_two': 'edmund d. lewandowski', 
 		'expected': True, 
 		'description': 'edmund d lewandowski comparison with article'
 	},
     {
-		'input': 'edmund h campbell;edmund lee gamble', 
+		'name_one': 'edmund h campbell',
+		'name_two': 'edmund lee gamble', 
 		'expected': False, 
 		'description': 'edmund h campbell comparison with article'
 	},
     {
-		'input': 'edmund p learned;edmund philip learned', 
+		'name_one': 'edmund p learned',
+		'name_two': 'edmund philip learned', 
 		'expected': True, 
 		'description': 'edmund p learned comparison with article'
 	},
     {
-		'input': 'edmund v laitone;edmund v. laitone', 
+		'name_one': 'edmund v laitone',
+		'name_two': 'edmund v. laitone', 
 		'expected': True, 
 		'description': 'edmund v laitone comparison with article'
 	},
     {
-		'input': 'edna landros;edna landros', 
+		'name_one': 'edna landros',
+		'name_two': 'edna landros', 
 		'expected': True, 
 		'description': 'edna landros comparison with article'
 	},
     {
-		'input': 'edna m lawrence;edna w. lawrence', 
+		'name_one': 'edna m lawrence',
+		'name_two': 'edna w. lawrence', 
 		'expected': False, 
 		'description': 'edna m lawrence comparison with article'
 	},
     {
-		'input': 'edna w lewis;edna lewis', 
+		'name_one': 'edna w lewis',
+		'name_two': 'edna lewis', 
 		'expected': True, 
 		'description': 'edna w lewis comparison with article'
 	},
     {
-		'input': 'edward a gibbs;edward delmar gibbs', 
+		'name_one': 'edward a gibbs',
+		'name_two': 'edward delmar gibbs', 
 		'expected': False, 
 		'description': 'edward a gibbs comparison with article'
 	},
     {
-		'input': 'edward a lavin;edward a. levin', 
+		'name_one': 'edward a lavin',
+		'name_two': 'edward a. levin', 
 		'expected': True, 
 		'description': 'edward a lavin comparison with article'
 	},
     {
-		'input': 'edward b lawton, jr;edward b. lawton', 
+		'name_one': 'edward b lawton, jr',
+		'name_two': 'edward b. lawton', 
 		'expected': True, 
 		'description': 'edward b lawton, jr comparison with article'
 	},
     {
-		'input': 'edward b lewis;edward b. lewis', 
+		'name_one': 'edward b lewis',
+		'name_two': 'edward b. lewis', 
 		'expected': True, 
 		'description': 'edward b lewis comparison with article'
 	},
     {
-		'input': 'edward bassett;edward lewis bassett', 
+		'name_one': 'edward bassett',
+		'name_two': 'edward lewis bassett', 
 		'expected': True, 
 		'description': 'edward bassett comparison with article'
 	},
     {
-		'input': 'edward c lambert;edward c. lambert', 
+		'name_one': 'edward c lambert',
+		'name_two': 'edward c. lambert', 
 		'expected': True, 
 		'description': 'edward c lambert comparison with article'
 	},
     {
-		'input': 'edward c lambert;edward charles lambert', 
+		'name_one': 'edward c lambert',
+		'name_two': 'edward charles lambert', 
 		'expected': True, 
 		'description': 'edward c lambert comparison with article'
 	},
     {
-		'input': 'edward c lesch;edward c. a. lesch', 
+		'name_one': 'edward c lesch',
+		'name_two': 'edward c. a. lesch', 
 		'expected': True, 
 		'description': 'edward c lesch comparison with article'
 	},
     {
-		'input': 'edward d lafferty;d. lafferty', 
+		'name_one': 'edward d lafferty',
+		'name_two': 'd. lafferty', 
 		'expected': True, 
 		'description': 'edward d lafferty comparison with article'
 	},
     {
-		'input': 'edward d myers;edward delos myers', 
+		'name_one': 'edward d myers',
+		'name_two': 'edward delos myers', 
 		'expected': True, 
 		'description': 'edward d myers comparison with article'
 	},
     {
-		'input': 'edward d seeber;edward derbyshire seeber', 
+		'name_one': 'edward d seeber',
+		'name_two': 'edward derbyshire seeber', 
 		'expected': True, 
 		'description': 'edward d seeber comparison with article'
 	},
     {
-		'input': 'edward de s matthews,s;edward desaunhac matthews', 
+		'name_one': 'edward de s matthews,s',
+		'name_two': 'edward desaunhac matthews', 
 		'expected': True, 
 		'description': 'edward de s matthews,s comparison with article'
 	},
     {
-		'input': 'edward dean christensen;edward l. christensen', 
+		'name_one': 'edward dean christensen',
+		'name_two': 'edward l. christensen', 
 		'expected': False, 
 		'description': 'edward dean christensen comparison with article'
 	},
     {
-		'input': 'edward e landis;edward everett landis', 
+		'name_one': 'edward e landis',
+		'name_two': 'edward everett landis', 
 		'expected': True, 
 		'description': 'edward e landis comparison with article'
 	},
     {
-		'input': 'edward erikson;edward leerdrup eriksen', 
+		'name_one': 'edward erikson',
+		'name_two': 'edward leerdrup eriksen', 
 		'expected': True, 
 		'description': 'edward erikson comparison with article'
 	},
     {
-		'input': 'edward g lewis;edward g. lewis', 
+		'name_one': 'edward g lewis',
+		'name_two': 'edward g. lewis', 
 		'expected': True, 
 		'description': 'edward g lewis comparison with article'
 	},
     {
-		'input': 'edward g van bibber;george van bibber', 
+		'name_one': 'edward g van bibber',
+		'name_two': 'george van bibber', 
 		'expected': True, 
 		'description': 'edward g van bibber comparison with article'
 	},
     {
-		'input': 'edward h davis;edward smith deevey', 
+		'name_one': 'edward h davis',
+		'name_two': 'edward smith deevey', 
 		'expected': False, 
 		'description': 'edward h davis comparison with article'
 	},
     {
-		'input': 'edward h la forge;edward h. lafarge', 
+		'name_one': 'edward h la forge',
+		'name_two': 'edward h. lafarge', 
 		'expected': True, 
 		'description': 'edward h la forge comparison with article'
 	},
     {
-		'input': 'edward h leach;mac edward leach', 
+		'name_one': 'edward h leach',
+		'name_two': 'mac edward leach', 
 		'expected': False, 
 		'description': 'edward h leach comparison with article'
 	},
     {
-		'input': 'edward h lepper;m. h. lepper', 
+		'name_one': 'edward h lepper',
+		'name_two': 'm. h. lepper', 
 		'expected': False, 
 		'description': 'edward h lepper comparison with article'
 	},
     {
-		'input': 'edward j larkin;edward j larkin', 
+		'name_one': 'edward j larkin',
+		'name_two': 'edward j larkin', 
 		'expected': True, 
 		'description': 'edward j larkin comparison with article'
 	},
     {
-		'input': 'edward j lawrence;edward j. lorenze', 
+		'name_one': 'edward j lawrence',
+		'name_two': 'edward j. lorenze', 
 		'expected': False, 
 		'description': 'edward j lawrence comparison with article'
 	},
     {
-		'input': 'edward j lazear, jr;edward j. lazear', 
+		'name_one': 'edward j lazear, jr',
+		'name_two': 'edward j. lazear', 
 		'expected': True, 
 		'description': 'edward j lazear, jr comparison with article'
 	},
     {
-		'input': 'edward j van liere;edward gerald van liere', 
+		'name_one': 'edward j van liere',
+		'name_two': 'edward gerald van liere', 
 		'expected': False, 
 		'description': 'edward j van liere comparison with article'
 	},
     {
-		'input': 'edward j vanloon;edward j. van loon', 
+		'name_one': 'edward j vanloon',
+		'name_two': 'edward j. van loon', 
 		'expected': True, 
 		'description': 'edward j vanloon comparison with article'
 	},
     {
-		'input': 'edward k lebohner;edward k. lebohner', 
+		'name_one': 'edward k lebohner',
+		'name_two': 'edward k. lebohner', 
 		'expected': True, 
 		'description': 'edward k lebohner comparison with article'
 	},
     {
-		'input': 'edward l clark;edward lester clark', 
+		'name_one': 'edward l clark',
+		'name_two': 'edward lester clark', 
 		'expected': True, 
 		'description': 'edward l clark comparison with article'
 	},
     {
-		'input': 'edward l emling;edward langhoff emling', 
+		'name_one': 'edward l emling',
+		'name_two': 'edward langhoff emling', 
 		'expected': True, 
 		'description': 'edward l emling comparison with article'
 	},
     {
-		'input': 'edward l howes;edward lee howes', 
+		'name_one': 'edward l howes',
+		'name_two': 'edward lee howes', 
 		'expected': True, 
 		'description': 'edward l howes comparison with article'
 	},
     {
-		'input': 'edward l jenkins;edward lealand jenkinson', 
+		'name_one': 'edward l jenkins',
+		'name_two': 'edward lealand jenkinson', 
 		'expected': True, 
 		'description': 'edward l jenkins comparison with article'
 	},
     {
-		'input': 'edward l king;edward lacy king', 
+		'name_one': 'edward l king',
+		'name_two': 'edward lacy king', 
 		'expected': True, 
 		'description': 'edward l king comparison with article'
 	},
     {
-		'input': 'edward l tatum;edward lawrie tatum', 
+		'name_one': 'edward l tatum',
+		'name_two': 'edward lawrie tatum', 
 		'expected': True, 
 		'description': 'edward l tatum comparison with article'
 	},
     {
-		'input': 'edward lathrop;edward flint lathrop', 
+		'name_one': 'edward lathrop',
+		'name_two': 'edward flint lathrop', 
 		'expected': True, 
 		'description': 'edward lathrop comparison with article'
 	},
     {
-		'input': 'edward lecomte;edward s. le comte', 
+		'name_one': 'edward lecomte',
+		'name_two': 'edward s. le comte', 
 		'expected': True, 
 		'description': 'edward lecomte comparison with article'
 	},
     {
-		'input': 'edward lee dorsett;edward lee dorsett', 
+		'name_one': 'edward lee dorsett',
+		'name_two': 'edward lee dorsett', 
 		'expected': True, 
 		'description': 'edward lee dorsett comparison with article'
 	},
     {
-		'input': 'edward leonard, jr;edward leonard', 
+		'name_one': 'edward leonard, jr',
+		'name_two': 'edward leonard', 
 		'expected': True, 
 		'description': 'edward leonard, jr comparison with article'
 	},
     {
-		'input': 'edward lowson;edward f. lewison', 
+		'name_one': 'edward lowson',
+		'name_two': 'edward f. lewison', 
 		'expected': False, 
 		'description': 'edward lowson comparison with article'
 	},
     {
-		'input': 'edward p lana;edward p. lana', 
+		'name_one': 'edward p lana',
+		'name_two': 'edward p. lana', 
 		'expected': True, 
 		'description': 'edward p lana comparison with article'
 	},
     {
-		'input': 'edward r dezurko;e. r. dezurko', 
+		'name_one': 'edward r dezurko',
+		'name_two': 'e. r. dezurko', 
 		'expected': True, 
 		'description': 'edward r dezurko comparison with article'
 	},
     {
-		'input': 'edward t ladd;edward taylor ladd', 
+		'name_one': 'edward t ladd',
+		'name_two': 'edward taylor ladd', 
 		'expected': True, 
 		'description': 'edward t ladd comparison with article'
 	},
     {
-		'input': 'edward van ormer;edward b. van ormer', 
+		'name_one': 'edward van ormer',
+		'name_two': 'edward b. van ormer', 
 		'expected': True, 
 		'description': 'edward van ormer comparison with article'
 	},
     {
-		'input': 'edward van winkle;edward hasbrouck van winkle', 
+		'name_one': 'edward van winkle',
+		'name_two': 'edward hasbrouck van winkle', 
 		'expected': True, 
 		'description': 'edward van winkle comparison with article'
 	},
     {
-		'input': 'edward wallace;edward leon wallace', 
+		'name_one': 'edward wallace',
+		'name_two': 'edward leon wallace', 
 		'expected': True, 
 		'description': 'edward wallace comparison with article'
 	},
     {
-		'input': 'edwin a lee;edwin a. lee', 
+		'name_one': 'edwin a lee',
+		'name_two': 'edwin a. lee', 
 		'expected': True, 
 		'description': 'edwin a lee comparison with article'
 	},
     {
-		'input': 'edwin b langston;beach langston', 
+		'name_one': 'edwin b langston',
+		'name_two': 'beach langston', 
 		'expected': True, 
 		'description': 'edwin b langston comparison with article'
 	},
     {
-		'input': 'edwin h lewis;edwin h lewis', 
+		'name_one': 'edwin h lewis',
+		'name_two': 'edwin h lewis', 
 		'expected': True, 
 		'description': 'edwin h lewis comparison with article'
 	},
     {
-		'input': 'edwin j lamont;edwin i. lamont', 
+		'name_one': 'edwin j lamont',
+		'name_two': 'edwin i. lamont', 
 		'expected': False, 
 		'description': 'edwin j lamont comparison with article'
 	},
     {
-		'input': 'edwin j lanwerth;edwin j lanwerth', 
+		'name_one': 'edwin j lanwerth',
+		'name_two': 'edwin j lanwerth', 
 		'expected': True, 
 		'description': 'edwin j lanwerth comparison with article'
 	},
     {
-		'input': 'edwin l lame;edwin l. lame', 
+		'name_one': 'edwin l lame',
+		'name_two': 'edwin l. lame', 
 		'expected': True, 
 		'description': 'edwin l lame comparison with article'
 	},
     {
-		'input': 'edwin l levy;edwin l. levy', 
+		'name_one': 'edwin l levy',
+		'name_two': 'edwin l. levy', 
 		'expected': True, 
 		'description': 'edwin l levy comparison with article'
 	},
     {
-		'input': 'edwin l miller;edwin lawrence miller', 
+		'name_one': 'edwin l miller',
+		'name_two': 'edwin lawrence miller', 
 		'expected': True, 
 		'description': 'edwin l miller comparison with article'
 	},
     {
-		'input': 'edwin l theiss;edwin leodgar theiss', 
+		'name_one': 'edwin l theiss',
+		'name_two': 'edwin leodgar theiss', 
 		'expected': True, 
 		'description': 'edwin l theiss comparison with article'
 	},
     {
-		'input': 'edwin l williams;edwin lea williams', 
+		'name_one': 'edwin l williams',
+		'name_two': 'edwin lea williams', 
 		'expected': True, 
 		'description': 'edwin l williams comparison with article'
 	},
     {
-		'input': 'edwin m larsen;edwin merritt larsen', 
+		'name_one': 'edwin m larsen',
+		'name_two': 'edwin merritt larsen', 
 		'expected': True, 
 		'description': 'edwin m larsen comparison with article'
 	},
     {
-		'input': 'edwin mclean;martin edwin lean', 
+		'name_one': 'edwin mclean',
+		'name_two': 'martin edwin lean', 
 		'expected': False, 
 		'description': 'edwin mclean comparison with article'
 	},
     {
-		'input': 'edwin n. lassettre;edwin n. lassettre', 
+		'name_one': 'edwin n. lassettre',
+		'name_two': 'edwin n. lassettre', 
 		'expected': True, 
 		'description': 'edwin n. lassettre comparison with article'
 	},
     {
-		'input': 'elbert persons;elbert lapsley persons', 
+		'name_one': 'elbert persons',
+		'name_two': 'elbert lapsley persons', 
 		'expected': True, 
 		'description': 'elbert persons comparison with article'
 	},
     {
-		'input': 'elbridge p vance;elbridge putnam vance', 
+		'name_one': 'elbridge p vance',
+		'name_two': 'elbridge putnam vance', 
 		'expected': True, 
 		'description': 'elbridge p vance comparison with article'
 	},
     {
-		'input': 'elden e leasure, 2nd;elden emanuel leasure', 
+		'name_one': 'elden e leasure, 2nd',
+		'name_two': 'elden emanuel leasure', 
 		'expected': True, 
 		'description': 'elden e leasure, 2nd comparison with article'
 	},
     {
-		'input': 'eleanor a rhodes;arnold densmore rhodes', 
+		'name_one': 'eleanor a rhodes',
+		'name_two': 'arnold densmore rhodes', 
 		'expected': False, 
 		'description': 'eleanor a rhodes comparison with article'
 	},
     {
-		'input': 'eleanor delfs;eleanor delfs', 
+		'name_one': 'eleanor delfs',
+		'name_two': 'eleanor delfs', 
 		'expected': True, 
 		'description': 'eleanor delfs comparison with article'
 	},
     {
-		'input': 'eleanor leek;eleanor leek', 
+		'name_one': 'eleanor leek',
+		'name_two': 'eleanor leek', 
 		'expected': True, 
 		'description': 'eleanor leek comparison with article'
 	},
     {
-		'input': 'eleanor lewis;eleanor lewis', 
+		'name_one': 'eleanor lewis',
+		'name_two': 'eleanor lewis', 
 		'expected': True, 
 		'description': 'eleanor lewis comparison with article'
 	},
     {
-		'input': 'eli m levine;eli m. levine', 
+		'name_one': 'eli m levine',
+		'name_two': 'eli m. levine', 
 		'expected': True, 
 		'description': 'eli m levine comparison with article'
 	},
     {
-		'input': 'eline m von borries;eline von borries', 
+		'name_one': 'eline m von borries',
+		'name_two': 'eline von borries', 
 		'expected': True, 
 		'description': 'eline m von borries comparison with article'
 	},
     {
-		'input': 'elizabeth h leduc;elizabeth h. leduc', 
+		'name_one': 'elizabeth h leduc',
+		'name_two': 'elizabeth h. leduc', 
 		'expected': True, 
 		'description': 'elizabeth h leduc comparison with article'
 	},
     {
-		'input': 'elizabeth hanscom;elizabeth deering hanscom', 
+		'name_one': 'elizabeth hanscom',
+		'name_two': 'elizabeth deering hanscom', 
 		'expected': True, 
 		'description': 'elizabeth hanscom comparison with article'
 	},
     {
-		'input': 'elizabeth lanham;elizabeth lanham', 
+		'name_one': 'elizabeth lanham',
+		'name_two': 'elizabeth lanham', 
 		'expected': True, 
 		'description': 'elizabeth lanham comparison with article'
 	},
     {
-		'input': 'elizabeth lawrence;elizabeth lawrence', 
+		'name_one': 'elizabeth lawrence',
+		'name_two': 'elizabeth lawrence', 
 		'expected': True, 
 		'description': 'elizabeth lawrence comparison with article'
 	},
     {
-		'input': 'elizabeth m lasley;mary elizabeth lasley', 
+		'name_one': 'elizabeth m lasley',
+		'name_two': 'mary elizabeth lasley', 
 		'expected': True, 
 		'description': 'elizabeth m lasley comparison with article'
 	},
     {
-		'input': 'elizabeth n barkett;nasry fayad vander barkett', 
+		'name_one': 'elizabeth n barkett',
+		'name_two': 'nasry fayad vander barkett', 
 		'expected': False, 
 		'description': 'elizabeth n barkett comparison with article'
 	},
     {
-		'input': 'elizabeth s moths;miltiades s. demos', 
+		'name_one': 'elizabeth s moths',
+		'name_two': 'miltiades s. demos', 
 		'expected': False, 
 		'description': 'elizabeth s moths comparison with article'
 	},
     {
-		'input': 'ella a ray;ella de los reyes', 
+		'name_one': 'ella a ray',
+		'name_two': 'ella de los reyes', 
 		'expected': True, 
 		'description': 'ella a ray comparison with article'
 	},
     {
-		'input': 'ella ray;ella de los reyes', 
+		'name_one': 'ella ray',
+		'name_two': 'ella de los reyes', 
 		'expected': True, 
 		'description': 'ella ray comparison with article'
 	},
     {
-		'input': 'ellen dearing;ellen l deering', 
+		'name_one': 'ellen dearing',
+		'name_two': 'ellen l deering', 
 		'expected': True, 
 		'description': 'ellen dearing comparison with article'
 	},
     {
-		'input': 'elliott diller;elliot van nostrand diller', 
+		'name_one': 'elliott diller',
+		'name_two': 'elliot van nostrand diller', 
 		'expected': True, 
 		'description': 'elliott diller comparison with article'
 	},
     {
-		'input': 'ellis a lasky;mortimer a. lasky', 
+		'name_one': 'ellis a lasky',
+		'name_two': 'mortimer a. lasky', 
 		'expected': False, 
 		'description': 'ellis a lasky comparison with article'
 	},
     {
-		'input': 'ellis p leonard;ellis pierson leonard', 
+		'name_one': 'ellis p leonard',
+		'name_two': 'ellis pierson leonard', 
 		'expected': True, 
 		'description': 'ellis p leonard comparison with article'
 	},
     {
-		'input': 'ellis t. demars;e. theodore demars', 
+		'name_one': 'ellis t. demars',
+		'name_two': 'e. theodore demars', 
 		'expected': True, 
 		'description': 'ellis t. demars comparison with article'
 	},
     {
-		'input': 'ellwood d rushworth;ellwood derrick rushworth', 
+		'name_one': 'ellwood d rushworth',
+		'name_two': 'ellwood derrick rushworth', 
 		'expected': True, 
 		'description': 'ellwood d rushworth comparison with article'
 	},
     {
-		'input': 'elmer a leslie;elmer archibald leslie', 
+		'name_one': 'elmer a leslie',
+		'name_two': 'elmer archibald leslie', 
 		'expected': True, 
 		'description': 'elmer a leslie comparison with article'
 	},
     {
-		'input': 'elmer de gowin;elmer louis degowin', 
+		'name_one': 'elmer de gowin',
+		'name_two': 'elmer louis degowin', 
 		'expected': True, 
 		'description': 'elmer de gowin comparison with article'
 	},
     {
-		'input': 'elmer l lucas;elmer lawrence lucas', 
+		'name_one': 'elmer l lucas',
+		'name_two': 'elmer lawrence lucas', 
 		'expected': True, 
 		'description': 'elmer l lucas comparison with article'
 	},
     {
-		'input': 'elmer l mcbride;elmer leon mcbride', 
+		'name_one': 'elmer l mcbride',
+		'name_two': 'elmer leon mcbride', 
 		'expected': True, 
 		'description': 'elmer l mcbride comparison with article'
 	},
     {
-		'input': 'elmer l whitman;elmer leroy whitman', 
+		'name_one': 'elmer l whitman',
+		'name_two': 'elmer leroy whitman', 
 		'expected': True, 
 		'description': 'elmer l whitman comparison with article'
 	},
     {
-		'input': 'elsa dehaas;elsa de haas', 
+		'name_one': 'elsa dehaas',
+		'name_two': 'elsa de haas', 
 		'expected': True, 
 		'description': 'elsa dehaas comparison with article'
 	},
     {
-		'input': 'elsie h leicester;katherine h. leicester', 
+		'name_one': 'elsie h leicester',
+		'name_two': 'katherine h. leicester', 
 		'expected': False, 
 		'description': 'elsie h leicester comparison with article'
 	},
     {
-		'input': 'elta vannorman;c. elta van norman', 
+		'name_one': 'elta vannorman',
+		'name_two': 'c. elta van norman', 
 		'expected': True, 
 		'description': 'elta vannorman comparison with article'
 	},
     {
-		'input': 'elton l quinn;elton leroy quinn', 
+		'name_one': 'elton l quinn',
+		'name_two': 'elton leroy quinn', 
 		'expected': True, 
 		'description': 'elton l quinn comparison with article'
 	},
     {
-		'input': 'elva leawton;elva lawton', 
+		'name_one': 'elva leawton',
+		'name_two': 'elva lawton', 
 		'expected': True, 
 		'description': 'elva leawton comparison with article'
 	},
     {
-		'input': 'elvin r latty;elvin remus latty', 
+		'name_one': 'elvin r latty',
+		'name_two': 'elvin remus latty', 
 		'expected': True, 
 		'description': 'elvin r latty comparison with article'
 	},
     {
-		'input': 'emanual delgado;jose manuel rodriguez delgado', 
+		'name_one': 'emanual delgado',
+		'name_two': 'jose manuel rodriguez delgado', 
 		'expected': True, 
 		'description': 'emanual delgado comparison with article'
 	},
     {
-		'input': 'emanuel levin;emanuel jack levin', 
+		'name_one': 'emanuel levin',
+		'name_two': 'emanuel jack levin', 
 		'expected': True, 
 		'description': 'emanuel levin comparison with article'
 	},
     {
-		'input': 'emeric a lawrence;emeric a. lawrence', 
+		'name_one': 'emeric a lawrence',
+		'name_two': 'emeric a. lawrence', 
 		'expected': True, 
 		'description': 'emeric a lawrence comparison with article'
 	},
     {
-		'input': 'emery leffel;emory c. leffel', 
+		'name_one': 'emery leffel',
+		'name_two': 'emory c. leffel', 
 		'expected': True, 
 		'description': 'emery leffel comparison with article'
 	},
     {
-		'input': 'emil jordan;emil leopold jordan', 
+		'name_one': 'emil jordan',
+		'name_two': 'emil leopold jordan', 
 		'expected': True, 
 		'description': 'emil jordan comparison with article'
 	},
     {
-		'input': 'emil lengyel;emil lengyel', 
+		'name_one': 'emil lengyel',
+		'name_two': 'emil lengyel', 
 		'expected': True, 
 		'description': 'emil lengyel comparison with article'
 	},
     {
-		'input': 'emil r wesa;pierre emile deguise', 
+		'name_one': 'emil r wesa',
+		'name_two': 'pierre emile deguise', 
 		'expected': False, 
 		'description': 'emil r wesa comparison with article'
 	},
     {
-		'input': 'emil w lehmann;emil wilhelm lehmann', 
+		'name_one': 'emil w lehmann',
+		'name_two': 'emil wilhelm lehmann', 
 		'expected': True, 
 		'description': 'emil w lehmann comparison with article'
 	},
     {
-		'input': 'emilia larson;henrietta melia larson', 
+		'name_one': 'emilia larson',
+		'name_two': 'henrietta melia larson', 
 		'expected': True, 
 		'description': 'emilia larson comparison with article'
 	},
     {
-		'input': 'emily k landrum;emily k. landrum', 
+		'name_one': 'emily k landrum',
+		'name_two': 'emily k. landrum', 
 		'expected': True, 
 		'description': 'emily k landrum comparison with article'
 	},
     {
-		'input': 'emily l. stogdill;emily leatherman stogdill', 
+		'name_one': 'emily l. stogdill',
+		'name_two': 'emily leatherman stogdill', 
 		'expected': True, 
 		'description': 'emily l. stogdill comparison with article'
 	},
     {
-		'input': 'emmerich von haam;emmerich von haam', 
+		'name_one': 'emmerich von haam',
+		'name_two': 'emmerich von haam', 
 		'expected': True, 
 		'description': 'emmerich von haam comparison with article'
 	},
     {
-		'input': 'emmett l bennett;emmett leslie bennett', 
+		'name_one': 'emmett l bennett',
+		'name_two': 'emmett leslie bennett', 
 		'expected': True, 
 		'description': 'emmett l bennett comparison with article'
 	},
     {
-		'input': 'emmy l wolff;emmy land wolff', 
+		'name_one': 'emmy l wolff',
+		'name_two': 'emmy land wolff', 
 		'expected': True, 
 		'description': 'emmy l wolff comparison with article'
 	},
     {
-		'input': 'erastus h lee;erastus h. lee', 
+		'name_one': 'erastus h lee',
+		'name_two': 'erastus h. lee', 
 		'expected': True, 
 		'description': 'erastus h lee comparison with article'
 	},
     {
-		'input': 'eric b degroat;eric brooks degroat', 
+		'name_one': 'eric b degroat',
+		'name_two': 'eric brooks degroat', 
 		'expected': True, 
 		'description': 'eric b degroat comparison with article'
 	},
     {
-		'input': 'erich l lehmann;erich leo lehmann', 
+		'name_one': 'erich l lehmann',
+		'name_two': 'erich leo lehmann', 
 		'expected': True, 
 		'description': 'erich l lehmann comparison with article'
 	},
     {
-		'input': 'ernest a dean;marshall a. dean', 
+		'name_one': 'ernest a dean',
+		'name_two': 'marshall a. dean', 
 		'expected': False, 
 		'description': 'ernest a dean comparison with article'
 	},
     {
-		'input': 'ernest e leisy;ernest erwin leisy', 
+		'name_one': 'ernest e leisy',
+		'name_two': 'ernest erwin leisy', 
 		'expected': True, 
 		'description': 'ernest e leisy comparison with article'
 	},
     {
-		'input': 'ernest g gardner;ernest dean gardner', 
+		'name_one': 'ernest g gardner',
+		'name_two': 'ernest dean gardner', 
 		'expected': False, 
 		'description': 'ernest g gardner comparison with article'
 	},
     {
-		'input': 'ernest j. monica;j. ernest delmonico', 
+		'name_one': 'ernest j. monica',
+		'name_two': 'j. ernest delmonico', 
 		'expected': True, 
 		'description': 'ernest j. monica comparison with article'
 	},
     {
-		'input': 'ernest l highbarger;ernest leslie highbarger', 
+		'name_one': 'ernest l highbarger',
+		'name_two': 'ernest leslie highbarger', 
 		'expected': True, 
 		'description': 'ernest l highbarger comparison with article'
 	},
     {
-		'input': 'ernest l luther;ernest leonard luther', 
+		'name_one': 'ernest l luther',
+		'name_two': 'ernest leonard luther', 
 		'expected': True, 
 		'description': 'ernest l luther comparison with article'
 	},
     {
-		'input': 'ernest leavitt;ernest e. leavitt', 
+		'name_one': 'ernest leavitt',
+		'name_two': 'ernest e. leavitt', 
 		'expected': True, 
 		'description': 'ernest leavitt comparison with article'
 	},
     {
-		'input': 'ernest leveque;ernest j. leveque', 
+		'name_one': 'ernest leveque',
+		'name_two': 'ernest j. leveque', 
 		'expected': True, 
 		'description': 'ernest leveque comparison with article'
 	},
     {
-		'input': 'ernest mader;ernest lee mader', 
+		'name_one': 'ernest mader',
+		'name_two': 'ernest lee mader', 
 		'expected': True, 
 		'description': 'ernest mader comparison with article'
 	},
     {
-		'input': 'ernest o lawrence;ernest o. lawrence', 
+		'name_one': 'ernest o lawrence',
+		'name_two': 'ernest o. lawrence', 
 		'expected': True, 
 		'description': 'ernest o lawrence comparison with article'
 	},
     {
-		'input': 'ernest p lane;ernest preston lane', 
+		'name_one': 'ernest p lane',
+		'name_two': 'ernest preston lane', 
 		'expected': True, 
 		'description': 'ernest p lane comparison with article'
 	},
     {
-		'input': 'ernest s larson;ernest s. larson', 
+		'name_one': 'ernest s larson',
+		'name_two': 'ernest s. larson', 
 		'expected': True, 
 		'description': 'ernest s larson comparison with article'
 	},
     {
-		'input': 'ernest t de wald;ernest theodore dewald', 
+		'name_one': 'ernest t de wald',
+		'name_two': 'ernest theodore dewald', 
 		'expected': True, 
 		'description': 'ernest t de wald comparison with article'
 	},
     {
-		'input': 'ernestine d guelich;ernestine dewes guelich', 
+		'name_one': 'ernestine d guelich',
+		'name_two': 'ernestine dewes guelich', 
 		'expected': True, 
 		'description': 'ernestine d guelich comparison with article'
 	},
     {
-		'input': 'ernst levy;ernst levy', 
+		'name_one': 'ernst levy',
+		'name_two': 'ernst levy', 
 		'expected': True, 
 		'description': 'ernst levy comparison with article'
 	},
     {
-		'input': 'erskine morse;erskine vance morse', 
+		'name_one': 'erskine morse',
+		'name_two': 'erskine vance morse', 
 		'expected': True, 
 		'description': 'erskine morse comparison with article'
 	},
     {
-		'input': 'ervin denisen;ervin loren denisen', 
+		'name_one': 'ervin denisen',
+		'name_two': 'ervin loren denisen', 
 		'expected': True, 
 		'description': 'ervin denisen comparison with article'
 	},
     {
-		'input': 'erving a leonard;irving a. leonard', 
+		'name_one': 'erving a leonard',
+		'name_two': 'irving a. leonard', 
 		'expected': True, 
 		'description': 'erving a leonard comparison with article'
 	},
     {
-		'input': 'estelle lacy;estelle allen delacy', 
+		'name_one': 'estelle lacy',
+		'name_two': 'estelle allen delacy', 
 		'expected': True, 
 		'description': 'estelle lacy comparison with article'
 	},
     {
-		'input': 'esther d carlson;esther dewitz carlson', 
+		'name_one': 'esther d carlson',
+		'name_two': 'esther dewitz carlson', 
 		'expected': True, 
 		'description': 'esther d carlson comparison with article'
 	},
     {
-		'input': 'esther lee;esther lee', 
+		'name_one': 'esther lee',
+		'name_two': 'esther lee', 
 		'expected': True, 
 		'description': 'esther lee comparison with article'
 	},
     {
-		'input': 'esther leigeber;esther marie leihgeber', 
+		'name_one': 'esther leigeber',
+		'name_two': 'esther marie leihgeber', 
 		'expected': True, 
 		'description': 'esther leigeber comparison with article'
 	},
     {
-		'input': 'ethel b lamore;ethel b. lamore', 
+		'name_one': 'ethel b lamore',
+		'name_two': 'ethel b. lamore', 
 		'expected': True, 
 		'description': 'ethel b lamore comparison with article'
 	},
     {
-		'input': 'eugene delwiche;eugene albert delwiche', 
+		'name_one': 'eugene delwiche',
+		'name_two': 'eugene albert delwiche', 
 		'expected': True, 
 		'description': 'eugene delwiche comparison with article'
 	},
     {
-		'input': 'eugene f vanepps;eugene francis van epps', 
+		'name_one': 'eugene f vanepps',
+		'name_two': 'eugene francis van epps', 
 		'expected': True, 
 		'description': 'eugene f vanepps comparison with article'
 	},
     {
-		'input': 'eugene j landry;eugene markley landis', 
+		'name_one': 'eugene j landry',
+		'name_two': 'eugene markley landis', 
 		'expected': False, 
 		'description': 'eugene j landry comparison with article'
 	},
     {
-		'input': 'eugene l shrader;eugene lee shrader', 
+		'name_one': 'eugene l shrader',
+		'name_two': 'eugene lee shrader', 
 		'expected': True, 
 		'description': 'eugene l shrader comparison with article'
 	},
     {
-		'input': 'eugene m lewis;floyd eugene lewis', 
+		'name_one': 'eugene m lewis',
+		'name_two': 'floyd eugene lewis', 
 		'expected': False, 
 		'description': 'eugene m lewis comparison with article'
 	},
     {
-		'input': 'eugene w lepeschkin;eugene lepeschkin', 
+		'name_one': 'eugene w lepeschkin',
+		'name_two': 'eugene lepeschkin', 
 		'expected': True, 
 		'description': 'eugene w lepeschkin comparison with article'
 	},
     {
-		'input': 'eugene walsh;eugene lawrence walsh', 
+		'name_one': 'eugene walsh',
+		'name_two': 'eugene lawrence walsh', 
 		'expected': True, 
 		'description': 'eugene walsh comparison with article'
 	},
     {
-		'input': 'eva l goble;eva lenora goble', 
+		'name_one': 'eva l goble',
+		'name_two': 'eva lenora goble', 
 		'expected': True, 
 		'description': 'eva l goble comparison with article'
 	},
     {
-		'input': 'evald b lawson;evald b. lawson', 
+		'name_one': 'evald b lawson',
+		'name_two': 'evald b. lawson', 
 		'expected': True, 
 		'description': 'evald b lawson comparison with article'
 	},
     {
-		'input': 'evan l lewis;evan l. lewis', 
+		'name_one': 'evan l lewis',
+		'name_two': 'evan l. lewis', 
 		'expected': True, 
 		'description': 'evan l lewis comparison with article'
 	},
     {
-		'input': 'evans a. laroche;e. a. laroche', 
+		'name_one': 'evans a. laroche',
+		'name_two': 'e. a. laroche', 
 		'expected': True, 
 		'description': 'evans a. laroche comparison with article'
 	},
     {
-		'input': 'evelyn h lewis;evelyn hodges lewis', 
+		'name_one': 'evelyn h lewis',
+		'name_two': 'evelyn hodges lewis', 
 		'expected': True, 
 		'description': 'evelyn h lewis comparison with article'
 	},
     {
-		'input': 'evelyn l way;evelyn lee way', 
+		'name_one': 'evelyn l way',
+		'name_two': 'evelyn lee way', 
 		'expected': True, 
 		'description': 'evelyn l way comparison with article'
 	},
     {
-		'input': 'evelyn r landon;r. d. landon', 
+		'name_one': 'evelyn r landon',
+		'name_two': 'r. d. landon', 
 		'expected': False, 
 		'description': 'evelyn r landon comparison with article'
 	},
     {
-		'input': 'everett l keener;everett lee keener', 
+		'name_one': 'everett l keener',
+		'name_two': 'everett lee keener', 
 		'expected': True, 
 		'description': 'everett l keener comparison with article'
 	},
     {
-		'input': 'everett lee;everett s. lee', 
+		'name_one': 'everett lee',
+		'name_two': 'everett s. lee', 
 		'expected': True, 
 		'description': 'everett lee comparison with article'
 	},
     {
-		'input': 'everett lewis;everett vernon lewis', 
+		'name_one': 'everett lewis',
+		'name_two': 'everett vernon lewis', 
 		'expected': True, 
 		'description': 'everett lewis comparison with article'
 	},
     {
-		'input': 'evert f van maanen;e. f. van maanen', 
+		'name_one': 'evert f van maanen',
+		'name_two': 'e. f. van maanen', 
 		'expected': True, 
 		'description': 'evert f van maanen comparison with article'
 	},
     {
-		'input': 'ewell j lytton;j. leon lichtin', 
+		'name_one': 'ewell j lytton',
+		'name_two': 'j. leon lichtin', 
 		'expected': False, 
 		'description': 'ewell j lytton comparison with article'
 	},
     {
-		'input': 'ezra l howell;ezra lewis howell', 
+		'name_one': 'ezra l howell',
+		'name_two': 'ezra lewis howell', 
 		'expected': True, 
 		'description': 'ezra l howell comparison with article'
 	},
     {
-		'input': 'f dean mcclusky;f. dean mcclusky', 
+		'name_one': 'f dean mcclusky',
+		'name_two': 'f. dean mcclusky', 
 		'expected': True, 
 		'description': 'f dean mcclusky comparison with article'
 	},
     {
-		'input': 'f devere smith;fenelon devere smith', 
+		'name_one': 'f devere smith',
+		'name_two': 'fenelon devere smith', 
 		'expected': True, 
 		'description': 'f devere smith comparison with article'
 	},
     {
-		'input': 'f lee benns;f. lee benns', 
+		'name_one': 'f lee benns',
+		'name_two': 'f. lee benns', 
 		'expected': True, 
 		'description': 'f lee benns comparison with article'
 	},
     {
-		'input': 'faith l. gorrell;faith lanman gorrell', 
+		'name_one': 'faith l. gorrell',
+		'name_two': 'faith lanman gorrell', 
 		'expected': True, 
 		'description': 'faith l. gorrell comparison with article'
 	},
     {
-		'input': 'fanny a lahti;aarre kotivalo lahti', 
+		'name_one': 'fanny a lahti',
+		'name_two': 'aarre kotivalo lahti', 
 		'expected': False, 
 		'description': 'fanny a lahti comparison with article'
 	},
     {
-		'input': 'faust c dewalsh;faust charles dewalsh', 
+		'name_one': 'faust c dewalsh',
+		'name_two': 'faust charles dewalsh', 
 		'expected': True, 
 		'description': 'faust c dewalsh comparison with article'
 	},
     {
-		'input': 'ferdinand lessing;ferdinand d. lessing', 
+		'name_one': 'ferdinand lessing',
+		'name_two': 'ferdinand d. lessing', 
 		'expected': True, 
 		'description': 'ferdinand lessing comparison with article'
 	},
     {
-		'input': 'fitzhugh l carmichael;fitzhugh lee carmichael', 
+		'name_one': 'fitzhugh l carmichael',
+		'name_two': 'fitzhugh lee carmichael', 
 		'expected': True, 
 		'description': 'fitzhugh l carmichael comparison with article'
 	},
     {
-		'input': 'fitzhugh l mcree, jr;fitzhugh lee mcree', 
+		'name_one': 'fitzhugh l mcree, jr',
+		'name_two': 'fitzhugh lee mcree', 
 		'expected': True, 
 		'description': 'fitzhugh l mcree, jr comparison with article'
 	},
     {
-		'input': 'flaria h frain;h. larue frain', 
+		'name_one': 'flaria h frain',
+		'name_two': 'h. larue frain', 
 		'expected': False, 
 		'description': 'flaria h frain comparison with article'
 	},
     {
-		'input': 'florence alden;florence delia alden', 
+		'name_one': 'florence alden',
+		'name_two': 'florence delia alden', 
 		'expected': True, 
 		'description': 'florence alden comparison with article'
 	},
     {
-		'input': 'florence b leaver;florence b. leaver', 
+		'name_one': 'florence b leaver',
+		'name_two': 'florence b. leaver', 
 		'expected': True, 
 		'description': 'florence b leaver comparison with article'
 	},
     {
-		'input': 'florence p lewis;florence parthenia lewis', 
+		'name_one': 'florence p lewis',
+		'name_two': 'florence parthenia lewis', 
 		'expected': True, 
 		'description': 'florence p lewis comparison with article'
 	},
     {
-		'input': 'flornece leiser;florine j. leiser', 
+		'name_one': 'flornece leiser',
+		'name_two': 'florine j. leiser', 
 		'expected': True, 
 		'description': 'flornece leiser comparison with article'
 	},
     {
-		'input': 'floy de lancey;floy w. delancey', 
+		'name_one': 'floy de lancey',
+		'name_two': 'floy w. delancey', 
 		'expected': True, 
 		'description': 'floy de lancey comparison with article'
 	},
     {
-		'input': 'floyd j. leblanc;floyd j. leblanc', 
+		'name_one': 'floyd j. leblanc',
+		'name_two': 'floyd j. leblanc', 
 		'expected': True, 
 		'description': 'floyd j. leblanc comparison with article'
 	},
     {
-		'input': 'floyd l mcelroy;floyd lester mcelroy', 
+		'name_one': 'floyd l mcelroy',
+		'name_two': 'floyd lester mcelroy', 
 		'expected': True, 
 		'description': 'floyd l mcelroy comparison with article'
 	},
     {
-		'input': 'floyd lamb james;floyd lamb james', 
+		'name_one': 'floyd lamb james',
+		'name_two': 'floyd lamb james', 
 		'expected': True, 
 		'description': 'floyd lamb james comparison with article'
 	},
     {
-		'input': 'floyd lear;floyd s. lear', 
+		'name_one': 'floyd lear',
+		'name_two': 'floyd s. lear', 
 		'expected': True, 
 		'description': 'floyd lear comparison with article'
 	},
     {
-		'input': 'floyd s de lashmutt;floyd delashmutt', 
+		'name_one': 'floyd s de lashmutt',
+		'name_two': 'floyd delashmutt', 
 		'expected': True, 
 		'description': 'floyd s de lashmutt comparison with article'
 	},
     {
-		'input': 'ford louis battles;ford lewis battles', 
+		'name_one': 'ford louis battles',
+		'name_two': 'ford lewis battles', 
 		'expected': True, 
 		'description': 'ford louis battles comparison with article'
 	},
     {
-		'input': 'forest l shoemaker;forest leroy shoemaker', 
+		'name_one': 'forest l shoemaker',
+		'name_two': 'forest leroy shoemaker', 
 		'expected': True, 
 		'description': 'forest l shoemaker comparison with article'
 	},
     {
-		'input': 'forrest n lake;forrest unna lake', 
+		'name_one': 'forrest n lake',
+		'name_two': 'forrest unna lake', 
 		'expected': False, 
 		'description': 'forrest n lake comparison with article'
 	},
     {
-		'input': 'forrest w lancaster;forrest wesley lancaster', 
+		'name_one': 'forrest w lancaster',
+		'name_two': 'forrest wesley lancaster', 
 		'expected': True, 
 		'description': 'forrest w lancaster comparison with article'
 	},
     {
-		'input': 'france g fell;germaine lafeuille', 
+		'name_one': 'france g fell',
+		'name_two': 'germaine lafeuille', 
 		'expected': False, 
 		'description': 'france g fell comparison with article'
 	},
     {
-		'input': 'frances d scott;frances dean scott', 
+		'name_one': 'frances d scott',
+		'name_two': 'frances dean scott', 
 		'expected': True, 
 		'description': 'frances d scott comparison with article'
 	},
     {
-		'input': 'frances e craft;frances de graaff', 
+		'name_one': 'frances e craft',
+		'name_two': 'frances de graaff', 
 		'expected': False, 
 		'description': 'frances e craft comparison with article'
 	},
     {
-		'input': 'frances j dieg;francis j. deig', 
+		'name_one': 'frances j dieg',
+		'name_two': 'francis j. deig', 
 		'expected': False, 
 		'description': 'frances j dieg comparison with article'
 	},
     {
-		'input': 'frances l cox;cyrus lafayette cox', 
+		'name_one': 'frances l cox',
+		'name_two': 'cyrus lafayette cox', 
 		'expected': False, 
 		'description': 'frances l cox comparison with article'
 	},
     {
-		'input': 'frances l tyler;frances landrum tyler', 
+		'name_one': 'frances l tyler',
+		'name_two': 'frances landrum tyler', 
 		'expected': True, 
 		'description': 'frances l tyler comparison with article'
 	},
     {
-		'input': 'frances m graef;frances de graaff', 
+		'name_one': 'frances m graef',
+		'name_two': 'frances de graaff', 
 		'expected': True, 
 		'description': 'frances m graef comparison with article'
 	},
     {
-		'input': 'frances v holton;frances virginia lee holton', 
+		'name_one': 'frances v holton',
+		'name_two': 'frances virginia lee holton', 
 		'expected': True, 
 		'description': 'frances v holton comparison with article'
 	},
     {
-		'input': 'frances van duyne;frances o. van duyne', 
+		'name_one': 'frances van duyne',
+		'name_two': 'frances o. van duyne', 
 		'expected': True, 
 		'description': 'frances van duyne comparison with article'
 	},
     {
-		'input': 'frances vanvoorhis;frances van voorhis', 
+		'name_one': 'frances vanvoorhis',
+		'name_two': 'frances van voorhis', 
 		'expected': True, 
 		'description': 'frances vanvoorhis comparison with article'
 	},
     {
-		'input': 'francis a laine;francis anthony laine', 
+		'name_one': 'francis a laine',
+		'name_two': 'francis anthony laine', 
 		'expected': True, 
 		'description': 'francis a laine comparison with article'
 	},
     {
-		'input': 'francis c lanning;francis chowing lanning', 
+		'name_one': 'francis c lanning',
+		'name_two': 'francis chowing lanning', 
 		'expected': True, 
 		'description': 'francis c lanning comparison with article'
 	},
     {
-		'input': 'francis c lathrop;francis child lathrop', 
+		'name_one': 'francis c lathrop',
+		'name_two': 'francis child lathrop', 
 		'expected': True, 
 		'description': 'francis c lathrop comparison with article'
 	},
     {
-		'input': 'francis d lazanby;francis d. lazenby', 
+		'name_one': 'francis d lazanby',
+		'name_two': 'francis d. lazenby', 
 		'expected': True, 
 		'description': 'francis d lazanby comparison with article'
 	},
     {
-		'input': 'francis deleo;francis x. dileo', 
+		'name_one': 'francis deleo',
+		'name_two': 'francis x. dileo', 
 		'expected': True, 
 		'description': 'francis deleo comparison with article'
 	},
     {
-		'input': 'francis e lejeune, jr;francis ernest le jeune', 
+		'name_one': 'francis e lejeune, jr',
+		'name_two': 'francis ernest le jeune', 
 		'expected': True, 
 		'description': 'francis e lejeune, jr comparison with article'
 	},
     {
-		'input': 'francis g lee;francis g. lee', 
+		'name_one': 'francis g lee',
+		'name_two': 'francis g. lee', 
 		'expected': True, 
 		'description': 'francis g lee comparison with article'
 	},
     {
-		'input': 'francis h friedman;francis lee friedman', 
+		'name_one': 'francis h friedman',
+		'name_two': 'francis lee friedman', 
 		'expected': False, 
 		'description': 'francis h friedman comparison with article'
 	},
     {
-		'input': 'francis l castleman;francis lee castleman', 
+		'name_one': 'francis l castleman',
+		'name_two': 'francis lee castleman', 
 		'expected': True, 
 		'description': 'francis l castleman comparison with article'
 	},
     {
-		'input': 'francis l harmon;francis lelande harmon', 
+		'name_one': 'francis l harmon',
+		'name_two': 'francis lelande harmon', 
 		'expected': True, 
 		'description': 'francis l harmon comparison with article'
 	},
     {
-		'input': 'francis l k hsu;francis lang-kwang hsu', 
+		'name_one': 'francis l k hsu',
+		'name_two': 'francis lang-kwang hsu', 
 		'expected': True, 
 		'description': 'francis l k hsu comparison with article'
 	},
     {
-		'input': 'francis l lederer;francis loeffler lederer', 
+		'name_one': 'francis l lederer',
+		'name_two': 'francis loeffler lederer', 
 		'expected': True, 
 		'description': 'francis l lederer comparison with article'
 	},
     {
-		'input': 'francis l. childs;francis lane childs', 
+		'name_one': 'francis l. childs',
+		'name_two': 'francis lane childs', 
 		'expected': True, 
 		'description': 'francis l. childs comparison with article'
 	},
     {
-		'input': 'francis l. utley;francis lee utley', 
+		'name_one': 'francis l. utley',
+		'name_two': 'francis lee utley', 
 		'expected': True, 
 		'description': 'francis l. utley comparison with article'
 	},
     {
-		'input': 'francis lee;leon francis lee', 
+		'name_one': 'francis lee',
+		'name_two': 'leon francis lee', 
 		'expected': True, 
 		'description': 'francis lee comparison with article'
 	},
     {
-		'input': 'francis m la fleur;francis m. la fleur', 
+		'name_one': 'francis m la fleur',
+		'name_two': 'francis m. la fleur', 
 		'expected': True, 
 		'description': 'francis m la fleur comparison with article'
 	},
     {
-		'input': 'francis m lamb;francis lamb', 
+		'name_one': 'francis m lamb',
+		'name_two': 'francis lamb', 
 		'expected': True, 
 		'description': 'francis m lamb comparison with article'
 	},
     {
-		'input': 'francis r delfeld;francis delfeld', 
+		'name_one': 'francis r delfeld',
+		'name_two': 'francis delfeld', 
 		'expected': True, 
 		'description': 'francis r delfeld comparison with article'
 	},
     {
-		'input': 'francis weille;francis lee weille', 
+		'name_one': 'francis weille',
+		'name_two': 'francis lee weille', 
 		'expected': True, 
 		'description': 'francis weille comparison with article'
 	},
     {
-		'input': 'francis x lake;francis x. lake', 
+		'name_one': 'francis x lake',
+		'name_two': 'francis x. lake', 
 		'expected': True, 
 		'description': 'francis x lake comparison with article'
 	},
     {
-		'input': 'francisco dela sala;francesco della-sala', 
+		'name_one': 'francisco dela sala',
+		'name_two': 'francesco della-sala', 
 		'expected': True, 
 		'description': 'francisco dela sala comparison with article'
 	},
     {
-		'input': 'frank a de costa,jr;frank a. decosta', 
+		'name_one': 'frank a de costa,jr',
+		'name_two': 'frank a. decosta', 
 		'expected': True, 
 		'description': 'frank a de costa,jr comparison with article'
 	},
     {
-		'input': 'frank a demars;frank addison demars', 
+		'name_one': 'frank a demars',
+		'name_two': 'frank addison demars', 
 		'expected': True, 
 		'description': 'frank a demars comparison with article'
 	},
     {
-		'input': 'frank a evger;frank e. vandiver', 
+		'name_one': 'frank a evger',
+		'name_two': 'frank e. vandiver', 
 		'expected': False, 
 		'description': 'frank a evger comparison with article'
 	},
     {
-		'input': 'frank a laurie;frank a. laurie', 
+		'name_one': 'frank a laurie',
+		'name_two': 'frank a. laurie', 
 		'expected': True, 
 		'description': 'frank a laurie comparison with article'
 	},
     {
-		'input': 'frank b mcclelland;frank deloss mcclelland', 
+		'name_one': 'frank b mcclelland',
+		'name_two': 'frank deloss mcclelland', 
 		'expected': False, 
 		'description': 'frank b mcclelland comparison with article'
 	},
     {
-		'input': 'frank c larson;frank clark larson', 
+		'name_one': 'frank c larson',
+		'name_two': 'frank clark larson', 
 		'expected': True, 
 		'description': 'frank c larson comparison with article'
 	},
     {
-		'input': 'frank d watson;frank dekker watson', 
+		'name_one': 'frank d watson',
+		'name_two': 'frank dekker watson', 
 		'expected': True, 
 		'description': 'frank d watson comparison with article'
 	},
     {
-		'input': 'frank delano, jr;frank lanni', 
+		'name_one': 'frank delano, jr',
+		'name_two': 'frank lanni', 
 		'expected': True, 
 		'description': 'frank delano, jr comparison with article'
 	},
     {
-		'input': 'frank e legg;frank evariste legg', 
+		'name_one': 'frank e legg',
+		'name_two': 'frank evariste legg', 
 		'expected': True, 
 		'description': 'frank e legg comparison with article'
 	},
     {
-		'input': 'frank e lentz;frank edwin lentz', 
+		'name_one': 'frank e lentz',
+		'name_two': 'frank edwin lentz', 
 		'expected': True, 
 		'description': 'frank e lentz comparison with article'
 	},
     {
-		'input': 'frank g lankard;frank g. lankard', 
+		'name_one': 'frank g lankard',
+		'name_two': 'frank g. lankard', 
 		'expected': True, 
 		'description': 'frank g lankard comparison with article'
 	},
     {
-		'input': 'frank h lee;frank h. lee', 
+		'name_one': 'frank h lee',
+		'name_two': 'frank h. lee', 
 		'expected': True, 
 		'description': 'frank h lee comparison with article'
 	},
     {
-		'input': 'frank j roberts;frank lester roberts', 
+		'name_one': 'frank j roberts',
+		'name_two': 'frank lester roberts', 
 		'expected': False, 
 		'description': 'frank j roberts comparison with article'
 	},
     {
-		'input': 'frank l day;frank leighton day', 
+		'name_one': 'frank l day',
+		'name_two': 'frank leighton day', 
 		'expected': True, 
 		'description': 'frank l day comparison with article'
 	},
     {
-		'input': 'frank l guest;dominic l. degiusti', 
+		'name_one': 'frank l guest',
+		'name_two': 'dominic l. degiusti', 
 		'expected': False, 
 		'description': 'frank l guest comparison with article'
 	},
     {
-		'input': 'frank l howard;frank leslie howard', 
+		'name_one': 'frank l howard',
+		'name_two': 'frank leslie howard', 
 		'expected': True, 
 		'description': 'frank l howard comparison with article'
 	},
     {
-		'input': 'frank l jennings;frank lamont jennings', 
+		'name_one': 'frank l jennings',
+		'name_two': 'frank lamont jennings', 
 		'expected': True, 
 		'description': 'frank l jennings comparison with article'
 	},
     {
-		'input': 'frank l meleney;frank lamont meleney', 
+		'name_one': 'frank l meleney',
+		'name_two': 'frank lamont meleney', 
 		'expected': True, 
 		'description': 'frank l meleney comparison with article'
 	},
     {
-		'input': 'frank l myers;frank lewis myers', 
+		'name_one': 'frank l myers',
+		'name_two': 'frank lewis myers', 
 		'expected': True, 
 		'description': 'frank l myers comparison with article'
 	},
     {
-		'input': 'frank l weston;frank laurance weston', 
+		'name_one': 'frank l weston',
+		'name_two': 'frank laurance weston', 
 		'expected': True, 
 		'description': 'frank l weston comparison with article'
 	},
     {
-		'input': 'frank laguori;frank e. liguori', 
+		'name_one': 'frank laguori',
+		'name_two': 'frank e. liguori', 
 		'expected': True, 
 		'description': 'frank laguori comparison with article'
 	},
     {
-		'input': 'frank m de giacomo;frank degiacomo', 
+		'name_one': 'frank m de giacomo',
+		'name_two': 'frank degiacomo', 
 		'expected': True, 
 		'description': 'frank m de giacomo comparison with article'
 	},
     {
-		'input': 'frank m lescher;frank mills lescher', 
+		'name_one': 'frank m lescher',
+		'name_two': 'frank mills lescher', 
 		'expected': True, 
 		'description': 'frank m lescher comparison with article'
 	},
     {
-		'input': 'frank n van buren;frank newman van buren', 
+		'name_one': 'frank n van buren',
+		'name_two': 'frank newman van buren', 
 		'expected': True, 
 		'description': 'frank n van buren comparison with article'
 	},
     {
-		'input': 'frank r lacy;frank r. lacy', 
+		'name_one': 'frank r lacy',
+		'name_two': 'frank r. lacy', 
 		'expected': True, 
 		'description': 'frank r lacy comparison with article'
 	},
     {
-		'input': 'frank s schwartz;frank leroy schwartz', 
+		'name_one': 'frank s schwartz',
+		'name_two': 'frank leroy schwartz', 
 		'expected': False, 
 		'description': 'frank s schwartz comparison with article'
 	},
     {
-		'input': 'frank t hitchcock;frank lauren hitchcock', 
+		'name_one': 'frank t hitchcock',
+		'name_two': 'frank lauren hitchcock', 
 		'expected': False, 
 		'description': 'frank t hitchcock comparison with article'
 	},
     {
-		'input': 'frank t lane;frank lane', 
+		'name_one': 'frank t lane',
+		'name_two': 'frank lane', 
 		'expected': True, 
 		'description': 'frank t lane comparison with article'
 	},
     {
-		'input': 'frank w dewolf;frank w. dewolf', 
+		'name_one': 'frank w dewolf',
+		'name_two': 'frank w. dewolf', 
 		'expected': True, 
 		'description': 'frank w dewolf comparison with article'
 	},
     {
-		'input': 'frank w lewis;frank mendell lewis', 
+		'name_one': 'frank w lewis',
+		'name_two': 'frank mendell lewis', 
 		'expected': False, 
 		'description': 'frank w lewis comparison with article'
 	},
     {
-		'input': 'frank walter clark;walter van tilburg clark', 
+		'name_one': 'frank walter clark',
+		'name_two': 'walter van tilburg clark', 
 		'expected': False, 
 		'description': 'frank walter clark comparison with article'
 	},
     {
-		'input': 'frank x keller;frank leuer keller', 
+		'name_one': 'frank x keller',
+		'name_two': 'frank leuer keller', 
 		'expected': False, 
 		'description': 'frank x keller comparison with article'
 	},
     {
-		'input': 'franklin c latcham;franklin chester latcham', 
+		'name_one': 'franklin c latcham',
+		'name_two': 'franklin chester latcham', 
 		'expected': True, 
 		'description': 'franklin c latcham comparison with article'
 	},
     {
-		'input': 'franklin l baumer;franklin levan baumer', 
+		'name_one': 'franklin l baumer',
+		'name_two': 'franklin levan baumer', 
 		'expected': True, 
 		'description': 'franklin l baumer comparison with article'
 	},
     {
-		'input': 'franklyn vanhouten;franklyn bosworth van houten', 
+		'name_one': 'franklyn vanhouten',
+		'name_two': 'franklyn bosworth van houten', 
 		'expected': True, 
 		'description': 'franklyn vanhouten comparison with article'
 	},
     {
-		'input': 'franz landsderbel;franz landsbsrger', 
+		'name_one': 'franz landsderbel',
+		'name_two': 'franz landsbsrger', 
 		'expected': False, 
 		'description': 'franz landsderbel comparison with article'
 	},
     {
-		'input': 'fred b deknatel;frederick brockway deknatel', 
+		'name_one': 'fred b deknatel',
+		'name_two': 'frederick brockway deknatel', 
 		'expected': True, 
 		'description': 'fred b deknatel comparison with article'
 	},
     {
-		'input': 'fred d cochran;fred derward cochran', 
+		'name_one': 'fred d cochran',
+		'name_two': 'fred derward cochran', 
 		'expected': True, 
 		'description': 'fred d cochran comparison with article'
 	},
     {
-		'input': 'fred e. deatherage;fred e. deatherage', 
+		'name_one': 'fred e. deatherage',
+		'name_two': 'fred e. deatherage', 
 		'expected': True, 
 		'description': 'fred e. deatherage comparison with article'
 	},
     {
-		'input': 'fred fontes;fred e. lafon', 
+		'name_one': 'fred fontes',
+		'name_two': 'fred e. lafon', 
 		'expected': False, 
 		'description': 'fred fontes comparison with article'
 	},
     {
-		'input': 'fred j lewis;fred j. lewis', 
+		'name_one': 'fred j lewis',
+		'name_two': 'fred j. lewis', 
 		'expected': True, 
 		'description': 'fred j lewis comparison with article'
 	},
     {
-		'input': 'fred l humphrey;fred lasalle humphrey', 
+		'name_one': 'fred l humphrey',
+		'name_two': 'fred lasalle humphrey', 
 		'expected': True, 
 		'description': 'fred l humphrey comparison with article'
 	},
     {
-		'input': 'fred l kerr;frederick laird kerr', 
+		'name_one': 'fred l kerr',
+		'name_two': 'frederick laird kerr', 
 		'expected': True, 
 		'description': 'fred l kerr comparison with article'
 	},
     {
-		'input': 'fred l stetson;fred lea stetson', 
+		'name_one': 'fred l stetson',
+		'name_two': 'fred lea stetson', 
 		'expected': True, 
 		'description': 'fred l stetson comparison with article'
 	},
     {
-		'input': 'fred l walkey;fred leslie walkey', 
+		'name_one': 'fred l walkey',
+		'name_two': 'fred leslie walkey', 
 		'expected': True, 
 		'description': 'fred l walkey comparison with article'
 	},
     {
-		'input': 'fred m moreau;fred l. lamoreau', 
+		'name_one': 'fred m moreau',
+		'name_two': 'fred l. lamoreau', 
 		'expected': False, 
 		'description': 'fred m moreau comparison with article'
 	},
     {
-		'input': 'fred m moreau;fred lamoreau', 
+		'name_one': 'fred m moreau',
+		'name_two': 'fred lamoreau', 
 		'expected': True, 
 		'description': 'fred m moreau comparison with article'
 	},
     {
-		'input': 'frederic h leavitt;frederic headley leavitt', 
+		'name_one': 'frederic h leavitt',
+		'name_two': 'frederic headley leavitt', 
 		'expected': True, 
 		'description': 'frederic h leavitt comparison with article'
 	},
     {
-		'input': 'frederich deibler;frederick shipp deibler', 
+		'name_one': 'frederich deibler',
+		'name_two': 'frederick shipp deibler', 
 		'expected': True, 
 		'description': 'frederich deibler comparison with article'
 	},
     {
-		'input': 'frederick c lane;frederic chapin lane', 
+		'name_one': 'frederick c lane',
+		'name_two': 'frederic chapin lane', 
 		'expected': True, 
 		'description': 'frederick c lane comparison with article'
 	},
     {
-		'input': 'frederick c leonard;frederick c. leonard', 
+		'name_one': 'frederick c leonard',
+		'name_two': 'frederick c. leonard', 
 		'expected': True, 
 		'description': 'frederick c leonard comparison with article'
 	},
     {
-		'input': 'frederick c. landsittel;frederick c. landsittel', 
+		'name_one': 'frederick c. landsittel',
+		'name_two': 'frederick c. landsittel', 
 		'expected': True, 
 		'description': 'frederick c. landsittel comparison with article'
 	},
     {
-		'input': 'frederick d geist;frederick denkmar geist', 
+		'name_one': 'frederick d geist',
+		'name_two': 'frederick denkmar geist', 
 		'expected': True, 
 		'description': 'frederick d geist comparison with article'
 	},
     {
-		'input': 'frederick d heald;frederick deforest heald', 
+		'name_one': 'frederick d heald',
+		'name_two': 'frederick deforest heald', 
 		'expected': True, 
 		'description': 'frederick d heald comparison with article'
 	},
     {
-		'input': 'frederick d miller;frederick dewolfe miller', 
+		'name_one': 'frederick d miller',
+		'name_two': 'frederick dewolfe miller', 
 		'expected': True, 
 		'description': 'frederick d miller comparison with article'
 	},
     {
-		'input': 'frederick d tootell;frederic delmont tootell', 
+		'name_one': 'frederick d tootell',
+		'name_two': 'frederic delmont tootell', 
 		'expected': True, 
 		'description': 'frederick d tootell comparison with article'
 	},
     {
-		'input': 'frederick deuschle;frederick m. deuschle', 
+		'name_one': 'frederick deuschle',
+		'name_two': 'frederick m. deuschle', 
 		'expected': True, 
 		'description': 'frederick deuschle comparison with article'
 	},
     {
-		'input': 'frederick l hovde;frederick lawson hovde', 
+		'name_one': 'frederick l hovde',
+		'name_two': 'frederick lawson hovde', 
 		'expected': True, 
 		'description': 'frederick l hovde comparison with article'
 	},
     {
-		'input': 'frederick l test;frederick laurent test', 
+		'name_one': 'frederick l test',
+		'name_two': 'frederick laurent test', 
 		'expected': True, 
 		'description': 'frederick l test comparison with article'
 	},
     {
-		'input': 'frederick lehner;frederick lehner', 
+		'name_one': 'frederick lehner',
+		'name_two': 'frederick lehner', 
 		'expected': True, 
 		'description': 'frederick lehner comparison with article'
 	},
     {
-		'input': 'frederick lewis;frederick d. lewis', 
+		'name_one': 'frederick lewis',
+		'name_two': 'frederick d. lewis', 
 		'expected': True, 
 		'description': 'frederick lewis comparison with article'
 	},
     {
-		'input': 'frederick w edwards;frederick lee edwards', 
+		'name_one': 'frederick w edwards',
+		'name_two': 'frederick lee edwards', 
 		'expected': False, 
 		'description': 'frederick w edwards comparison with article'
 	},
     {
-		'input': 'frederick w lenz;frederick walter lenz', 
+		'name_one': 'frederick w lenz',
+		'name_two': 'frederick walter lenz', 
 		'expected': True, 
 		'description': 'frederick w lenz comparison with article'
 	},
     {
-		'input': 'frederick w vanname;frederick w. van name', 
+		'name_one': 'frederick w vanname',
+		'name_two': 'frederick w. van name', 
 		'expected': True, 
 		'description': 'frederick w vanname comparison with article'
 	},
     {
-		'input': 'fredrica shattuck;fredrica van trice shattuck', 
+		'name_one': 'fredrica shattuck',
+		'name_two': 'fredrica van trice shattuck', 
 		'expected': True, 
 		'description': 'fredrica shattuck comparison with article'
 	},
     {
-		'input': 'fredrick l rodkey;frederick lee rodkey', 
+		'name_one': 'fredrick l rodkey',
+		'name_two': 'frederick lee rodkey', 
 		'expected': True, 
 		'description': 'fredrick l rodkey comparison with article'
 	},
     {
-		'input': 'fredrick lacy;frederic j. lacy', 
+		'name_one': 'fredrick lacy',
+		'name_two': 'frederic j. lacy', 
 		'expected': True, 
 		'description': 'fredrick lacy comparison with article'
 	},
     {
-		'input': 'fredrick w vanbuskirk;frederick william van buskirk', 
+		'name_one': 'fredrick w vanbuskirk',
+		'name_two': 'frederick william van buskirk', 
 		'expected': True, 
 		'description': 'fredrick w vanbuskirk comparison with article'
 	},
     {
-		'input': 'friderico deonis;federico de onis', 
+		'name_one': 'friderico deonis',
+		'name_two': 'federico de onis', 
 		'expected': True, 
 		'description': 'friderico deonis comparison with article'
 	},
     {
-		'input': 'fritz h laves;fritz laves', 
+		'name_one': 'fritz h laves',
+		'name_two': 'fritz laves', 
 		'expected': True, 
 		'description': 'fritz h laves comparison with article'
 	},
     {
-		'input': 'fritz l hoffmann;fritz leo hoffmann', 
+		'name_one': 'fritz l hoffmann',
+		'name_two': 'fritz leo hoffmann', 
 		'expected': True, 
 		'description': 'fritz l hoffmann comparison with article'
 	},
     {
-		'input': 'fritz v lenel;fritz v. lenel', 
+		'name_one': 'fritz v lenel',
+		'name_two': 'fritz v. lenel', 
 		'expected': True, 
 		'description': 'fritz v lenel comparison with article'
 	},
     {
-		'input': 'g alvin le page;gerald alvin lepage', 
+		'name_one': 'g alvin le page',
+		'name_two': 'gerald alvin lepage', 
 		'expected': True, 
 		'description': 'g alvin le page comparison with article'
 	},
     {
-		'input': 'g geoffrey langsam;gert geoffrey langsam', 
+		'name_one': 'g geoffrey langsam',
+		'name_two': 'gert geoffrey langsam', 
 		'expected': True, 
 		'description': 'g geoffrey langsam comparison with article'
 	},
     {
-		'input': 'g leslie miller;g. leslie miller', 
+		'name_one': 'g leslie miller',
+		'name_two': 'g. leslie miller', 
 		'expected': True, 
 		'description': 'g leslie miller comparison with article'
 	},
     {
-		'input': 'g v lantzeff;george v. lantzeff', 
+		'name_one': 'g v lantzeff',
+		'name_two': 'george v. lantzeff', 
 		'expected': True, 
 		'description': 'g v lantzeff comparison with article'
 	},
     {
-		'input': 'g. joseph delor;c. joseph delor', 
+		'name_one': 'g. joseph delor',
+		'name_two': 'c. joseph delor', 
 		'expected': False, 
 		'description': 'g. joseph delor comparison with article'
 	},
     {
-		'input': 'gabriel lasker;gabriel w. lasker', 
+		'name_one': 'gabriel lasker',
+		'name_two': 'gabriel w. lasker', 
 		'expected': True, 
 		'description': 'gabriel lasker comparison with article'
 	},
     {
-		'input': 'gail e densmore;gail ernest densmore', 
+		'name_one': 'gail e densmore',
+		'name_two': 'gail ernest densmore', 
 		'expected': True, 
 		'description': 'gail e densmore comparison with article'
 	},
     {
-		'input': 'gardner leslie warner;c. gardner warner', 
+		'name_one': 'gardner leslie warner',
+		'name_two': 'c. gardner warner', 
 		'expected': False, 
 		'description': 'gardner leslie warner comparison with article'
 	},
     {
-		'input': 'garnette l fittro;garnette leona fittro', 
+		'name_one': 'garnette l fittro',
+		'name_two': 'garnette leona fittro', 
 		'expected': True, 
 		'description': 'garnette l fittro comparison with article'
 	},
     {
-		'input': 'garth l lee;garth l. lee', 
+		'name_one': 'garth l lee',
+		'name_two': 'garth l. lee', 
 		'expected': True, 
 		'description': 'garth l lee comparison with article'
 	},
     {
-		'input': 'garvin l. von eschen;garvin l. von eschen', 
+		'name_one': 'garvin l. von eschen',
+		'name_two': 'garvin l. von eschen', 
 		'expected': True, 
 		'description': 'garvin l. von eschen comparison with article'
 	},
     {
-		'input': 'gendolynde m demchuk;esther m. dimchevsky', 
+		'name_one': 'gendolynde m demchuk',
+		'name_two': 'esther m. dimchevsky', 
 		'expected': False, 
 		'description': 'gendolynde m demchuk comparison with article'
 	},
     {
-		'input': 'gene l hemmle;gene leclair hemmle', 
+		'name_one': 'gene l hemmle',
+		'name_two': 'gene leclair hemmle', 
 		'expected': True, 
 		'description': 'gene l hemmle comparison with article'
 	},
     {
-		'input': 'genieve a w lamson;genieve lamson', 
+		'name_one': 'genieve a w lamson',
+		'name_two': 'genieve lamson', 
 		'expected': True, 
 		'description': 'genieve a w lamson comparison with article'
 	},
     {
-		'input': 'george a adsit;george depue hadzsits', 
+		'name_one': 'george a adsit',
+		'name_two': 'george depue hadzsits', 
 		'expected': False, 
 		'description': 'george a adsit comparison with article'
 	},
     {
-		'input': 'george a dean;george a. dean', 
+		'name_one': 'george a dean',
+		'name_two': 'george a. dean', 
 		'expected': True, 
 		'description': 'george a dean comparison with article'
 	},
     {
-		'input': 'george a laisner;george a. laisner', 
+		'name_one': 'george a laisner',
+		'name_two': 'george a. laisner', 
 		'expected': True, 
 		'description': 'george a laisner comparison with article'
 	},
     {
-		'input': 'george b denton;george bion denton', 
+		'name_one': 'george b denton',
+		'name_two': 'george bion denton', 
 		'expected': True, 
 		'description': 'george b denton comparison with article'
 	},
     {
-		'input': 'george b lacey, jr;jorgen laessoe', 
+		'name_one': 'george b lacey, jr',
+		'name_two': 'jorgen laessoe', 
 		'expected': False, 
 		'description': 'george b lacey, jr comparison with article'
 	},
     {
-		'input': 'george b van schaack;george b. van schaack', 
+		'name_one': 'george b van schaack',
+		'name_two': 'george b. van schaack', 
 		'expected': True, 
 		'description': 'george b van schaack comparison with article'
 	},
     {
-		'input': 'george deaver;george g. deaver', 
+		'name_one': 'george deaver',
+		'name_two': 'george g. deaver', 
 		'expected': True, 
 		'description': 'george deaver comparison with article'
 	},
     {
-		'input': 'george deckey;george deckey', 
+		'name_one': 'george deckey',
+		'name_two': 'george deckey', 
 		'expected': True, 
 		'description': 'george deckey comparison with article'
 	},
     {
-		'input': 'george e beick;george e. vander beke', 
+		'name_one': 'george e beick',
+		'name_two': 'george e. vander beke', 
 		'expected': True, 
 		'description': 'george e beick comparison with article'
 	},
     {
-		'input': 'george e lamaitre;georges eduoard lemaitre', 
+		'name_one': 'george e lamaitre',
+		'name_two': 'georges eduoard lemaitre', 
 		'expected': True, 
 		'description': 'george e lamaitre comparison with article'
 	},
     {
-		'input': 'george e leedham;george edwin leedham', 
+		'name_one': 'george e leedham',
+		'name_two': 'george edwin leedham', 
 		'expected': True, 
 		'description': 'george e leedham comparison with article'
 	},
     {
-		'input': 'george e. large;george e. large', 
+		'name_one': 'george e. large',
+		'name_two': 'george e. large', 
 		'expected': True, 
 		'description': 'george e. large comparison with article'
 	},
     {
-		'input': 'george f deasy;george f. deasy', 
+		'name_one': 'george f deasy',
+		'name_two': 'george f. deasy', 
 		'expected': True, 
 		'description': 'george f deasy comparison with article'
 	},
     {
-		'input': 'george f depuy;george f. depuy', 
+		'name_one': 'george f depuy',
+		'name_two': 'george f. depuy', 
 		'expected': True, 
 		'description': 'george f depuy comparison with article'
 	},
     {
-		'input': 'george f smith;george van siclen smith', 
+		'name_one': 'george f smith',
+		'name_two': 'george van siclen smith', 
 		'expected': False, 
 		'description': 'george f smith comparison with article'
 	},
     {
-		'input': 'george f taylor;george vanderbeck taylor', 
+		'name_one': 'george f taylor',
+		'name_two': 'george vanderbeck taylor', 
 		'expected': False, 
 		'description': 'george f taylor comparison with article'
 	},
     {
-		'input': 'george f. lawlor;george f. lawlor', 
+		'name_one': 'george f. lawlor',
+		'name_two': 'george f. lawlor', 
 		'expected': True, 
 		'description': 'george f. lawlor comparison with article'
 	},
     {
-		'input': 'george g lamb;george goodrich lamb', 
+		'name_one': 'george g lamb',
+		'name_two': 'george goodrich lamb', 
 		'expected': True, 
 		'description': 'george g lamb comparison with article'
 	},
     {
-		'input': 'george h dell;geo h. dell', 
+		'name_one': 'george h dell',
+		'name_two': 'geo h. dell', 
 		'expected': True, 
 		'description': 'george h dell comparison with article'
 	},
     {
-		'input': 'george h dession;george hathaway dession', 
+		'name_one': 'george h dession',
+		'name_two': 'george hathaway dession', 
 		'expected': True, 
 		'description': 'george h dession comparison with article'
 	},
     {
-		'input': 'george h larson;george herbert larson', 
+		'name_one': 'george h larson',
+		'name_two': 'george herbert larson', 
 		'expected': True, 
 		'description': 'george h larson comparison with article'
 	},
     {
-		'input': 'george j la lande;george albert lanyi', 
+		'name_one': 'george j la lande',
+		'name_two': 'george albert lanyi', 
 		'expected': False, 
 		'description': 'george j la lande comparison with article'
 	},
     {
-		'input': 'george l abernethy;george lawrence abernethy', 
+		'name_one': 'george l abernethy',
+		'name_two': 'george lawrence abernethy', 
 		'expected': True, 
 		'description': 'george l abernethy comparison with article'
 	},
     {
-		'input': 'george l barnett;george leonard barnett', 
+		'name_one': 'george l barnett',
+		'name_two': 'george leonard barnett', 
 		'expected': True, 
 		'description': 'george l barnett comparison with article'
 	},
     {
-		'input': 'george l clarke;george leonard clarke', 
+		'name_one': 'george l clarke',
+		'name_two': 'george leonard clarke', 
 		'expected': True, 
 		'description': 'george l clarke comparison with article'
 	},
     {
-		'input': 'george l horner;george lewis horner', 
+		'name_one': 'george l horner',
+		'name_two': 'george lewis horner', 
 		'expected': True, 
 		'description': 'george l horner comparison with article'
 	},
     {
-		'input': 'george l leffler;george l. leffler', 
+		'name_one': 'george l leffler',
+		'name_two': 'george l. leffler', 
 		'expected': True, 
 		'description': 'george l leffler comparison with article'
 	},
     {
-		'input': 'george l matuschka;george leslie matuschka', 
+		'name_one': 'george l matuschka',
+		'name_two': 'george leslie matuschka', 
 		'expected': True, 
 		'description': 'george l matuschka comparison with article'
 	},
     {
-		'input': 'george l shuster;george lee schuster', 
+		'name_one': 'george l shuster',
+		'name_two': 'george lee schuster', 
 		'expected': True, 
 		'description': 'george l shuster comparison with article'
 	},
     {
-		'input': 'george l sullivan;george leonard sullivan', 
+		'name_one': 'george l sullivan',
+		'name_two': 'george leonard sullivan', 
 		'expected': True, 
 		'description': 'george l sullivan comparison with article'
 	},
     {
-		'input': 'george lefevre, jr;george lefevre', 
+		'name_one': 'george lefevre, jr',
+		'name_two': 'george lefevre', 
 		'expected': True, 
 		'description': 'george lefevre, jr comparison with article'
 	},
     {
-		'input': 'george lehner;george f. j. lehner', 
+		'name_one': 'george lehner',
+		'name_two': 'george f. j. lehner', 
 		'expected': True, 
 		'description': 'george lehner comparison with article'
 	},
     {
-		'input': 'george lensen;george alexander lensen', 
+		'name_one': 'george lensen',
+		'name_two': 'george alexander lensen', 
 		'expected': True, 
 		'description': 'george lensen comparison with article'
 	},
     {
-		'input': 'george leuca;george leuca', 
+		'name_one': 'george leuca',
+		'name_two': 'george leuca', 
 		'expected': True, 
 		'description': 'george leuca comparison with article'
 	},
     {
-		'input': 'george m landrock;george m. landrock', 
+		'name_one': 'george m landrock',
+		'name_two': 'george m. landrock', 
 		'expected': True, 
 		'description': 'george m landrock comparison with article'
 	},
     {
-		'input': 'george n lauer;george n. lauer', 
+		'name_one': 'george n lauer',
+		'name_two': 'george n. lauer', 
 		'expected': True, 
 		'description': 'george n lauer comparison with article'
 	},
     {
-		'input': 'george p deyoe;george p. deyoe', 
+		'name_one': 'george p deyoe',
+		'name_two': 'george p. deyoe', 
 		'expected': True, 
 		'description': 'george p deyoe comparison with article'
 	},
     {
-		'input': 'george r lacy;george rufus lacy', 
+		'name_one': 'george r lacy',
+		'name_two': 'george rufus lacy', 
 		'expected': True, 
 		'description': 'george r lacy comparison with article'
 	},
     {
-		'input': 'george r santillo;giorgio diaz de santillana', 
+		'name_one': 'george r santillo',
+		'name_two': 'giorgio diaz de santillana', 
 		'expected': False, 
 		'description': 'george r santillo comparison with article'
 	},
     {
-		'input': 'george s lane;george sherman lane', 
+		'name_one': 'george s lane',
+		'name_two': 'george sherman lane', 
 		'expected': True, 
 		'description': 'george s lane comparison with article'
 	},
     {
-		'input': 'george s lasher;george starr lasher', 
+		'name_one': 'george s lasher',
+		'name_two': 'george starr lasher', 
 		'expected': True, 
 		'description': 'george s lasher comparison with article'
 	},
     {
-		'input': 'george s lewis;george s. lewis', 
+		'name_one': 'george s lewis',
+		'name_two': 'george s. lewis', 
 		'expected': True, 
 		'description': 'george s lewis comparison with article'
 	},
     {
-		'input': 'george t lewis;george t. lewis', 
+		'name_one': 'george t lewis',
+		'name_two': 'george t. lewis', 
 		'expected': True, 
 		'description': 'george t lewis comparison with article'
 	},
     {
-		'input': 'george t pynne;george la piana', 
+		'name_one': 'george t pynne',
+		'name_two': 'george la piana', 
 		'expected': False, 
 		'description': 'george t pynne comparison with article'
 	},
     {
-		'input': 'george t vane;george thomas vane', 
+		'name_one': 'george t vane',
+		'name_two': 'george thomas vane', 
 		'expected': True, 
 		'description': 'george t vane comparison with article'
 	},
     {
-		'input': 'george v leroy;george v. leroy', 
+		'name_one': 'george v leroy',
+		'name_two': 'george v. leroy', 
 		'expected': True, 
 		'description': 'george v leroy comparison with article'
 	},
     {
-		'input': 'george vander noot;george w. vander noot', 
+		'name_one': 'george vander noot',
+		'name_two': 'george w. vander noot', 
 		'expected': True, 
 		'description': 'george vander noot comparison with article'
 	},
     {
-		'input': 'george vandyke;george d. van dyke', 
+		'name_one': 'george vandyke',
+		'name_two': 'george d. van dyke', 
 		'expected': True, 
 		'description': 'george vandyke comparison with article'
 	},
     {
-		'input': 'george vanhorn;george a. van horn', 
+		'name_one': 'george vanhorn',
+		'name_two': 'george a. van horn', 
 		'expected': True, 
 		'description': 'george vanhorn comparison with article'
 	},
     {
-		'input': 'george vlahabis;willis george labes', 
+		'name_one': 'george vlahabis',
+		'name_two': 'willis george labes', 
 		'expected': False, 
 		'description': 'george vlahabis comparison with article'
 	},
     {
-		'input': 'george w ladd;george e. ladd', 
+		'name_one': 'george w ladd',
+		'name_two': 'george e. ladd', 
 		'expected': False, 
 		'description': 'george w ladd comparison with article'
 	},
     {
-		'input': 'george w le maire;george w. lemaire', 
+		'name_one': 'george w le maire',
+		'name_two': 'george w. lemaire', 
 		'expected': True, 
 		'description': 'george w le maire comparison with article'
 	},
     {
-		'input': 'george w lees;george winchester lees', 
+		'name_one': 'george w lees',
+		'name_two': 'george winchester lees', 
 		'expected': True, 
 		'description': 'george w lees comparison with article'
 	},
     {
-		'input': 'george w vien;george levene', 
+		'name_one': 'george w vien',
+		'name_two': 'george levene', 
 		'expected': False, 
 		'description': 'george w vien comparison with article'
 	},
     {
-		'input': 'georgia b leach;georgia belle leach', 
+		'name_one': 'georgia b leach',
+		'name_two': 'georgia belle leach', 
 		'expected': True, 
 		'description': 'georgia b leach comparison with article'
 	},
     {
-		'input': 'georgia bell;georgia laxson bell', 
+		'name_one': 'georgia bell',
+		'name_two': 'georgia laxson bell', 
 		'expected': True, 
 		'description': 'georgia bell comparison with article'
 	},
     {
-		'input': 'georgia k del franco;georgia del franco', 
+		'name_one': 'georgia k del franco',
+		'name_two': 'georgia del franco', 
 		'expected': True, 
 		'description': 'georgia k del franco comparison with article'
 	},
     {
-		'input': 'georgia l shaffer;george lewis shaffer', 
+		'name_one': 'georgia l shaffer',
+		'name_two': 'george lewis shaffer', 
 		'expected': True, 
 		'description': 'georgia l shaffer comparison with article'
 	},
     {
-		'input': 'gerald a leonards;gerald allen leonards', 
+		'name_one': 'gerald a leonards',
+		'name_two': 'gerald allen leonards', 
 		'expected': True, 
 		'description': 'gerald a leonards comparison with article'
 	},
     {
-		'input': 'gerald d meyer;gerald dennis meyer', 
+		'name_one': 'gerald d meyer',
+		'name_two': 'gerald dennis meyer', 
 		'expected': True, 
 		'description': 'gerald d meyer comparison with article'
 	},
     {
-		'input': 'gerald desmond;gerald desmond', 
+		'name_one': 'gerald desmond',
+		'name_two': 'gerald desmond', 
 		'expected': True, 
 		'description': 'gerald desmond comparison with article'
 	},
     {
-		'input': 'gerald langford;gerald langford', 
+		'name_one': 'gerald langford',
+		'name_two': 'gerald langford', 
 		'expected': True, 
 		'description': 'gerald langford comparison with article'
 	},
     {
-		'input': 'gerald w lawlor;gerald w. lawlor', 
+		'name_one': 'gerald w lawlor',
+		'name_two': 'gerald w. lawlor', 
 		'expected': True, 
 		'description': 'gerald w lawlor comparison with article'
 	},
     {
-		'input': 'gerhard e von glahn;gerhard e. von glahn', 
+		'name_one': 'gerhard e von glahn',
+		'name_two': 'gerhard e. von glahn', 
 		'expected': True, 
 		'description': 'gerhard e von glahn comparison with article'
 	},
     {
-		'input': 'gerrit de jong,jr;gerrit de jong', 
+		'name_one': 'gerrit de jong,jr',
+		'name_two': 'gerrit de jong', 
 		'expected': True, 
 		'description': 'gerrit de jong,jr comparison with article'
 	},
     {
-		'input': 'gertrude a ncdounough;agnes crawford leaycraft donohugh', 
+		'name_one': 'gertrude a ncdounough',
+		'name_two': 'agnes crawford leaycraft donohugh', 
 		'expected': False, 
 		'description': 'gertrude a ncdounough comparison with article'
 	},
     {
-		'input': 'gertrude e leich;gertrude leich', 
+		'name_one': 'gertrude e leich',
+		'name_two': 'gertrude leich', 
 		'expected': True, 
 		'description': 'gertrude e leich comparison with article'
 	},
     {
-		'input': 'gertrude e way;e. leong way', 
+		'name_one': 'gertrude e way',
+		'name_two': 'e. leong way', 
 		'expected': False, 
 		'description': 'gertrude e way comparison with article'
 	},
     {
-		'input': 'gertrude leighton;gertrude c. k. leighton', 
+		'name_one': 'gertrude leighton',
+		'name_two': 'gertrude c. k. leighton', 
 		'expected': True, 
 		'description': 'gertrude leighton comparison with article'
 	},
     {
-		'input': 'gertrude m levy;nissim m. levy', 
+		'name_one': 'gertrude m levy',
+		'name_two': 'nissim m. levy', 
 		'expected': False, 
 		'description': 'gertrude m levy comparison with article'
 	},
     {
-		'input': 'gertrude van zandt;gertrude van zandt', 
+		'name_one': 'gertrude van zandt',
+		'name_two': 'gertrude van zandt', 
 		'expected': True, 
 		'description': 'gertrude van zandt comparison with article'
 	},
     {
-		'input': 'geza de takats;geza de takats', 
+		'name_one': 'geza de takats',
+		'name_two': 'geza de takats', 
 		'expected': True, 
 		'description': 'geza de takats comparison with article'
 	},
     {
-		'input': 'gilbert levine;gilbert levine', 
+		'name_one': 'gilbert levine',
+		'name_two': 'gilbert levine', 
 		'expected': True, 
 		'description': 'gilbert levine comparison with article'
 	},
     {
-		'input': 'gilbert w lambert;gilbert w. lambert', 
+		'name_one': 'gilbert w lambert',
+		'name_two': 'gilbert w. lambert', 
 		'expected': True, 
 		'description': 'gilbert w lambert comparison with article'
 	},
     {
-		'input': 'gilman d. kirk;gilman deering kirk', 
+		'name_one': 'gilman d. kirk',
+		'name_two': 'gilman deering kirk', 
 		'expected': True, 
 		'description': 'gilman d. kirk comparison with article'
 	},
     {
-		'input': 'gladys e leonard;gladys leonard', 
+		'name_one': 'gladys e leonard',
+		'name_two': 'gladys leonard', 
 		'expected': True, 
 		'description': 'gladys e leonard comparison with article'
 	},
     {
-		'input': 'gladys m leahy;kathleen m. leahy', 
+		'name_one': 'gladys m leahy',
+		'name_two': 'kathleen m. leahy', 
 		'expected': False, 
 		'description': 'gladys m leahy comparison with article'
 	},
     {
-		'input': 'gladys vanarsdale;gladys van arsdale', 
+		'name_one': 'gladys vanarsdale',
+		'name_two': 'gladys van arsdale', 
 		'expected': True, 
 		'description': 'gladys vanarsdale comparison with article'
 	},
     {
-		'input': 'glen a lagrange;glen a. lagrange', 
+		'name_one': 'glen a lagrange',
+		'name_two': 'glen a. lagrange', 
 		'expected': True, 
 		'description': 'glen a lagrange comparison with article'
 	},
     {
-		'input': 'glend vanwormer;glenn i. van wormer', 
+		'name_one': 'glend vanwormer',
+		'name_two': 'glenn i. van wormer', 
 		'expected': True, 
 		'description': 'glend vanwormer comparison with article'
 	},
     {
-		'input': 'glenn devine;glenn daniel devine', 
+		'name_one': 'glenn devine',
+		'name_two': 'glenn daniel devine', 
 		'expected': True, 
 		'description': 'glenn devine comparison with article'
 	},
     {
-		'input': 'glenn j lawlor, sr;glenn j. lawlor', 
+		'name_one': 'glenn j lawlor, sr',
+		'name_two': 'glenn j. lawlor', 
 		'expected': True, 
 		'description': 'glenn j lawlor, sr comparison with article'
 	},
     {
-		'input': 'glenn l alt;glenn leslie alt', 
+		'name_one': 'glenn l alt',
+		'name_two': 'glenn leslie alt', 
 		'expected': True, 
 		'description': 'glenn l alt comparison with article'
 	},
     {
-		'input': 'gloria dela vega;gloria de la vega', 
+		'name_one': 'gloria dela vega',
+		'name_two': 'gloria de la vega', 
 		'expected': True, 
 		'description': 'gloria dela vega comparison with article'
 	},
     {
-		'input': 'gordon f lee;gordon canfield lee', 
+		'name_one': 'gordon f lee',
+		'name_two': 'gordon canfield lee', 
 		'expected': False, 
 		'description': 'gordon f lee comparison with article'
 	},
     {
-		'input': 'gordon r dewart;gordon r. dewart', 
+		'name_one': 'gordon r dewart',
+		'name_two': 'gordon r. dewart', 
 		'expected': True, 
 		'description': 'gordon r dewart comparison with article'
 	},
     {
-		'input': 'gottfried delatour;gottfried delatour', 
+		'name_one': 'gottfried delatour',
+		'name_two': 'gottfried delatour', 
 		'expected': True, 
 		'description': 'gottfried delatour comparison with article'
 	},
     {
-		'input': 'grace e lampe;e. w. lampe', 
+		'name_one': 'grace e lampe',
+		'name_two': 'e. w. lampe', 
 		'expected': False, 
 		'description': 'grace e lampe comparison with article'
 	},
     {
-		'input': 'grace j lawrence;bertram j. lawrence', 
+		'name_one': 'grace j lawrence',
+		'name_two': 'bertram j. lawrence', 
 		'expected': False, 
 		'description': 'grace j lawrence comparison with article'
 	},
     {
-		'input': 'grace langford;grace langford', 
+		'name_one': 'grace langford',
+		'name_two': 'grace langford', 
 		'expected': True, 
 		'description': 'grace langford comparison with article'
 	},
     {
-		'input': 'grace leathurby;grace c. leathurby', 
+		'name_one': 'grace leathurby',
+		'name_two': 'grace c. leathurby', 
 		'expected': True, 
 		'description': 'grace leathurby comparison with article'
 	},
     {
-		'input': 'grant h laing;grant harrison laing', 
+		'name_one': 'grant h laing',
+		'name_two': 'grant harrison laing', 
 		'expected': True, 
 		'description': 'grant h laing comparison with article'
 	},
     {
-		'input': 'gray l hunter;guy leroy hunner', 
+		'name_one': 'gray l hunter',
+		'name_two': 'guy leroy hunner', 
 		'expected': False, 
 		'description': 'gray l hunter comparison with article'
 	},
     {
-		'input': 'graydon s deland, jr;graydon skerritt deland', 
+		'name_one': 'graydon s deland, jr',
+		'name_two': 'graydon skerritt deland', 
 		'expected': True, 
 		'description': 'graydon s deland, jr comparison with article'
 	},
     {
-		'input': 'graydon s deland,jr;graydon skerritt deland', 
+		'name_one': 'graydon s deland,jr',
+		'name_two': 'graydon skerritt deland', 
 		'expected': True, 
 		'description': 'graydon s deland,jr comparison with article'
 	},
     {
-		'input': 'gregory g la grone;gregory g. lagrone', 
+		'name_one': 'gregory g la grone',
+		'name_two': 'gregory g. lagrone', 
 		'expected': True, 
 		'description': 'gregory g la grone comparison with article'
 	},
     {
-		'input': 'gregory j derschug;gregory j. derschug', 
+		'name_one': 'gregory j derschug',
+		'name_two': 'gregory j. derschug', 
 		'expected': True, 
 		'description': 'gregory j derschug comparison with article'
 	},
     {
-		'input': 'greta a lash;greta alecia lash', 
+		'name_one': 'greta a lash',
+		'name_two': 'greta alecia lash', 
 		'expected': True, 
 		'description': 'greta a lash comparison with article'
 	},
     {
-		'input': 'gussie l teague;gussie lee teague', 
+		'name_one': 'gussie l teague',
+		'name_two': 'gussie lee teague', 
 		'expected': True, 
 		'description': 'gussie l teague comparison with article'
 	},
     {
-		'input': 'gustav a lehman;gustav adolf lehman', 
+		'name_one': 'gustav a lehman',
+		'name_two': 'gustav adolf lehman', 
 		'expected': True, 
 		'description': 'gustav a lehman comparison with article'
 	},
     {
-		'input': 'gustave e von grunebaum;gustave e. von grunebaum', 
+		'name_one': 'gustave e von grunebaum',
+		'name_two': 'gustave e. von grunebaum', 
 		'expected': True, 
 		'description': 'gustave e von grunebaum comparison with article'
 	},
     {
-		'input': 'gustave w larson;philip gustave laurson', 
+		'name_one': 'gustave w larson',
+		'name_two': 'philip gustave laurson', 
 		'expected': False, 
 		'description': 'gustave w larson comparison with article'
 	},
     {
-		'input': 'guy j desimone;guy j. de simone', 
+		'name_one': 'guy j desimone',
+		'name_two': 'guy j. de simone', 
 		'expected': True, 
 		'description': 'guy j desimone comparison with article'
 	},
     {
-		'input': 'guy j lemieux;guy j. lemieux', 
+		'name_one': 'guy j lemieux',
+		'name_two': 'guy j. lemieux', 
 		'expected': True, 
 		'description': 'guy j lemieux comparison with article'
 	},
     {
-		'input': 'guy l bryan;guy lee bryan', 
+		'name_one': 'guy l bryan',
+		'name_two': 'guy lee bryan', 
 		'expected': True, 
 		'description': 'guy l bryan comparison with article'
 	},
     {
-		'input': 'guy l jones;guy langston jones', 
+		'name_one': 'guy l jones',
+		'name_two': 'guy langston jones', 
 		'expected': True, 
 		'description': 'guy l jones comparison with article'
 	},
     {
-		'input': 'guy l odom;guy leary odom', 
+		'name_one': 'guy l odom',
+		'name_two': 'guy leary odom', 
 		'expected': True, 
 		'description': 'guy l odom comparison with article'
 	},
     {
-		'input': 'gwendolyn tinklin;gwendolyn laverne tinklin', 
+		'name_one': 'gwendolyn tinklin',
+		'name_two': 'gwendolyn laverne tinklin', 
 		'expected': True, 
 		'description': 'gwendolyn tinklin comparison with article'
 	},
     {
-		'input': 'h dean burdick;h. dean burdick', 
+		'name_one': 'h dean burdick',
+		'name_two': 'h. dean burdick', 
 		'expected': True, 
 		'description': 'h dean burdick comparison with article'
 	},
     {
-		'input': 'h jerry lavender;h. jerry lavender', 
+		'name_one': 'h jerry lavender',
+		'name_two': 'h. jerry lavender', 
 		'expected': True, 
 		'description': 'h jerry lavender comparison with article'
 	},
     {
-		'input': 'h leland vaughan;h. leland vaughan', 
+		'name_one': 'h leland vaughan',
+		'name_two': 'h. leland vaughan', 
 		'expected': True, 
 		'description': 'h leland vaughan comparison with article'
 	},
     {
-		'input': 'h leroy baumgartner;h. leroy baumgartner', 
+		'name_one': 'h leroy baumgartner',
+		'name_two': 'h. leroy baumgartner', 
 		'expected': True, 
 		'description': 'h leroy baumgartner comparison with article'
 	},
     {
-		'input': 'h lewis batts;lewis batts', 
+		'name_one': 'h lewis batts',
+		'name_two': 'lewis batts', 
 		'expected': True, 
 		'description': 'h lewis batts comparison with article'
 	},
     {
-		'input': 'h p lankelma;herman p. lankelma', 
+		'name_one': 'h p lankelma',
+		'name_two': 'herman p. lankelma', 
 		'expected': True, 
 		'description': 'h p lankelma comparison with article'
 	},
     {
-		'input': 'h roger baker;roger denio baker', 
+		'name_one': 'h roger baker',
+		'name_two': 'roger denio baker', 
 		'expected': False, 
 		'description': 'h roger baker comparison with article'
 	},
     {
-		'input': 'haley d worthy;haley dewey worthy', 
+		'name_one': 'haley d worthy',
+		'name_two': 'haley dewey worthy', 
 		'expected': True, 
 		'description': 'haley d worthy comparison with article'
 	},
     {
-		'input': 'hampden lawson;hampden c. lawson', 
+		'name_one': 'hampden lawson',
+		'name_two': 'hampden c. lawson', 
 		'expected': True, 
 		'description': 'hampden lawson comparison with article'
 	},
     {
-		'input': 'hanpt g bower;holle g. deboer', 
+		'name_one': 'hanpt g bower',
+		'name_two': 'holle g. deboer', 
 		'expected': False, 
 		'description': 'hanpt g bower comparison with article'
 	},
     {
-		'input': 'hans lewy;hans lewy', 
+		'name_one': 'hans lewy',
+		'name_two': 'hans lewy', 
 		'expected': True, 
 		'description': 'hans lewy comparison with article'
 	},
     {
-		'input': 'hardin c van duerson;hardin van deursen', 
+		'name_one': 'hardin c van duerson',
+		'name_two': 'hardin van deursen', 
 		'expected': True, 
 		'description': 'hardin c van duerson comparison with article'
 	},
     {
-		'input': 'harlen l hagman;harlan lawrence hagman', 
+		'name_one': 'harlen l hagman',
+		'name_two': 'harlan lawrence hagman', 
 		'expected': True, 
 		'description': 'harlen l hagman comparison with article'
 	},
     {
-		'input': 'harold a decker;harold a. decker', 
+		'name_one': 'harold a decker',
+		'name_two': 'harold a. decker', 
 		'expected': True, 
 		'description': 'harold a decker comparison with article'
 	},
     {
-		'input': 'harold c davis;harold leicester davis', 
+		'name_one': 'harold c davis',
+		'name_two': 'harold leicester davis', 
 		'expected': False, 
 		'description': 'harold c davis comparison with article'
 	},
     {
-		'input': 'harold c deutsch;harold c. deutsch', 
+		'name_one': 'harold c deutsch',
+		'name_two': 'harold c. deutsch', 
 		'expected': True, 
 		'description': 'harold c deutsch comparison with article'
 	},
     {
-		'input': 'harold c van horne;harold cornelius van horne', 
+		'name_one': 'harold c van horne',
+		'name_two': 'harold cornelius van horne', 
 		'expected': True, 
 		'description': 'harold c van horne comparison with article'
 	},
     {
-		'input': 'harold de mott hughes;harold demott hughes', 
+		'name_one': 'harold de mott hughes',
+		'name_two': 'harold demott hughes', 
 		'expected': True, 
 		'description': 'harold de mott hughes comparison with article'
 	},
     {
-		'input': 'harold f deutsch;harold francis deutsch', 
+		'name_one': 'harold f deutsch',
+		'name_two': 'harold francis deutsch', 
 		'expected': True, 
 		'description': 'harold f deutsch comparison with article'
 	},
     {
-		'input': 'harold f laroe;harold f. laroe', 
+		'name_one': 'harold f laroe',
+		'name_two': 'harold f. laroe', 
 		'expected': True, 
 		'description': 'harold f laroe comparison with article'
 	},
     {
-		'input': 'harold f lenz;harold lenz', 
+		'name_one': 'harold f lenz',
+		'name_two': 'harold lenz', 
 		'expected': True, 
 		'description': 'harold f lenz comparison with article'
 	},
     {
-		'input': 'harold j lang;harold locke lang', 
+		'name_one': 'harold j lang',
+		'name_two': 'harold locke lang', 
 		'expected': False, 
 		'description': 'harold j lang comparison with article'
 	},
     {
-		'input': 'harold j lewis;harold merrills lewis', 
+		'name_one': 'harold j lewis',
+		'name_two': 'harold merrills lewis', 
 		'expected': False, 
 		'description': 'harold j lewis comparison with article'
 	},
     {
-		'input': 'harold l bond;harold lewis bond', 
+		'name_one': 'harold l bond',
+		'name_two': 'harold lewis bond', 
 		'expected': True, 
 		'description': 'harold l bond comparison with article'
 	},
     {
-		'input': 'harold l cohen;harold larry cohen', 
+		'name_one': 'harold l cohen',
+		'name_two': 'harold larry cohen', 
 		'expected': True, 
 		'description': 'harold l cohen comparison with article'
 	},
     {
-		'input': 'harold l haley;harold leroy haley', 
+		'name_one': 'harold l haley',
+		'name_two': 'harold leroy haley', 
 		'expected': True, 
 		'description': 'harold l haley comparison with article'
 	},
     {
-		'input': 'harold l harris;harold leo harris', 
+		'name_one': 'harold l harris',
+		'name_two': 'harold leo harris', 
 		'expected': True, 
 		'description': 'harold l harris comparison with article'
 	},
     {
-		'input': 'harold l. yochum;harold leland yochum', 
+		'name_one': 'harold l. yochum',
+		'name_two': 'harold leland yochum', 
 		'expected': True, 
 		'description': 'harold l. yochum comparison with article'
 	},
     {
-		'input': 'harold laufman;harold laufman', 
+		'name_one': 'harold laufman',
+		'name_two': 'harold laufman', 
 		'expected': True, 
 		'description': 'harold laufman comparison with article'
 	},
     {
-		'input': 'harold lewis;harold gregg lewis', 
+		'name_one': 'harold lewis',
+		'name_two': 'harold gregg lewis', 
 		'expected': True, 
 		'description': 'harold lewis comparison with article'
 	},
     {
-		'input': 'harold m devolt;harold m. devolt', 
+		'name_one': 'harold m devolt',
+		'name_two': 'harold m. devolt', 
 		'expected': True, 
 		'description': 'harold m devolt comparison with article'
 	},
     {
-		'input': 'harold n lee;harold newton lee', 
+		'name_one': 'harold n lee',
+		'name_two': 'harold newton lee', 
 		'expected': True, 
 		'description': 'harold n lee comparison with article'
 	},
     {
-		'input': 'harold r kugler;harold leroy kugler', 
+		'name_one': 'harold r kugler',
+		'name_two': 'harold leroy kugler', 
 		'expected': False, 
 		'description': 'harold r kugler comparison with article'
 	},
     {
-		'input': 'harold r laycock;harold r. laycock', 
+		'name_one': 'harold r laycock',
+		'name_two': 'harold r. laycock', 
 		'expected': True, 
 		'description': 'harold r laycock comparison with article'
 	},
     {
-		'input': 'harold r laycock;ralph g. laycock', 
+		'name_one': 'harold r laycock',
+		'name_two': 'ralph g. laycock', 
 		'expected': False, 
 		'description': 'harold r laycock comparison with article'
 	},
     {
-		'input': 'harold r leith;harold r. leith', 
+		'name_one': 'harold r leith',
+		'name_two': 'harold r. leith', 
 		'expected': True, 
 		'description': 'harold r leith comparison with article'
 	},
     {
-		'input': 'harold w dean;w. t. dean', 
+		'name_one': 'harold w dean',
+		'name_two': 'w. t. dean', 
 		'expected': False, 
 		'description': 'harold w dean comparison with article'
 	},
     {
-		'input': 'harold w lee;harold w. lee', 
+		'name_one': 'harold w lee',
+		'name_two': 'harold w. lee', 
 		'expected': True, 
 		'description': 'harold w lee comparison with article'
 	},
     {
-		'input': 'harold w levin;harold levin', 
+		'name_one': 'harold w levin',
+		'name_two': 'harold levin', 
 		'expected': True, 
 		'description': 'harold w levin comparison with article'
 	},
     {
-		'input': 'harold w lewis;harold walter lewis', 
+		'name_one': 'harold w lewis',
+		'name_two': 'harold walter lewis', 
 		'expected': True, 
 		'description': 'harold w lewis comparison with article'
 	},
     {
-		'input': 'harold wolf;l. harold dewolf', 
+		'name_one': 'harold wolf',
+		'name_two': 'l. harold dewolf', 
 		'expected': True, 
 		'description': 'harold wolf comparison with article'
 	},
     {
-		'input': 'harriet b denham;wallace brett donham', 
+		'name_one': 'harriet b denham',
+		'name_two': 'wallace brett donham', 
 		'expected': False, 
 		'description': 'harriet b denham comparison with article'
 	},
     {
-		'input': 'harriet c woodward;c. vann woodward', 
+		'name_one': 'harriet c woodward',
+		'name_two': 'c. vann woodward', 
 		'expected': False, 
 		'description': 'harriet c woodward comparison with article'
 	},
     {
-		'input': 'harriet herring;harriet laura herring', 
+		'name_one': 'harriet herring',
+		'name_two': 'harriet laura herring', 
 		'expected': True, 
 		'description': 'harriet herring comparison with article'
 	},
     {
-		'input': 'harriet m lewis;g. m. lewis', 
+		'name_one': 'harriet m lewis',
+		'name_two': 'g. m. lewis', 
 		'expected': False, 
 		'description': 'harriet m lewis comparison with article'
 	},
     {
-		'input': 'harris s langeler;georg harris langeler', 
+		'name_one': 'harris s langeler',
+		'name_two': 'georg harris langeler', 
 		'expected': False, 
 		'description': 'harris s langeler comparison with article'
 	},
     {
-		'input': 'harris w dean;harris william dean', 
+		'name_one': 'harris w dean',
+		'name_two': 'harris william dean', 
 		'expected': True, 
 		'description': 'harris w dean comparison with article'
 	},
     {
-		'input': 'harrison d le baron;h. d. lebaron', 
+		'name_one': 'harrison d le baron',
+		'name_two': 'h. d. lebaron', 
 		'expected': True, 
 		'description': 'harrison d le baron comparison with article'
 	},
     {
-		'input': 'harrison l chance;harrison levi chance', 
+		'name_one': 'harrison l chance',
+		'name_two': 'harrison levi chance', 
 		'expected': True, 
 		'description': 'harrison l chance comparison with article'
 	},
     {
-		'input': 'harrison l harley;harrison leroy harley', 
+		'name_one': 'harrison l harley',
+		'name_two': 'harrison leroy harley', 
 		'expected': True, 
 		'description': 'harrison l harley comparison with article'
 	},
     {
-		'input': 'harry b decook;harry b. decook', 
+		'name_one': 'harry b decook',
+		'name_two': 'harry b. decook', 
 		'expected': True, 
 		'description': 'harry b decook comparison with article'
 	},
     {
-		'input': 'harry b van dyke;harry b. van dyke', 
+		'name_one': 'harry b van dyke',
+		'name_two': 'harry b. van dyke', 
 		'expected': True, 
 		'description': 'harry b van dyke comparison with article'
 	},
     {
-		'input': 'harry d taft;harry derward taft', 
+		'name_one': 'harry d taft',
+		'name_two': 'harry derward taft', 
 		'expected': True, 
 		'description': 'harry d taft comparison with article'
 	},
     {
-		'input': 'harry d wolf;harry demerle wolf', 
+		'name_one': 'harry d wolf',
+		'name_two': 'harry demerle wolf', 
 		'expected': True, 
 		'description': 'harry d wolf comparison with article'
 	},
     {
-		'input': 'harry e dassau;walter edward dessauer', 
+		'name_one': 'harry e dassau',
+		'name_two': 'walter edward dessauer', 
 		'expected': False, 
 		'description': 'harry e dassau comparison with article'
 	},
     {
-		'input': 'harry e. le fever;harry lefever', 
+		'name_one': 'harry e. le fever',
+		'name_two': 'harry lefever', 
 		'expected': True, 
 		'description': 'harry e. le fever comparison with article'
 	},
     {
-		'input': 'harry g laforge;harry g. laforge', 
+		'name_one': 'harry g laforge',
+		'name_two': 'harry g. laforge', 
 		'expected': True, 
 		'description': 'harry g laforge comparison with article'
 	},
     {
-		'input': 'harry h leonard;harry wesley leonard', 
+		'name_one': 'harry h leonard',
+		'name_two': 'harry wesley leonard', 
 		'expected': False, 
 		'description': 'harry h leonard comparison with article'
 	},
     {
-		'input': 'harry i leddel;harry edwall', 
+		'name_one': 'harry i leddel',
+		'name_two': 'harry edwall', 
 		'expected': False, 
 		'description': 'harry i leddel comparison with article'
 	},
     {
-		'input': 'harry j deuel;harry j. deuel', 
+		'name_one': 'harry j deuel',
+		'name_two': 'harry j. deuel', 
 		'expected': True, 
 		'description': 'harry j deuel comparison with article'
 	},
     {
-		'input': 'harry j digirolamo,sr;harry j. de girolamo', 
+		'name_one': 'harry j digirolamo,sr',
+		'name_two': 'harry j. de girolamo', 
 		'expected': True, 
 		'description': 'harry j digirolamo,sr comparison with article'
 	},
     {
-		'input': 'harry l chant;harry leddy chant', 
+		'name_one': 'harry l chant',
+		'name_two': 'harry leddy chant', 
 		'expected': True, 
 		'description': 'harry l chant comparison with article'
 	},
     {
-		'input': 'harry l hoffee;harry lee hoffee', 
+		'name_one': 'harry l hoffee',
+		'name_two': 'harry lee hoffee', 
 		'expected': True, 
 		'description': 'harry l hoffee comparison with article'
 	},
     {
-		'input': 'harry l lantz;harry lantz', 
+		'name_one': 'harry l lantz',
+		'name_two': 'harry lantz', 
 		'expected': True, 
 		'description': 'harry l lantz comparison with article'
 	},
     {
-		'input': 'harry l solberg;harry leland solberg', 
+		'name_one': 'harry l solberg',
+		'name_two': 'harry leland solberg', 
 		'expected': True, 
 		'description': 'harry l solberg comparison with article'
 	},
     {
-		'input': 'harry l taylor;harry leroy taylor', 
+		'name_one': 'harry l taylor',
+		'name_two': 'harry leroy taylor', 
 		'expected': True, 
 		'description': 'harry l taylor comparison with article'
 	},
     {
-		'input': 'harry landis;harry m. landis', 
+		'name_one': 'harry landis',
+		'name_two': 'harry m. landis', 
 		'expected': True, 
 		'description': 'harry landis comparison with article'
 	},
     {
-		'input': 'harry lee;douglas harry kedgwin lee', 
+		'name_one': 'harry lee',
+		'name_two': 'douglas harry kedgwin lee', 
 		'expected': True, 
 		'description': 'harry lee comparison with article'
 	},
     {
-		'input': 'harry levy;harry levy', 
+		'name_one': 'harry levy',
+		'name_two': 'harry levy', 
 		'expected': True, 
 		'description': 'harry levy comparison with article'
 	},
     {
-		'input': 'harry m jr langsford;harry langsford', 
+		'name_one': 'harry m jr langsford',
+		'name_two': 'harry langsford', 
 		'expected': True, 
 		'description': 'harry m jr langsford comparison with article'
 	},
     {
-		'input': 'harry r larson;r. a. larson', 
+		'name_one': 'harry r larson',
+		'name_two': 'r. a. larson', 
 		'expected': False, 
 		'description': 'harry r larson comparison with article'
 	},
     {
-		'input': 'harry s bowman;harry lake bowman', 
+		'name_one': 'harry s bowman',
+		'name_two': 'harry lake bowman', 
 		'expected': False, 
 		'description': 'harry s bowman comparison with article'
 	},
     {
-		'input': 'harry s duerow;harry aaron derow', 
+		'name_one': 'harry s duerow',
+		'name_two': 'harry aaron derow', 
 		'expected': False, 
 		'description': 'harry s duerow comparison with article'
 	},
     {
-		'input': 'harry s legum;samuel legum', 
+		'name_one': 'harry s legum',
+		'name_two': 'samuel legum', 
 		'expected': True, 
 		'description': 'harry s legum comparison with article'
 	},
     {
-		'input': 'harry s vandiver;harry schultz vandiver', 
+		'name_one': 'harry s vandiver',
+		'name_two': 'harry schultz vandiver', 
 		'expected': True, 
 		'description': 'harry s vandiver comparison with article'
 	},
     {
-		'input': 'harry t levin;harry tuchman levin', 
+		'name_one': 'harry t levin',
+		'name_two': 'harry tuchman levin', 
 		'expected': True, 
 		'description': 'harry t levin comparison with article'
 	},
     {
-		'input': 'harry v langeluttig;h. v. langeluttig', 
+		'name_one': 'harry v langeluttig',
+		'name_two': 'h. v. langeluttig', 
 		'expected': True, 
 		'description': 'harry v langeluttig comparison with article'
 	},
     {
-		'input': 'harry w le fevre, iii;harry wilson lefevre', 
+		'name_one': 'harry w le fevre, iii',
+		'name_two': 'harry wilson lefevre', 
 		'expected': True, 
 		'description': 'harry w le fevre, iii comparison with article'
 	},
     {
-		'input': 'harry w leacock;emory w. luccock', 
+		'name_one': 'harry w leacock',
+		'name_two': 'emory w. luccock', 
 		'expected': False, 
 		'description': 'harry w leacock comparison with article'
 	},
     {
-		'input': 'harry w. vanneman;harry walter vanneman', 
+		'name_one': 'harry w. vanneman',
+		'name_two': 'harry walter vanneman', 
 		'expected': True, 
 		'description': 'harry w. vanneman comparison with article'
 	},
     {
-		'input': 'harvey b densmore;harvey bruce densmore', 
+		'name_one': 'harvey b densmore',
+		'name_two': 'harvey bruce densmore', 
 		'expected': True, 
 		'description': 'harvey b densmore comparison with article'
 	},
     {
-		'input': 'harvey b vanderford;harvey birch vanderford', 
+		'name_one': 'harvey b vanderford',
+		'name_two': 'harvey birch vanderford', 
 		'expected': True, 
 		'description': 'harvey b vanderford comparison with article'
 	},
     {
-		'input': 'harvey c lehman;harvey christian lehman', 
+		'name_one': 'harvey c lehman',
+		'name_two': 'harvey christian lehman', 
 		'expected': True, 
 		'description': 'harvey c lehman comparison with article'
 	},
     {
-		'input': 'harvey e lehman;harvey eugene lehman', 
+		'name_one': 'harvey e lehman',
+		'name_two': 'harvey eugene lehman', 
 		'expected': True, 
 		'description': 'harvey e lehman comparison with article'
 	},
     {
-		'input': 'harvey j brown;harvey de bruine', 
+		'name_one': 'harvey j brown',
+		'name_two': 'harvey de bruine', 
 		'expected': True, 
 		'description': 'harvey j brown comparison with article'
 	},
     {
-		'input': 'harvey l carter;harvey lewis carter', 
+		'name_one': 'harvey l carter',
+		'name_two': 'harvey lewis carter', 
 		'expected': True, 
 		'description': 'harvey l carter comparison with article'
 	},
     {
-		'input': 'harvey l sweetman;harvey leroy sweetman', 
+		'name_one': 'harvey l sweetman',
+		'name_two': 'harvey leroy sweetman', 
 		'expected': True, 
 		'description': 'harvey l sweetman comparison with article'
 	},
     {
-		'input': 'harvey lee lantz;harvey lee lantz', 
+		'name_one': 'harvey lee lantz',
+		'name_two': 'harvey lee lantz', 
 		'expected': True, 
 		'description': 'harvey lee lantz comparison with article'
 	},
     {
-		'input': 'harwood l childs;harwood lawrence childs', 
+		'name_one': 'harwood l childs',
+		'name_two': 'harwood lawrence childs', 
 		'expected': True, 
 		'description': 'harwood l childs comparison with article'
 	},
     {
-		'input': 'hazel b shands;hazel lee shands', 
+		'name_one': 'hazel b shands',
+		'name_two': 'hazel lee shands', 
 		'expected': False, 
 		'description': 'hazel b shands comparison with article'
 	},
     {
-		'input': 'hazel d howe;hazel dell howe', 
+		'name_one': 'hazel d howe',
+		'name_two': 'hazel dell howe', 
 		'expected': True, 
 		'description': 'hazel d howe comparison with article'
 	},
     {
-		'input': 'hazel g vance;g. a. vance', 
+		'name_one': 'hazel g vance',
+		'name_two': 'g. a. vance', 
 		'expected': False, 
 		'description': 'hazel g vance comparison with article'
 	},
     {
-		'input': 'hazel l morrison;l. leotus morrison', 
+		'name_one': 'hazel l morrison',
+		'name_two': 'l. leotus morrison', 
 		'expected': False, 
 		'description': 'hazel l morrison comparison with article'
 	},
     {
-		'input': 'hazel m. lewis;hazel m. lewis', 
+		'name_one': 'hazel m. lewis',
+		'name_two': 'hazel m. lewis', 
 		'expected': True, 
 		'description': 'hazel m. lewis comparison with article'
 	},
     {
-		'input': 'hazel van ness;hazel van ness', 
+		'name_one': 'hazel van ness',
+		'name_two': 'hazel van ness', 
 		'expected': True, 
 		'description': 'hazel van ness comparison with article'
 	},
     {
-		'input': 'hector h lee;hector lee', 
+		'name_one': 'hector h lee',
+		'name_two': 'hector lee', 
 		'expected': True, 
 		'description': 'hector h lee comparison with article'
 	},
     {
-		'input': 'heinz m vonfoerster;heinz vonfoerster', 
+		'name_one': 'heinz m vonfoerster',
+		'name_two': 'heinz vonfoerster', 
 		'expected': True, 
 		'description': 'heinz m vonfoerster comparison with article'
 	},
     {
-		'input': 'helen a denyes;helen arliss denyes', 
+		'name_one': 'helen a denyes',
+		'name_two': 'helen arliss denyes', 
 		'expected': True, 
 		'description': 'helen a denyes comparison with article'
 	},
     {
-		'input': 'helen c deibert;franklin c. daiber', 
+		'name_one': 'helen c deibert',
+		'name_two': 'franklin c. daiber', 
 		'expected': False, 
 		'description': 'helen c deibert comparison with article'
 	},
     {
-		'input': 'helen g harris;gould leach harris', 
+		'name_one': 'helen g harris',
+		'name_two': 'gould leach harris', 
 		'expected': False, 
 		'description': 'helen g harris comparison with article'
 	},
     {
-		'input': 'helen h law;helen hull law', 
+		'name_one': 'helen h law',
+		'name_two': 'helen hull law', 
 		'expected': True, 
 		'description': 'helen h law comparison with article'
 	},
     {
-		'input': 'helen l richey;helen lenore richey', 
+		'name_one': 'helen l richey',
+		'name_two': 'helen lenore richey', 
 		'expected': True, 
 		'description': 'helen l richey comparison with article'
 	},
     {
-		'input': 'helen l smith;helen leonore smith', 
+		'name_one': 'helen l smith',
+		'name_two': 'helen leonore smith', 
 		'expected': True, 
 		'description': 'helen l smith comparison with article'
 	},
     {
-		'input': 'helen l stevens;helen larson stevens', 
+		'name_one': 'helen l stevens',
+		'name_two': 'helen larson stevens', 
 		'expected': True, 
 		'description': 'helen l stevens comparison with article'
 	},
     {
-		'input': 'helen l van gilder;helen louise van gilder', 
+		'name_one': 'helen l van gilder',
+		'name_two': 'helen louise van gilder', 
 		'expected': True, 
 		'description': 'helen l van gilder comparison with article'
 	},
     {
-		'input': 'helen l wikoff;helen landman wikoff', 
+		'name_one': 'helen l wikoff',
+		'name_two': 'helen landman wikoff', 
 		'expected': True, 
 		'description': 'helen l wikoff comparison with article'
 	},
     {
-		'input': 'helen lamprechet;helen lamprecht', 
+		'name_one': 'helen lamprechet',
+		'name_two': 'helen lamprecht', 
 		'expected': True, 
 		'description': 'helen lamprechet comparison with article'
 	},
     {
-		'input': 'helen loskiewicz;helen r. washkovich', 
+		'name_one': 'helen loskiewicz',
+		'name_two': 'helen r. washkovich', 
 		'expected': False, 
 		'description': 'helen loskiewicz comparison with article'
 	},
     {
-		'input': 'helen ward;helen lavina ward', 
+		'name_one': 'helen ward',
+		'name_two': 'helen lavina ward', 
 		'expected': True, 
 		'description': 'helen ward comparison with article'
 	},
     {
-		'input': 'helmit h vonerfe;helmut h. von erffa', 
+		'name_one': 'helmit h vonerfe',
+		'name_two': 'helmut h. von erffa', 
 		'expected': True, 
 		'description': 'helmit h vonerfe comparison with article'
 	},
     {
-		'input': 'helmit h vonerfer;helmut h. von erffa', 
+		'name_one': 'helmit h vonerfer',
+		'name_two': 'helmut h. von erffa', 
 		'expected': True, 
 		'description': 'helmit h vonerfer comparison with article'
 	},
     {
-		'input': 'heman l ibsen;heman lauritz ibsen', 
+		'name_one': 'heman l ibsen',
+		'name_two': 'heman lauritz ibsen', 
 		'expected': True, 
 		'description': 'heman l ibsen comparison with article'
 	},
     {
-		'input': 'henning larson;henning larsen', 
+		'name_one': 'henning larson',
+		'name_two': 'henning larsen', 
 		'expected': True, 
 		'description': 'henning larson comparison with article'
 	},
     {
-		'input': 'henry a lardy;henry arnold lardy', 
+		'name_one': 'henry a lardy',
+		'name_two': 'henry arnold lardy', 
 		'expected': True, 
 		'description': 'henry a lardy comparison with article'
 	},
     {
-		'input': 'henry a lasch;henry lasch', 
+		'name_one': 'henry a lasch',
+		'name_two': 'henry lasch', 
 		'expected': True, 
 		'description': 'henry a lasch comparison with article'
 	},
     {
-		'input': 'henry a lepper;henry albert lepper', 
+		'name_one': 'henry a lepper',
+		'name_two': 'henry albert lepper', 
 		'expected': True, 
 		'description': 'henry a lepper comparison with article'
 	},
     {
-		'input': 'henry a melander;axel leonard melander', 
+		'name_one': 'henry a melander',
+		'name_two': 'axel leonard melander', 
 		'expected': False, 
 		'description': 'henry a melander comparison with article'
 	},
     {
-		'input': 'henry a vandiest;alice e. van diest', 
+		'name_one': 'henry a vandiest',
+		'name_two': 'alice e. van diest', 
 		'expected': False, 
 		'description': 'henry a vandiest comparison with article'
 	},
     {
-		'input': 'henry b. lacey;henry b. lacey', 
+		'name_one': 'henry b. lacey',
+		'name_two': 'henry b. lacey', 
 		'expected': True, 
 		'description': 'henry b. lacey comparison with article'
 	},
     {
-		'input': 'henry d bockus, sr;henry leroy bockus', 
+		'name_one': 'henry d bockus, sr',
+		'name_two': 'henry leroy bockus', 
 		'expected': False, 
 		'description': 'henry d bockus, sr comparison with article'
 	},
     {
-		'input': 'henry d cay;henry george dekay', 
+		'name_one': 'henry d cay',
+		'name_two': 'henry george dekay', 
 		'expected': False, 
 		'description': 'henry d cay comparison with article'
 	},
     {
-		'input': 'henry d lederer;henry david lederer', 
+		'name_one': 'henry d lederer',
+		'name_two': 'henry david lederer', 
 		'expected': True, 
 		'description': 'henry d lederer comparison with article'
 	},
     {
-		'input': 'henry d smyth;henry dewolf smyth', 
+		'name_one': 'henry d smyth',
+		'name_two': 'henry dewolf smyth', 
 		'expected': True, 
 		'description': 'henry d smyth comparison with article'
 	},
     {
-		'input': 'henry de vries,jr;henry p. de vries', 
+		'name_one': 'henry de vries,jr',
+		'name_two': 'henry p. de vries', 
 		'expected': True, 
 		'description': 'henry de vries,jr comparison with article'
 	},
     {
-		'input': 'henry g lew;henry g. lew', 
+		'name_one': 'henry g lew',
+		'name_two': 'henry g. lew', 
 		'expected': True, 
 		'description': 'henry g lew comparison with article'
 	},
     {
-		'input': 'henry h bergmann;henry leonard birge', 
+		'name_one': 'henry h bergmann',
+		'name_two': 'henry leonard birge', 
 		'expected': False, 
 		'description': 'henry h bergmann comparison with article'
 	},
     {
-		'input': 'henry k metcalf;keyes dewitt metcalf', 
+		'name_one': 'henry k metcalf',
+		'name_two': 'keyes dewitt metcalf', 
 		'expected': False, 
 		'description': 'henry k metcalf comparison with article'
 	},
     {
-		'input': 'henry l clarke;henry leland clarke', 
+		'name_one': 'henry l clarke',
+		'name_two': 'henry leland clarke', 
 		'expected': True, 
 		'description': 'henry l clarke comparison with article'
 	},
     {
-		'input': 'henry l dean;henry lee dean', 
+		'name_one': 'henry l dean',
+		'name_two': 'henry lee dean', 
 		'expected': True, 
 		'description': 'henry l dean comparison with article'
 	},
     {
-		'input': 'henry l kragbill;henry lawrence kraybill', 
+		'name_one': 'henry l kragbill',
+		'name_two': 'henry lawrence kraybill', 
 		'expected': True, 
 		'description': 'henry l kragbill comparison with article'
 	},
     {
-		'input': 'henry l langhaar;henry l. langhaar', 
+		'name_one': 'henry l langhaar',
+		'name_two': 'henry l. langhaar', 
 		'expected': True, 
 		'description': 'henry l langhaar comparison with article'
 	},
     {
-		'input': 'henry l lucas, jr;henry lawrence lucas', 
+		'name_one': 'henry l lucas, jr',
+		'name_two': 'henry lawrence lucas', 
 		'expected': True, 
 		'description': 'henry l lucas, jr comparison with article'
 	},
     {
-		'input': 'henry l marlowe;l. dennis marlowe', 
+		'name_one': 'henry l marlowe',
+		'name_two': 'l. dennis marlowe', 
 		'expected': False, 
 		'description': 'henry l marlowe comparison with article'
 	},
     {
-		'input': 'henry l miller;henry laurence miller', 
+		'name_one': 'henry l miller',
+		'name_two': 'henry laurence miller', 
 		'expected': True, 
 		'description': 'henry l miller comparison with article'
 	},
     {
-		'input': 'henry l robinson;henry leon robinson', 
+		'name_one': 'henry l robinson',
+		'name_two': 'henry leon robinson', 
 		'expected': True, 
 		'description': 'henry l robinson comparison with article'
 	},
     {
-		'input': 'henry l seaver;henry latimer seaver', 
+		'name_one': 'henry l seaver',
+		'name_two': 'henry latimer seaver', 
 		'expected': True, 
 		'description': 'henry l seaver comparison with article'
 	},
     {
-		'input': 'henry l smith;henry ladd smith', 
+		'name_one': 'henry l smith',
+		'name_two': 'henry ladd smith', 
 		'expected': True, 
 		'description': 'henry l smith comparison with article'
 	},
     {
-		'input': 'henry l swint;henry lee swint', 
+		'name_one': 'henry l swint',
+		'name_two': 'henry lee swint', 
 		'expected': True, 
 		'description': 'henry l swint comparison with article'
 	},
     {
-		'input': 'henry l van mater;henry lear van mater', 
+		'name_one': 'henry l van mater',
+		'name_two': 'henry lear van mater', 
 		'expected': True, 
 		'description': 'henry l van mater comparison with article'
 	},
     {
-		'input': 'henry l warfres;l. s. vander werf', 
+		'name_one': 'henry l warfres',
+		'name_two': 'l. s. vander werf', 
 		'expected': False, 
 		'description': 'henry l warfres comparison with article'
 	},
     {
-		'input': 'henry leffert;henry leffert', 
+		'name_one': 'henry leffert',
+		'name_two': 'henry leffert', 
 		'expected': True, 
 		'description': 'henry leffert comparison with article'
 	},
     {
-		'input': 'henry negro;enrico de negri', 
+		'name_one': 'henry negro',
+		'name_two': 'enrico de negri', 
 		'expected': True, 
 		'description': 'henry negro comparison with article'
 	},
     {
-		'input': 'henry p lang;paul henry lang', 
+		'name_one': 'henry p lang',
+		'name_two': 'paul henry lang', 
 		'expected': True, 
 		'description': 'henry p lang comparison with article'
 	},
     {
-		'input': 'henry r lefevre;reginald r. lefebvre', 
+		'name_one': 'henry r lefevre',
+		'name_two': 'reginald r. lefebvre', 
 		'expected': False, 
 		'description': 'henry r lefevre comparison with article'
 	},
     {
-		'input': 'henry t van lith;thomas henry leith', 
+		'name_one': 'henry t van lith',
+		'name_two': 'thomas henry leith', 
 		'expected': True, 
 		'description': 'henry t van lith comparison with article'
 	},
     {
-		'input': 'henry t van lith;thomas henry lith', 
+		'name_one': 'henry t van lith',
+		'name_two': 'thomas henry lith', 
 		'expected': True, 
 		'description': 'henry t van lith comparison with article'
 	},
     {
-		'input': 'henry w vonholt;henry w. von holt', 
+		'name_one': 'henry w vonholt',
+		'name_two': 'henry w. von holt', 
 		'expected': True, 
 		'description': 'henry w vonholt comparison with article'
 	},
     {
-		'input': 'henry wilkins lewis;henry wilkins lewis', 
+		'name_one': 'henry wilkins lewis',
+		'name_two': 'henry wilkins lewis', 
 		'expected': True, 
 		'description': 'henry wilkins lewis comparison with article'
 	},
     {
-		'input': 'herbert a deane;herbert a. deane', 
+		'name_one': 'herbert a deane',
+		'name_two': 'herbert a. deane', 
 		'expected': True, 
 		'description': 'herbert a deane comparison with article'
 	},
     {
-		'input': 'herbert a laitinen;herbert a. laitinen', 
+		'name_one': 'herbert a laitinen',
+		'name_two': 'herbert a. laitinen', 
 		'expected': True, 
 		'description': 'herbert a laitinen comparison with article'
 	},
     {
-		'input': 'herbert c vandeventer;herbert c. van deventer', 
+		'name_one': 'herbert c vandeventer',
+		'name_two': 'herbert c. van deventer', 
 		'expected': True, 
 		'description': 'herbert c vandeventer comparison with article'
 	},
     {
-		'input': 'herbert d landahl;herbert daniel landahl', 
+		'name_one': 'herbert d landahl',
+		'name_two': 'herbert daniel landahl', 
 		'expected': True, 
 		'description': 'herbert d landahl comparison with article'
 	},
     {
-		'input': 'herbert denny orth;herbert denny orth', 
+		'name_one': 'herbert denny orth',
+		'name_two': 'herbert denny orth', 
 		'expected': True, 
 		'description': 'herbert denny orth comparison with article'
 	},
     {
-		'input': 'herbert deresiewicz;herbert deresiewicz', 
+		'name_one': 'herbert deresiewicz',
+		'name_two': 'herbert deresiewicz', 
 		'expected': True, 
 		'description': 'herbert deresiewicz comparison with article'
 	},
     {
-		'input': 'herbert f langdon;herbert f. langdon', 
+		'name_one': 'herbert f langdon',
+		'name_two': 'herbert f. langdon', 
 		'expected': True, 
 		'description': 'herbert f langdon comparison with article'
 	},
     {
-		'input': 'herbert i bon haden;herbert ira von haden', 
+		'name_one': 'herbert i bon haden',
+		'name_two': 'herbert ira von haden', 
 		'expected': True, 
 		'description': 'herbert i bon haden comparison with article'
 	},
     {
-		'input': 'herbert j langen;herbert j. langen', 
+		'name_one': 'herbert j langen',
+		'name_two': 'herbert j. langen', 
 		'expected': True, 
 		'description': 'herbert j langen comparison with article'
 	},
     {
-		'input': 'herbert l anderson;herbert lawrence anderson', 
+		'name_one': 'herbert l anderson',
+		'name_two': 'herbert lawrence anderson', 
 		'expected': True, 
 		'description': 'herbert l anderson comparison with article'
 	},
     {
-		'input': 'herbert l bridges;herbert lee bridges', 
+		'name_one': 'herbert l bridges',
+		'name_two': 'herbert lee bridges', 
 		'expected': True, 
 		'description': 'herbert l bridges comparison with article'
 	},
     {
-		'input': 'herbert l creek;herbert le sourd creek', 
+		'name_one': 'herbert l creek',
+		'name_two': 'herbert le sourd creek', 
 		'expected': True, 
 		'description': 'herbert l creek comparison with article'
 	},
     {
-		'input': 'herbert l gilman;herbert lester gilman', 
+		'name_one': 'herbert l gilman',
+		'name_two': 'herbert lester gilman', 
 		'expected': True, 
 		'description': 'herbert l gilman comparison with article'
 	},
     {
-		'input': 'herbert l sherman;herbert leroy sherman', 
+		'name_one': 'herbert l sherman',
+		'name_two': 'herbert leroy sherman', 
 		'expected': True, 
 		'description': 'herbert l sherman comparison with article'
 	},
     {
-		'input': 'herbert lattig;herbert e lattig', 
+		'name_one': 'herbert lattig',
+		'name_two': 'herbert e lattig', 
 		'expected': True, 
 		'description': 'herbert lattig comparison with article'
 	},
     {
-		'input': 'herbert ler steele;herbert l. steele', 
+		'name_one': 'herbert ler steele',
+		'name_two': 'herbert l. steele', 
 		'expected': True, 
 		'description': 'herbert ler steele comparison with article'
 	},
     {
-		'input': 'herbert meritt;herbert dean meritt', 
+		'name_one': 'herbert meritt',
+		'name_two': 'herbert dean meritt', 
 		'expected': True, 
 		'description': 'herbert meritt comparison with article'
 	},
     {
-		'input': 'herbert w beckerath;herbert von beckerath', 
+		'name_one': 'herbert w beckerath',
+		'name_two': 'herbert von beckerath', 
 		'expected': True, 
 		'description': 'herbert w beckerath comparison with article'
 	},
     {
-		'input': 'herman donovan;herman lee donovan', 
+		'name_one': 'herman donovan',
+		'name_two': 'herman lee donovan', 
 		'expected': True, 
 		'description': 'herman donovan comparison with article'
 	},
     {
-		'input': 'herman g laughlin;herman gleyn laughlin', 
+		'name_one': 'herman g laughlin',
+		'name_two': 'herman gleyn laughlin', 
 		'expected': True, 
 		'description': 'herman g laughlin comparison with article'
 	},
     {
-		'input': 'herman w larson;curtis w. r. larson', 
+		'name_one': 'herman w larson',
+		'name_two': 'curtis w. r. larson', 
 		'expected': False, 
 		'description': 'herman w larson comparison with article'
 	},
     {
-		'input': 'herman w larson;herman w. larson', 
+		'name_one': 'herman w larson',
+		'name_two': 'herman w. larson', 
 		'expected': True, 
 		'description': 'herman w larson comparison with article'
 	},
     {
-		'input': 'herold l kooser;herold lang kooser', 
+		'name_one': 'herold l kooser',
+		'name_two': 'herold lang kooser', 
 		'expected': True, 
 		'description': 'herold l kooser comparison with article'
 	},
     {
-		'input': 'herrell degraff;herrell franklin degraff', 
+		'name_one': 'herrell degraff',
+		'name_two': 'herrell franklin degraff', 
 		'expected': True, 
 		'description': 'herrell degraff comparison with article'
 	},
     {
-		'input': 'herschel l roman;herschel lewis roman', 
+		'name_one': 'herschel l roman',
+		'name_two': 'herschel lewis roman', 
 		'expected': True, 
 		'description': 'herschel l roman comparison with article'
 	},
     {
-		'input': 'hilmer h laude;hilmer henry laude', 
+		'name_one': 'hilmer h laude',
+		'name_two': 'hilmer henry laude', 
 		'expected': True, 
 		'description': 'hilmer h laude comparison with article'
 	},
     {
-		'input': 'homer r dehoney;r. w. dehoney', 
+		'name_one': 'homer r dehoney',
+		'name_two': 'r. w. dehoney', 
 		'expected': False, 
 		'description': 'homer r dehoney comparison with article'
 	},
     {
-		'input': 'homer r lewis;homer collier lewis', 
+		'name_one': 'homer r lewis',
+		'name_two': 'homer collier lewis', 
 		'expected': False, 
 		'description': 'homer r lewis comparison with article'
 	},
     {
-		'input': 'horace b vanvalkenburgh;horace b. van valkenburgh', 
+		'name_one': 'horace b vanvalkenburgh',
+		'name_two': 'horace b. van valkenburgh', 
 		'expected': True, 
 		'description': 'horace b vanvalkenburgh comparison with article'
 	},
     {
-		'input': 'horace l barnett;horace leslie barnett', 
+		'name_one': 'horace l barnett',
+		'name_two': 'horace leslie barnett', 
 		'expected': True, 
 		'description': 'horace l barnett comparison with article'
 	},
     {
-		'input': 'horace l friess;horace leland friess', 
+		'name_one': 'horace l friess',
+		'name_two': 'horace leland friess', 
 		'expected': True, 
 		'description': 'horace l friess comparison with article'
 	},
     {
-		'input': 'horace w leet;horace w. leet', 
+		'name_one': 'horace w leet',
+		'name_two': 'horace w. leet', 
 		'expected': True, 
 		'description': 'horace w leet comparison with article'
 	},
     {
-		'input': 'horton laude;horton m. laude', 
+		'name_one': 'horton laude',
+		'name_two': 'horton m. laude', 
 		'expected': True, 
 		'description': 'horton laude comparison with article'
 	},
     {
-		'input': 'howard a lane;howard a. lane', 
+		'name_one': 'howard a lane',
+		'name_two': 'howard a. lane', 
 		'expected': True, 
 		'description': 'howard a lane comparison with article'
 	},
     {
-		'input': 'howard boatwright;howard leake boatwright', 
+		'name_one': 'howard boatwright',
+		'name_two': 'howard leake boatwright', 
 		'expected': True, 
 		'description': 'howard boatwright comparison with article'
 	},
     {
-		'input': 'howard d smethers;howard dewight smethers', 
+		'name_one': 'howard d smethers',
+		'name_two': 'howard dewight smethers', 
 		'expected': True, 
 		'description': 'howard d smethers comparison with article'
 	},
     {
-		'input': 'howard l dunlap;howard leroy dunlap', 
+		'name_one': 'howard l dunlap',
+		'name_two': 'howard leroy dunlap', 
 		'expected': True, 
 		'description': 'howard l dunlap comparison with article'
 	},
     {
-		'input': 'howard l hall;howard lewis hall', 
+		'name_one': 'howard l hall',
+		'name_two': 'howard lewis hall', 
 		'expected': True, 
 		'description': 'howard l hall comparison with article'
 	},
     {
-		'input': 'howard l hamilton;howard laverne hamilton', 
+		'name_one': 'howard l hamilton',
+		'name_two': 'howard laverne hamilton', 
 		'expected': True, 
 		'description': 'howard l hamilton comparison with article'
 	},
     {
-		'input': 'howard l lange;howard l. lange', 
+		'name_one': 'howard l lange',
+		'name_two': 'howard l. lange', 
 		'expected': True, 
 		'description': 'howard l lange comparison with article'
 	},
     {
-		'input': 'howard l nostrand;howard lee nostrand', 
+		'name_one': 'howard l nostrand',
+		'name_two': 'howard lee nostrand', 
 		'expected': True, 
 		'description': 'howard l nostrand comparison with article'
 	},
     {
-		'input': 'howard levene;howard levene', 
+		'name_one': 'howard levene',
+		'name_two': 'howard levene', 
 		'expected': True, 
 		'description': 'howard levene comparison with article'
 	},
     {
-		'input': 'howard levi;howard levi', 
+		'name_one': 'howard levi',
+		'name_two': 'howard levi', 
 		'expected': True, 
 		'description': 'howard levi comparison with article'
 	},
     {
-		'input': 'howard mckinney;howard decker mckinney', 
+		'name_one': 'howard mckinney',
+		'name_two': 'howard decker mckinney', 
 		'expected': True, 
 		'description': 'howard mckinney comparison with article'
 	},
     {
-		'input': 'howard o deming;howard o. deming', 
+		'name_one': 'howard o deming',
+		'name_two': 'howard o. deming', 
 		'expected': True, 
 		'description': 'howard o deming comparison with article'
 	},
     {
-		'input': 'howard o. deay;howard owen deay', 
+		'name_one': 'howard o. deay',
+		'name_two': 'howard owen deay', 
 		'expected': True, 
 		'description': 'howard o. deay comparison with article'
 	},
     {
-		'input': 'howard r lamar;howard roberts lamar', 
+		'name_one': 'howard r lamar',
+		'name_two': 'howard roberts lamar', 
 		'expected': True, 
 		'description': 'howard r lamar comparison with article'
 	},
     {
-		'input': 'howard r mitchell;howard lee mitchell', 
+		'name_one': 'howard r mitchell',
+		'name_two': 'howard lee mitchell', 
 		'expected': False, 
 		'description': 'howard r mitchell comparison with article'
 	},
     {
-		'input': 'howard w larsh;howard william larsh', 
+		'name_one': 'howard w larsh',
+		'name_two': 'howard william larsh', 
 		'expected': True, 
 		'description': 'howard w larsh comparison with article'
 	},
     {
-		'input': 'howard w lattin;gerald w. lattin', 
+		'name_one': 'howard w lattin',
+		'name_two': 'gerald w. lattin', 
 		'expected': False, 
 		'description': 'howard w lattin comparison with article'
 	},
     {
-		'input': 'howard w lewis;howard thompson lewis', 
+		'name_one': 'howard w lewis',
+		'name_two': 'howard thompson lewis', 
 		'expected': False, 
 		'description': 'howard w lewis comparison with article'
 	},
     {
-		'input': 'hubert g dearicks;hubert g. derrick', 
+		'name_one': 'hubert g dearicks',
+		'name_two': 'hubert g. derrick', 
 		'expected': True, 
 		'description': 'hubert g dearicks comparison with article'
 	},
     {
-		'input': 'hubert olin;hubert leonard olin', 
+		'name_one': 'hubert olin',
+		'name_two': 'hubert leonard olin', 
 		'expected': True, 
 		'description': 'hubert olin comparison with article'
 	},
     {
-		'input': 'hubert w lamb;hubert weldon lamb', 
+		'name_one': 'hubert w lamb',
+		'name_two': 'hubert weldon lamb', 
 		'expected': True, 
 		'description': 'hubert w lamb comparison with article'
 	},
     {
-		'input': 'huey kesing ay lee;kwan hua lee', 
+		'name_one': 'huey kesing ay lee',
+		'name_two': 'kwan hua lee', 
 		'expected': False, 
 		'description': 'huey kesing ay lee comparison with article'
 	},
     {
-		'input': 'hugh d. laughlin;hugh donald laughlin', 
+		'name_one': 'hugh d. laughlin',
+		'name_two': 'hugh donald laughlin', 
 		'expected': True, 
 		'description': 'hugh d. laughlin comparison with article'
 	},
     {
-		'input': 'hugh hodgson;hugh leslie hodgson', 
+		'name_one': 'hugh hodgson',
+		'name_two': 'hugh leslie hodgson', 
 		'expected': True, 
 		'description': 'hugh hodgson comparison with article'
 	},
     {
-		'input': 'hugh t lefler;hugh talmage lefler', 
+		'name_one': 'hugh t lefler',
+		'name_two': 'hugh talmage lefler', 
 		'expected': True, 
 		'description': 'hugh t lefler comparison with article'
 	},
     {
-		'input': 'hugo l blownquist;hugo leander blomquist', 
+		'name_one': 'hugo l blownquist',
+		'name_two': 'hugo leander blomquist', 
 		'expected': True, 
 		'description': 'hugo l blownquist comparison with article'
 	},
     {
-		'input': 'hulda garrett;hulda van steeter garrett', 
+		'name_one': 'hulda garrett',
+		'name_two': 'hulda van steeter garrett', 
 		'expected': True, 
 		'description': 'hulda garrett comparison with article'
 	},
     {
-		'input': 'ida o haigh;ida deck haigh', 
+		'name_one': 'ida o haigh',
+		'name_two': 'ida deck haigh', 
 		'expected': False, 
 		'description': 'ida o haigh comparison with article'
 	},
     {
-		'input': 'ike f. deeter;ike deeter', 
+		'name_one': 'ike f. deeter',
+		'name_two': 'ike deeter', 
 		'expected': True, 
 		'description': 'ike f. deeter comparison with article'
 	},
     {
-		'input': 'ina leone strom;ina l. strom', 
+		'name_one': 'ina leone strom',
+		'name_two': 'ina l. strom', 
 		'expected': True, 
 		'description': 'ina leone strom comparison with article'
 	},
     {
-		'input': 'ina van stan;ina vanstan', 
+		'name_one': 'ina van stan',
+		'name_two': 'ina vanstan', 
 		'expected': True, 
 		'description': 'ina van stan comparison with article'
 	},
     {
-		'input': 'ira d porterfield;ira deward porterfield', 
+		'name_one': 'ira d porterfield',
+		'name_two': 'ira deward porterfield', 
 		'expected': True, 
 		'description': 'ira d porterfield comparison with article'
 	},
     {
-		'input': 'ira l collier;ira leonard collier', 
+		'name_one': 'ira l collier',
+		'name_two': 'ira leonard collier', 
 		'expected': True, 
 		'description': 'ira l collier comparison with article'
 	},
     {
-		'input': 'ira la rivers;ira larivers', 
+		'name_one': 'ira la rivers',
+		'name_two': 'ira larivers', 
 		'expected': True, 
 		'description': 'ira la rivers comparison with article'
 	},
     {
-		'input': 'ira v lee;ira d. lee', 
+		'name_one': 'ira v lee',
+		'name_two': 'ira d. lee', 
 		'expected': False, 
 		'description': 'ira v lee comparison with article'
 	},
     {
-		'input': 'ira williams;ira lawson williams', 
+		'name_one': 'ira williams',
+		'name_two': 'ira lawson williams', 
 		'expected': True, 
 		'description': 'ira williams comparison with article'
 	},
     {
-		'input': 'irene e van osdel;edgar bates van osdel', 
+		'name_one': 'irene e van osdel',
+		'name_two': 'edgar bates van osdel', 
 		'expected': False, 
 		'description': 'irene e van osdel comparison with article'
 	},
     {
-		'input': 'irene s lashey;karl spencer lashley', 
+		'name_one': 'irene s lashey',
+		'name_two': 'karl spencer lashley', 
 		'expected': False, 
 		'description': 'irene s lashey comparison with article'
 	},
     {
-		'input': 'irene s lavant;leopoldo santiago lavandero', 
+		'name_one': 'irene s lavant',
+		'name_two': 'leopoldo santiago lavandero', 
 		'expected': False, 
 		'description': 'irene s lavant comparison with article'
 	},
     {
-		'input': 'irving h lepow;irwin howard lepow', 
+		'name_one': 'irving h lepow',
+		'name_two': 'irwin howard lepow', 
 		'expected': False, 
 		'description': 'irving h lepow comparison with article'
 	},
     {
-		'input': 'irving j lee;irving j. lee', 
+		'name_one': 'irving j lee',
+		'name_two': 'irving j. lee', 
 		'expected': True, 
 		'description': 'irving j lee comparison with article'
 	},
     {
-		'input': 'irving l janis;irving lester janis', 
+		'name_one': 'irving l janis',
+		'name_two': 'irving lester janis', 
 		'expected': True, 
 		'description': 'irving l janis comparison with article'
 	},
     {
-		'input': 'irving o dein;irving o. dein', 
+		'name_one': 'irving o dein',
+		'name_two': 'irving o. dein', 
 		'expected': True, 
 		'description': 'irving o dein comparison with article'
 	},
     {
-		'input': 'irving peterson;irving leonard peterson', 
+		'name_one': 'irving peterson',
+		'name_two': 'irving leonard peterson', 
 		'expected': True, 
 		'description': 'irving peterson comparison with article'
 	},
     {
-		'input': 'irwin i levine;l. i. levine', 
+		'name_one': 'irwin i levine',
+		'name_two': 'l. i. levine', 
 		'expected': False, 
 		'description': 'irwin i levine comparison with article'
 	},
     {
-		'input': 'isaac leroy domingus;isaac leroy domingos', 
+		'name_one': 'isaac leroy domingus',
+		'name_two': 'isaac leroy domingos', 
 		'expected': True, 
 		'description': 'isaac leroy domingus comparison with article'
 	},
     {
-		'input': 'isaac lewin;isaac lewin', 
+		'name_one': 'isaac lewin',
+		'name_two': 'isaac lewin', 
 		'expected': True, 
 		'description': 'isaac lewin comparison with article'
 	},
     {
-		'input': 'isabel lewis;isabel boyd lewis', 
+		'name_one': 'isabel lewis',
+		'name_two': 'isabel boyd lewis', 
 		'expected': True, 
 		'description': 'isabel lewis comparison with article'
 	},
     {
-		'input': 'isabelle r lebreton;dagmar renshaw lebreton', 
+		'name_one': 'isabelle r lebreton',
+		'name_two': 'dagmar renshaw lebreton', 
 		'expected': False, 
 		'description': 'isabelle r lebreton comparison with article'
 	},
     {
-		'input': 'isidore l robbins;isidore leon robbins', 
+		'name_one': 'isidore l robbins',
+		'name_two': 'isidore leon robbins', 
 		'expected': True, 
 		'description': 'isidore l robbins comparison with article'
 	},
     {
-		'input': 'ivan l hill;ivan leroy hill', 
+		'name_one': 'ivan l hill',
+		'name_two': 'ivan leroy hill', 
 		'expected': True, 
 		'description': 'ivan l hill comparison with article'
 	},
     {
-		'input': 'ivan l little;ivan lee little', 
+		'name_one': 'ivan l little',
+		'name_two': 'ivan lee little', 
 		'expected': True, 
 		'description': 'ivan l little comparison with article'
 	},
     {
-		'input': 'ivan m lee;ivan m. lee', 
+		'name_one': 'ivan m lee',
+		'name_two': 'ivan m. lee', 
 		'expected': True, 
 		'description': 'ivan m lee comparison with article'
 	},
     {
-		'input': 'ivor d spencer;ivor debenham spencer', 
+		'name_one': 'ivor d spencer',
+		'name_two': 'ivor debenham spencer', 
 		'expected': True, 
 		'description': 'ivor d spencer comparison with article'
 	},
     {
-		'input': 'j andreas (joseph andreas) de marco;rene j. marcou', 
+		'name_one': 'j andreas (joseph andreas) de marco',
+		'name_two': 'rene j. marcou', 
 		'expected': False, 
 		'description': 'j andreas (joseph andreas) de marco comparison with article'
 	},
     {
-		'input': 'j dean swift;j. dean swift', 
+		'name_one': 'j dean swift',
+		'name_two': 'j. dean swift', 
 		'expected': True, 
 		'description': 'j dean swift comparison with article'
 	},
     {
-		'input': 'j deryl hart;julian deryl hart', 
+		'name_one': 'j deryl hart',
+		'name_two': 'julian deryl hart', 
 		'expected': True, 
 		'description': 'j deryl hart comparison with article'
 	},
     {
-		'input': 'j howard demar;howard h. lamar', 
+		'name_one': 'j howard demar',
+		'name_two': 'howard h. lamar', 
 		'expected': False, 
 		'description': 'j howard demar comparison with article'
 	},
     {
-		'input': 'j lawton ellis;j. lawton ellis', 
+		'name_one': 'j lawton ellis',
+		'name_two': 'j. lawton ellis', 
 		'expected': True, 
 		'description': 'j lawton ellis comparison with article'
 	},
     {
-		'input': 'j layton fraser;thomas layton fraser', 
+		'name_one': 'j layton fraser',
+		'name_two': 'thomas layton fraser', 
 		'expected': False, 
 		'description': 'j layton fraser comparison with article'
 	},
     {
-		'input': 'j leonard brandt;j. leonard brandt', 
+		'name_one': 'j leonard brandt',
+		'name_two': 'j. leonard brandt', 
 		'expected': True, 
 		'description': 'j leonard brandt comparison with article'
 	},
     {
-		'input': 'j leonard goldner;joseph leonard goldner', 
+		'name_one': 'j leonard goldner',
+		'name_two': 'joseph leonard goldner', 
 		'expected': True, 
 		'description': 'j leonard goldner comparison with article'
 	},
     {
-		'input': 'j leroy anderson;leray j. anderson', 
+		'name_one': 'j leroy anderson',
+		'name_two': 'leray j. anderson', 
 		'expected': True, 
 		'description': 'j leroy anderson comparison with article'
 	},
     {
-		'input': 'j lewis allison;joseph lewis allison', 
+		'name_one': 'j lewis allison',
+		'name_two': 'joseph lewis allison', 
 		'expected': True, 
 		'description': 'j lewis allison comparison with article'
 	},
     {
-		'input': 'j lewis maynard;j. lewis maynard', 
+		'name_one': 'j lewis maynard',
+		'name_two': 'j. lewis maynard', 
 		'expected': True, 
 		'description': 'j lewis maynard comparison with article'
 	},
     {
-		'input': 'j paul leonard;j paul leonard', 
+		'name_one': 'j paul leonard',
+		'name_two': 'j paul leonard', 
 		'expected': True, 
 		'description': 'j paul leonard comparison with article'
 	},
     {
-		'input': 'j s ladd thomas;j. s. ladd thomas', 
+		'name_one': 'j s ladd thomas',
+		'name_two': 'j. s. ladd thomas', 
 		'expected': True, 
 		'description': 'j s ladd thomas comparison with article'
 	},
     {
-		'input': 'j warren lee;james warren lee', 
+		'name_one': 'j warren lee',
+		'name_two': 'james warren lee', 
 		'expected': True, 
 		'description': 'j warren lee comparison with article'
 	},
     {
-		'input': 'j. murray lee;j. murray lee', 
+		'name_one': 'j. murray lee',
+		'name_two': 'j. murray lee', 
 		'expected': True, 
 		'description': 'j. murray lee comparison with article'
 	},
     {
-		'input': 'j. raymond derby;j. raymond derby', 
+		'name_one': 'j. raymond derby',
+		'name_two': 'j. raymond derby', 
 		'expected': True, 
 		'description': 'j. raymond derby comparison with article'
 	},
     {
-		'input': 'j. wayne ley;j. wayne ley', 
+		'name_one': 'j. wayne ley',
+		'name_two': 'j. wayne ley', 
 		'expected': True, 
 		'description': 'j. wayne ley comparison with article'
 	},
     {
-		'input': 'jack a denison;jack a. denison', 
+		'name_one': 'jack a denison',
+		'name_two': 'jack a. denison', 
 		'expected': True, 
 		'description': 'jack a denison comparison with article'
 	},
     {
-		'input': 'jack j detzler;jack j. detzler', 
+		'name_one': 'jack j detzler',
+		'name_two': 'jack j. detzler', 
 		'expected': True, 
 		'description': 'jack j detzler comparison with article'
 	},
     {
-		'input': 'jack layton;jack malcolm layton', 
+		'name_one': 'jack layton',
+		'name_two': 'jack malcolm layton', 
 		'expected': True, 
 		'description': 'jack layton comparison with article'
 	},
     {
-		'input': 'jack lenhart;jack lenhart', 
+		'name_one': 'jack lenhart',
+		'name_two': 'jack lenhart', 
 		'expected': True, 
 		'description': 'jack lenhart comparison with article'
 	},
     {
-		'input': 'jack levine;jack levine', 
+		'name_one': 'jack levine',
+		'name_two': 'jack levine', 
 		'expected': True, 
 		'description': 'jack levine comparison with article'
 	},
     {
-		'input': 'jack r leonards;jack ralph leonards', 
+		'name_one': 'jack r leonards',
+		'name_two': 'jack ralph leonards', 
 		'expected': True, 
 		'description': 'jack r leonards comparison with article'
 	},
     {
-		'input': 'jacob a o larsen;jakob aall ottesen larsen', 
+		'name_one': 'jacob a o larsen',
+		'name_two': 'jakob aall ottesen larsen', 
 		'expected': True, 
 		'description': 'jacob a o larsen comparison with article'
 	},
     {
-		'input': 'jacob f leibald;f. l. liebolt', 
+		'name_one': 'jacob f leibald',
+		'name_two': 'f. l. liebolt', 
 		'expected': False, 
 		'description': 'jacob f leibald comparison with article'
 	},
     {
-		'input': 'jacob haas;jacob anton de haas', 
+		'name_one': 'jacob haas',
+		'name_two': 'jacob anton de haas', 
 		'expected': True, 
 		'description': 'jacob haas comparison with article'
 	},
     {
-		'input': 'jacob levine;jacob levine', 
+		'name_one': 'jacob levine',
+		'name_two': 'jacob levine', 
 		'expected': True, 
 		'description': 'jacob levine comparison with article'
 	},
     {
-		'input': 'jacob levitt;jacob levitt', 
+		'name_one': 'jacob levitt',
+		'name_two': 'jacob levitt', 
 		'expected': True, 
 		'description': 'jacob levitt comparison with article'
 	},
     {
-		'input': 'jacob van ek;jacob van ek', 
+		'name_one': 'jacob van ek',
+		'name_two': 'jacob van ek', 
 		'expected': True, 
 		'description': 'jacob van ek comparison with article'
 	},
     {
-		'input': 'jacob vanderzee;jacob van der zee', 
+		'name_one': 'jacob vanderzee',
+		'name_two': 'jacob van der zee', 
 		'expected': True, 
 		'description': 'jacob vanderzee comparison with article'
 	},
     {
-		'input': 'jacqueline a rochelle;augustine larochelle', 
+		'name_one': 'jacqueline a rochelle',
+		'name_two': 'augustine larochelle', 
 		'expected': True, 
 		'description': 'jacqueline a rochelle comparison with article'
 	},
     {
-		'input': 'jacqueline e delaharp;jacqueline de la harpe', 
+		'name_one': 'jacqueline e delaharp',
+		'name_two': 'jacqueline de la harpe', 
 		'expected': True, 
 		'description': 'jacqueline e delaharp comparison with article'
 	},
     {
-		'input': 'jadan g jr lee;jordan g. lee', 
+		'name_one': 'jadan g jr lee',
+		'name_two': 'jordan g. lee', 
 		'expected': False, 
 		'description': 'jadan g jr lee comparison with article'
 	},
     {
-		'input': 'james b lewis;b. roland lewis', 
+		'name_one': 'james b lewis',
+		'name_two': 'b. roland lewis', 
 		'expected': False, 
 		'description': 'james b lewis comparison with article'
 	},
     {
-		'input': 'james b ley;b. james ley', 
+		'name_one': 'james b ley',
+		'name_two': 'b. james ley', 
 		'expected': True, 
 		'description': 'james b ley comparison with article'
 	},
     {
-		'input': 'james c landon;f. c. lendrum', 
+		'name_one': 'james c landon',
+		'name_two': 'f. c. lendrum', 
 		'expected': False, 
 		'description': 'james c landon comparison with article'
 	},
     {
-		'input': 'james c mc leod;james currie mcleod', 
+		'name_one': 'james c mc leod',
+		'name_two': 'james currie mcleod', 
 		'expected': True, 
 		'description': 'james c mc leod comparison with article'
 	},
     {
-		'input': 'james d decker;james d. decker', 
+		'name_one': 'james d decker',
+		'name_two': 'james d. decker', 
 		'expected': True, 
 		'description': 'james d decker comparison with article'
 	},
     {
-		'input': 'james d heard;james delaven heard', 
+		'name_one': 'james d heard',
+		'name_two': 'james delaven heard', 
 		'expected': True, 
 		'description': 'james d heard comparison with article'
 	},
     {
-		'input': 'james d. wilson;james dean wilson', 
+		'name_one': 'james d. wilson',
+		'name_two': 'james dean wilson', 
 		'expected': True, 
 		'description': 'james d. wilson comparison with article'
 	},
     {
-		'input': 'james derr;james g. derr', 
+		'name_one': 'james derr',
+		'name_two': 'james g. derr', 
 		'expected': True, 
 		'description': 'james derr comparison with article'
 	},
     {
-		'input': 'james dewey;james edwin dewey', 
+		'name_one': 'james dewey',
+		'name_two': 'james edwin dewey', 
 		'expected': True, 
 		'description': 'james dewey comparison with article'
 	},
     {
-		'input': 'james e deese;james earle deese', 
+		'name_one': 'james e deese',
+		'name_two': 'james earle deese', 
 		'expected': True, 
 		'description': 'james e deese comparison with article'
 	},
     {
-		'input': 'james e dew;james e. dew', 
+		'name_one': 'james e dew',
+		'name_two': 'james e. dew', 
 		'expected': True, 
 		'description': 'james e dew comparison with article'
 	},
     {
-		'input': 'james e lebensohn;james elzer lebensohn', 
+		'name_one': 'james e lebensohn',
+		'name_two': 'james elzer lebensohn', 
 		'expected': True, 
 		'description': 'james e lebensohn comparison with article'
 	},
     {
-		'input': 'james e legates;james edward legates', 
+		'name_one': 'james e legates',
+		'name_two': 'james edward legates', 
 		'expected': True, 
 		'description': 'james e legates comparison with article'
 	},
     {
-		'input': 'james e lewis;james e. lewis', 
+		'name_one': 'james e lewis',
+		'name_two': 'james e. lewis', 
 		'expected': True, 
 		'description': 'james e lewis comparison with article'
 	},
     {
-		'input': 'james f campbell;james lawder gamble', 
+		'name_one': 'james f campbell',
+		'name_two': 'james lawder gamble', 
 		'expected': False, 
 		'description': 'james f campbell comparison with article'
 	},
     {
-		'input': 'james g vanderpool;james g. vanderpool', 
+		'name_one': 'james g vanderpool',
+		'name_two': 'james g. vanderpool', 
 		'expected': True, 
 		'description': 'james g vanderpool comparison with article'
 	},
     {
-		'input': 'james h decker;james h. decker', 
+		'name_one': 'james h decker',
+		'name_two': 'james h. decker', 
 		'expected': True, 
 		'description': 'james h decker comparison with article'
 	},
     {
-		'input': 'james h leathem;james h. leathem', 
+		'name_one': 'james h leathem',
+		'name_two': 'james h. leathem', 
 		'expected': True, 
 		'description': 'james h leathem comparison with article'
 	},
     {
-		'input': 'james j de costa;edwin j. decosta', 
+		'name_one': 'james j de costa',
+		'name_two': 'edwin j. decosta', 
 		'expected': False, 
 		'description': 'james j de costa comparison with article'
 	},
     {
-		'input': 'james j devine;james j. devine', 
+		'name_one': 'james j devine',
+		'name_two': 'james j. devine', 
 		'expected': True, 
 		'description': 'james j devine comparison with article'
 	},
     {
-		'input': 'james j devlin;james j. devlin', 
+		'name_one': 'james j devlin',
+		'name_two': 'james j. devlin', 
 		'expected': True, 
 		'description': 'james j devlin comparison with article'
 	},
     {
-		'input': 'james j lawlor;james joseph lawlor', 
+		'name_one': 'james j lawlor',
+		'name_two': 'james joseph lawlor', 
 		'expected': True, 
 		'description': 'james j lawlor comparison with article'
 	},
     {
-		'input': 'james j leahy;james j. leahy', 
+		'name_one': 'james j leahy',
+		'name_two': 'james j. leahy', 
 		'expected': True, 
 		'description': 'james j leahy comparison with article'
 	},
     {
-		'input': 'james l botsford;james lawrence botsford', 
+		'name_one': 'james l botsford',
+		'name_two': 'james lawrence botsford', 
 		'expected': True, 
 		'description': 'james l botsford comparison with article'
 	},
     {
-		'input': 'james l carrico;james leon carrico', 
+		'name_one': 'james l carrico',
+		'name_two': 'james leon carrico', 
 		'expected': True, 
 		'description': 'james l carrico comparison with article'
 	},
     {
-		'input': 'james l cate;james lea cate', 
+		'name_one': 'james l cate',
+		'name_two': 'james lea cate', 
 		'expected': True, 
 		'description': 'james l cate comparison with article'
 	},
     {
-		'input': 'james l cronin;james lawrence cronin', 
+		'name_one': 'james l cronin',
+		'name_two': 'james lawrence cronin', 
 		'expected': True, 
 		'description': 'james l cronin comparison with article'
 	},
     {
-		'input': 'james l deegan;james wayne deegan', 
+		'name_one': 'james l deegan',
+		'name_two': 'james wayne deegan', 
 		'expected': False, 
 		'description': 'james l deegan comparison with article'
 	},
     {
-		'input': 'james l guenveur;james lapenne guenveur', 
+		'name_one': 'james l guenveur',
+		'name_two': 'james lapenne guenveur', 
 		'expected': True, 
 		'description': 'james l guenveur comparison with article'
 	},
     {
-		'input': 'james l hall;james lester hall', 
+		'name_one': 'james l hall',
+		'name_two': 'james lester hall', 
 		'expected': True, 
 		'description': 'james l hall comparison with article'
 	},
     {
-		'input': 'james l leach;james l. leach', 
+		'name_one': 'james l leach',
+		'name_two': 'james l. leach', 
 		'expected': True, 
 		'description': 'james l leach comparison with article'
 	},
     {
-		'input': 'james l lee;luther james lee', 
+		'name_one': 'james l lee',
+		'name_two': 'luther james lee', 
 		'expected': True, 
 		'description': 'james l lee comparison with article'
 	},
     {
-		'input': 'james l leggett;james llewellyn leggett', 
+		'name_one': 'james l leggett',
+		'name_two': 'james llewellyn leggett', 
 		'expected': True, 
 		'description': 'james l leggett comparison with article'
 	},
     {
-		'input': 'james l leroy;l. w. leroy', 
+		'name_one': 'james l leroy',
+		'name_two': 'l. w. leroy', 
 		'expected': False, 
 		'description': 'james l leroy comparison with article'
 	},
     {
-		'input': 'james l meriam;james lathrop meriam', 
+		'name_one': 'james l meriam',
+		'name_two': 'james lathrop meriam', 
 		'expected': True, 
 		'description': 'james l meriam comparison with article'
 	},
     {
-		'input': 'james l moore;james legrand moore', 
+		'name_one': 'james l moore',
+		'name_two': 'james legrand moore', 
 		'expected': True, 
 		'description': 'james l moore comparison with article'
 	},
     {
-		'input': 'james l morrill;james lewis morrill', 
+		'name_one': 'james l morrill',
+		'name_two': 'james lewis morrill', 
 		'expected': True, 
 		'description': 'james l morrill comparison with article'
 	},
     {
-		'input': 'james l reycroft, jr;james leonard reycraft', 
+		'name_one': 'james l reycroft, jr',
+		'name_two': 'james leonard reycraft', 
 		'expected': True, 
 		'description': 'james l reycroft, jr comparison with article'
 	},
     {
-		'input': 'james l sellers;james lee sellers', 
+		'name_one': 'james l sellers',
+		'name_two': 'james lee sellers', 
 		'expected': True, 
 		'description': 'james l sellers comparison with article'
 	},
     {
-		'input': 'james l whittenberger;james laverre whittenberger', 
+		'name_one': 'james l whittenberger',
+		'name_two': 'james laverre whittenberger', 
 		'expected': True, 
 		'description': 'james l whittenberger comparison with article'
 	},
     {
-		'input': 'james lape;james l lapoe', 
+		'name_one': 'james lape',
+		'name_two': 'james l lapoe', 
 		'expected': True, 
 		'description': 'james lape comparison with article'
 	},
     {
-		'input': 'james lawrence;james vantine lawrence', 
+		'name_one': 'james lawrence',
+		'name_two': 'james vantine lawrence', 
 		'expected': True, 
 		'description': 'james lawrence comparison with article'
 	},
     {
-		'input': 'james lechay;james lechay', 
+		'name_one': 'james lechay',
+		'name_two': 'james lechay', 
 		'expected': True, 
 		'description': 'james lechay comparison with article'
 	},
     {
-		'input': 'james levitt;james d. levitt', 
+		'name_one': 'james levitt',
+		'name_two': 'james d. levitt', 
 		'expected': True, 
 		'description': 'james levitt comparison with article'
 	},
     {
-		'input': 'james m lamb;marion m. lamb', 
+		'name_one': 'james m lamb',
+		'name_two': 'marion m. lamb', 
 		'expected': False, 
 		'description': 'james m lamb comparison with article'
 	},
     {
-		'input': 'james m lavin;james m. lavin', 
+		'name_one': 'james m lavin',
+		'name_two': 'james m. lavin', 
 		'expected': True, 
 		'description': 'james m lavin comparison with article'
 	},
     {
-		'input': 'james m leavey;james m. leavey', 
+		'name_one': 'james m leavey',
+		'name_two': 'james m. leavey', 
 		'expected': True, 
 		'description': 'james m leavey comparison with article'
 	},
     {
-		'input': 'james m ledanard;james lawrence lardner', 
+		'name_one': 'james m ledanard',
+		'name_two': 'james lawrence lardner', 
 		'expected': False, 
 		'description': 'james m ledanard comparison with article'
 	},
     {
-		'input': 'james mahler;james lewis mahler', 
+		'name_one': 'james mahler',
+		'name_two': 'james lewis mahler', 
 		'expected': True, 
 		'description': 'james mahler comparison with article'
 	},
     {
-		'input': 'james r degroat;james r. degroat', 
+		'name_one': 'james r degroat',
+		'name_two': 'james r. degroat', 
 		'expected': True, 
 		'description': 'james r degroat comparison with article'
 	},
     {
-		'input': 'james r latimer;richmond lattimore', 
+		'name_one': 'james r latimer',
+		'name_two': 'richmond lattimore', 
 		'expected': True, 
 		'description': 'james r latimer comparison with article'
 	},
     {
-		'input': 'james r van dyke;james r. van dyke', 
+		'name_one': 'james r van dyke',
+		'name_two': 'james r. van dyke', 
 		'expected': True, 
 		'description': 'james r van dyke comparison with article'
 	},
     {
-		'input': 'james robert hall;robert leon hall', 
+		'name_one': 'james robert hall',
+		'name_two': 'robert leon hall', 
 		'expected': False, 
 		'description': 'james robert hall comparison with article'
 	},
     {
-		'input': 'james s howe;james lewis howe', 
+		'name_one': 'james s howe',
+		'name_two': 'james lewis howe', 
 		'expected': False, 
 		'description': 'james s howe comparison with article'
 	},
     {
-		'input': 'james s lemen;janice speer lemen', 
+		'name_one': 'james s lemen',
+		'name_two': 'janice speer lemen', 
 		'expected': False, 
 		'description': 'james s lemen comparison with article'
 	},
     {
-		'input': 'james t lapsley, jr;james t. lapsley', 
+		'name_one': 'james t lapsley, jr',
+		'name_two': 'james t. lapsley', 
 		'expected': True, 
 		'description': 'james t lapsley, jr comparison with article'
 	},
     {
-		'input': 'james v delgiudace;valentine l. telegdi', 
+		'name_one': 'james v delgiudace',
+		'name_two': 'valentine l. telegdi', 
 		'expected': False, 
 		'description': 'james v delgiudace comparison with article'
 	},
     {
-		'input': 'james v newman;james leet valentine newman', 
+		'name_one': 'james v newman',
+		'name_two': 'james leet valentine newman', 
 		'expected': True, 
 		'description': 'james v newman comparison with article'
 	},
     {
-		'input': 'james v rice;james van nostran rice', 
+		'name_one': 'james v rice',
+		'name_two': 'james van nostran rice', 
 		'expected': True, 
 		'description': 'james v rice comparison with article'
 	},
     {
-		'input': 'james van ness;james edward van ness', 
+		'name_one': 'james van ness',
+		'name_two': 'james edward van ness', 
 		'expected': True, 
 		'description': 'james van ness comparison with article'
 	},
     {
-		'input': 'james w haun;james r. dehaan', 
+		'name_one': 'james w haun',
+		'name_two': 'james r. dehaan', 
 		'expected': False, 
 		'description': 'james w haun comparison with article'
 	},
     {
-		'input': 'james w. lesley;james w. lesley', 
+		'name_one': 'james w. lesley',
+		'name_two': 'james w. lesley', 
 		'expected': True, 
 		'description': 'james w. lesley comparison with article'
 	},
     {
-		'input': 'jan a vanden brook;jan abram van den broek', 
+		'name_one': 'jan a vanden brook',
+		'name_two': 'jan abram van den broek', 
 		'expected': True, 
 		'description': 'jan a vanden brook comparison with article'
 	},
     {
-		'input': 'jane a lawson;jane sorrie lawson', 
+		'name_one': 'jane a lawson',
+		'name_two': 'jane sorrie lawson', 
 		'expected': False, 
 		'description': 'jane a lawson comparison with article'
 	},
     {
-		'input': 'jane b van deusen;jayne c. van deusen', 
+		'name_one': 'jane b van deusen',
+		'name_two': 'jayne c. van deusen', 
 		'expected': False, 
 		'description': 'jane b van deusen comparison with article'
 	},
     {
-		'input': 'jane f desforges;jane f. desforges', 
+		'name_one': 'jane f desforges',
+		'name_two': 'jane f. desforges', 
 		'expected': True, 
 		'description': 'jane f desforges comparison with article'
 	},
     {
-		'input': 'jane g demarest;g. stuart demarest', 
+		'name_one': 'jane g demarest',
+		'name_two': 'g. stuart demarest', 
 		'expected': False, 
 		'description': 'jane g demarest comparison with article'
 	},
     {
-		'input': 'jane l gardner;jane lester gardner', 
+		'name_one': 'jane l gardner',
+		'name_two': 'jane lester gardner', 
 		'expected': True, 
 		'description': 'jane l gardner comparison with article'
 	},
     {
-		'input': 'janice a lazarre;arnold lazarow', 
+		'name_one': 'janice a lazarre',
+		'name_two': 'arnold lazarow', 
 		'expected': False, 
 		'description': 'janice a lazarre comparison with article'
 	},
     {
-		'input': 'janice vanderwater;janice o. van de water', 
+		'name_one': 'janice vanderwater',
+		'name_two': 'janice o. van de water', 
 		'expected': True, 
 		'description': 'janice vanderwater comparison with article'
 	},
     {
-		'input': 'jasper l callaway;jasper lamar callaway', 
+		'name_one': 'jasper l callaway',
+		'name_two': 'jasper lamar callaway', 
 		'expected': True, 
 		'description': 'jasper l callaway comparison with article'
 	},
     {
-		'input': 'jasper stuckey;jasper leonidas stuckey', 
+		'name_one': 'jasper stuckey',
+		'name_two': 'jasper leonidas stuckey', 
 		'expected': True, 
 		'description': 'jasper stuckey comparison with article'
 	},
     {
-		'input': 'jay c vankirk;jay calvin van kirk', 
+		'name_one': 'jay c vankirk',
+		'name_two': 'jay calvin van kirk', 
 		'expected': True, 
 		'description': 'jay c vankirk comparison with article'
 	},
     {
-		'input': 'jay laurence lush;jay laurence lush', 
+		'name_one': 'jay laurence lush',
+		'name_two': 'jay laurence lush', 
 		'expected': True, 
 		'description': 'jay laurence lush comparison with article'
 	},
     {
-		'input': 'jean blattel;jean van bladel', 
+		'name_one': 'jean blattel',
+		'name_two': 'jean van bladel', 
 		'expected': True, 
 		'description': 'jean blattel comparison with article'
 	},
     {
-		'input': 'jean c gallaher;clark van galder', 
+		'name_one': 'jean c gallaher',
+		'name_two': 'clark van galder', 
 		'expected': False, 
 		'description': 'jean c gallaher comparison with article'
 	},
     {
-		'input': 'jean hansen;jean lee hansen', 
+		'name_one': 'jean hansen',
+		'name_two': 'jean lee hansen', 
 		'expected': True, 
 		'description': 'jean hansen comparison with article'
 	},
     {
-		'input': 'jean j demorest;jean-jacques demorest', 
+		'name_one': 'jean j demorest',
+		'name_two': 'jean-jacques demorest', 
 		'expected': True, 
 		'description': 'jean j demorest comparison with article'
 	},
     {
-		'input': 'jean johnston;jean vance johnston', 
+		'name_one': 'jean johnston',
+		'name_two': 'jean vance johnston', 
 		'expected': True, 
 		'description': 'jean johnston comparison with article'
 	},
     {
-		'input': 'jean labatut;jean labatut', 
+		'name_one': 'jean labatut',
+		'name_two': 'jean labatut', 
 		'expected': True, 
 		'description': 'jean labatut comparison with article'
 	},
     {
-		'input': 'jean m demos;jean m. demos', 
+		'name_one': 'jean m demos',
+		'name_two': 'jean m. demos', 
 		'expected': True, 
 		'description': 'jean m demos comparison with article'
 	},
     {
-		'input': 'jean p lesperance;jean paul lesperance', 
+		'name_one': 'jean p lesperance',
+		'name_two': 'jean paul lesperance', 
 		'expected': True, 
 		'description': 'jean p lesperance comparison with article'
 	},
     {
-		'input': 'jeanette o laflamme;floyd o. flom', 
+		'name_one': 'jeanette o laflamme',
+		'name_two': 'floyd o. flom', 
 		'expected': False, 
 		'description': 'jeanette o laflamme comparison with article'
 	},
     {
-		'input': 'jeannette laguaite;jeannette katherine laguaite', 
+		'name_one': 'jeannette laguaite',
+		'name_two': 'jeannette katherine laguaite', 
 		'expected': True, 
 		'description': 'jeannette laguaite comparison with article'
 	},
     {
-		'input': 'jennie l epps;jennie lee epps', 
+		'name_one': 'jennie l epps',
+		'name_two': 'jennie lee epps', 
 		'expected': True, 
 		'description': 'jennie l epps comparison with article'
 	},
     {
-		'input': 'jeremiah d ford;jeremiah denis matthias ford', 
+		'name_one': 'jeremiah d ford',
+		'name_two': 'jeremiah denis matthias ford', 
 		'expected': True, 
 		'description': 'jeremiah d ford comparison with article'
 	},
     {
-		'input': 'jeremonah c lehane;jeremiah lehane', 
+		'name_one': 'jeremonah c lehane',
+		'name_two': 'jeremiah lehane', 
 		'expected': True, 
 		'description': 'jeremonah c lehane comparison with article'
 	},
     {
-		'input': 'jerome j. dee;jerome j. dee', 
+		'name_one': 'jerome j. dee',
+		'name_two': 'jerome j. dee', 
 		'expected': True, 
 		'description': 'jerome j. dee comparison with article'
 	},
     {
-		'input': 'jerome l le master;jerome lloyd lemaster', 
+		'name_one': 'jerome l le master',
+		'name_two': 'jerome lloyd lemaster', 
 		'expected': True, 
 		'description': 'jerome l le master comparison with article'
 	},
     {
-		'input': 'jesse deboer;jesse deboer', 
+		'name_one': 'jesse deboer',
+		'name_two': 'jesse deboer', 
 		'expected': True, 
 		'description': 'jesse deboer comparison with article'
 	},
     {
-		'input': 'jesse l charlton;jesse laurence charlton', 
+		'name_one': 'jesse l charlton',
+		'name_two': 'jesse laurence charlton', 
 		'expected': True, 
 		'description': 'jesse l charlton comparison with article'
 	},
     {
-		'input': 'jesse l rader;jesse lee rader', 
+		'name_one': 'jesse l rader',
+		'name_two': 'jesse lee rader', 
 		'expected': True, 
 		'description': 'jesse l rader comparison with article'
 	},
     {
-		'input': 'jesse l rose;jesse lee rose', 
+		'name_one': 'jesse l rose',
+		'name_two': 'jesse lee rose', 
 		'expected': True, 
 		'description': 'jesse l rose comparison with article'
 	},
     {
-		'input': 'jesse lefforge;jess h. lefforge', 
+		'name_one': 'jesse lefforge',
+		'name_two': 'jess h. lefforge', 
 		'expected': True, 
 		'description': 'jesse lefforge comparison with article'
 	},
     {
-		'input': 'jessie l p delprat;jessie l. p. delprat', 
+		'name_one': 'jessie l p delprat',
+		'name_two': 'jessie l. p. delprat', 
 		'expected': True, 
 		'description': 'jessie l p delprat comparison with article'
 	},
     {
-		'input': 'jessie l paul;jessie leonore paul', 
+		'name_one': 'jessie l paul',
+		'name_two': 'jessie leonore paul', 
 		'expected': True, 
 		'description': 'jessie l paul comparison with article'
 	},
     {
-		'input': 'jessie larson;jessie larsen', 
+		'name_one': 'jessie larson',
+		'name_two': 'jessie larsen', 
 		'expected': True, 
 		'description': 'jessie larson comparison with article'
 	},
     {
-		'input': 'jimmy lee larue;jimmae larue', 
+		'name_one': 'jimmy lee larue',
+		'name_two': 'jimmae larue', 
 		'expected': True, 
 		'description': 'jimmy lee larue comparison with article'
 	},
     {
-		'input': 'joe dennis;joe dennis', 
+		'name_one': 'joe dennis',
+		'name_two': 'joe dennis', 
 		'expected': True, 
 		'description': 'joe dennis comparison with article'
 	},
     {
-		'input': 'joe l haddon;joe leon haddon', 
+		'name_one': 'joe l haddon',
+		'name_two': 'joe leon haddon', 
 		'expected': True, 
 		'description': 'joe l haddon comparison with article'
 	},
     {
-		'input': 'joe l lawson, jr;joe l. lawson', 
+		'name_one': 'joe l lawson, jr',
+		'name_two': 'joe l. lawson', 
 		'expected': True, 
 		'description': 'joe l lawson, jr comparison with article'
 	},
     {
-		'input': 'joel p dean;joel dean', 
+		'name_one': 'joel p dean',
+		'name_two': 'joel dean', 
 		'expected': True, 
 		'description': 'joel p dean comparison with article'
 	},
     {
-		'input': 'joesph p lasalle;joseph p. lasalle', 
+		'name_one': 'joesph p lasalle',
+		'name_two': 'joseph p. lasalle', 
 		'expected': True, 
 		'description': 'joesph p lasalle comparison with article'
 	},
     {
-		'input': 'joffre l coe;joffre lanning coe', 
+		'name_one': 'joffre l coe',
+		'name_two': 'joffre lanning coe', 
 		'expected': True, 
 		'description': 'joffre l coe comparison with article'
 	},
     {
-		'input': 'johannis l boysen;joh. lassen boysen', 
+		'name_one': 'johannis l boysen',
+		'name_two': 'joh. lassen boysen', 
 		'expected': True, 
 		'description': 'johannis l boysen comparison with article'
 	},
     {
-		'input': 'john a de novo;john a. denovo', 
+		'name_one': 'john a de novo',
+		'name_two': 'john a. denovo', 
 		'expected': True, 
 		'description': 'john a de novo comparison with article'
 	},
     {
-		'input': 'john a l saunders;john alvah lee saunders', 
+		'name_one': 'john a l saunders',
+		'name_two': 'john alvah lee saunders', 
 		'expected': True, 
 		'description': 'john a l saunders comparison with article'
 	},
     {
-		'input': 'john a lanz;john tollet lantz', 
+		'name_one': 'john a lanz',
+		'name_two': 'john tollet lantz', 
 		'expected': False, 
 		'description': 'john a lanz comparison with article'
 	},
     {
-		'input': 'john a leavitt;john anton leavitt', 
+		'name_one': 'john a leavitt',
+		'name_two': 'john anton leavitt', 
 		'expected': True, 
 		'description': 'john a leavitt comparison with article'
 	},
     {
-		'input': 'john a leiter;hans leitner', 
+		'name_one': 'john a leiter',
+		'name_two': 'hans leitner', 
 		'expected': True, 
 		'description': 'john a leiter comparison with article'
 	},
     {
-		'input': 'john a lester, jr;john ashby lester', 
+		'name_one': 'john a lester, jr',
+		'name_two': 'john ashby lester', 
 		'expected': True, 
 		'description': 'john a lester, jr comparison with article'
 	},
     {
-		'input': 'john a spencer;john lebaron spencer', 
+		'name_one': 'john a spencer',
+		'name_two': 'john lebaron spencer', 
 		'expected': False, 
 		'description': 'john a spencer comparison with article'
 	},
     {
-		'input': 'john b deluca;georg hans bhawani luck', 
+		'name_one': 'john b deluca',
+		'name_two': 'georg hans bhawani luck', 
 		'expected': False, 
 		'description': 'john b deluca comparison with article'
 	},
     {
-		'input': 'john b fine;john van antwerp fine', 
+		'name_one': 'john b fine',
+		'name_two': 'john van antwerp fine', 
 		'expected': False, 
 		'description': 'john b fine comparison with article'
 	},
     {
-		'input': 'john b lagen;john b. lagen', 
+		'name_one': 'john b lagen',
+		'name_two': 'john b. lagen', 
 		'expected': True, 
 		'description': 'john b lagen comparison with article'
 	},
     {
-		'input': 'john b larndry;john b. larnen', 
+		'name_one': 'john b larndry',
+		'name_two': 'john b. larnen', 
 		'expected': False, 
 		'description': 'john b larndry comparison with article'
 	},
     {
-		'input': 'john b lentz;john beckley lentz', 
+		'name_one': 'john b lentz',
+		'name_two': 'john beckley lentz', 
 		'expected': True, 
 		'description': 'john b lentz comparison with article'
 	},
     {
-		'input': 'john b lewis;john barkley lewis', 
+		'name_one': 'john b lewis',
+		'name_two': 'john barkley lewis', 
 		'expected': True, 
 		'description': 'john b lewis comparison with article'
 	},
     {
-		'input': 'john b longstaff;john bailey langstaff', 
+		'name_one': 'john b longstaff',
+		'name_two': 'john bailey langstaff', 
 		'expected': True, 
 		'description': 'john b longstaff comparison with article'
 	},
     {
-		'input': 'john blair;john dennis blair', 
+		'name_one': 'john blair',
+		'name_two': 'john dennis blair', 
 		'expected': True, 
 		'description': 'john blair comparison with article'
 	},
     {
-		'input': 'john c de wolfe;john c. g. wulff', 
+		'name_one': 'john c de wolfe',
+		'name_two': 'john c. g. wulff', 
 		'expected': True, 
 		'description': 'john c de wolfe comparison with article'
 	},
     {
-		'input': 'john c lapp;john clarke lapp', 
+		'name_one': 'john c lapp',
+		'name_two': 'john clarke lapp', 
 		'expected': True, 
 		'description': 'john c lapp comparison with article'
 	},
     {
-		'input': 'john c snell;john leslie snell', 
+		'name_one': 'john c snell',
+		'name_two': 'john leslie snell', 
 		'expected': False, 
 		'description': 'john c snell comparison with article'
 	},
     {
-		'input': 'john c wilson;john lacy wilson', 
+		'name_one': 'john c wilson',
+		'name_two': 'john lacy wilson', 
 		'expected': False, 
 		'description': 'john c wilson comparison with article'
 	},
     {
-		'input': 'john campbell lester;j. campbell lester', 
+		'name_one': 'john campbell lester',
+		'name_two': 'j. campbell lester', 
 		'expected': True, 
 		'description': 'john campbell lester comparison with article'
 	},
     {
-		'input': 'john cutler;john levi cutler', 
+		'name_one': 'john cutler',
+		'name_two': 'john levi cutler', 
 		'expected': True, 
 		'description': 'john cutler comparison with article'
 	},
     {
-		'input': 'john d brackett;john denis bracket', 
+		'name_one': 'john d brackett',
+		'name_two': 'john denis bracket', 
 		'expected': True, 
 		'description': 'john d brackett comparison with article'
 	},
     {
-		'input': 'john d brackett;john denis brackett', 
+		'name_one': 'john d brackett',
+		'name_two': 'john denis brackett', 
 		'expected': True, 
 		'description': 'john d brackett comparison with article'
 	},
     {
-		'input': 'john day larkin;john day larkin', 
+		'name_one': 'john day larkin',
+		'name_two': 'john day larkin', 
 		'expected': True, 
 		'description': 'john day larkin comparison with article'
 	},
     {
-		'input': 'john decarlo,jr;john decarlo', 
+		'name_one': 'john decarlo,jr',
+		'name_two': 'john decarlo', 
 		'expected': True, 
 		'description': 'john decarlo,jr comparison with article'
 	},
     {
-		'input': 'john decicco;john decicco', 
+		'name_one': 'john decicco',
+		'name_two': 'john decicco', 
 		'expected': True, 
 		'description': 'john decicco comparison with article'
 	},
     {
-		'input': 'john degroot,sr;john degroot', 
+		'name_one': 'john degroot,sr',
+		'name_two': 'john degroot', 
 		'expected': True, 
 		'description': 'john degroot,sr comparison with article'
 	},
     {
-		'input': 'john delaney;john delaney', 
+		'name_one': 'john delaney',
+		'name_two': 'john delaney', 
 		'expected': True, 
 		'description': 'john delaney comparison with article'
 	},
     {
-		'input': 'john dempson;john dempsher', 
+		'name_one': 'john dempson',
+		'name_two': 'john dempsher', 
 		'expected': False, 
 		'description': 'john dempson comparison with article'
 	},
     {
-		'input': 'john e bradley;john lewis bradley', 
+		'name_one': 'john e bradley',
+		'name_two': 'john lewis bradley', 
 		'expected': False, 
 		'description': 'john e bradley comparison with article'
 	},
     {
-		'input': 'john e dees;john essary dees', 
+		'name_one': 'john e dees',
+		'name_two': 'john essary dees', 
 		'expected': True, 
 		'description': 'john e dees comparison with article'
 	},
     {
-		'input': 'john e lagerstrom;john e. lagerstrom', 
+		'name_one': 'john e lagerstrom',
+		'name_two': 'john e. lagerstrom', 
 		'expected': True, 
 		'description': 'john e lagerstrom comparison with article'
 	},
     {
-		'input': 'john e larsh;john edgar larsh', 
+		'name_one': 'john e larsh',
+		'name_two': 'john edgar larsh', 
 		'expected': True, 
 		'description': 'john e larsh comparison with article'
 	},
     {
-		'input': 'john e lawson;john e. lawson', 
+		'name_one': 'john e lawson',
+		'name_two': 'john e. lawson', 
 		'expected': True, 
 		'description': 'john e lawson comparison with article'
 	},
     {
-		'input': 'john e newman;john von neumann', 
+		'name_one': 'john e newman',
+		'name_two': 'john von neumann', 
 		'expected': True, 
 		'description': 'john e newman comparison with article'
 	},
     {
-		'input': 'john e vance;john e. vance', 
+		'name_one': 'john e vance',
+		'name_two': 'john e. vance', 
 		'expected': True, 
 		'description': 'john e vance comparison with article'
 	},
     {
-		'input': 'john f denton;john fletcher denton', 
+		'name_one': 'john f denton',
+		'name_two': 'john fletcher denton', 
 		'expected': True, 
 		'description': 'john f denton comparison with article'
 	},
     {
-		'input': 'john f freeman;john leiper freeman', 
+		'name_one': 'john f freeman',
+		'name_two': 'john leiper freeman', 
 		'expected': False, 
 		'description': 'john f freeman comparison with article'
 	},
     {
-		'input': 'john f mcgary;p. f. degara', 
+		'name_one': 'john f mcgary',
+		'name_two': 'p. f. degara', 
 		'expected': False, 
 		'description': 'john f mcgary comparison with article'
 	},
     {
-		'input': 'john f van vleck;john hasbrouck van vleck', 
+		'name_one': 'john f van vleck',
+		'name_two': 'john hasbrouck van vleck', 
 		'expected': False, 
 		'description': 'john f van vleck comparison with article'
 	},
     {
-		'input': 'john f vanalstyne;john pruyn van alstyne', 
+		'name_one': 'john f vanalstyne',
+		'name_two': 'john pruyn van alstyne', 
 		'expected': False, 
 		'description': 'john f vanalstyne comparison with article'
 	},
     {
-		'input': 'john f vane;john robert vane', 
+		'name_one': 'john f vane',
+		'name_two': 'john robert vane', 
 		'expected': False, 
 		'description': 'john f vane comparison with article'
 	},
     {
-		'input': 'john g denker;p. g. denker', 
+		'name_one': 'john g denker',
+		'name_two': 'p. g. denker', 
 		'expected': False, 
 		'description': 'john g denker comparison with article'
 	},
     {
-		'input': 'john g lewis;john gary lewis', 
+		'name_one': 'john g lewis',
+		'name_two': 'john gary lewis', 
 		'expected': True, 
 		'description': 'john g lewis comparison with article'
 	},
     {
-		'input': 'john g moseley;john dean moseley', 
+		'name_one': 'john g moseley',
+		'name_two': 'john dean moseley', 
 		'expected': False, 
 		'description': 'john g moseley comparison with article'
 	},
     {
-		'input': 'john h dean;john aurie dean', 
+		'name_one': 'john h dean',
+		'name_two': 'john aurie dean', 
 		'expected': False, 
 		'description': 'john h dean comparison with article'
 	},
     {
-		'input': 'john h dent;john henry dent', 
+		'name_one': 'john h dent',
+		'name_two': 'john henry dent', 
 		'expected': True, 
 		'description': 'john h dent comparison with article'
 	},
     {
-		'input': 'john h lampe;john harold lampe', 
+		'name_one': 'john h lampe',
+		'name_two': 'john harold lampe', 
 		'expected': True, 
 		'description': 'john h lampe comparison with article'
 	},
     {
-		'input': 'john h lawrence;john h. lawrence', 
+		'name_one': 'john h lawrence',
+		'name_two': 'john h. lawrence', 
 		'expected': True, 
 		'description': 'john h lawrence comparison with article'
 	},
     {
-		'input': 'john h leek;john halvor leek', 
+		'name_one': 'john h leek',
+		'name_two': 'john halvor leek', 
 		'expected': True, 
 		'description': 'john h leek comparison with article'
 	},
     {
-		'input': 'john h marks;john h. vandermark', 
+		'name_one': 'john h marks',
+		'name_two': 'john h. vandermark', 
 		'expected': True, 
 		'description': 'john h marks comparison with article'
 	},
     {
-		'input': 'john h vondell;john henry vondell', 
+		'name_one': 'john h vondell',
+		'name_two': 'john henry vondell', 
 		'expected': True, 
 		'description': 'john h vondell comparison with article'
 	},
     {
-		'input': 'john h west;john leslie west', 
+		'name_one': 'john h west',
+		'name_two': 'john leslie west', 
 		'expected': False, 
 		'description': 'john h west comparison with article'
 	},
     {
-		'input': 'john hartley;john leslie artley', 
+		'name_one': 'john hartley',
+		'name_two': 'john leslie artley', 
 		'expected': True, 
 		'description': 'john hartley comparison with article'
 	},
     {
-		'input': 'john j beck;john dengler beck', 
+		'name_one': 'john j beck',
+		'name_two': 'john dengler beck', 
 		'expected': False, 
 		'description': 'john j beck comparison with article'
 	},
     {
-		'input': 'john j deboer;john j. de boer', 
+		'name_one': 'john j deboer',
+		'name_two': 'john j. de boer', 
 		'expected': True, 
 		'description': 'john j deboer comparison with article'
 	},
     {
-		'input': 'john j havens;jacobus alexander van heuven', 
+		'name_one': 'john j havens',
+		'name_two': 'jacobus alexander van heuven', 
 		'expected': False, 
 		'description': 'john j havens comparison with article'
 	},
     {
-		'input': 'john j laffey;archille j. lafferiere', 
+		'name_one': 'john j laffey',
+		'name_two': 'archille j. lafferiere', 
 		'expected': False, 
 		'description': 'john j laffey comparison with article'
 	},
     {
-		'input': 'john j lang;john j. lang', 
+		'name_one': 'john j lang',
+		'name_two': 'john j. lang', 
 		'expected': True, 
 		'description': 'john j lang comparison with article'
 	},
     {
-		'input': 'john j lawless;john joseph lawless', 
+		'name_one': 'john j lawless',
+		'name_two': 'john joseph lawless', 
 		'expected': True, 
 		'description': 'john j lawless comparison with article'
 	},
     {
-		'input': 'john j le sage;john lesage', 
+		'name_one': 'john j le sage',
+		'name_two': 'john lesage', 
 		'expected': True, 
 		'description': 'john j le sage comparison with article'
 	},
     {
-		'input': 'john j lee;john j. lee', 
+		'name_one': 'john j lee',
+		'name_two': 'john j. lee', 
 		'expected': True, 
 		'description': 'john j lee comparison with article'
 	},
     {
-		'input': 'john j vannostrand;john j. van nostrand', 
+		'name_one': 'john j vannostrand',
+		'name_two': 'john j. van nostrand', 
 		'expected': True, 
 		'description': 'john j vannostrand comparison with article'
 	},
     {
-		'input': 'john johnson;john lars johnson', 
+		'name_one': 'john johnson',
+		'name_two': 'john lars johnson', 
 		'expected': True, 
 		'description': 'john johnson comparison with article'
 	},
     {
-		'input': 'john k. dr lattimer, dr;john k. lattimer', 
+		'name_one': 'john k. dr lattimer, dr',
+		'name_two': 'john k. lattimer', 
 		'expected': True, 
 		'description': 'john k. dr lattimer, dr comparison with article'
 	},
     {
-		'input': 'john l adams, jr;john lester adams', 
+		'name_one': 'john l adams, jr',
+		'name_two': 'john lester adams', 
 		'expected': True, 
 		'description': 'john l adams, jr comparison with article'
 	},
     {
-		'input': 'john l barnes;john landes barnes', 
+		'name_one': 'john l barnes',
+		'name_two': 'john landes barnes', 
 		'expected': True, 
 		'description': 'john l barnes comparison with article'
 	},
     {
-		'input': 'john l brooks;john langdon brooks', 
+		'name_one': 'john l brooks',
+		'name_two': 'john langdon brooks', 
 		'expected': True, 
 		'description': 'john l brooks comparison with article'
 	},
     {
-		'input': 'john l champe;john leland champe', 
+		'name_one': 'john l champe',
+		'name_two': 'john leland champe', 
 		'expected': True, 
 		'description': 'john l champe comparison with article'
 	},
     {
-		'input': 'john l conger;john leonard conger', 
+		'name_one': 'john l conger',
+		'name_two': 'john leonard conger', 
 		'expected': True, 
 		'description': 'john l conger comparison with article'
 	},
     {
-		'input': 'john l davies;john leonard davies', 
+		'name_one': 'john l davies',
+		'name_two': 'john leonard davies', 
 		'expected': True, 
 		'description': 'john l davies comparison with article'
 	},
     {
-		'input': 'john l doll;john lee doll', 
+		'name_one': 'john l doll',
+		'name_two': 'john lee doll', 
 		'expected': True, 
 		'description': 'john l doll comparison with article'
 	},
     {
-		'input': 'john l evers;john lawrence evers', 
+		'name_one': 'john l evers',
+		'name_two': 'john lawrence evers', 
 		'expected': True, 
 		'description': 'john l evers comparison with article'
 	},
     {
-		'input': 'john l gerig;john lawrence gerig', 
+		'name_one': 'john l gerig',
+		'name_two': 'john lawrence gerig', 
 		'expected': True, 
 		'description': 'john l gerig comparison with article'
 	},
     {
-		'input': 'john l gillin;john lewis gillin', 
+		'name_one': 'john l gillin',
+		'name_two': 'john lewis gillin', 
 		'expected': True, 
 		'description': 'john l gillin comparison with article'
 	},
     {
-		'input': 'john l kelley;john leroy kelley', 
+		'name_one': 'john l kelley',
+		'name_two': 'john leroy kelley', 
 		'expected': True, 
 		'description': 'john l kelley comparison with article'
 	},
     {
-		'input': 'john l landgraf;john leslie landgraf', 
+		'name_one': 'john l landgraf',
+		'name_two': 'john leslie landgraf', 
 		'expected': True, 
 		'description': 'john l landgraf comparison with article'
 	},
     {
-		'input': 'john l leedy;john lang leedy', 
+		'name_one': 'john l leedy',
+		'name_two': 'john lang leedy', 
 		'expected': True, 
 		'description': 'john l leedy comparison with article'
 	},
     {
-		'input': 'john l lievsay;john leon lievsay', 
+		'name_one': 'john l lievsay',
+		'name_two': 'john leon lievsay', 
 		'expected': True, 
 		'description': 'john l lievsay comparison with article'
 	},
     {
-		'input': 'john l mothershead, sr;john leland mothershead', 
+		'name_one': 'john l mothershead, sr',
+		'name_two': 'john leland mothershead', 
 		'expected': True, 
 		'description': 'john l mothershead, sr comparison with article'
 	},
     {
-		'input': 'john l oncley;john lawrence oncley', 
+		'name_one': 'john l oncley',
+		'name_two': 'john lawrence oncley', 
 		'expected': True, 
 		'description': 'john l oncley comparison with article'
 	},
     {
-		'input': 'john l plyler;john laney plyler', 
+		'name_one': 'john l plyler',
+		'name_two': 'john laney plyler', 
 		'expected': True, 
 		'description': 'john l plyler comparison with article'
 	},
     {
-		'input': 'john l powell;john leonard powell', 
+		'name_one': 'john l powell',
+		'name_two': 'john leonard powell', 
 		'expected': True, 
 		'description': 'john l powell comparison with article'
 	},
     {
-		'input': 'john l reichert;john lester reichert', 
+		'name_one': 'john l reichert',
+		'name_two': 'john lester reichert', 
 		'expected': True, 
 		'description': 'john l reichert comparison with article'
 	},
     {
-		'input': 'john l swigert, jr;john leonard swigert', 
+		'name_one': 'john l swigert, jr',
+		'name_two': 'john leonard swigert', 
 		'expected': True, 
 		'description': 'john l swigert, jr comparison with article'
 	},
     {
-		'input': 'john l yost;john lewis yost', 
+		'name_one': 'john l yost',
+		'name_two': 'john lewis yost', 
 		'expected': True, 
 		'description': 'john l yost comparison with article'
 	},
     {
-		'input': 'john lamb, jr;john lamb', 
+		'name_one': 'john lamb, jr',
+		'name_two': 'john lamb', 
 		'expected': True, 
 		'description': 'john lamb, jr comparison with article'
 	},
     {
-		'input': 'john lamb;john henderson lamb', 
+		'name_one': 'john lamb',
+		'name_two': 'john henderson lamb', 
 		'expected': True, 
 		'description': 'john lamb comparison with article'
 	},
     {
-		'input': 'john lambert;john ralph lambert', 
+		'name_one': 'john lambert',
+		'name_two': 'john ralph lambert', 
 		'expected': True, 
 		'description': 'john lambert comparison with article'
 	},
     {
-		'input': 'john leaser;hans lisser', 
+		'name_one': 'john leaser',
+		'name_two': 'hans lisser', 
 		'expected': True, 
 		'description': 'john leaser comparison with article'
 	},
     {
-		'input': 'john lee brooks;john lee brooks', 
+		'name_one': 'john lee brooks',
+		'name_two': 'john lee brooks', 
 		'expected': True, 
 		'description': 'john lee brooks comparison with article'
 	},
     {
-		'input': 'john leibenderfer;john edward leibenderfer', 
+		'name_one': 'john leibenderfer',
+		'name_two': 'john edward leibenderfer', 
 		'expected': True, 
 		'description': 'john leibenderfer comparison with article'
 	},
     {
-		'input': 'john lester;john l. lester', 
+		'name_one': 'john lester',
+		'name_two': 'john l. lester', 
 		'expected': True, 
 		'description': 'john lester comparison with article'
 	},
     {
-		'input': 'john lewis;john donald lewis', 
+		'name_one': 'john lewis',
+		'name_two': 'john donald lewis', 
 		'expected': True, 
 		'description': 'john lewis comparison with article'
 	},
     {
-		'input': 'john lydon;hans victor von leden', 
+		'name_one': 'john lydon',
+		'name_two': 'hans victor von leden', 
 		'expected': True, 
 		'description': 'john lydon comparison with article'
 	},
     {
-		'input': 'john m dennis;john murray dennis', 
+		'name_one': 'john m dennis',
+		'name_two': 'john murray dennis', 
 		'expected': True, 
 		'description': 'john m dennis comparison with article'
 	},
     {
-		'input': 'john m lee;john m. lee', 
+		'name_one': 'john m lee',
+		'name_two': 'john m. lee', 
 		'expected': True, 
 		'description': 'john m lee comparison with article'
 	},
     {
-		'input': 'john m lent;john w. lenz', 
+		'name_one': 'john m lent',
+		'name_two': 'john w. lenz', 
 		'expected': False, 
 		'description': 'john m lent comparison with article'
 	},
     {
-		'input': 'john m leslie;john kenneth leslie', 
+		'name_one': 'john m leslie',
+		'name_two': 'john kenneth leslie', 
 		'expected': False, 
 		'description': 'john m leslie comparison with article'
 	},
     {
-		'input': 'john m lewis;john m. lewis', 
+		'name_one': 'john m lewis',
+		'name_two': 'john m. lewis', 
 		'expected': True, 
 		'description': 'john m lewis comparison with article'
 	},
     {
-		'input': 'john n stewart;john laurence stewart', 
+		'name_one': 'john n stewart',
+		'name_two': 'john laurence stewart', 
 		'expected': False, 
 		'description': 'john n stewart comparison with article'
 	},
     {
-		'input': 'john o wood;john lewis wood', 
+		'name_one': 'john o wood',
+		'name_two': 'john lewis wood', 
 		'expected': False, 
 		'description': 'john o wood comparison with article'
 	},
     {
-		'input': 'john p lahey;john p. lahey', 
+		'name_one': 'john p lahey',
+		'name_two': 'john p. lahey', 
 		'expected': True, 
 		'description': 'john p lahey comparison with article'
 	},
     {
-		'input': 'john p leagans, jr;john paul leagans', 
+		'name_one': 'john p leagans, jr',
+		'name_two': 'john paul leagans', 
 		'expected': True, 
 		'description': 'john p leagans, jr comparison with article'
 	},
     {
-		'input': 'john p leary;john coleman leary', 
+		'name_one': 'john p leary',
+		'name_two': 'john coleman leary', 
 		'expected': False, 
 		'description': 'john p leary comparison with article'
 	},
     {
-		'input': 'john p leonard;john charles leonard', 
+		'name_one': 'john p leonard',
+		'name_two': 'john charles leonard', 
 		'expected': False, 
 		'description': 'john p leonard comparison with article'
 	},
     {
-		'input': 'john r laughnan;john r. laughnan', 
+		'name_one': 'john r laughnan',
+		'name_two': 'john r. laughnan', 
 		'expected': True, 
 		'description': 'john r laughnan comparison with article'
 	},
     {
-		'input': 'john r lewis;john prior lewis', 
+		'name_one': 'john r lewis',
+		'name_two': 'john prior lewis', 
 		'expected': False, 
 		'description': 'john r lewis comparison with article'
 	},
     {
-		'input': 'john r van de water;john r. van de water', 
+		'name_one': 'john r van de water',
+		'name_two': 'john r. van de water', 
 		'expected': True, 
 		'description': 'john r van de water comparison with article'
 	},
     {
-		'input': 'john r vonrohr;john robert von rohr', 
+		'name_one': 'john r vonrohr',
+		'name_two': 'john robert von rohr', 
 		'expected': True, 
 		'description': 'john r vonrohr comparison with article'
 	},
     {
-		'input': 'john s lawrence;john s. lawrence', 
+		'name_one': 'john s lawrence',
+		'name_two': 'john s. lawrence', 
 		'expected': True, 
 		'description': 'john s lawrence comparison with article'
 	},
     {
-		'input': 'john s lazzaro;john h. lazzari', 
+		'name_one': 'john s lazzaro',
+		'name_two': 'john h. lazzari', 
 		'expected': False, 
 		'description': 'john s lazzaro comparison with article'
 	},
     {
-		'input': 'john s leister;john s. leister', 
+		'name_one': 'john s leister',
+		'name_two': 'john s. leister', 
 		'expected': True, 
 		'description': 'john s leister comparison with article'
 	},
     {
-		'input': 'john sims;john leroy sims', 
+		'name_one': 'john sims',
+		'name_two': 'john leroy sims', 
 		'expected': True, 
 		'description': 'john sims comparison with article'
 	},
     {
-		'input': 'john t atwater;thomas van valkenburgh atwater', 
+		'name_one': 'john t atwater',
+		'name_two': 'thomas van valkenburgh atwater', 
 		'expected': False, 
 		'description': 'john t atwater comparison with article'
 	},
     {
-		'input': 'john t lanning;john tate lanning', 
+		'name_one': 'john t lanning',
+		'name_two': 'john tate lanning', 
 		'expected': True, 
 		'description': 'john t lanning comparison with article'
 	},
     {
-		'input': 'john t lewis;john lewis', 
+		'name_one': 'john t lewis',
+		'name_two': 'john lewis', 
 		'expected': True, 
 		'description': 'john t lewis comparison with article'
 	},
     {
-		'input': 'john von s maeck;john van sicklen maeck', 
+		'name_one': 'john von s maeck',
+		'name_two': 'john van sicklen maeck', 
 		'expected': True, 
 		'description': 'john von s maeck comparison with article'
 	},
     {
-		'input': 'john w castles;john laurence casteel', 
+		'name_one': 'john w castles',
+		'name_two': 'john laurence casteel', 
 		'expected': False, 
 		'description': 'john w castles comparison with article'
 	},
     {
-		'input': 'john w de mand,iii;john wesley demand', 
+		'name_one': 'john w de mand,iii',
+		'name_two': 'john wesley demand', 
 		'expected': True, 
 		'description': 'john w de mand,iii comparison with article'
 	},
     {
-		'input': 'john w dewire;john w. dewire', 
+		'name_one': 'john w dewire',
+		'name_two': 'john w. dewire', 
 		'expected': True, 
 		'description': 'john w dewire comparison with article'
 	},
     {
-		'input': 'john w lacey;forrest w. lacey', 
+		'name_one': 'john w lacey',
+		'name_two': 'forrest w. lacey', 
 		'expected': False, 
 		'description': 'john w lacey comparison with article'
 	},
     {
-		'input': 'john w lagrone;j. w. lagrone', 
+		'name_one': 'john w lagrone',
+		'name_two': 'j. w. lagrone', 
 		'expected': True, 
 		'description': 'john w lagrone comparison with article'
 	},
     {
-		'input': 'john w lawrence;john william lawrence', 
+		'name_one': 'john w lawrence',
+		'name_two': 'john william lawrence', 
 		'expected': True, 
 		'description': 'john w lawrence comparison with article'
 	},
     {
-		'input': 'john w lederle;john w. lederle', 
+		'name_one': 'john w lederle',
+		'name_two': 'john w. lederle', 
 		'expected': True, 
 		'description': 'john w lederle comparison with article'
 	},
     {
-		'input': 'john w lewis;john kent lewis', 
+		'name_one': 'john w lewis',
+		'name_two': 'john kent lewis', 
 		'expected': False, 
 		'description': 'john w lewis comparison with article'
 	},
     {
-		'input': 'john w lewis;john w. lewis', 
+		'name_one': 'john w lewis',
+		'name_two': 'john w. lewis', 
 		'expected': True, 
 		'description': 'john w lewis comparison with article'
 	},
     {
-		'input': 'john wilt;john w. vanderwilt', 
+		'name_one': 'john wilt',
+		'name_two': 'john w. vanderwilt', 
 		'expected': True, 
 		'description': 'john wilt comparison with article'
 	},
     {
-		'input': 'jordan l larson;jordan louis larson', 
+		'name_one': 'jordan l larson',
+		'name_two': 'jordan louis larson', 
 		'expected': True, 
 		'description': 'jordan l larson comparison with article'
 	},
     {
-		'input': 'jose leal martel;jose martel', 
+		'name_one': 'jose leal martel',
+		'name_two': 'jose martel', 
 		'expected': True, 
 		'description': 'jose leal martel comparison with article'
 	},
     {
-		'input': 'jose onis;jose de onis', 
+		'name_one': 'jose onis',
+		'name_two': 'jose de onis', 
 		'expected': True, 
 		'description': 'jose onis comparison with article'
 	},
     {
-		'input': 'joseh l waling;joseph lee waling', 
+		'name_one': 'joseh l waling',
+		'name_two': 'joseph lee waling', 
 		'expected': True, 
 		'description': 'joseh l waling comparison with article'
 	},
     {
-		'input': 'joseh waling;joseph lee waling', 
+		'name_one': 'joseh waling',
+		'name_two': 'joseph lee waling', 
 		'expected': True, 
 		'description': 'joseh waling comparison with article'
 	},
     {
-		'input': 'joseph a leeder;joseph a. leeder', 
+		'name_one': 'joseph a leeder',
+		'name_two': 'joseph a. leeder', 
 		'expected': True, 
 		'description': 'joseph a leeder comparison with article'
 	},
     {
-		'input': 'joseph a porter;joseph a. del porto', 
+		'name_one': 'joseph a porter',
+		'name_two': 'joseph a. del porto', 
 		'expected': True, 
 		'description': 'joseph a porter comparison with article'
 	},
     {
-		'input': 'joseph a vonbradish;joseph a. von bradish', 
+		'name_one': 'joseph a vonbradish',
+		'name_two': 'joseph a. von bradish', 
 		'expected': True, 
 		'description': 'joseph a vonbradish comparison with article'
 	},
     {
-		'input': 'joseph alfred aurele la rocque;aurele larocque', 
+		'name_one': 'joseph alfred aurele la rocque',
+		'name_two': 'aurele larocque', 
 		'expected': True, 
 		'description': 'joseph alfred aurele la rocque comparison with article'
 	},
     {
-		'input': 'joseph b vander veer;joseph b. vander veer', 
+		'name_one': 'joseph b vander veer',
+		'name_two': 'joseph b. vander veer', 
 		'expected': True, 
 		'description': 'joseph b vander veer comparison with article'
 	},
     {
-		'input': 'joseph b. leeper;joseph b. leeper', 
+		'name_one': 'joseph b. leeper',
+		'name_two': 'joseph b. leeper', 
 		'expected': True, 
 		'description': 'joseph b. leeper comparison with article'
 	},
     {
-		'input': 'joseph cleveland;joseph lee cleveland', 
+		'name_one': 'joseph cleveland',
+		'name_two': 'joseph lee cleveland', 
 		'expected': True, 
 		'description': 'joseph cleveland comparison with article'
 	},
     {
-		'input': 'joseph d clark;joseph deadrick clark', 
+		'name_one': 'joseph d clark',
+		'name_two': 'joseph deadrick clark', 
 		'expected': True, 
 		'description': 'joseph d clark comparison with article'
 	},
     {
-		'input': 'joseph d everingham;joseph dee everingham', 
+		'name_one': 'joseph d everingham',
+		'name_two': 'joseph dee everingham', 
 		'expected': True, 
 		'description': 'joseph d everingham comparison with article'
 	},
     {
-		'input': 'joseph davidson;joseph leroy davidson', 
+		'name_one': 'joseph davidson',
+		'name_two': 'joseph leroy davidson', 
 		'expected': True, 
 		'description': 'joseph davidson comparison with article'
 	},
     {
-		'input': 'joseph de lauro;joseph nicola delauro', 
+		'name_one': 'joseph de lauro',
+		'name_two': 'joseph nicola delauro', 
 		'expected': True, 
 		'description': 'joseph de lauro comparison with article'
 	},
     {
-		'input': 'joseph e decamp;joseph e. decamp', 
+		'name_one': 'joseph e decamp',
+		'name_two': 'joseph e. decamp', 
 		'expected': True, 
 		'description': 'joseph e decamp comparison with article'
 	},
     {
-		'input': 'joseph e delmonico;e. joseph delmonico', 
+		'name_one': 'joseph e delmonico',
+		'name_two': 'e. joseph delmonico', 
 		'expected': True, 
 		'description': 'joseph e delmonico comparison with article'
 	},
     {
-		'input': 'joseph e devine;joseph e. devine', 
+		'name_one': 'joseph e devine',
+		'name_two': 'joseph e. devine', 
 		'expected': True, 
 		'description': 'joseph e devine comparison with article'
 	},
     {
-		'input': 'joseph e viola;forrest emanuel la violette', 
+		'name_one': 'joseph e viola',
+		'name_two': 'forrest emanuel la violette', 
 		'expected': False, 
 		'description': 'joseph e viola comparison with article'
 	},
     {
-		'input': 'joseph f de luise;frank joseph deluise', 
+		'name_one': 'joseph f de luise',
+		'name_two': 'frank joseph deluise', 
 		'expected': True, 
 		'description': 'joseph f de luise comparison with article'
 	},
     {
-		'input': 'joseph f de simone;joseph f. desimone', 
+		'name_one': 'joseph f de simone',
+		'name_two': 'joseph f. desimone', 
 		'expected': True, 
 		'description': 'joseph f de simone comparison with article'
 	},
     {
-		'input': 'joseph g lalich;joseph john lalich', 
+		'name_one': 'joseph g lalich',
+		'name_two': 'joseph john lalich', 
 		'expected': False, 
 		'description': 'joseph g lalich comparison with article'
 	},
     {
-		'input': 'joseph g leeder;joseph g. leeder', 
+		'name_one': 'joseph g leeder',
+		'name_two': 'joseph g. leeder', 
 		'expected': True, 
 		'description': 'joseph g leeder comparison with article'
 	},
     {
-		'input': 'joseph henry levi;joseph levi', 
+		'name_one': 'joseph henry levi',
+		'name_two': 'joseph levi', 
 		'expected': True, 
 		'description': 'joseph henry levi comparison with article'
 	},
     {
-		'input': 'joseph j leonard;nelson jordan leonard', 
+		'name_one': 'joseph j leonard',
+		'name_two': 'nelson jordan leonard', 
 		'expected': False, 
 		'description': 'joseph j leonard comparison with article'
 	},
     {
-		'input': 'joseph j picard;joseph leroy picard', 
+		'name_one': 'joseph j picard',
+		'name_two': 'joseph leroy picard', 
 		'expected': False, 
 		'description': 'joseph j picard comparison with article'
 	},
     {
-		'input': 'joseph l lennon;joseph l. lennon', 
+		'name_one': 'joseph l lennon',
+		'name_two': 'joseph l. lennon', 
 		'expected': True, 
 		'description': 'joseph l lennon comparison with article'
 	},
     {
-		'input': 'joseph l lilienthal;joseph leo lilienthal', 
+		'name_one': 'joseph l lilienthal',
+		'name_two': 'joseph leo lilienthal', 
 		'expected': True, 
 		'description': 'joseph l lilienthal comparison with article'
 	},
     {
-		'input': 'joseph l mc donald;joseph lee mcdonald', 
+		'name_one': 'joseph l mc donald',
+		'name_two': 'joseph lee mcdonald', 
 		'expected': True, 
 		'description': 'joseph l mc donald comparison with article'
 	},
     {
-		'input': 'joseph l midditon;joseph leonard middleton', 
+		'name_one': 'joseph l midditon',
+		'name_two': 'joseph leonard middleton', 
 		'expected': True, 
 		'description': 'joseph l midditon comparison with article'
 	},
     {
-		'input': 'joseph l rosenholtz;joseph leon rosenholtz', 
+		'name_one': 'joseph l rosenholtz',
+		'name_two': 'joseph leon rosenholtz', 
 		'expected': True, 
 		'description': 'joseph l rosenholtz comparison with article'
 	},
     {
-		'input': 'joseph l sullivan;joseph lewis sullivan', 
+		'name_one': 'joseph l sullivan',
+		'name_two': 'joseph lewis sullivan', 
 		'expected': True, 
 		'description': 'joseph l sullivan comparison with article'
 	},
     {
-		'input': 'joseph l walsh;joseph leonard walsh', 
+		'name_one': 'joseph l walsh',
+		'name_two': 'joseph leonard walsh', 
 		'expected': True, 
 		'description': 'joseph l walsh comparison with article'
 	},
     {
-		'input': 'joseph landin;joseph landin', 
+		'name_one': 'joseph landin',
+		'name_two': 'joseph landin', 
 		'expected': True, 
 		'description': 'joseph landin comparison with article'
 	},
     {
-		'input': 'joseph latimer;joseph marion latimer', 
+		'name_one': 'joseph latimer',
+		'name_two': 'joseph marion latimer', 
 		'expected': True, 
 		'description': 'joseph latimer comparison with article'
 	},
     {
-		'input': 'joseph layton;joseph alexander leighton', 
+		'name_one': 'joseph layton',
+		'name_two': 'joseph alexander leighton', 
 		'expected': True, 
 		'description': 'joseph layton comparison with article'
 	},
     {
-		'input': 'joseph le blanc;joseph le blanc', 
+		'name_one': 'joseph le blanc',
+		'name_two': 'joseph le blanc', 
 		'expected': True, 
 		'description': 'joseph le blanc comparison with article'
 	},
     {
-		'input': 'joseph leavitt;joseph m. leavitt', 
+		'name_one': 'joseph leavitt',
+		'name_two': 'joseph m. leavitt', 
 		'expected': True, 
 		'description': 'joseph leavitt comparison with article'
 	},
     {
-		'input': 'joseph lennon;joseph lennon', 
+		'name_one': 'joseph lennon',
+		'name_two': 'joseph lennon', 
 		'expected': True, 
 		'description': 'joseph lennon comparison with article'
 	},
     {
-		'input': 'joseph levenson;joseph richmond levenson', 
+		'name_one': 'joseph levenson',
+		'name_two': 'joseph richmond levenson', 
 		'expected': True, 
 		'description': 'joseph levenson comparison with article'
 	},
     {
-		'input': 'joseph melnick;joseph lewis melnick', 
+		'name_one': 'joseph melnick',
+		'name_two': 'joseph lewis melnick', 
 		'expected': True, 
 		'description': 'joseph melnick comparison with article'
 	},
     {
-		'input': 'joseph p la master;j. p. lamaster', 
+		'name_one': 'joseph p la master',
+		'name_two': 'j. p. lamaster', 
 		'expected': True, 
 		'description': 'joseph p la master comparison with article'
 	},
     {
-		'input': 'joseph p lahan;willard p. vanderlaan', 
+		'name_one': 'joseph p lahan',
+		'name_two': 'willard p. vanderlaan', 
 		'expected': False, 
 		'description': 'joseph p lahan comparison with article'
 	},
     {
-		'input': 'joseph p larocca;j. p. la rocca', 
+		'name_one': 'joseph p larocca',
+		'name_two': 'j. p. la rocca', 
 		'expected': True, 
 		'description': 'joseph p larocca comparison with article'
 	},
     {
-		'input': 'joseph p mccarthy;joseph le page mccarthy', 
+		'name_one': 'joseph p mccarthy',
+		'name_two': 'joseph le page mccarthy', 
 		'expected': True, 
 		'description': 'joseph p mccarthy comparison with article'
 	},
     {
-		'input': 'joseph p slatkavitz;phillip leonard sirotkin', 
+		'name_one': 'joseph p slatkavitz',
+		'name_two': 'phillip leonard sirotkin', 
 		'expected': False, 
 		'description': 'joseph p slatkavitz comparison with article'
 	},
     {
-		'input': 'joseph t law;joseph t. law', 
+		'name_one': 'joseph t law',
+		'name_two': 'joseph t. law', 
 		'expected': True, 
 		'description': 'joseph t law comparison with article'
 	},
     {
-		'input': 'joseph v mckelvey;joseph vance mckelvey', 
+		'name_one': 'joseph v mckelvey',
+		'name_two': 'joseph vance mckelvey', 
 		'expected': True, 
 		'description': 'joseph v mckelvey comparison with article'
 	},
     {
-		'input': 'joshua lederberg;joshua lederberg', 
+		'name_one': 'joshua lederberg',
+		'name_two': 'joshua lederberg', 
 		'expected': True, 
 		'description': 'joshua lederberg comparison with article'
 	},
     {
-		'input': 'jovian lang;jovian lang', 
+		'name_one': 'jovian lang',
+		'name_two': 'jovian lang', 
 		'expected': True, 
 		'description': 'jovian lang comparison with article'
 	},
     {
-		'input': 'judee d paulson;jehu dewitt paulson', 
+		'name_one': 'judee d paulson',
+		'name_two': 'jehu dewitt paulson', 
 		'expected': False, 
 		'description': 'judee d paulson comparison with article'
 	},
     {
-		'input': 'jules last,dr;jules h. last', 
+		'name_one': 'jules last,dr',
+		'name_two': 'jules h. last', 
 		'expected': True, 
 		'description': 'jules last,dr comparison with article'
 	},
     {
-		'input': 'julia g leach;julian gilbert leach', 
+		'name_one': 'julia g leach',
+		'name_two': 'julian gilbert leach', 
 		'expected': True, 
 		'description': 'julia g leach comparison with article'
 	},
     {
-		'input': 'julian h degray;julian h. degray', 
+		'name_one': 'julian h degray',
+		'name_two': 'julian h. degray', 
 		'expected': True, 
 		'description': 'julian h degray comparison with article'
 	},
     {
-		'input': 'julian l ross;julian lenhart ross', 
+		'name_one': 'julian l ross',
+		'name_two': 'julian lenhart ross', 
 		'expected': True, 
 		'description': 'julian l ross comparison with article'
 	},
     {
-		'input': 'julian p barksdale;julian devreau barksdale', 
+		'name_one': 'julian p barksdale',
+		'name_two': 'julian devreau barksdale', 
 		'expected': False, 
 		'description': 'julian p barksdale comparison with article'
 	},
     {
-		'input': 'julie lee hawkins;julia lee hawkins', 
+		'name_one': 'julie lee hawkins',
+		'name_two': 'julia lee hawkins', 
 		'expected': True, 
 		'description': 'julie lee hawkins comparison with article'
 	},
     {
-		'input': 'julie r labarthe;luther r. barth', 
+		'name_one': 'julie r labarthe',
+		'name_two': 'luther r. barth', 
 		'expected': False, 
 		'description': 'julie r labarthe comparison with article'
 	},
     {
-		'input': 'juliette c devin;juliette c. devin', 
+		'name_one': 'juliette c devin',
+		'name_two': 'juliette c. devin', 
 		'expected': True, 
 		'description': 'juliette c devin comparison with article'
 	},
     {
-		'input': 'julius a larsen;julius ansgar larsen', 
+		'name_one': 'julius a larsen',
+		'name_two': 'julius ansgar larsen', 
 		'expected': True, 
 		'description': 'julius a larsen comparison with article'
 	},
     {
-		'input': 'june e lewis;june e. lewis', 
+		'name_one': 'june e lewis',
+		'name_two': 'june e. lewis', 
 		'expected': True, 
 		'description': 'june e lewis comparison with article'
 	},
     {
-		'input': 'junius larsen;junius larsen', 
+		'name_one': 'junius larsen',
+		'name_two': 'junius larsen', 
 		'expected': True, 
 		'description': 'junius larsen comparison with article'
 	},
     {
-		'input': 'k detkingenn;katherine b. cettinger', 
+		'name_one': 'k detkingenn',
+		'name_two': 'katherine b. cettinger', 
 		'expected': False, 
 		'description': 'k detkingenn comparison with article'
 	},
     {
-		'input': 'karl e leib;karl elias leib', 
+		'name_one': 'karl e leib',
+		'name_two': 'karl elias leib', 
 		'expected': True, 
 		'description': 'karl e leib comparison with article'
 	},
     {
-		'input': 'karl g larson;karl gottfrid larson', 
+		'name_one': 'karl g larson',
+		'name_two': 'karl gottfrid larson', 
 		'expected': True, 
 		'description': 'karl g larson comparison with article'
 	},
     {
-		'input': 'karl lark horowitz;karl lark-horovitz', 
+		'name_one': 'karl lark horowitz',
+		'name_two': 'karl lark-horovitz', 
 		'expected': True, 
 		'description': 'karl lark horowitz comparison with article'
 	},
     {
-		'input': 'karl lehmann;karl lehmann', 
+		'name_one': 'karl lehmann',
+		'name_two': 'karl lehmann', 
 		'expected': True, 
 		'description': 'karl lehmann comparison with article'
 	},
     {
-		'input': 'karl o lange;karl otto lange', 
+		'name_one': 'karl o lange',
+		'name_two': 'karl otto lange', 
 		'expected': True, 
 		'description': 'karl o lange comparison with article'
 	},
     {
-		'input': 'karl s van dyke;karl s. van dyke', 
+		'name_one': 'karl s van dyke',
+		'name_two': 'karl s. van dyke', 
 		'expected': True, 
 		'description': 'karl s van dyke comparison with article'
 	},
     {
-		'input': 'karl w deutseh;karl w. deutsch', 
+		'name_one': 'karl w deutseh',
+		'name_two': 'karl w. deutsch', 
 		'expected': True, 
 		'description': 'karl w deutseh comparison with article'
 	},
     {
-		'input': 'karl w deutseh;karl wolfgang deutsch', 
+		'name_one': 'karl w deutseh',
+		'name_two': 'karl wolfgang deutsch', 
 		'expected': True, 
 		'description': 'karl w deutseh comparison with article'
 	},
     {
-		'input': 'karol j murtz;carel w. van der merwe', 
+		'name_one': 'karol j murtz',
+		'name_two': 'carel w. van der merwe', 
 		'expected': False, 
 		'description': 'karol j murtz comparison with article'
 	},
     {
-		'input': 'katherine densford;katharine j. densford', 
+		'name_one': 'katherine densford',
+		'name_two': 'katharine j. densford', 
 		'expected': True, 
 		'description': 'katherine densford comparison with article'
 	},
     {
-		'input': 'katherine l vankeuren;katherine van keuren', 
+		'name_one': 'katherine l vankeuren',
+		'name_two': 'katherine van keuren', 
 		'expected': True, 
 		'description': 'katherine l vankeuren comparison with article'
 	},
     {
-		'input': 'katherine lever;katherine lever', 
+		'name_one': 'katherine lever',
+		'name_two': 'katherine lever', 
 		'expected': True, 
 		'description': 'katherine lever comparison with article'
 	},
     {
-		'input': 'katherine ley;katherine l. ley', 
+		'name_one': 'katherine ley',
+		'name_two': 'katherine l. ley', 
 		'expected': True, 
 		'description': 'katherine ley comparison with article'
 	},
     {
-		'input': 'kathleen m lavell;kathleen macdonald lavell', 
+		'name_one': 'kathleen m lavell',
+		'name_two': 'kathleen macdonald lavell', 
 		'expected': True, 
 		'description': 'kathleen m lavell comparison with article'
 	},
     {
-		'input': 'keith l wilson;keith leroy wilson', 
+		'name_one': 'keith l wilson',
+		'name_two': 'keith leroy wilson', 
 		'expected': True, 
 		'description': 'keith l wilson comparison with article'
 	},
     {
-		'input': 'kenneth b de ome;kenneth b. deome', 
+		'name_one': 'kenneth b de ome',
+		'name_two': 'kenneth b. deome', 
 		'expected': True, 
 		'description': 'kenneth b de ome comparison with article'
 	},
     {
-		'input': 'kenneth d cashin;kenneth delbert cashin', 
+		'name_one': 'kenneth d cashin',
+		'name_two': 'kenneth delbert cashin', 
 		'expected': True, 
 		'description': 'kenneth d cashin comparison with article'
 	},
     {
-		'input': 'kenneth e lemmer;kenneth elery lemmer', 
+		'name_one': 'kenneth e lemmer',
+		'name_two': 'kenneth elery lemmer', 
 		'expected': True, 
 		'description': 'kenneth e lemmer comparison with article'
 	},
     {
-		'input': 'kenneth k landes;kenneth knight landes', 
+		'name_one': 'kenneth k landes',
+		'name_two': 'kenneth knight landes', 
 		'expected': True, 
 		'description': 'kenneth k landes comparison with article'
 	},
     {
-		'input': 'kenneth l mark;kenneth lamartine mark', 
+		'name_one': 'kenneth l mark',
+		'name_two': 'kenneth lamartine mark', 
 		'expected': True, 
 		'description': 'kenneth l mark comparison with article'
 	},
     {
-		'input': 'kenneth l osterud;kenneth leland osterud', 
+		'name_one': 'kenneth l osterud',
+		'name_two': 'kenneth leland osterud', 
 		'expected': True, 
 		'description': 'kenneth l osterud comparison with article'
 	},
     {
-		'input': 'kenneth l pichrell;kenneth leroy pickrell', 
+		'name_one': 'kenneth l pichrell',
+		'name_two': 'kenneth leroy pickrell', 
 		'expected': True, 
 		'description': 'kenneth l pichrell comparison with article'
 	},
     {
-		'input': 'kenneth l roper;kenneth lawrence roper', 
+		'name_one': 'kenneth l roper',
+		'name_two': 'kenneth lawrence roper', 
 		'expected': True, 
 		'description': 'kenneth l roper comparison with article'
 	},
     {
-		'input': 'kenneth l turk;kenneth leroy turk', 
+		'name_one': 'kenneth l turk',
+		'name_two': 'kenneth leroy turk', 
 		'expected': True, 
 		'description': 'kenneth l turk comparison with article'
 	},
     {
-		'input': 'kenneth l waters;kenneth lee waters', 
+		'name_one': 'kenneth l waters',
+		'name_two': 'kenneth lee waters', 
 		'expected': True, 
 		'description': 'kenneth l waters comparison with article'
 	},
     {
-		'input': 'kenneth l zierler;kenneth levie zierler', 
+		'name_one': 'kenneth l zierler',
+		'name_two': 'kenneth levie zierler', 
 		'expected': True, 
 		'description': 'kenneth l zierler comparison with article'
 	},
     {
-		'input': 'kenneth larowe;kenneth davis larowe', 
+		'name_one': 'kenneth larowe',
+		'name_two': 'kenneth davis larowe', 
 		'expected': True, 
 		'description': 'kenneth larowe comparison with article'
 	},
     {
-		'input': 'kerl c leeburck;karl c. leebrick', 
+		'name_one': 'kerl c leeburck',
+		'name_two': 'karl c. leebrick', 
 		'expected': True, 
 		'description': 'kerl c leeburck comparison with article'
 	},
     {
-		'input': 'kerta r leng;herta r. leng', 
+		'name_one': 'kerta r leng',
+		'name_two': 'herta r. leng', 
 		'expected': True, 
 		'description': 'kerta r leng comparison with article'
 	},
     {
-		'input': 'key l barkley;key lee barkley', 
+		'name_one': 'key l barkley',
+		'name_two': 'key lee barkley', 
 		'expected': True, 
 		'description': 'key l barkley comparison with article'
 	},
     {
-		'input': 'kirk athow;kirk leland athow', 
+		'name_one': 'kirk athow',
+		'name_two': 'kirk leland athow', 
 		'expected': True, 
 		'description': 'kirk athow comparison with article'
 	},
     {
-		'input': 'kurt lewent;kurt lewent', 
+		'name_one': 'kurt lewent',
+		'name_two': 'kurt lewent', 
 		'expected': True, 
 		'description': 'kurt lewent comparison with article'
 	},
     {
-		'input': 'kyrl l f degravelines;kyrl leighton-faxford degravelines', 
+		'name_one': 'kyrl l f degravelines',
+		'name_two': 'kyrl leighton-faxford degravelines', 
 		'expected': True, 
 		'description': 'kyrl l f degravelines comparison with article'
 	},
     {
-		'input': 'l frederick richards;frederick leet reichert', 
+		'name_one': 'l frederick richards',
+		'name_two': 'frederick leet reichert', 
 		'expected': True, 
 		'description': 'l frederick richards comparison with article'
 	},
     {
-		'input': 'l jackson laslett;l. jackson laslett', 
+		'name_one': 'l jackson laslett',
+		'name_two': 'l. jackson laslett', 
 		'expected': True, 
 		'description': 'l jackson laslett comparison with article'
 	},
     {
-		'input': 'l lawton gore;l. lawton gore', 
+		'name_one': 'l lawton gore',
+		'name_two': 'l. lawton gore', 
 		'expected': True, 
 		'description': 'l lawton gore comparison with article'
 	},
     {
-		'input': 'l rhodes lewis;l. rhodes lewis', 
+		'name_one': 'l rhodes lewis',
+		'name_two': 'l. rhodes lewis', 
 		'expected': True, 
 		'description': 'l rhodes lewis comparison with article'
 	},
     {
-		'input': 'l walter leach;walter barton leach', 
+		'name_one': 'l walter leach',
+		'name_two': 'walter barton leach', 
 		'expected': False, 
 		'description': 'l walter leach comparison with article'
 	},
     {
-		'input': 'l wreal lott;wreal lester lott', 
+		'name_one': 'l wreal lott',
+		'name_two': 'wreal lester lott', 
 		'expected': True, 
 		'description': 'l wreal lott comparison with article'
 	},
     {
-		'input': 'la vange richardson;la vange richardson', 
+		'name_one': 'la vange richardson',
+		'name_two': 'la vange richardson', 
 		'expected': True, 
 		'description': 'la vange richardson comparison with article'
 	},
     {
-		'input': 'ladema m langdon;ladema mary langdon', 
+		'name_one': 'ladema m langdon',
+		'name_two': 'ladema mary langdon', 
 		'expected': True, 
 		'description': 'ladema m langdon comparison with article'
 	},
     {
-		'input': 'lamar johnson;b. lamar johnson', 
+		'name_one': 'lamar johnson',
+		'name_two': 'b. lamar johnson', 
 		'expected': True, 
 		'description': 'lamar johnson comparison with article'
 	},
     {
-		'input': 'landis a romineck;aaron lemonick', 
+		'name_one': 'landis a romineck',
+		'name_two': 'aaron lemonick', 
 		'expected': False, 
 		'description': 'landis a romineck comparison with article'
 	},
     {
-		'input': 'landis l boyd;landis lee boyd', 
+		'name_one': 'landis l boyd',
+		'name_two': 'landis lee boyd', 
 		'expected': True, 
 		'description': 'landis l boyd comparison with article'
 	},
     {
-		'input': 'laraine a lebo;averill abraham liebow', 
+		'name_one': 'laraine a lebo',
+		'name_two': 'averill abraham liebow', 
 		'expected': False, 
 		'description': 'laraine a lebo comparison with article'
 	},
     {
-		'input': 'laura c lee;laura canfield lee', 
+		'name_one': 'laura c lee',
+		'name_two': 'laura canfield lee', 
 		'expected': True, 
 		'description': 'laura c lee comparison with article'
 	},
     {
-		'input': 'laurel j lewis;laurel jones lewis', 
+		'name_one': 'laurel j lewis',
+		'name_two': 'laurel jones lewis', 
 		'expected': True, 
 		'description': 'laurel j lewis comparison with article'
 	},
     {
-		'input': 'laurence k hawkins;richmond laurin hawkins', 
+		'name_one': 'laurence k hawkins',
+		'name_two': 'richmond laurin hawkins', 
 		'expected': False, 
 		'description': 'laurence k hawkins comparison with article'
 	},
     {
-		'input': 'laurence l. howe;laurence lee howe', 
+		'name_one': 'laurence l. howe',
+		'name_two': 'laurence lee howe', 
 		'expected': True, 
 		'description': 'laurence l. howe comparison with article'
 	},
     {
-		'input': 'laurence montgomery;m. laurence montgomery', 
+		'name_one': 'laurence montgomery',
+		'name_two': 'm. laurence montgomery', 
 		'expected': True, 
 		'description': 'laurence montgomery comparison with article'
 	},
     {
-		'input': 'laurence w de muth, jr;laurence w. demuth', 
+		'name_one': 'laurence w de muth, jr',
+		'name_two': 'laurence w. demuth', 
 		'expected': True, 
 		'description': 'laurence w de muth, jr comparison with article'
 	},
     {
-		'input': 'lauvery l cauperthwaite;l. leroy cowperthwaite', 
+		'name_one': 'lauvery l cauperthwaite',
+		'name_two': 'l. leroy cowperthwaite', 
 		'expected': True, 
 		'description': 'lauvery l cauperthwaite comparison with article'
 	},
     {
-		'input': 'lavar bateman;j. lavar bateman', 
+		'name_one': 'lavar bateman',
+		'name_two': 'j. lavar bateman', 
 		'expected': True, 
 		'description': 'lavar bateman comparison with article'
 	},
     {
-		'input': 'lawrence a larrimer;lawrence a. larrimer', 
+		'name_one': 'lawrence a larrimer',
+		'name_two': 'lawrence a. larrimer', 
 		'expected': True, 
 		'description': 'lawrence a larrimer comparison with article'
 	},
     {
-		'input': 'lawrence anderson;leighton lars anderson', 
+		'name_one': 'lawrence anderson',
+		'name_two': 'leighton lars anderson', 
 		'expected': False, 
 		'description': 'lawrence anderson comparison with article'
 	},
     {
-		'input': 'lawrence b lee;lawrence h. lee', 
+		'name_one': 'lawrence b lee',
+		'name_two': 'lawrence h. lee', 
 		'expected': False, 
 		'description': 'lawrence b lee comparison with article'
 	},
     {
-		'input': 'lawrence d lafore;laurence d. lafore', 
+		'name_one': 'lawrence d lafore',
+		'name_two': 'laurence d. lafore', 
 		'expected': True, 
 		'description': 'lawrence d lafore comparison with article'
 	},
     {
-		'input': 'lawrence d stewart;lawrence delbert stewart', 
+		'name_one': 'lawrence d stewart',
+		'name_two': 'lawrence delbert stewart', 
 		'expected': True, 
 		'description': 'lawrence d stewart comparison with article'
 	},
     {
-		'input': 'lawrence e lawson;lawrence james lawson', 
+		'name_one': 'lawrence e lawson',
+		'name_two': 'lawrence james lawson', 
 		'expected': False, 
 		'description': 'lawrence e lawson comparison with article'
 	},
     {
-		'input': 'lawrence e lee;lawrence lee', 
+		'name_one': 'lawrence e lee',
+		'name_two': 'lawrence lee', 
 		'expected': True, 
 		'description': 'lawrence e lee comparison with article'
 	},
     {
-		'input': 'lawrence key;e. lawrence keyes', 
+		'name_one': 'lawrence key',
+		'name_two': 'e. lawrence keyes', 
 		'expected': True, 
 		'description': 'lawrence key comparison with article'
 	},
     {
-		'input': 'lawrence l rauch;lawrence lee rauch', 
+		'name_one': 'lawrence l rauch',
+		'name_two': 'lawrence lee rauch', 
 		'expected': True, 
 		'description': 'lawrence l rauch comparison with article'
 	},
     {
-		'input': 'lawrence l robbins;laurence lamson robbins', 
+		'name_one': 'lawrence l robbins',
+		'name_two': 'laurence lamson robbins', 
 		'expected': True, 
 		'description': 'lawrence l robbins comparison with article'
 	},
     {
-		'input': 'lawrence l vance;lawrence l. vance', 
+		'name_one': 'lawrence l vance',
+		'name_two': 'lawrence l. vance', 
 		'expected': True, 
 		'description': 'lawrence l vance comparison with article'
 	},
     {
-		'input': 'lawrence l waters;lawrence leslie waters', 
+		'name_one': 'lawrence l waters',
+		'name_two': 'lawrence leslie waters', 
 		'expected': True, 
 		'description': 'lawrence l waters comparison with article'
 	},
     {
-		'input': 'lawrence labree;lawrence winthrop labree', 
+		'name_one': 'lawrence labree',
+		'name_two': 'lawrence winthrop labree', 
 		'expected': True, 
 		'description': 'lawrence labree comparison with article'
 	},
     {
-		'input': 'lawrence larson;lawrence c. larson', 
+		'name_one': 'lawrence larson',
+		'name_two': 'lawrence c. larson', 
 		'expected': True, 
 		'description': 'lawrence larson comparison with article'
 	},
     {
-		'input': 'lawrence t lawrey;lawrence t. lowrey', 
+		'name_one': 'lawrence t lawrey',
+		'name_two': 'lawrence t. lowrey', 
 		'expected': True, 
 		'description': 'lawrence t lawrey comparison with article'
 	},
     {
-		'input': 'lawrence w van meir;lawrence w. van mier', 
+		'name_one': 'lawrence w van meir',
+		'name_two': 'lawrence w. van mier', 
 		'expected': True, 
 		'description': 'lawrence w van meir comparison with article'
 	},
     {
-		'input': 'leander j van hecke;leander j. van hecke', 
+		'name_one': 'leander j van hecke',
+		'name_two': 'leander j. van hecke', 
 		'expected': True, 
 		'description': 'leander j van hecke comparison with article'
 	},
     {
-		'input': 'leatha j lee;j g lee', 
+		'name_one': 'leatha j lee',
+		'name_two': 'j g lee', 
 		'expected': False, 
 		'description': 'leatha j lee comparison with article'
 	},
     {
-		'input': 'lee a parker;ethel lee parker', 
+		'name_one': 'lee a parker',
+		'name_two': 'ethel lee parker', 
 		'expected': False, 
 		'description': 'lee a parker comparison with article'
 	},
     {
-		'input': 'lee block;virglnia lee block', 
+		'name_one': 'lee block',
+		'name_two': 'virglnia lee block', 
 		'expected': True, 
 		'description': 'lee block comparison with article'
 	},
     {
-		'input': 'lee e bassett;david lee bassett', 
+		'name_one': 'lee e bassett',
+		'name_two': 'david lee bassett', 
 		'expected': False, 
 		'description': 'lee e bassett comparison with article'
 	},
     {
-		'input': 'lee e deets;lee e. deets', 
+		'name_one': 'lee e deets',
+		'name_two': 'lee e. deets', 
 		'expected': True, 
 		'description': 'lee e deets comparison with article'
 	},
     {
-		'input': 'lee krause;herbert lee krauss', 
+		'name_one': 'lee krause',
+		'name_two': 'herbert lee krauss', 
 		'expected': True, 
 		'description': 'lee krause comparison with article'
 	},
     {
-		'input': 'lee m bender;myron lee bender', 
+		'name_one': 'lee m bender',
+		'name_two': 'myron lee bender', 
 		'expected': True, 
 		'description': 'lee m bender comparison with article'
 	},
     {
-		'input': 'lee myers;e. lee myers', 
+		'name_one': 'lee myers',
+		'name_two': 'e. lee myers', 
 		'expected': True, 
 		'description': 'lee myers comparison with article'
 	},
     {
-		'input': 'lee nemir;rosa lee nemir', 
+		'name_one': 'lee nemir',
+		'name_two': 'rosa lee nemir', 
 		'expected': True, 
 		'description': 'lee nemir comparison with article'
 	},
     {
-		'input': 'leighton rudolph;earle leighton rudolph', 
+		'name_one': 'leighton rudolph',
+		'name_two': 'earle leighton rudolph', 
 		'expected': True, 
 		'description': 'leighton rudolph comparison with article'
 	},
     {
-		'input': 'leita e lawrence;odie e. lawrence', 
+		'name_one': 'leita e lawrence',
+		'name_two': 'odie e. lawrence', 
 		'expected': False, 
 		'description': 'leita e lawrence comparison with article'
 	},
     {
-		'input': 'leland c. lehman;leland c. lehman', 
+		'name_one': 'leland c. lehman',
+		'name_two': 'leland c. lehman', 
 		'expected': True, 
 		'description': 'leland c. lehman comparison with article'
 	},
     {
-		'input': 'leland j lewis;leland judson lewis', 
+		'name_one': 'leland j lewis',
+		'name_two': 'leland judson lewis', 
 		'expected': True, 
 		'description': 'leland j lewis comparison with article'
 	},
     {
-		'input': 'leland l atwood;leland leavitt atwood', 
+		'name_one': 'leland l atwood',
+		'name_two': 'leland leavitt atwood', 
 		'expected': True, 
 		'description': 'leland l atwood comparison with article'
 	},
     {
-		'input': 'leland l briggs;leland lawrence briggs', 
+		'name_one': 'leland l briggs',
+		'name_two': 'leland lawrence briggs', 
 		'expected': True, 
 		'description': 'leland l briggs comparison with article'
 	},
     {
-		'input': 'lena may lauer;eleanor lauer', 
+		'name_one': 'lena may lauer',
+		'name_two': 'eleanor lauer', 
 		'expected': True, 
 		'description': 'lena may lauer comparison with article'
 	},
     {
-		'input': 'lennart v larson;lennart v. larson', 
+		'name_one': 'lennart v larson',
+		'name_two': 'lennart v. larson', 
 		'expected': True, 
 		'description': 'lennart v larson comparison with article'
 	},
     {
-		'input': 'leo a murphy;rex leo murphy', 
+		'name_one': 'leo a murphy',
+		'name_two': 'rex leo murphy', 
 		'expected': False, 
 		'description': 'leo a murphy comparison with article'
 	},
     {
-		'input': 'leo b leach;byron elwood leach', 
+		'name_one': 'leo b leach',
+		'name_two': 'byron elwood leach', 
 		'expected': False, 
 		'description': 'leo b leach comparison with article'
 	},
     {
-		'input': 'leo b smith;richard leo smith', 
+		'name_one': 'leo b smith',
+		'name_two': 'richard leo smith', 
 		'expected': False, 
 		'description': 'leo b smith comparison with article'
 	},
     {
-		'input': 'leo clair jones;vincent leo jones', 
+		'name_one': 'leo clair jones',
+		'name_two': 'vincent leo jones', 
 		'expected': False, 
 		'description': 'leo clair jones comparison with article'
 	},
     {
-		'input': 'leo fooks;iviary leo pita volk', 
+		'name_one': 'leo fooks',
+		'name_two': 'iviary leo pita volk', 
 		'expected': False, 
 		'description': 'leo fooks comparison with article'
 	},
     {
-		'input': 'leo l beranek;leo leroy beranek', 
+		'name_one': 'leo l beranek',
+		'name_two': 'leo leroy beranek', 
 		'expected': True, 
 		'description': 'leo l beranek comparison with article'
 	},
     {
-		'input': 'leo l carrick;leo lehr carrick', 
+		'name_one': 'leo l carrick',
+		'name_two': 'leo lehr carrick', 
 		'expected': True, 
 		'description': 'leo l carrick comparison with article'
 	},
     {
-		'input': 'leo lehrman;leo lehrman', 
+		'name_one': 'leo lehrman',
+		'name_two': 'leo lehrman', 
 		'expected': True, 
 		'description': 'leo lehrman comparison with article'
 	},
     {
-		'input': 'leo lemke;leo lemke', 
+		'name_one': 'leo lemke',
+		'name_two': 'leo lemke', 
 		'expected': True, 
 		'description': 'leo lemke comparison with article'
 	},
     {
-		'input': 'leo m legatski;leo max legatski', 
+		'name_one': 'leo m legatski',
+		'name_two': 'leo max legatski', 
 		'expected': True, 
 		'description': 'leo m legatski comparison with article'
 	},
     {
-		'input': 'leo sosa;leo p. delsasso', 
+		'name_one': 'leo sosa',
+		'name_two': 'leo p. delsasso', 
 		'expected': False, 
 		'description': 'leo sosa comparison with article'
 	},
     {
-		'input': 'leo sosa;leo p. delsossa', 
+		'name_one': 'leo sosa',
+		'name_two': 'leo p. delsossa', 
 		'expected': True, 
 		'description': 'leo sosa comparison with article'
 	},
     {
-		'input': 'leo w leary;leo w. leary', 
+		'name_one': 'leo w leary',
+		'name_two': 'leo w. leary', 
 		'expected': True, 
 		'description': 'leo w leary comparison with article'
 	},
     {
-		'input': 'leon a hitchcock;charles leo hitchcock', 
+		'name_one': 'leon a hitchcock',
+		'name_two': 'charles leo hitchcock', 
 		'expected': False, 
 		'description': 'leon a hitchcock comparison with article'
 	},
     {
-		'input': 'leon allen;durward leon allen', 
+		'name_one': 'leon allen',
+		'name_two': 'durward leon allen', 
 		'expected': True, 
 		'description': 'leon allen comparison with article'
 	},
     {
-		'input': 'leon c van sickle;clyde huntus van sickle', 
+		'name_one': 'leon c van sickle',
+		'name_two': 'clyde huntus van sickle', 
 		'expected': False, 
 		'description': 'leon c van sickle comparison with article'
 	},
     {
-		'input': 'leon gershbein;leon lee gershbein', 
+		'name_one': 'leon gershbein',
+		'name_two': 'leon lee gershbein', 
 		'expected': True, 
 		'description': 'leon gershbein comparison with article'
 	},
     {
-		'input': 'leon j leahy;leon j. leahy', 
+		'name_one': 'leon j leahy',
+		'name_two': 'leon j. leahy', 
 		'expected': True, 
 		'description': 'leon j leahy comparison with article'
 	},
     {
-		'input': 'leon l iltis;leon leonard iltis', 
+		'name_one': 'leon l iltis',
+		'name_two': 'leon leonard iltis', 
 		'expected': True, 
 		'description': 'leon l iltis comparison with article'
 	},
     {
-		'input': 'leon l stephan;leon lemar stephan', 
+		'name_one': 'leon l stephan',
+		'name_two': 'leon lemar stephan', 
 		'expected': True, 
 		'description': 'leon l stephan comparison with article'
 	},
     {
-		'input': 'leon lassers;leon lassers', 
+		'name_one': 'leon lassers',
+		'name_two': 'leon lassers', 
 		'expected': True, 
 		'description': 'leon lassers comparison with article'
 	},
     {
-		'input': 'leon singer;ferdinand leon singer', 
+		'name_one': 'leon singer',
+		'name_two': 'ferdinand leon singer', 
 		'expected': True, 
 		'description': 'leon singer comparison with article'
 	},
     {
-		'input': 'leon w chaffee;emory leon chaffee', 
+		'name_one': 'leon w chaffee',
+		'name_two': 'emory leon chaffee', 
 		'expected': False, 
 		'description': 'leon w chaffee comparison with article'
 	},
     {
-		'input': 'leon w dean;leon w. dean', 
+		'name_one': 'leon w dean',
+		'name_two': 'leon w. dean', 
 		'expected': True, 
 		'description': 'leon w dean comparison with article'
 	},
     {
-		'input': 'leonard a lecht;leonard a. lecht', 
+		'name_one': 'leonard a lecht',
+		'name_two': 'leonard a. lecht', 
 		'expected': True, 
 		'description': 'leonard a lecht comparison with article'
 	},
     {
-		'input': 'leonard d lee;herbert leonard lee', 
+		'name_one': 'leonard d lee',
+		'name_two': 'herbert leonard lee', 
 		'expected': False, 
 		'description': 'leonard d lee comparison with article'
 	},
     {
-		'input': 'leonard demorelos;leonardo c. de morelos', 
+		'name_one': 'leonard demorelos',
+		'name_two': 'leonardo c. de morelos', 
 		'expected': True, 
 		'description': 'leonard demorelos comparison with article'
 	},
     {
-		'input': 'leonard f lewis;t. leonard lewis', 
+		'name_one': 'leonard f lewis',
+		'name_two': 't. leonard lewis', 
 		'expected': False, 
 		'description': 'leonard f lewis comparison with article'
 	},
     {
-		'input': 'leonard g ryerson;dwight leonard ryerson', 
+		'name_one': 'leonard g ryerson',
+		'name_two': 'dwight leonard ryerson', 
 		'expected': False, 
 		'description': 'leonard g ryerson comparison with article'
 	},
     {
-		'input': 'leonard j deysach;leonard j. deysach', 
+		'name_one': 'leonard j deysach',
+		'name_two': 'leonard j. deysach', 
 		'expected': True, 
 		'description': 'leonard j deysach comparison with article'
 	},
     {
-		'input': 'leonard leone;leonard leone', 
+		'name_one': 'leonard leone',
+		'name_two': 'leonard leone', 
 		'expected': True, 
 		'description': 'leonard leone comparison with article'
 	},
     {
-		'input': 'leonard levy;leonard w. levy', 
+		'name_one': 'leonard levy',
+		'name_two': 'leonard w. levy', 
 		'expected': True, 
 		'description': 'leonard levy comparison with article'
 	},
     {
-		'input': 'leonard light;leonard leight', 
+		'name_one': 'leonard light',
+		'name_two': 'leonard leight', 
 		'expected': True, 
 		'description': 'leonard light comparison with article'
 	},
     {
-		'input': 'leonard marino;leonardo santamarina', 
+		'name_one': 'leonard marino',
+		'name_two': 'leonardo santamarina', 
 		'expected': True, 
 		'description': 'leonard marino comparison with article'
 	},
     {
-		'input': 'leonard w laboree;leonard woods labaree', 
+		'name_one': 'leonard w laboree',
+		'name_two': 'leonard woods labaree', 
 		'expected': True, 
 		'description': 'leonard w laboree comparison with article'
 	},
     {
-		'input': 'leroy a anderson;stuart leroy anderson', 
+		'name_one': 'leroy a anderson',
+		'name_two': 'stuart leroy anderson', 
 		'expected': False, 
 		'description': 'leroy a anderson comparison with article'
 	},
     {
-		'input': 'leroy a swanson;adrian leroy swanson', 
+		'name_one': 'leroy a swanson',
+		'name_two': 'adrian leroy swanson', 
 		'expected': True, 
 		'description': 'leroy a swanson comparison with article'
 	},
     {
-		'input': 'leroy e detling;leroy e. detling', 
+		'name_one': 'leroy e detling',
+		'name_two': 'leroy e. detling', 
 		'expected': True, 
 		'description': 'leroy e detling comparison with article'
 	},
     {
-		'input': 'leroy johnson;alfred leroy johnson', 
+		'name_one': 'leroy johnson',
+		'name_two': 'alfred leroy johnson', 
 		'expected': True, 
 		'description': 'leroy johnson comparison with article'
 	},
     {
-		'input': 'leroy koenig;virgil leroy koenig', 
+		'name_one': 'leroy koenig',
+		'name_two': 'virgil leroy koenig', 
 		'expected': True, 
 		'description': 'leroy koenig comparison with article'
 	},
     {
-		'input': 'leroy l barnes;leroy lesher barnes', 
+		'name_one': 'leroy l barnes',
+		'name_two': 'leroy lesher barnes', 
 		'expected': True, 
 		'description': 'leroy l barnes comparison with article'
 	},
     {
-		'input': 'leroy t laase;leeroy laase', 
+		'name_one': 'leroy t laase',
+		'name_two': 'leeroy laase', 
 		'expected': True, 
 		'description': 'leroy t laase comparison with article'
 	},
     {
-		'input': 'leslie bullock;philip leslie bullock', 
+		'name_one': 'leslie bullock',
+		'name_two': 'philip leslie bullock', 
 		'expected': True, 
 		'description': 'leslie bullock comparison with article'
 	},
     {
-		'input': 'leslie f morrison;paul leslie morrison', 
+		'name_one': 'leslie f morrison',
+		'name_two': 'paul leslie morrison', 
 		'expected': False, 
 		'description': 'leslie f morrison comparison with article'
 	},
     {
-		'input': 'leslie h layman;leslie h. layman', 
+		'name_one': 'leslie h layman',
+		'name_two': 'leslie h. layman', 
 		'expected': True, 
 		'description': 'leslie h layman comparison with article'
 	},
     {
-		'input': 'leslie lisle lewis;leslie l. lewis', 
+		'name_one': 'leslie lisle lewis',
+		'name_two': 'leslie l. lewis', 
 		'expected': True, 
 		'description': 'leslie lisle lewis comparison with article'
 	},
     {
-		'input': 'lester creaser;william lester kraushaar', 
+		'name_one': 'lester creaser',
+		'name_two': 'william lester kraushaar', 
 		'expected': True, 
 		'description': 'lester creaser comparison with article'
 	},
     {
-		'input': 'lester j hayman;joseph lester hayman', 
+		'name_one': 'lester j hayman',
+		'name_two': 'joseph lester hayman', 
 		'expected': True, 
 		'description': 'lester j hayman comparison with article'
 	},
     {
-		'input': 'lester lee;lester lees', 
+		'name_one': 'lester lee',
+		'name_two': 'lester lees', 
 		'expected': True, 
 		'description': 'lester lee comparison with article'
 	},
     {
-		'input': 'lester s henderson;j. lester henderson', 
+		'name_one': 'lester s henderson',
+		'name_two': 'j. lester henderson', 
 		'expected': False, 
 		'description': 'lester s henderson comparison with article'
 	},
     {
-		'input': 'lester w allen;a. lester allen', 
+		'name_one': 'lester w allen',
+		'name_two': 'a. lester allen', 
 		'expected': False, 
 		'description': 'lester w allen comparison with article'
 	},
     {
-		'input': 'leston l love;leston lewis love', 
+		'name_one': 'leston l love',
+		'name_two': 'leston lewis love', 
 		'expected': True, 
 		'description': 'leston l love comparison with article'
 	},
     {
-		'input': 'levi dees;levi o. dees', 
+		'name_one': 'levi dees',
+		'name_two': 'levi o. dees', 
 		'expected': True, 
 		'description': 'levi dees comparison with article'
 	},
     {
-		'input': 'lewis l clegg;lewis lamar clegg', 
+		'name_one': 'lewis l clegg',
+		'name_two': 'lewis lamar clegg', 
 		'expected': True, 
 		'description': 'lewis l clegg comparison with article'
 	},
     {
-		'input': 'lewis larkin;lewis b. larkin', 
+		'name_one': 'lewis larkin',
+		'name_two': 'lewis b. larkin', 
 		'expected': True, 
 		'description': 'lewis larkin comparison with article'
 	},
     {
-		'input': 'lewis m foster;eugene lewis foster', 
+		'name_one': 'lewis m foster',
+		'name_two': 'eugene lewis foster', 
 		'expected': False, 
 		'description': 'lewis m foster comparison with article'
 	},
     {
-		'input': 'lewis peterson;edwin lewis peterson', 
+		'name_one': 'lewis peterson',
+		'name_two': 'edwin lewis peterson', 
 		'expected': True, 
 		'description': 'lewis peterson comparison with article'
 	},
     {
-		'input': 'lillian c lambert;c. n. lambert', 
+		'name_one': 'lillian c lambert',
+		'name_two': 'c. n. lambert', 
 		'expected': False, 
 		'description': 'lillian c lambert comparison with article'
 	},
     {
-		'input': 'lillian h lanover;hrwin wladaver', 
+		'name_one': 'lillian h lanover',
+		'name_two': 'hrwin wladaver', 
 		'expected': False, 
 		'description': 'lillian h lanover comparison with article'
 	},
     {
-		'input': 'lillian lawler;lillian b. lawler', 
+		'name_one': 'lillian lawler',
+		'name_two': 'lillian b. lawler', 
 		'expected': True, 
 		'description': 'lillian lawler comparison with article'
 	},
     {
-		'input': 'lillian lee vaughan;lillian lee vaughan', 
+		'name_one': 'lillian lee vaughan',
+		'name_two': 'lillian lee vaughan', 
 		'expected': True, 
 		'description': 'lillian lee vaughan comparison with article'
 	},
     {
-		'input': 'lincoln lapaz;lincoln lapaz', 
+		'name_one': 'lincoln lapaz',
+		'name_two': 'lincoln lapaz', 
 		'expected': True, 
 		'description': 'lincoln lapaz comparison with article'
 	},
     {
-		'input': 'linnal robinson;selby lemley robinson', 
+		'name_one': 'linnal robinson',
+		'name_two': 'selby lemley robinson', 
 		'expected': False, 
 		'description': 'linnal robinson comparison with article'
 	},
     {
-		'input': 'linnea c dennett;linnea c. dennett', 
+		'name_one': 'linnea c dennett',
+		'name_two': 'linnea c. dennett', 
 		'expected': True, 
 		'description': 'linnea c dennett comparison with article'
 	},
     {
-		'input': 'lizbeth laughton;lizbeth r. laughton', 
+		'name_one': 'lizbeth laughton',
+		'name_two': 'lizbeth r. laughton', 
 		'expected': True, 
 		'description': 'lizbeth laughton comparison with article'
 	},
     {
-		'input': 'llewellyn l derby;llewellyn light derby', 
+		'name_one': 'llewellyn l derby',
+		'name_two': 'llewellyn light derby', 
 		'expected': True, 
 		'description': 'llewellyn l derby comparison with article'
 	},
     {
-		'input': 'lloyd a betuno;andre j. de bethune', 
+		'name_one': 'lloyd a betuno',
+		'name_two': 'andre j. de bethune', 
 		'expected': False, 
 		'description': 'lloyd a betuno comparison with article'
 	},
     {
-		'input': 'lloyd o burge;lloyd van de berg', 
+		'name_one': 'lloyd o burge',
+		'name_two': 'lloyd van de berg', 
 		'expected': True, 
 		'description': 'lloyd o burge comparison with article'
 	},
     {
-		'input': 'lois lebar;lois e. lebar', 
+		'name_one': 'lois lebar',
+		'name_two': 'lois e. lebar', 
 		'expected': True, 
 		'description': 'lois lebar comparison with article'
 	},
     {
-		'input': 'lois schnoor;lois laverne schnoor', 
+		'name_one': 'lois schnoor',
+		'name_two': 'lois laverne schnoor', 
 		'expected': True, 
 		'description': 'lois schnoor comparison with article'
 	},
     {
-		'input': 'lolo robinson;lolo lemme robinson', 
+		'name_one': 'lolo robinson',
+		'name_two': 'lolo lemme robinson', 
 		'expected': True, 
 		'description': 'lolo robinson comparison with article'
 	},
     {
-		'input': 'loras t lane;loras t. lane', 
+		'name_one': 'loras t lane',
+		'name_two': 'loras t. lane', 
 		'expected': True, 
 		'description': 'loras t lane comparison with article'
 	},
     {
-		'input': 'loren j larsen;loren j. larsen', 
+		'name_one': 'loren j larsen',
+		'name_two': 'loren j. larsen', 
 		'expected': True, 
 		'description': 'loren j larsen comparison with article'
 	},
     {
-		'input': 'lorin j lucius;joseph j. delucia', 
+		'name_one': 'lorin j lucius',
+		'name_two': 'joseph j. delucia', 
 		'expected': False, 
 		'description': 'lorin j lucius comparison with article'
 	},
     {
-		'input': 'lorna de varon;lorna cooke devaron', 
+		'name_one': 'lorna de varon',
+		'name_two': 'lorna cooke devaron', 
 		'expected': True, 
 		'description': 'lorna de varon comparison with article'
 	},
     {
-		'input': 'lorrent le sage;laurent lesage', 
+		'name_one': 'lorrent le sage',
+		'name_two': 'laurent lesage', 
 		'expected': True, 
 		'description': 'lorrent le sage comparison with article'
 	},
     {
-		'input': 'louis a derose;louis derose', 
+		'name_one': 'louis a derose',
+		'name_two': 'louis derose', 
 		'expected': True, 
 		'description': 'louis a derose comparison with article'
 	},
     {
-		'input': 'louis a landa;louis a. landa', 
+		'name_one': 'louis a landa',
+		'name_two': 'louis a. landa', 
 		'expected': True, 
 		'description': 'louis a landa comparison with article'
 	},
     {
-		'input': 'louis a sr demonbreun;w. a. demonbreun', 
+		'name_one': 'louis a sr demonbreun',
+		'name_two': 'w. a. demonbreun', 
 		'expected': False, 
 		'description': 'louis a sr demonbreun comparison with article'
 	},
     {
-		'input': 'louis d de vries;louis devries', 
+		'name_one': 'louis d de vries',
+		'name_two': 'louis devries', 
 		'expected': True, 
 		'description': 'louis d de vries comparison with article'
 	},
     {
-		'input': 'louis e derryberry;louis e. derryberry', 
+		'name_one': 'louis e derryberry',
+		'name_two': 'louis e. derryberry', 
 		'expected': True, 
 		'description': 'louis e derryberry comparison with article'
 	},
     {
-		'input': 'louis e lambert;louis erskine lambert', 
+		'name_one': 'louis e lambert',
+		'name_two': 'louis erskine lambert', 
 		'expected': True, 
 		'description': 'louis e lambert comparison with article'
 	},
     {
-		'input': 'louis e. vandegrift;louis e. vandergrift', 
+		'name_one': 'louis e. vandegrift',
+		'name_two': 'louis e. vandergrift', 
 		'expected': True, 
 		'description': 'louis e. vandegrift comparison with article'
 	},
     {
-		'input': 'louis h levin;louis levine', 
+		'name_one': 'louis h levin',
+		'name_two': 'louis levine', 
 		'expected': True, 
 		'description': 'louis h levin comparison with article'
 	},
     {
-		'input': 'louis j lyell;luis leal', 
+		'name_one': 'louis j lyell',
+		'name_two': 'luis leal', 
 		'expected': True, 
 		'description': 'louis j lyell comparison with article'
 	},
     {
-		'input': 'louis l levy;louis levy', 
+		'name_one': 'louis l levy',
+		'name_two': 'louis levy', 
 		'expected': True, 
 		'description': 'louis l levy comparison with article'
 	},
     {
-		'input': 'louis l sulya;louis leon sulya', 
+		'name_one': 'louis l sulya',
+		'name_two': 'louis leon sulya', 
 		'expected': True, 
 		'description': 'louis l sulya comparison with article'
 	},
     {
-		'input': 'louis lams;louis lams', 
+		'name_one': 'louis lams',
+		'name_two': 'louis lams', 
 		'expected': True, 
 		'description': 'louis lams comparison with article'
 	},
     {
-		'input': 'louis leiter;louis leiter', 
+		'name_one': 'louis leiter',
+		'name_two': 'louis leiter', 
 		'expected': True, 
 		'description': 'louis leiter comparison with article'
 	},
     {
-		'input': 'louis leon thurstone;louis leon thurstone', 
+		'name_one': 'louis leon thurstone',
+		'name_two': 'louis leon thurstone', 
 		'expected': True, 
 		'description': 'louis leon thurstone comparison with article'
 	},
     {
-		'input': 'louis p lodestro;v. p. destro', 
+		'name_one': 'louis p lodestro',
+		'name_two': 'v. p. destro', 
 		'expected': False, 
 		'description': 'louis p lodestro comparison with article'
 	},
     {
-		'input': 'louis r detjen;louis reinhold detjen', 
+		'name_one': 'louis r detjen',
+		'name_two': 'louis reinhold detjen', 
 		'expected': True, 
 		'description': 'louis r detjen comparison with article'
 	},
     {
-		'input': 'louis r levin;richard louis levin', 
+		'name_one': 'louis r levin',
+		'name_two': 'richard louis levin', 
 		'expected': True, 
 		'description': 'louis r levin comparison with article'
 	},
     {
-		'input': 'louis s le tellier;louis shepherd letellier', 
+		'name_one': 'louis s le tellier',
+		'name_two': 'louis shepherd letellier', 
 		'expected': True, 
 		'description': 'louis s le tellier comparison with article'
 	},
     {
-		'input': 'louise cassell;wallace lewis cassell', 
+		'name_one': 'louise cassell',
+		'name_two': 'wallace lewis cassell', 
 		'expected': True, 
 		'description': 'louise cassell comparison with article'
 	},
     {
-		'input': 'louise e leonard;e. louise leonard', 
+		'name_one': 'louise e leonard',
+		'name_two': 'e. louise leonard', 
 		'expected': True, 
 		'description': 'louise e leonard comparison with article'
 	},
     {
-		'input': 'louise m leet;lewis don leet', 
+		'name_one': 'louise m leet',
+		'name_two': 'lewis don leet', 
 		'expected': False, 
 		'description': 'louise m leet comparison with article'
 	},
     {
-		'input': 'louise van ogle;louise van ogle', 
+		'name_one': 'louise van ogle',
+		'name_two': 'louise van ogle', 
 		'expected': True, 
 		'description': 'louise van ogle comparison with article'
 	},
     {
-		'input': 'lowell d ashby;lowell dewitt ashby', 
+		'name_one': 'lowell d ashby',
+		'name_two': 'lowell dewitt ashby', 
 		'expected': True, 
 		'description': 'lowell d ashby comparison with article'
 	},
     {
-		'input': 'lowell p leland;lowell p. leland', 
+		'name_one': 'lowell p leland',
+		'name_two': 'lowell p. leland', 
 		'expected': True, 
 		'description': 'lowell p leland comparison with article'
 	},
     {
-		'input': 'lowell r laudon;lowell robert laudon', 
+		'name_one': 'lowell r laudon',
+		'name_two': 'lowell robert laudon', 
 		'expected': True, 
 		'description': 'lowell r laudon comparison with article'
 	},
     {
-		'input': 'loyal l conrad;loyal lee conrad', 
+		'name_one': 'loyal l conrad',
+		'name_two': 'loyal lee conrad', 
 		'expected': True, 
 		'description': 'loyal l conrad comparison with article'
 	},
     {
-		'input': 'lucia d hough;lucia dearborn hough', 
+		'name_one': 'lucia d hough',
+		'name_two': 'lucia dearborn hough', 
 		'expected': True, 
 		'description': 'lucia d hough comparison with article'
 	},
     {
-		'input': 'lucie s lancaster;dabney s. lancaster', 
+		'name_one': 'lucie s lancaster',
+		'name_two': 'dabney s. lancaster', 
 		'expected': False, 
 		'description': 'lucie s lancaster comparison with article'
 	},
     {
-		'input': 'lucien d. pearson;lucien dean pearson', 
+		'name_one': 'lucien d. pearson',
+		'name_two': 'lucien dean pearson', 
 		'expected': True, 
 		'description': 'lucien d. pearson comparison with article'
 	},
     {
-		'input': 'lucien desjardins;lucien h. desjardins', 
+		'name_one': 'lucien desjardins',
+		'name_two': 'lucien h. desjardins', 
 		'expected': True, 
 		'description': 'lucien desjardins comparison with article'
 	},
     {
-		'input': 'lucile delano;lucile k. delano', 
+		'name_one': 'lucile delano',
+		'name_two': 'lucile k. delano', 
 		'expected': True, 
 		'description': 'lucile delano comparison with article'
 	},
     {
-		'input': 'lucille a. lemaitre;a. l maitre', 
+		'name_one': 'lucille a. lemaitre',
+		'name_two': 'a. l maitre', 
 		'expected': True, 
 		'description': 'lucille a. lemaitre comparison with article'
 	},
     {
-		'input': 'lucille a. lemaitre;harriette a. martire', 
+		'name_one': 'lucille a. lemaitre',
+		'name_two': 'harriette a. martire', 
 		'expected': False, 
 		'description': 'lucille a. lemaitre comparison with article'
 	},
     {
-		'input': 'lucille a. lemaitre;l a. maitre', 
+		'name_one': 'lucille a. lemaitre',
+		'name_two': 'l a. maitre', 
 		'expected': True, 
 		'description': 'lucille a. lemaitre comparison with article'
 	},
     {
-		'input': 'lucius j desha;lucius junius desha', 
+		'name_one': 'lucius j desha',
+		'name_two': 'lucius junius desha', 
 		'expected': True, 
 		'description': 'lucius j desha comparison with article'
 	},
     {
-		'input': 'lucy a sally;lucile c. lasalle', 
+		'name_one': 'lucy a sally',
+		'name_two': 'lucile c. lasalle', 
 		'expected': False, 
 		'description': 'lucy a sally comparison with article'
 	},
     {
-		'input': 'lucy lee call;lucy lee call', 
+		'name_one': 'lucy lee call',
+		'name_two': 'lucy lee call', 
 		'expected': True, 
 		'description': 'lucy lee call comparison with article'
 	},
     {
-		'input': 'lucy lester;lucy lester', 
+		'name_one': 'lucy lester',
+		'name_two': 'lucy lester', 
 		'expected': True, 
 		'description': 'lucy lester comparison with article'
 	},
     {
-		'input': 'lucy lewis;lucy lee lewis', 
+		'name_one': 'lucy lewis',
+		'name_two': 'lucy lee lewis', 
 		'expected': True, 
 		'description': 'lucy lewis comparison with article'
 	},
     {
-		'input': 'ludvig c larson;ludvig conrad larson', 
+		'name_one': 'ludvig c larson',
+		'name_two': 'ludvig conrad larson', 
 		'expected': True, 
 		'description': 'ludvig c larson comparison with article'
 	},
     {
-		'input': 'ludwig lewisohn;ludwig lewisohn', 
+		'name_one': 'ludwig lewisohn',
+		'name_two': 'ludwig lewisohn', 
 		'expected': True, 
 		'description': 'ludwig lewisohn comparison with article'
 	},
     {
-		'input': 'luis alfonso fieiro;lonnie t. vanderveer', 
+		'name_one': 'luis alfonso fieiro',
+		'name_two': 'lonnie t. vanderveer', 
 		'expected': False, 
 		'description': 'luis alfonso fieiro comparison with article'
 	},
     {
-		'input': 'lula g lentz;e. g. lentz', 
+		'name_one': 'lula g lentz',
+		'name_two': 'e. g. lentz', 
 		'expected': False, 
 		'description': 'lula g lentz comparison with article'
 	},
     {
-		'input': 'luther o levengood;luther omar leavengood', 
+		'name_one': 'luther o levengood',
+		'name_two': 'luther omar leavengood', 
 		'expected': True, 
 		'description': 'luther o levengood comparison with article'
 	},
     {
-		'input': 'lutie c leavell;lutie c. leavell', 
+		'name_one': 'lutie c leavell',
+		'name_two': 'lutie c. leavell', 
 		'expected': True, 
 		'description': 'lutie c leavell comparison with article'
 	},
     {
-		'input': 'luz m. diaz de pachero;luis m. diaz', 
+		'name_one': 'luz m. diaz de pachero',
+		'name_two': 'luis m. diaz', 
 		'expected': False, 
 		'description': 'luz m. diaz de pachero comparison with article'
 	},
     {
-		'input': 'lyman langdon;lyman albert langdon', 
+		'name_one': 'lyman langdon',
+		'name_two': 'lyman albert langdon', 
 		'expected': True, 
 		'description': 'lyman langdon comparison with article'
 	},
     {
-		'input': 'lynn l wentworth;lynn leota wentworth', 
+		'name_one': 'lynn l wentworth',
+		'name_two': 'lynn leota wentworth', 
 		'expected': True, 
 		'description': 'lynn l wentworth comparison with article'
 	},
     {
-		'input': 'lysle d leach;lysle d. leach', 
+		'name_one': 'lysle d leach',
+		'name_two': 'lysle d. leach', 
 		'expected': True, 
 		'description': 'lysle d leach comparison with article'
 	},
     {
-		'input': 'm fredric landwer;milton frederic landwer', 
+		'name_one': 'm fredric landwer',
+		'name_two': 'milton frederic landwer', 
 		'expected': True, 
 		'description': 'm fredric landwer comparison with article'
 	},
     {
-		'input': 'mabel d erwin;mabel deane erwin', 
+		'name_one': 'mabel d erwin',
+		'name_two': 'mabel deane erwin', 
 		'expected': True, 
 		'description': 'mabel d erwin comparison with article'
 	},
     {
-		'input': 'mable lesher;mabel lesher', 
+		'name_one': 'mable lesher',
+		'name_two': 'mabel lesher', 
 		'expected': True, 
 		'description': 'mable lesher comparison with article'
 	},
     {
-		'input': 'madeline g laberge;g. antonio laberge', 
+		'name_one': 'madeline g laberge',
+		'name_two': 'g. antonio laberge', 
 		'expected': False, 
 		'description': 'madeline g laberge comparison with article'
 	},
     {
-		'input': 'mali g lenz;mali goldmann lenz', 
+		'name_one': 'mali g lenz',
+		'name_two': 'mali goldmann lenz', 
 		'expected': True, 
 		'description': 'mali g lenz comparison with article'
 	},
     {
-		'input': 'mamie lee davis;mamie myrtis davis', 
+		'name_one': 'mamie lee davis',
+		'name_two': 'mamie myrtis davis', 
 		'expected': False, 
 		'description': 'mamie lee davis comparison with article'
 	},
     {
-		'input': 'manson jennings;manson van b. jennings', 
+		'name_one': 'manson jennings',
+		'name_two': 'manson van b. jennings', 
 		'expected': True, 
 		'description': 'manson jennings comparison with article'
 	},
     {
-		'input': 'margaret b lagrille;margaret b. lagrille', 
+		'name_one': 'margaret b lagrille',
+		'name_two': 'margaret b. lagrille', 
 		'expected': True, 
 		'description': 'margaret b lagrille comparison with article'
 	},
     {
-		'input': 'margaret c de vinny;margaret c. devinny', 
+		'name_one': 'margaret c de vinny',
+		'name_two': 'margaret c. devinny', 
 		'expected': True, 
 		'description': 'margaret c de vinny comparison with article'
 	},
     {
-		'input': 'margaret c larsen;a. margaret larsen', 
+		'name_one': 'margaret c larsen',
+		'name_two': 'a. margaret larsen', 
 		'expected': False, 
 		'description': 'margaret c larsen comparison with article'
 	},
     {
-		'input': 'margaret de schweinitz;margaret de schweinitz', 
+		'name_one': 'margaret de schweinitz',
+		'name_two': 'margaret de schweinitz', 
 		'expected': True, 
 		'description': 'margaret de schweinitz comparison with article'
 	},
     {
-		'input': 'margaret dearden;leah margaret dearden', 
+		'name_one': 'margaret dearden',
+		'name_two': 'leah margaret dearden', 
 		'expected': True, 
 		'description': 'margaret dearden comparison with article'
 	},
     {
-		'input': 'margaret degray;margaret patterson degray', 
+		'name_one': 'margaret degray',
+		'name_two': 'margaret patterson degray', 
 		'expected': True, 
 		'description': 'margaret degray comparison with article'
 	},
     {
-		'input': 'margaret l leonard;margaret lydia leonard', 
+		'name_one': 'margaret l leonard',
+		'name_two': 'margaret lydia leonard', 
 		'expected': True, 
 		'description': 'margaret l leonard comparison with article'
 	},
     {
-		'input': 'margaret lamont;margaret lamont', 
+		'name_one': 'margaret lamont',
+		'name_two': 'margaret lamont', 
 		'expected': True, 
 		'description': 'margaret lamont comparison with article'
 	},
     {
-		'input': 'margery deming;margery van n. deming', 
+		'name_one': 'margery deming',
+		'name_two': 'margery van n. deming', 
 		'expected': True, 
 		'description': 'margery deming comparison with article'
 	},
     {
-		'input': 'marguerite richards;marguerite lentz richards', 
+		'name_one': 'marguerite richards',
+		'name_two': 'marguerite lentz richards', 
 		'expected': True, 
 		'description': 'marguerite richards comparison with article'
 	},
     {
-		'input': 'maria d picerilli;maria de\'negri piccirilli', 
+		'name_one': 'maria d picerilli',
+		'name_two': 'maria de\'negri piccirilli', 
 		'expected': True, 
 		'description': 'maria d picerilli comparison with article'
 	},
     {
-		'input': 'maria diez de onate;maria d. de onate', 
+		'name_one': 'maria diez de onate',
+		'name_two': 'maria d. de onate', 
 		'expected': True, 
 		'description': 'maria diez de onate comparison with article'
 	},
     {
-		'input': 'maria rose lowther;maria l. de lowther', 
+		'name_one': 'maria rose lowther',
+		'name_two': 'maria l. de lowther', 
 		'expected': False, 
 		'description': 'maria rose lowther comparison with article'
 	},
     {
-		'input': 'marian v devoy;marian v. devoy', 
+		'name_one': 'marian v devoy',
+		'name_two': 'marian v. devoy', 
 		'expected': True, 
 		'description': 'marian v devoy comparison with article'
 	},
     {
-		'input': 'marie b denneen;marie b. denneen', 
+		'name_one': 'marie b denneen',
+		'name_two': 'marie b. denneen', 
 		'expected': True, 
 		'description': 'marie b denneen comparison with article'
 	},
     {
-		'input': 'marie l schwartz;l. laszlo schwartz', 
+		'name_one': 'marie l schwartz',
+		'name_two': 'l. laszlo schwartz', 
 		'expected': False, 
 		'description': 'marie l schwartz comparison with article'
 	},
     {
-		'input': 'marie lein;marie e. lein', 
+		'name_one': 'marie lein',
+		'name_two': 'marie e. lein', 
 		'expected': True, 
 		'description': 'marie lein comparison with article'
 	},
     {
-		'input': 'mariette le blanc;mariette le blanc', 
+		'name_one': 'mariette le blanc',
+		'name_two': 'mariette le blanc', 
 		'expected': True, 
 		'description': 'mariette le blanc comparison with article'
 	},
     {
-		'input': 'marine leland;marine leland', 
+		'name_one': 'marine leland',
+		'name_two': 'marine leland', 
 		'expected': True, 
 		'description': 'marine leland comparison with article'
 	},
     {
-		'input': 'marion deronde;marion deronde', 
+		'name_one': 'marion deronde',
+		'name_two': 'marion deronde', 
 		'expected': True, 
 		'description': 'marion deronde comparison with article'
 	},
     {
-		'input': 'marion f deshazo;marian frances deshazo', 
+		'name_one': 'marion f deshazo',
+		'name_two': 'marian frances deshazo', 
 		'expected': True, 
 		'description': 'marion f deshazo comparison with article'
 	},
     {
-		'input': 'marion l jackson;marion leroy jackson', 
+		'name_one': 'marion l jackson',
+		'name_two': 'marion leroy jackson', 
 		'expected': True, 
 		'description': 'marion l jackson comparison with article'
 	},
     {
-		'input': 'marion l mcqueen;marion leigh macqueen', 
+		'name_one': 'marion l mcqueen',
+		'name_two': 'marion leigh macqueen', 
 		'expected': True, 
 		'description': 'marion l mcqueen comparison with article'
 	},
     {
-		'input': 'marion lashley;marion m. lasley', 
+		'name_one': 'marion lashley',
+		'name_two': 'marion m. lasley', 
 		'expected': True, 
 		'description': 'marion lashley comparison with article'
 	},
     {
-		'input': 'marion leahy;marion eugene lahey', 
+		'name_one': 'marion leahy',
+		'name_two': 'marion eugene lahey', 
 		'expected': True, 
 		'description': 'marion leahy comparison with article'
 	},
     {
-		'input': 'marion m lawrence;marion lawrence', 
+		'name_one': 'marion m lawrence',
+		'name_two': 'marion lawrence', 
 		'expected': True, 
 		'description': 'marion m lawrence comparison with article'
 	},
     {
-		'input': 'marion s lewis;marion smith lewis', 
+		'name_one': 'marion s lewis',
+		'name_two': 'marion smith lewis', 
 		'expected': True, 
 		'description': 'marion s lewis comparison with article'
 	},
     {
-		'input': 'marjorie e lackey;marjorie e. latchaw', 
+		'name_one': 'marjorie e lackey',
+		'name_two': 'marjorie e. latchaw', 
 		'expected': False, 
 		'description': 'marjorie e lackey comparison with article'
 	},
     {
-		'input': 'marjorie leonard;marjorie leonard', 
+		'name_one': 'marjorie leonard',
+		'name_two': 'marjorie leonard', 
 		'expected': True, 
 		'description': 'marjorie leonard comparison with article'
 	},
     {
-		'input': 'mark d howe;mark dewolfe howe', 
+		'name_one': 'mark d howe',
+		'name_two': 'mark dewolfe howe', 
 		'expected': True, 
 		'description': 'mark d howe comparison with article'
 	},
     {
-		'input': 'mark de leonard;mark f. deleonard', 
+		'name_one': 'mark de leonard',
+		'name_two': 'mark f. deleonard', 
 		'expected': True, 
 		'description': 'mark de leonard comparison with article'
 	},
     {
-		'input': 'mark h degraff;mark h. degraff', 
+		'name_one': 'mark h degraff',
+		'name_two': 'mark h. degraff', 
 		'expected': True, 
 		'description': 'mark h degraff comparison with article'
 	},
     {
-		'input': 'mark l floyde;mark lawrence floyd', 
+		'name_one': 'mark l floyde',
+		'name_two': 'mark lawrence floyd', 
 		'expected': True, 
 		'description': 'mark l floyde comparison with article'
 	},
     {
-		'input': 'mark w delzel;mark w. delzell', 
+		'name_one': 'mark w delzel',
+		'name_two': 'mark w. delzell', 
 		'expected': True, 
 		'description': 'mark w delzel comparison with article'
 	},
     {
-		'input': 'marshall l pennington;marshall lee pennington', 
+		'name_one': 'marshall l pennington',
+		'name_two': 'marshall lee pennington', 
 		'expected': True, 
 		'description': 'marshall l pennington comparison with article'
 	},
     {
-		'input': 'marshall l schmitt;marshall langdon schmitt', 
+		'name_one': 'marshall l schmitt',
+		'name_two': 'marshall langdon schmitt', 
 		'expected': True, 
 		'description': 'marshall l schmitt comparison with article'
 	},
     {
-		'input': 'marston d hodgin;marston dean hodgin', 
+		'name_one': 'marston d hodgin',
+		'name_two': 'marston dean hodgin', 
 		'expected': True, 
 		'description': 'marston d hodgin comparison with article'
 	},
     {
-		'input': 'martha d wallace;martha dee wallace', 
+		'name_one': 'martha d wallace',
+		'name_two': 'martha dee wallace', 
 		'expected': True, 
 		'description': 'martha d wallace comparison with article'
 	},
     {
-		'input': 'martha e leighton;martha emma leighton', 
+		'name_one': 'martha e leighton',
+		'name_two': 'martha emma leighton', 
 		'expected': True, 
 		'description': 'martha e leighton comparison with article'
 	},
     {
-		'input': 'martha lewis;martha modena lewis', 
+		'name_one': 'martha lewis',
+		'name_two': 'martha modena lewis', 
 		'expected': True, 
 		'description': 'martha lewis comparison with article'
 	},
     {
-		'input': 'martha m larsen;r. m. larsen', 
+		'name_one': 'martha m larsen',
+		'name_two': 'r. m. larsen', 
 		'expected': False, 
 		'description': 'martha m larsen comparison with article'
 	},
     {
-		'input': 'martha n. lewis;martha n. lewis', 
+		'name_one': 'martha n. lewis',
+		'name_two': 'martha n. lewis', 
 		'expected': True, 
 		'description': 'martha n. lewis comparison with article'
 	},
     {
-		'input': 'martha taber;martha van hoesen taber', 
+		'name_one': 'martha taber',
+		'name_two': 'martha van hoesen taber', 
 		'expected': True, 
 		'description': 'martha taber comparison with article'
 	},
     {
-		'input': 'martin d whitaker;martin dewey whitaker', 
+		'name_one': 'martin d whitaker',
+		'name_two': 'martin dewey whitaker', 
 		'expected': True, 
 		'description': 'martin d whitaker comparison with article'
 	},
     {
-		'input': 'martin deutsch;martin deutsch', 
+		'name_one': 'martin deutsch',
+		'name_two': 'martin deutsch', 
 		'expected': True, 
 		'description': 'martin deutsch comparison with article'
 	},
     {
-		'input': 'martin l black;martin lee black', 
+		'name_one': 'martin l black',
+		'name_two': 'martin lee black', 
 		'expected': True, 
 		'description': 'martin l black comparison with article'
 	},
     {
-		'input': 'martin l. lindall;martin leroy lindahl', 
+		'name_one': 'martin l. lindall',
+		'name_two': 'martin leroy lindahl', 
 		'expected': True, 
 		'description': 'martin l. lindall comparison with article'
 	},
     {
-		'input': 'martin larrabee;martin glover larrabee', 
+		'name_one': 'martin larrabee',
+		'name_two': 'martin glover larrabee', 
 		'expected': True, 
 		'description': 'martin larrabee comparison with article'
 	},
     {
-		'input': 'martin leigh harrison;leigh m. harrison', 
+		'name_one': 'martin leigh harrison',
+		'name_two': 'leigh m. harrison', 
 		'expected': True, 
 		'description': 'martin leigh harrison comparison with article'
 	},
     {
-		'input': 'martin levit;martin levit', 
+		'name_one': 'martin levit',
+		'name_two': 'martin levit', 
 		'expected': True, 
 		'description': 'martin levit comparison with article'
 	},
     {
-		'input': 'martin w debenham;martin w. debenham', 
+		'name_one': 'martin w debenham',
+		'name_two': 'martin w. debenham', 
 		'expected': True, 
 		'description': 'martin w debenham comparison with article'
 	},
     {
-		'input': 'marvin l granstrom;marvin leroy granstrom', 
+		'name_one': 'marvin l granstrom',
+		'name_two': 'marvin leroy granstrom', 
 		'expected': True, 
 		'description': 'marvin l granstrom comparison with article'
 	},
     {
-		'input': 'marvin l infinger;marvin leslie infinger', 
+		'name_one': 'marvin l infinger',
+		'name_two': 'marvin leslie infinger', 
 		'expected': True, 
 		'description': 'marvin l infinger comparison with article'
 	},
     {
-		'input': 'marvin l vest;marvin lewis vest', 
+		'name_one': 'marvin l vest',
+		'name_two': 'marvin lewis vest', 
 		'expected': True, 
 		'description': 'marvin l vest comparison with article'
 	},
     {
-		'input': 'marvin w de jonge;marvin willis de jonge', 
+		'name_one': 'marvin w de jonge',
+		'name_two': 'marvin willis de jonge', 
 		'expected': True, 
 		'description': 'marvin w de jonge comparison with article'
 	},
     {
-		'input': 'mary a devries;mary aid de vries', 
+		'name_one': 'mary a devries',
+		'name_two': 'mary aid de vries', 
 		'expected': True, 
 		'description': 'mary a devries comparison with article'
 	},
     {
-		'input': 'mary a loginuk;grace mead andrus de laguna', 
+		'name_one': 'mary a loginuk',
+		'name_two': 'grace mead andrus de laguna', 
 		'expected': False, 
 		'description': 'mary a loginuk comparison with article'
 	},
     {
-		'input': 'mary a ziehl;aldert van der ziel', 
+		'name_one': 'mary a ziehl',
+		'name_two': 'aldert van der ziel', 
 		'expected': True, 
 		'description': 'mary a ziehl comparison with article'
 	},
     {
-		'input': 'mary b laughead;mary laughead', 
+		'name_one': 'mary b laughead',
+		'name_two': 'mary laughead', 
 		'expected': True, 
 		'description': 'mary b laughead comparison with article'
 	},
     {
-		'input': 'mary blayney;mary dee blayney', 
+		'name_one': 'mary blayney',
+		'name_two': 'mary dee blayney', 
 		'expected': True, 
 		'description': 'mary blayney comparison with article'
 	},
     {
-		'input': 'mary debow;mary virginia debow', 
+		'name_one': 'mary debow',
+		'name_two': 'mary virginia debow', 
 		'expected': True, 
 		'description': 'mary debow comparison with article'
 	},
     {
-		'input': 'mary e lakeman;ernest rene lacheman', 
+		'name_one': 'mary e lakeman',
+		'name_two': 'ernest rene lacheman', 
 		'expected': False, 
 		'description': 'mary e lakeman comparison with article'
 	},
     {
-		'input': 'mary e lakenan;mary e. lakenan', 
+		'name_one': 'mary e lakenan',
+		'name_two': 'mary e. lakenan', 
 		'expected': True, 
 		'description': 'mary e lakenan comparison with article'
 	},
     {
-		'input': 'mary e latimer;mary e. latimer', 
+		'name_one': 'mary e latimer',
+		'name_two': 'mary e. latimer', 
 		'expected': True, 
 		'description': 'mary e latimer comparison with article'
 	},
     {
-		'input': 'mary e vance;mary e. vance', 
+		'name_one': 'mary e vance',
+		'name_two': 'mary e. vance', 
 		'expected': True, 
 		'description': 'mary e vance comparison with article'
 	},
     {
-		'input': 'mary f lawson;mary florence lawson', 
+		'name_one': 'mary f lawson',
+		'name_two': 'mary florence lawson', 
 		'expected': True, 
 		'description': 'mary f lawson comparison with article'
 	},
     {
-		'input': 'mary g decker;mary g. decker', 
+		'name_one': 'mary g decker',
+		'name_two': 'mary g. decker', 
 		'expected': True, 
 		'description': 'mary g decker comparison with article'
 	},
     {
-		'input': 'mary h langston;j. h. langston', 
+		'name_one': 'mary h langston',
+		'name_two': 'j. h. langston', 
 		'expected': False, 
 		'description': 'mary h langston comparison with article'
 	},
     {
-		'input': 'mary j lanier;mary jean lanier', 
+		'name_one': 'mary j lanier',
+		'name_two': 'mary jean lanier', 
 		'expected': True, 
 		'description': 'mary j lanier comparison with article'
 	},
     {
-		'input': 'mary l bell;mary laverne bell', 
+		'name_one': 'mary l bell',
+		'name_two': 'mary laverne bell', 
 		'expected': True, 
 		'description': 'mary l bell comparison with article'
 	},
     {
-		'input': 'mary l caldwell;mary letitia caldwell', 
+		'name_one': 'mary l caldwell',
+		'name_two': 'mary letitia caldwell', 
 		'expected': True, 
 		'description': 'mary l caldwell comparison with article'
 	},
     {
-		'input': 'mary l lewis;mary dearing lewis', 
+		'name_one': 'mary l lewis',
+		'name_two': 'mary dearing lewis', 
 		'expected': False, 
 		'description': 'mary l lewis comparison with article'
 	},
     {
-		'input': 'mary l mcnair;maryhelen vannier', 
+		'name_one': 'mary l mcnair',
+		'name_two': 'maryhelen vannier', 
 		'expected': False, 
 		'description': 'mary l mcnair comparison with article'
 	},
     {
-		'input': 'mary lahlen;marya lilien', 
+		'name_one': 'mary lahlen',
+		'name_two': 'marya lilien', 
 		'expected': False, 
 		'description': 'mary lahlen comparison with article'
 	},
     {
-		'input': 'mary lebar;marry e. lebar', 
+		'name_one': 'mary lebar',
+		'name_two': 'marry e. lebar', 
 		'expected': True, 
 		'description': 'mary lebar comparison with article'
 	},
     {
-		'input': 'mary lee lewis;mary teresine lewis', 
+		'name_one': 'mary lee lewis',
+		'name_two': 'mary teresine lewis', 
 		'expected': False, 
 		'description': 'mary lee lewis comparison with article'
 	},
     {
-		'input': 'mary lehn;mary belden james lehn', 
+		'name_one': 'mary lehn',
+		'name_two': 'mary belden james lehn', 
 		'expected': True, 
 		'description': 'mary lehn comparison with article'
 	},
     {
-		'input': 'mary leonard;mary katherine leonard', 
+		'name_one': 'mary leonard',
+		'name_two': 'mary katherine leonard', 
 		'expected': True, 
 		'description': 'mary leonard comparison with article'
 	},
     {
-		'input': 'mary m lazard;edmond myer lazard', 
+		'name_one': 'mary m lazard',
+		'name_two': 'edmond myer lazard', 
 		'expected': False, 
 		'description': 'mary m lazard comparison with article'
 	},
     {
-		'input': 'mary p demerse;mary mercy', 
+		'name_one': 'mary p demerse',
+		'name_two': 'mary mercy', 
 		'expected': False, 
 		'description': 'mary p demerse comparison with article'
 	},
     {
-		'input': 'mary r austin;mary lellah austin', 
+		'name_one': 'mary r austin',
+		'name_two': 'mary lellah austin', 
 		'expected': False, 
 		'description': 'mary r austin comparison with article'
 	},
     {
-		'input': 'mary sage;mary landon sague', 
+		'name_one': 'mary sage',
+		'name_two': 'mary landon sague', 
 		'expected': True, 
 		'description': 'mary sage comparison with article'
 	},
     {
-		'input': 'mary t olegschlaeger;mary depaul oligsehlaeger', 
+		'name_one': 'mary t olegschlaeger',
+		'name_two': 'mary depaul oligsehlaeger', 
 		'expected': False, 
 		'description': 'mary t olegschlaeger comparison with article'
 	},
     {
-		'input': 'mary w denny;f. w. denny', 
+		'name_one': 'mary w denny',
+		'name_two': 'f. w. denny', 
 		'expected': False, 
 		'description': 'mary w denny comparison with article'
 	},
     {
-		'input': 'mary w ladue;mary watson ladue', 
+		'name_one': 'mary w ladue',
+		'name_two': 'mary watson ladue', 
 		'expected': True, 
 		'description': 'mary w ladue comparison with article'
 	},
     {
-		'input': 'mason ladd;mason ladd', 
+		'name_one': 'mason ladd',
+		'name_two': 'mason ladd', 
 		'expected': True, 
 		'description': 'mason ladd comparison with article'
 	},
     {
-		'input': 'mathilda e vandenbergh;mathilda elsie vandenbergh', 
+		'name_one': 'mathilda e vandenbergh',
+		'name_two': 'mathilda elsie vandenbergh', 
 		'expected': True, 
 		'description': 'mathilda e vandenbergh comparison with article'
 	},
     {
-		'input': 'matthew vanwinkle;matthew van winkle', 
+		'name_one': 'matthew vanwinkle',
+		'name_two': 'matthew van winkle', 
 		'expected': True, 
 		'description': 'matthew vanwinkle comparison with article'
 	},
     {
-		'input': 'mattii lee williams;mentor lee williams', 
+		'name_one': 'mattii lee williams',
+		'name_two': 'mentor lee williams', 
 		'expected': False, 
 		'description': 'mattii lee williams comparison with article'
 	},
     {
-		'input': 'maurice a thompson;maurice dekay thompson', 
+		'name_one': 'maurice a thompson',
+		'name_two': 'maurice dekay thompson', 
 		'expected': False, 
 		'description': 'maurice a thompson comparison with article'
 	},
     {
-		'input': 'maurice b lagaard;maurice b. lagaard', 
+		'name_one': 'maurice b lagaard',
+		'name_two': 'maurice b. lagaard', 
 		'expected': True, 
 		'description': 'maurice b lagaard comparison with article'
 	},
     {
-		'input': 'maurice e leonard;maurice e. leonard', 
+		'name_one': 'maurice e leonard',
+		'name_two': 'maurice e. leonard', 
 		'expected': True, 
 		'description': 'maurice e leonard comparison with article'
 	},
     {
-		'input': 'maurice l hartung;maurice leslie hartung', 
+		'name_one': 'maurice l hartung',
+		'name_two': 'maurice leslie hartung', 
 		'expected': True, 
 		'description': 'maurice l hartung comparison with article'
 	},
     {
-		'input': 'maurice l ray;maurice lee ray', 
+		'name_one': 'maurice l ray',
+		'name_two': 'maurice lee ray', 
 		'expected': True, 
 		'description': 'maurice l ray comparison with article'
 	},
     {
-		'input': 'maurice lee;maurice w. lee', 
+		'name_one': 'maurice lee',
+		'name_two': 'maurice w. lee', 
 		'expected': True, 
 		'description': 'maurice lee comparison with article'
 	},
     {
-		'input': 'maurice lenz;maurice lenz', 
+		'name_one': 'maurice lenz',
+		'name_two': 'maurice lenz', 
 		'expected': True, 
 		'description': 'maurice lenz comparison with article'
 	},
     {
-		'input': 'maurice levine;maurice levine', 
+		'name_one': 'maurice levine',
+		'name_two': 'maurice levine', 
 		'expected': True, 
 		'description': 'maurice levine comparison with article'
 	},
     {
-		'input': 'maurice m vance;maurice m. vance', 
+		'name_one': 'maurice m vance',
+		'name_two': 'maurice m. vance', 
 		'expected': True, 
 		'description': 'maurice m vance comparison with article'
 	},
     {
-		'input': 'maurice r demers;m. r. demers', 
+		'name_one': 'maurice r demers',
+		'name_two': 'm. r. demers', 
 		'expected': True, 
 		'description': 'maurice r demers comparison with article'
 	},
     {
-		'input': 'maurice t van hecke;maurice taylor van hecke', 
+		'name_one': 'maurice t van hecke',
+		'name_two': 'maurice taylor van hecke', 
 		'expected': True, 
 		'description': 'maurice t van hecke comparison with article'
 	},
     {
-		'input': 'max a lauffer;max a. lauffer', 
+		'name_one': 'max a lauffer',
+		'name_two': 'max a. lauffer', 
 		'expected': True, 
 		'description': 'max a lauffer comparison with article'
 	},
     {
-		'input': 'max d wheatly, jr;max delby wheatley', 
+		'name_one': 'max d wheatly, jr',
+		'name_two': 'max delby wheatley', 
 		'expected': True, 
 		'description': 'max d wheatly, jr comparison with article'
 	},
     {
-		'input': 'max delbruck;max delbruck', 
+		'name_one': 'max delbruck',
+		'name_two': 'max delbruck', 
 		'expected': True, 
 		'description': 'max delbruck comparison with article'
 	},
     {
-		'input': 'max l moorhead;max leon moorhead', 
+		'name_one': 'max l moorhead',
+		'name_two': 'max leon moorhead', 
 		'expected': True, 
 		'description': 'max l moorhead comparison with article'
 	},
     {
-		'input': 'max lanner;max lanner', 
+		'name_one': 'max lanner',
+		'name_two': 'max lanner', 
 		'expected': True, 
 		'description': 'max lanner comparison with article'
 	},
     {
-		'input': 'max lederman;leon max lederman', 
+		'name_one': 'max lederman',
+		'name_two': 'leon max lederman', 
 		'expected': True, 
 		'description': 'max lederman comparison with article'
 	},
     {
-		'input': 'max lerner;max lerner', 
+		'name_one': 'max lerner',
+		'name_two': 'max lerner', 
 		'expected': True, 
 		'description': 'max lerner comparison with article'
 	},
     {
-		'input': 'maxwell e lapham;maxwell edward lapham', 
+		'name_one': 'maxwell e lapham',
+		'name_two': 'maxwell edward lapham', 
 		'expected': True, 
 		'description': 'maxwell e lapham comparison with article'
 	},
     {
-		'input': 'maxwell eidenorf;maxwell leigh eidinoff', 
+		'name_one': 'maxwell eidenorf',
+		'name_two': 'maxwell leigh eidinoff', 
 		'expected': True, 
 		'description': 'maxwell eidenorf comparison with article'
 	},
     {
-		'input': 'maxwell farrow;maxwell deering farrow', 
+		'name_one': 'maxwell farrow',
+		'name_two': 'maxwell deering farrow', 
 		'expected': True, 
 		'description': 'maxwell farrow comparison with article'
 	},
     {
-		'input': 'maxwell r lepper;maxwell r. lepper', 
+		'name_one': 'maxwell r lepper',
+		'name_two': 'maxwell r. lepper', 
 		'expected': True, 
 		'description': 'maxwell r lepper comparison with article'
 	},
     {
-		'input': 'may b van arsdale;may b. van arsdale', 
+		'name_one': 'may b van arsdale',
+		'name_two': 'may b. van arsdale', 
 		'expected': True, 
 		'description': 'may b van arsdale comparison with article'
 	},
     {
-		'input': 'may f lewis;f. harlan lewis', 
+		'name_one': 'may f lewis',
+		'name_two': 'f. harlan lewis', 
 		'expected': False, 
 		'description': 'may f lewis comparison with article'
 	},
     {
-		'input': 'maynard l mcdowell;maynard lee mcdowell', 
+		'name_one': 'maynard l mcdowell',
+		'name_two': 'maynard lee mcdowell', 
 		'expected': True, 
 		'description': 'maynard l mcdowell comparison with article'
 	},
     {
-		'input': 'meir degani;meir h. degani', 
+		'name_one': 'meir degani',
+		'name_two': 'meir h. degani', 
 		'expected': True, 
 		'description': 'meir degani comparison with article'
 	},
     {
-		'input': 'melvin c lancaster;c. maxwell lancaster', 
+		'name_one': 'melvin c lancaster',
+		'name_two': 'c. maxwell lancaster', 
 		'expected': False, 
 		'description': 'melvin c lancaster comparison with article'
 	},
     {
-		'input': 'melvin g de chazeau;melvin g. dechazeau', 
+		'name_one': 'melvin g de chazeau',
+		'name_two': 'melvin g. dechazeau', 
 		'expected': True, 
 		'description': 'melvin g de chazeau comparison with article'
 	},
     {
-		'input': 'melvin o k vandenbark;melvin van den bark', 
+		'name_one': 'melvin o k vandenbark',
+		'name_two': 'melvin van den bark', 
 		'expected': True, 
 		'description': 'melvin o k vandenbark comparison with article'
 	},
     {
-		'input': 'melvin s lewis;melvin s. lewis', 
+		'name_one': 'melvin s lewis',
+		'name_two': 'melvin s. lewis', 
 		'expected': True, 
 		'description': 'melvin s lewis comparison with article'
 	},
     {
-		'input': 'mena w lamb;mina wolf lamb', 
+		'name_one': 'mena w lamb',
+		'name_two': 'mina wolf lamb', 
 		'expected': True, 
 		'description': 'mena w lamb comparison with article'
 	},
     {
-		'input': 'mendal e lash;mendel elmer lash', 
+		'name_one': 'mendal e lash',
+		'name_two': 'mendel elmer lash', 
 		'expected': True, 
 		'description': 'mendal e lash comparison with article'
 	},
     {
-		'input': 'merle l landrum;merle l. landrum', 
+		'name_one': 'merle l landrum',
+		'name_two': 'merle l. landrum', 
 		'expected': True, 
 		'description': 'merle l landrum comparison with article'
 	},
     {
-		'input': 'merrill e daters;merrill edgar deters', 
+		'name_one': 'merrill e daters',
+		'name_two': 'merrill edgar deters', 
 		'expected': True, 
 		'description': 'merrill e daters comparison with article'
 	},
     {
-		'input': 'mervin m deems;mervin monroe deems', 
+		'name_one': 'mervin m deems',
+		'name_two': 'mervin monroe deems', 
 		'expected': True, 
 		'description': 'mervin m deems comparison with article'
 	},
     {
-		'input': 'meryl l burgan;r. l. von berg', 
+		'name_one': 'meryl l burgan',
+		'name_two': 'r. l. von berg', 
 		'expected': False, 
 		'description': 'meryl l burgan comparison with article'
 	},
     {
-		'input': 'meryl w deming;meryl william deming', 
+		'name_one': 'meryl w deming',
+		'name_two': 'meryl william deming', 
 		'expected': True, 
 		'description': 'meryl w deming comparison with article'
 	},
     {
-		'input': 'michael deangelis;michael deangelis', 
+		'name_one': 'michael deangelis',
+		'name_two': 'michael deangelis', 
 		'expected': True, 
 		'description': 'michael deangelis comparison with article'
 	},
     {
-		'input': 'michael dil balso;michael j. del balso', 
+		'name_one': 'michael dil balso',
+		'name_two': 'michael j. del balso', 
 		'expected': True, 
 		'description': 'michael dil balso comparison with article'
 	},
     {
-		'input': 'michael i lerner;i. michael lerner', 
+		'name_one': 'michael i lerner',
+		'name_two': 'i. michael lerner', 
 		'expected': True, 
 		'description': 'michael i lerner comparison with article'
 	},
     {
-		'input': 'michael j dempsey;michael dempsey', 
+		'name_one': 'michael j dempsey',
+		'name_two': 'michael dempsey', 
 		'expected': True, 
 		'description': 'michael j dempsey comparison with article'
 	},
     {
-		'input': 'michael j litty;michael delich', 
+		'name_one': 'michael j litty',
+		'name_two': 'michael delich', 
 		'expected': False, 
 		'description': 'michael j litty comparison with article'
 	},
     {
-		'input': 'michael laskowski;michael laskowski', 
+		'name_one': 'michael laskowski',
+		'name_two': 'michael laskowski', 
 		'expected': True, 
 		'description': 'michael laskowski comparison with article'
 	},
     {
-		'input': 'michael leszczynski;mieczyslaw peszczynski', 
+		'name_one': 'michael leszczynski',
+		'name_two': 'mieczyslaw peszczynski', 
 		'expected': False, 
 		'description': 'michael leszczynski comparison with article'
 	},
     {
-		'input': 'mildred k de longchamp;mildred k. delongchamp', 
+		'name_one': 'mildred k de longchamp',
+		'name_two': 'mildred k. delongchamp', 
 		'expected': True, 
 		'description': 'mildred k de longchamp comparison with article'
 	},
     {
-		'input': 'mildred larson;mildred r. larson', 
+		'name_one': 'mildred larson',
+		'name_two': 'mildred r. larson', 
 		'expected': True, 
 		'description': 'mildred larson comparison with article'
 	},
     {
-		'input': 'mildred s lewis;mildred sinclair lewis', 
+		'name_one': 'mildred s lewis',
+		'name_two': 'mildred sinclair lewis', 
 		'expected': True, 
 		'description': 'mildred s lewis comparison with article'
 	},
     {
-		'input': 'miles l hanley;miles lawrence hanley', 
+		'name_one': 'miles l hanley',
+		'name_two': 'miles lawrence hanley', 
 		'expected': True, 
 		'description': 'miles l hanley comparison with article'
 	},
     {
-		'input': 'milton b lennon;milton b. lennon', 
+		'name_one': 'milton b lennon',
+		'name_two': 'milton b. lennon', 
 		'expected': True, 
 		'description': 'milton b lennon comparison with article'
 	},
     {
-		'input': 'milton dell;samuel milton dell', 
+		'name_one': 'milton dell',
+		'name_two': 'samuel milton dell', 
 		'expected': True, 
 		'description': 'milton dell comparison with article'
 	},
     {
-		'input': 'milton h levy;milton levy', 
+		'name_one': 'milton h levy',
+		'name_two': 'milton levy', 
 		'expected': True, 
 		'description': 'milton h levy comparison with article'
 	},
     {
-		'input': 'milton l shane;milton lanning shane', 
+		'name_one': 'milton l shane',
+		'name_two': 'milton lanning shane', 
 		'expected': True, 
 		'description': 'milton l shane comparison with article'
 	},
     {
-		'input': 'milton l sunde;milton lester sunde', 
+		'name_one': 'milton l sunde',
+		'name_two': 'milton lester sunde', 
 		'expected': True, 
 		'description': 'milton l sunde comparison with article'
 	},
     {
-		'input': 'milton l wiedmann;milton lawrence wiedmann', 
+		'name_one': 'milton l wiedmann',
+		'name_two': 'milton lawrence wiedmann', 
 		'expected': True, 
 		'description': 'milton l wiedmann comparison with article'
 	},
     {
-		'input': 'milton lebow;milton j. lebow', 
+		'name_one': 'milton lebow',
+		'name_two': 'milton j. lebow', 
 		'expected': True, 
 		'description': 'milton lebow comparison with article'
 	},
     {
-		'input': 'milton scott;milton leonard scott', 
+		'name_one': 'milton scott',
+		'name_two': 'milton leonard scott', 
 		'expected': True, 
 		'description': 'milton scott comparison with article'
 	},
     {
-		'input': 'minnie e langwell;alfred edwin longueil', 
+		'name_one': 'minnie e langwell',
+		'name_two': 'alfred edwin longueil', 
 		'expected': False, 
 		'description': 'minnie e langwell comparison with article'
 	},
     {
-		'input': 'minor u latham;minor white latham', 
+		'name_one': 'minor u latham',
+		'name_two': 'minor white latham', 
 		'expected': False, 
 		'description': 'minor u latham comparison with article'
 	},
     {
-		'input': 'miriam dell;miriam dell', 
+		'name_one': 'miriam dell',
+		'name_two': 'miriam dell', 
 		'expected': True, 
 		'description': 'miriam dell comparison with article'
 	},
     {
-		'input': 'mitchell a lata;mitchell a. light', 
+		'name_one': 'mitchell a lata',
+		'name_two': 'mitchell a. light', 
 		'expected': False, 
 		'description': 'mitchell a lata comparison with article'
 	},
     {
-		'input': 'mollie k laird;alan d. k. laird', 
+		'name_one': 'mollie k laird',
+		'name_two': 'alan d. k. laird', 
 		'expected': False, 
 		'description': 'mollie k laird comparison with article'
 	},
     {
-		'input': 'monroe e deutsch;monroe e. deutsch', 
+		'name_one': 'monroe e deutsch',
+		'name_two': 'monroe e. deutsch', 
 		'expected': True, 
 		'description': 'monroe e deutsch comparison with article'
 	},
     {
-		'input': 'monte m lemann;monte m. lemann', 
+		'name_one': 'monte m lemann',
+		'name_two': 'monte m. lemann', 
 		'expected': True, 
 		'description': 'monte m lemann comparison with article'
 	},
     {
-		'input': 'morris b lambie;morris bryan lambie', 
+		'name_one': 'morris b lambie',
+		'name_two': 'morris bryan lambie', 
 		'expected': True, 
 		'description': 'morris b lambie comparison with article'
 	},
     {
-		'input': 'morris denerstein;morris dinnerstein', 
+		'name_one': 'morris denerstein',
+		'name_two': 'morris dinnerstein', 
 		'expected': True, 
 		'description': 'morris denerstein comparison with article'
 	},
     {
-		'input': 'morris lazerowitz;morris lazerowitz', 
+		'name_one': 'morris lazerowitz',
+		'name_two': 'morris lazerowitz', 
 		'expected': True, 
 		'description': 'morris lazerowitz comparison with article'
 	},
     {
-		'input': 'muriel l bishop;merle lamont bishop', 
+		'name_one': 'muriel l bishop',
+		'name_two': 'merle lamont bishop', 
 		'expected': False, 
 		'description': 'muriel l bishop comparison with article'
 	},
     {
-		'input': 'muriel l white;kerr lachlan white', 
+		'name_one': 'muriel l white',
+		'name_two': 'kerr lachlan white', 
 		'expected': False, 
 		'description': 'muriel l white comparison with article'
 	},
     {
-		'input': 'muriel s guberlet;muriel lewin guberlet', 
+		'name_one': 'muriel s guberlet',
+		'name_two': 'muriel lewin guberlet', 
 		'expected': False, 
 		'description': 'muriel s guberlet comparison with article'
 	},
     {
-		'input': 'myles g mace;myles la grange mace', 
+		'name_one': 'myles g mace',
+		'name_two': 'myles la grange mace', 
 		'expected': True, 
 		'description': 'myles g mace comparison with article'
 	},
     {
-		'input': 'myles mace;myles la grange mace', 
+		'name_one': 'myles mace',
+		'name_two': 'myles la grange mace', 
 		'expected': True, 
 		'description': 'myles mace comparison with article'
 	},
     {
-		'input': 'myra l bishop;myra leslie bishop', 
+		'name_one': 'myra l bishop',
+		'name_two': 'myra leslie bishop', 
 		'expected': True, 
 		'description': 'myra l bishop comparison with article'
 	},
     {
-		'input': 'myron d lacy;myron dean lacy', 
+		'name_one': 'myron d lacy',
+		'name_two': 'myron dean lacy', 
 		'expected': True, 
 		'description': 'myron d lacy comparison with article'
 	},
     {
-		'input': 'myron l williams;myron lawson williams', 
+		'name_one': 'myron l williams',
+		'name_two': 'myron lawson williams', 
 		'expected': True, 
 		'description': 'myron l williams comparison with article'
 	},
     {
-		'input': 'myrtle m larro;loida m. lerew', 
+		'name_one': 'myrtle m larro',
+		'name_two': 'loida m. lerew', 
 		'expected': False, 
 		'description': 'myrtle m larro comparison with article'
 	},
     {
-		'input': 'n lewis buck;n. lewis buck', 
+		'name_one': 'n lewis buck',
+		'name_two': 'n. lewis buck', 
 		'expected': True, 
 		'description': 'n lewis buck comparison with article'
 	},
     {
-		'input': 'nancy d lewis;nancy duke lewis', 
+		'name_one': 'nancy d lewis',
+		'name_two': 'nancy duke lewis', 
 		'expected': True, 
 		'description': 'nancy d lewis comparison with article'
 	},
     {
-		'input': 'nancy e. lewis;nancy e. lewis', 
+		'name_one': 'nancy e. lewis',
+		'name_two': 'nancy e. lewis', 
 		'expected': True, 
 		'description': 'nancy e. lewis comparison with article'
 	},
     {
-		'input': 'nancy lee lytle;nancy lytle', 
+		'name_one': 'nancy lee lytle',
+		'name_two': 'nancy lytle', 
 		'expected': True, 
 		'description': 'nancy lee lytle comparison with article'
 	},
     {
-		'input': 'naomi laughbaum;naomi may laughbaum', 
+		'name_one': 'naomi laughbaum',
+		'name_two': 'naomi may laughbaum', 
 		'expected': True, 
 		'description': 'naomi laughbaum comparison with article'
 	},
     {
-		'input': 'natalia h latta;harrison latta', 
+		'name_one': 'natalia h latta',
+		'name_two': 'harrison latta', 
 		'expected': True, 
 		'description': 'natalia h latta comparison with article'
 	},
     {
-		'input': 'natalie lawrence;natalie grimes lawrence', 
+		'name_one': 'natalie lawrence',
+		'name_two': 'natalie grimes lawrence', 
 		'expected': True, 
 		'description': 'natalie lawrence comparison with article'
 	},
     {
-		'input': 'nathan k lazar;nathan k. lazar', 
+		'name_one': 'nathan k lazar',
+		'name_two': 'nathan k. lazar', 
 		'expected': True, 
 		'description': 'nathan k lazar comparison with article'
 	},
     {
-		'input': 'nathaniel m lawrence;nathaniel morris lawrence', 
+		'name_one': 'nathaniel m lawrence',
+		'name_two': 'nathaniel morris lawrence', 
 		'expected': True, 
 		'description': 'nathaniel m lawrence comparison with article'
 	},
     {
-		'input': 'neal b de nood;neal breaule denood', 
+		'name_one': 'neal b de nood',
+		'name_two': 'neal breaule denood', 
 		'expected': True, 
 		'description': 'neal b de nood comparison with article'
 	},
     {
-		'input': 'nelda r lawrence;nelda r. lawrence', 
+		'name_one': 'nelda r lawrence',
+		'name_two': 'nelda r. lawrence', 
 		'expected': True, 
 		'description': 'nelda r lawrence comparison with article'
 	},
     {
-		'input': 'nellie c white;c. langdon white', 
+		'name_one': 'nellie c white',
+		'name_two': 'c. langdon white', 
 		'expected': False, 
 		'description': 'nellie c white comparison with article'
 	},
     {
-		'input': 'nelson l walbridge;nelson lee walbridge', 
+		'name_one': 'nelson l walbridge',
+		'name_two': 'nelson lee walbridge', 
 		'expected': True, 
 		'description': 'nelson l walbridge comparison with article'
 	},
     {
-		'input': 'nelson laplante;nelson a. la plante', 
+		'name_one': 'nelson laplante',
+		'name_two': 'nelson a. la plante', 
 		'expected': True, 
 		'description': 'nelson laplante comparison with article'
 	},
     {
-		'input': 'neppie conner;neppie lee conner', 
+		'name_one': 'neppie conner',
+		'name_two': 'neppie lee conner', 
 		'expected': True, 
 		'description': 'neppie conner comparison with article'
 	},
     {
-		'input': 'nerris e. lenahan;norris e. lenahan', 
+		'name_one': 'nerris e. lenahan',
+		'name_two': 'norris e. lenahan', 
 		'expected': True, 
 		'description': 'nerris e. lenahan comparison with article'
 	},
     {
-		'input': 'newell l sims;newell leroy sims', 
+		'name_one': 'newell l sims',
+		'name_two': 'newell leroy sims', 
 		'expected': True, 
 		'description': 'newell l sims comparison with article'
 	},
     {
-		'input': 'ney l macminn;ney lannes macminn', 
+		'name_one': 'ney l macminn',
+		'name_two': 'ney lannes macminn', 
 		'expected': True, 
 		'description': 'ney l macminn comparison with article'
 	},
     {
-		'input': 'nicholas m lazar;nicholas m. lazar', 
+		'name_one': 'nicholas m lazar',
+		'name_two': 'nicholas m. lazar', 
 		'expected': True, 
 		'description': 'nicholas m lazar comparison with article'
 	},
     {
-		'input': 'nickolas j demerath;nicholas jay demerath', 
+		'name_one': 'nickolas j demerath',
+		'name_two': 'nicholas jay demerath', 
 		'expected': True, 
 		'description': 'nickolas j demerath comparison with article'
 	},
     {
-		'input': 'nielson van de luyster;nelson van de luyster', 
+		'name_one': 'nielson van de luyster',
+		'name_two': 'nelson van de luyster', 
 		'expected': True, 
 		'description': 'nielson van de luyster comparison with article'
 	},
     {
-		'input': 'nina g dean;nina o. dean', 
+		'name_one': 'nina g dean',
+		'name_two': 'nina o. dean', 
 		'expected': False, 
 		'description': 'nina g dean comparison with article'
 	},
     {
-		'input': 'nina l weisinger;nina lee weisinger', 
+		'name_one': 'nina l weisinger',
+		'name_two': 'nina lee weisinger', 
 		'expected': True, 
 		'description': 'nina l weisinger comparison with article'
 	},
     {
-		'input': 'noland l van demark;noland l. vandemark', 
+		'name_one': 'noland l van demark',
+		'name_two': 'noland l. vandemark', 
 		'expected': True, 
 		'description': 'noland l van demark comparison with article'
 	},
     {
-		'input': 'nophtali lewis;naphtali lewis', 
+		'name_one': 'nophtali lewis',
+		'name_two': 'naphtali lewis', 
 		'expected': True, 
 		'description': 'nophtali lewis comparison with article'
 	},
     {
-		'input': 'norma w densmore;warren i densmore', 
+		'name_one': 'norma w densmore',
+		'name_two': 'warren i densmore', 
 		'expected': False, 
 		'description': 'norma w densmore comparison with article'
 	},
     {
-		'input': 'norman b lavers;norman l. lavers', 
+		'name_one': 'norman b lavers',
+		'name_two': 'norman l. lavers', 
 		'expected': False, 
 		'description': 'norman b lavers comparison with article'
 	},
     {
-		'input': 'norman b mac lean;norman f. maclean', 
+		'name_one': 'norman b mac lean',
+		'name_two': 'norman f. maclean', 
 		'expected': False, 
 		'description': 'norman b mac lean comparison with article'
 	},
     {
-		'input': 'norman c laffer;norman c. laffer', 
+		'name_one': 'norman c laffer',
+		'name_two': 'norman c. laffer', 
 		'expected': True, 
 		'description': 'norman c laffer comparison with article'
 	},
     {
-		'input': 'norman d levine;norman d. levine', 
+		'name_one': 'norman d levine',
+		'name_two': 'norman d. levine', 
 		'expected': True, 
 		'description': 'norman d levine comparison with article'
 	},
     {
-		'input': 'norman e lange;norman e. lange', 
+		'name_one': 'norman e lange',
+		'name_two': 'norman e. lange', 
 		'expected': True, 
 		'description': 'norman e lange comparison with article'
 	},
     {
-		'input': 'norman f degrasse;norman scott brien gras', 
+		'name_one': 'norman f degrasse',
+		'name_two': 'norman scott brien gras', 
 		'expected': False, 
 		'description': 'norman f degrasse comparison with article'
 	},
     {
-		'input': 'norman l jacobson;norman leonard jacobson', 
+		'name_one': 'norman l jacobson',
+		'name_two': 'norman leonard jacobson', 
 		'expected': True, 
 		'description': 'norman l jacobson comparison with article'
 	},
     {
-		'input': 'norman lawrence;norman lionel lawrence', 
+		'name_one': 'norman lawrence',
+		'name_two': 'norman lionel lawrence', 
 		'expected': True, 
 		'description': 'norman lawrence comparison with article'
 	},
     {
-		'input': 'norman r munn;norman leslie munn', 
+		'name_one': 'norman r munn',
+		'name_two': 'norman leslie munn', 
 		'expected': False, 
 		'description': 'norman r munn comparison with article'
 	},
     {
-		'input': 'norman torrey;norman lewis torrey', 
+		'name_one': 'norman torrey',
+		'name_two': 'norman lewis torrey', 
 		'expected': True, 
 		'description': 'norman torrey comparison with article'
 	},
     {
-		'input': 'noyes leech;noyes e. leech', 
+		'name_one': 'noyes leech',
+		'name_two': 'noyes e. leech', 
 		'expected': True, 
 		'description': 'noyes leech comparison with article'
 	},
     {
-		'input': 'o lee gibson;oscar lee gibson', 
+		'name_one': 'o lee gibson',
+		'name_two': 'oscar lee gibson', 
 		'expected': True, 
 		'description': 'o lee gibson comparison with article'
 	},
     {
-		'input': 'obed l snowden;obed lavelle snowden', 
+		'name_one': 'obed l snowden',
+		'name_two': 'obed lavelle snowden', 
 		'expected': True, 
 		'description': 'obed l snowden comparison with article'
 	},
     {
-		'input': 'olaf larson;olaf frederick larson', 
+		'name_one': 'olaf larson',
+		'name_two': 'olaf frederick larson', 
 		'expected': True, 
 		'description': 'olaf larson comparison with article'
 	},
     {
-		'input': 'olga larson;olga larson', 
+		'name_one': 'olga larson',
+		'name_two': 'olga larson', 
 		'expected': True, 
 		'description': 'olga larson comparison with article'
 	},
     {
-		'input': 'olin d morrison;olin dee morrison', 
+		'name_one': 'olin d morrison',
+		'name_two': 'olin dee morrison', 
 		'expected': True, 
 		'description': 'olin d morrison comparison with article'
 	},
     {
-		'input': 'olive deluce;olive s. deluce', 
+		'name_one': 'olive deluce',
+		'name_two': 'olive s. deluce', 
 		'expected': True, 
 		'description': 'olive deluce comparison with article'
 	},
     {
-		'input': 'olive k lawyer;kenneth lawyer', 
+		'name_one': 'olive k lawyer',
+		'name_two': 'kenneth lawyer', 
 		'expected': True, 
 		'description': 'olive k lawyer comparison with article'
 	},
     {
-		'input': 'olive p lester;olive p. lester', 
+		'name_one': 'olive p lester',
+		'name_two': 'olive p. lester', 
 		'expected': True, 
 		'description': 'olive p lester comparison with article'
 	},
     {
-		'input': 'oliver c lee;oliver christopher lee', 
+		'name_one': 'oliver c lee',
+		'name_two': 'oliver christopher lee', 
 		'expected': True, 
 		'description': 'oliver c lee comparison with article'
 	},
     {
-		'input': 'oliver l rieser;oliver leslie reiser', 
+		'name_one': 'oliver l rieser',
+		'name_two': 'oliver leslie reiser', 
 		'expected': True, 
 		'description': 'oliver l rieser comparison with article'
 	},
     {
-		'input': 'oliver l walker;oliver lafayette walker', 
+		'name_one': 'oliver l walker',
+		'name_two': 'oliver lafayette walker', 
 		'expected': True, 
 		'description': 'oliver l walker comparison with article'
 	},
     {
-		'input': 'oliver laymon;oliver laymon', 
+		'name_one': 'oliver laymon',
+		'name_two': 'oliver laymon', 
 		'expected': True, 
 		'description': 'oliver laymon comparison with article'
 	},
     {
-		'input': 'oliver lee;oliver justin lee', 
+		'name_one': 'oliver lee',
+		'name_two': 'oliver justin lee', 
 		'expected': True, 
 		'description': 'oliver lee comparison with article'
 	},
     {
-		'input': 'oliver m langhorst;oliver martin langhorst', 
+		'name_one': 'oliver m langhorst',
+		'name_two': 'oliver martin langhorst', 
 		'expected': True, 
 		'description': 'oliver m langhorst comparison with article'
 	},
     {
-		'input': 'oliver w larkin;oliver waterman larkin', 
+		'name_one': 'oliver w larkin',
+		'name_two': 'oliver waterman larkin', 
 		'expected': True, 
 		'description': 'oliver w larkin comparison with article'
 	},
     {
-		'input': 'orland lefforge;orland s. lefforge', 
+		'name_one': 'orland lefforge',
+		'name_two': 'orland s. lefforge', 
 		'expected': True, 
 		'description': 'orland lefforge comparison with article'
 	},
     {
-		'input': 'orlando r laurandt;val r. lorwin', 
+		'name_one': 'orlando r laurandt',
+		'name_two': 'val r. lorwin', 
 		'expected': False, 
 		'description': 'orlando r laurandt comparison with article'
 	},
     {
-		'input': 'orlo derby;orlo derby', 
+		'name_one': 'orlo derby',
+		'name_two': 'orlo derby', 
 		'expected': True, 
 		'description': 'orlo derby comparison with article'
 	},
     {
-		'input': 'orvil l pence;orville leon pence', 
+		'name_one': 'orvil l pence',
+		'name_two': 'orville leon pence', 
 		'expected': True, 
 		'description': 'orvil l pence comparison with article'
 	},
     {
-		'input': 'oscar j laplante;oscar j. laplante', 
+		'name_one': 'oscar j laplante',
+		'name_two': 'oscar j. laplante', 
 		'expected': True, 
 		'description': 'oscar j laplante comparison with article'
 	},
     {
-		'input': 'oscar lanford;oscar e. lanford', 
+		'name_one': 'oscar lanford',
+		'name_two': 'oscar e. lanford', 
 		'expected': True, 
 		'description': 'oscar lanford comparison with article'
 	},
     {
-		'input': 'oscar lassner;oscar lassner', 
+		'name_one': 'oscar lassner',
+		'name_two': 'oscar lassner', 
 		'expected': True, 
 		'description': 'oscar lassner comparison with article'
 	},
     {
-		'input': 'oscar lewis;oscar lewis', 
+		'name_one': 'oscar lewis',
+		'name_two': 'oscar lewis', 
 		'expected': True, 
 		'description': 'oscar lewis comparison with article'
 	},
     {
-		'input': 'oskar f l hagen;oskar frank leonard hagen', 
+		'name_one': 'oskar f l hagen',
+		'name_two': 'oskar frank leonard hagen', 
 		'expected': True, 
 		'description': 'oskar f l hagen comparison with article'
 	},
     {
-		'input': 'otta a leistiko;daniel a. listiak', 
+		'name_one': 'otta a leistiko',
+		'name_two': 'daniel a. listiak', 
 		'expected': False, 
 		'description': 'otta a leistiko comparison with article'
 	},
     {
-		'input': 'otto g von simson;otto georg von simson', 
+		'name_one': 'otto g von simson',
+		'name_two': 'otto georg von simson', 
 		'expected': True, 
 		'description': 'otto g von simson comparison with article'
 	},
     {
-		'input': 'otto van koppenhagen;otto van koppenhagen', 
+		'name_one': 'otto van koppenhagen',
+		'name_two': 'otto van koppenhagen', 
 		'expected': True, 
 		'description': 'otto van koppenhagen comparison with article'
 	},
     {
-		'input': 'p eldon dennis;philip eldon dennis', 
+		'name_one': 'p eldon dennis',
+		'name_two': 'philip eldon dennis', 
 		'expected': True, 
 		'description': 'p eldon dennis comparison with article'
 	},
     {
-		'input': 'p j leinfelder;placidus joseph leinfelder', 
+		'name_one': 'p j leinfelder',
+		'name_two': 'placidus joseph leinfelder', 
 		'expected': True, 
 		'description': 'p j leinfelder comparison with article'
 	},
     {
-		'input': 'paul a leidy;paul allen leidy', 
+		'name_one': 'paul a leidy',
+		'name_two': 'paul allen leidy', 
 		'expected': True, 
 		'description': 'paul a leidy comparison with article'
 	},
     {
-		'input': 'paul b larson;paul b. larson', 
+		'name_one': 'paul b larson',
+		'name_two': 'paul b. larson', 
 		'expected': True, 
 		'description': 'paul b larson comparison with article'
 	},
     {
-		'input': 'paul b lawrence;paul roger lawrence', 
+		'name_one': 'paul b lawrence',
+		'name_two': 'paul roger lawrence', 
 		'expected': False, 
 		'description': 'paul b lawrence comparison with article'
 	},
     {
-		'input': 'paul b lawson;paul b. lawson', 
+		'name_one': 'paul b lawson',
+		'name_two': 'paul b. lawson', 
 		'expected': True, 
 		'description': 'paul b lawson comparison with article'
 	},
     {
-		'input': 'paul b leonard;paul bonar leonard', 
+		'name_one': 'paul b leonard',
+		'name_two': 'paul bonar leonard', 
 		'expected': True, 
 		'description': 'paul b leonard comparison with article'
 	},
     {
-		'input': 'paul c lemon;paul c. lemon', 
+		'name_one': 'paul c lemon',
+		'name_two': 'paul c. lemon', 
 		'expected': True, 
 		'description': 'paul c lemon comparison with article'
 	},
     {
-		'input': 'paul c munson;paul lewis munson', 
+		'name_one': 'paul c munson',
+		'name_two': 'paul lewis munson', 
 		'expected': False, 
 		'description': 'paul c munson comparison with article'
 	},
     {
-		'input': 'paul d clark;paul dennison clark', 
+		'name_one': 'paul d clark',
+		'name_two': 'paul dennison clark', 
 		'expected': True, 
 		'description': 'paul d clark comparison with article'
 	},
     {
-		'input': 'paul d evans;paul demund evans', 
+		'name_one': 'paul d evans',
+		'name_two': 'paul demund evans', 
 		'expected': True, 
 		'description': 'paul d evans comparison with article'
 	},
     {
-		'input': 'paul d lamson;paul dudley lamson', 
+		'name_one': 'paul d lamson',
+		'name_two': 'paul dudley lamson', 
 		'expected': True, 
 		'description': 'paul d lamson comparison with article'
 	},
     {
-		'input': 'paul dehart hurd;paul deh. hurd', 
+		'name_one': 'paul dehart hurd',
+		'name_two': 'paul deh. hurd', 
 		'expected': True, 
 		'description': 'paul dehart hurd comparison with article'
 	},
     {
-		'input': 'paul e lewis;paul edwin lewis', 
+		'name_one': 'paul e lewis',
+		'name_two': 'paul edwin lewis', 
 		'expected': True, 
 		'description': 'paul e lewis comparison with article'
 	},
     {
-		'input': 'paul f de wiese;paul f. deweese', 
+		'name_one': 'paul f de wiese',
+		'name_two': 'paul f. deweese', 
 		'expected': True, 
 		'description': 'paul f de wiese comparison with article'
 	},
     {
-		'input': 'paul f garm, jr;e. paul degarmo', 
+		'name_one': 'paul f garm, jr',
+		'name_two': 'e. paul degarmo', 
 		'expected': False, 
 		'description': 'paul f garm, jr comparison with article'
 	},
     {
-		'input': 'paul f laubenstein;paul fritz laubenstein', 
+		'name_one': 'paul f laubenstein',
+		'name_two': 'paul fritz laubenstein', 
 		'expected': True, 
 		'description': 'paul f laubenstein comparison with article'
 	},
     {
-		'input': 'paul f lazarsfeld;paul f. lazarsfeld', 
+		'name_one': 'paul f lazarsfeld',
+		'name_two': 'paul f. lazarsfeld', 
 		'expected': True, 
 		'description': 'paul f lazarsfeld comparison with article'
 	},
     {
-		'input': 'paul f leedy;paul f. leedy', 
+		'name_one': 'paul f leedy',
+		'name_two': 'paul f. leedy', 
 		'expected': True, 
 		'description': 'paul f leedy comparison with article'
 	},
     {
-		'input': 'paul g lehman;frederick g. lehman', 
+		'name_one': 'paul g lehman',
+		'name_two': 'frederick g. lehman', 
 		'expected': False, 
 		'description': 'paul g lehman comparison with article'
 	},
     {
-		'input': 'paul h deeb;paul h. deeb', 
+		'name_one': 'paul h deeb',
+		'name_two': 'paul h. deeb', 
 		'expected': True, 
 		'description': 'paul h deeb comparison with article'
 	},
     {
-		'input': 'paul h landis;paul h. landis', 
+		'name_one': 'paul h landis',
+		'name_two': 'paul h. landis', 
 		'expected': True, 
 		'description': 'paul h landis comparison with article'
 	},
     {
-		'input': 'paul h lavietes;paul harold lavietes', 
+		'name_one': 'paul h lavietes',
+		'name_two': 'paul harold lavietes', 
 		'expected': True, 
 		'description': 'paul h lavietes comparison with article'
 	},
     {
-		'input': 'paul h spencer;paul leslie spencer', 
+		'name_one': 'paul h spencer',
+		'name_two': 'paul leslie spencer', 
 		'expected': False, 
 		'description': 'paul h spencer comparison with article'
 	},
     {
-		'input': 'paul hartman;paul leon hartman', 
+		'name_one': 'paul hartman',
+		'name_two': 'paul leon hartman', 
 		'expected': True, 
 		'description': 'paul hartman comparison with article'
 	},
     {
-		'input': 'paul j von ebers;paul j. von ebers', 
+		'name_one': 'paul j von ebers',
+		'name_two': 'paul j. von ebers', 
 		'expected': True, 
 		'description': 'paul j von ebers comparison with article'
 	},
     {
-		'input': 'paul k vonk;paul k. vonk', 
+		'name_one': 'paul k vonk',
+		'name_two': 'paul k. vonk', 
 		'expected': True, 
 		'description': 'paul k vonk comparison with article'
 	},
     {
-		'input': 'paul l brown;paul lawrence brown', 
+		'name_one': 'paul l brown',
+		'name_two': 'paul lawrence brown', 
 		'expected': True, 
 		'description': 'paul l brown comparison with article'
 	},
     {
-		'input': 'paul l davies;paul lewis davies', 
+		'name_one': 'paul l davies',
+		'name_two': 'paul lewis davies', 
 		'expected': True, 
 		'description': 'paul l davies comparison with article'
 	},
     {
-		'input': 'paul l errington;paul lester errington', 
+		'name_one': 'paul l errington',
+		'name_two': 'paul lester errington', 
 		'expected': True, 
 		'description': 'paul l errington comparison with article'
 	},
     {
-		'input': 'paul l kelley;paul leo kelley', 
+		'name_one': 'paul l kelley',
+		'name_two': 'paul leo kelley', 
 		'expected': True, 
 		'description': 'paul l kelley comparison with article'
 	},
     {
-		'input': 'paul l mackendrick;paul lachlan niackendrick', 
+		'name_one': 'paul l mackendrick',
+		'name_two': 'paul lachlan niackendrick', 
 		'expected': True, 
 		'description': 'paul l mackendrick comparison with article'
 	},
     {
-		'input': 'paul l mclain;paul larimer mclain', 
+		'name_one': 'paul l mclain',
+		'name_two': 'paul larimer mclain', 
 		'expected': True, 
 		'description': 'paul l mclain comparison with article'
 	},
     {
-		'input': 'paul l mellenbruch;parl leslie mellenbruch', 
+		'name_one': 'paul l mellenbruch',
+		'name_two': 'parl leslie mellenbruch', 
 		'expected': False, 
 		'description': 'paul l mellenbruch comparison with article'
 	},
     {
-		'input': 'paul l soper;paul leon soper', 
+		'name_one': 'paul l soper',
+		'name_two': 'paul leon soper', 
 		'expected': True, 
 		'description': 'paul l soper comparison with article'
 	},
     {
-		'input': 'paul l trump, jr;paul leroy trump', 
+		'name_one': 'paul l trump, jr',
+		'name_two': 'paul leroy trump', 
 		'expected': True, 
 		'description': 'paul l trump, jr comparison with article'
 	},
     {
-		'input': 'paul l whitely;paul leroy whitely', 
+		'name_one': 'paul l whitely',
+		'name_two': 'paul leroy whitely', 
 		'expected': True, 
 		'description': 'paul l whitely comparison with article'
 	},
     {
-		'input': 'paul leberman;paul r. leberman', 
+		'name_one': 'paul leberman',
+		'name_two': 'paul r. leberman', 
 		'expected': True, 
 		'description': 'paul leberman comparison with article'
 	},
     {
-		'input': 'paul levine;robert paul levine', 
+		'name_one': 'paul levine',
+		'name_two': 'robert paul levine', 
 		'expected': True, 
 		'description': 'paul levine comparison with article'
 	},
     {
-		'input': 'paul m dean;paul m. dean', 
+		'name_one': 'paul m dean',
+		'name_two': 'paul m. dean', 
 		'expected': True, 
 		'description': 'paul m dean comparison with article'
 	},
     {
-		'input': 'paul m o\' leary;paul m. o\'leary', 
+		'name_one': 'paul m o\' leary',
+		'name_two': 'paul m. o\'leary', 
 		'expected': True, 
 		'description': 'paul m o\' leary comparison with article'
 	},
     {
-		'input': 'paul n landis;paul nissley landis', 
+		'name_one': 'paul n landis',
+		'name_two': 'paul nissley landis', 
 		'expected': True, 
 		'description': 'paul n landis comparison with article'
 	},
     {
-		'input': 'paul n. lehoczky;paul n. lehoczky', 
+		'name_one': 'paul n. lehoczky',
+		'name_two': 'paul n. lehoczky', 
 		'expected': True, 
 		'description': 'paul n. lehoczky comparison with article'
 	},
     {
-		'input': 'paul r dean;paul r. dean', 
+		'name_one': 'paul r dean',
+		'name_two': 'paul r. dean', 
 		'expected': True, 
 		'description': 'paul r dean comparison with article'
 	},
     {
-		'input': 'paul s lavik;paul sophus lavik', 
+		'name_one': 'paul s lavik',
+		'name_two': 'paul sophus lavik', 
 		'expected': True, 
 		'description': 'paul s lavik comparison with article'
 	},
     {
-		'input': 'paul t de camp;paul trumbull decamp', 
+		'name_one': 'paul t de camp',
+		'name_two': 'paul trumbull decamp', 
 		'expected': True, 
 		'description': 'paul t de camp comparison with article'
 	},
     {
-		'input': 'paul v lemkau;paul anthony lembcke', 
+		'name_one': 'paul v lemkau',
+		'name_two': 'paul anthony lembcke', 
 		'expected': False, 
 		'description': 'paul v lemkau comparison with article'
 	},
     {
-		'input': 'paul v lemkau;paul victor lemkau', 
+		'name_one': 'paul v lemkau',
+		'name_two': 'paul victor lemkau', 
 		'expected': True, 
 		'description': 'paul v lemkau comparison with article'
 	},
     {
-		'input': 'paul v thomson;paul van k. thomson', 
+		'name_one': 'paul v thomson',
+		'name_two': 'paul van k. thomson', 
 		'expected': True, 
 		'description': 'paul v thomson comparison with article'
 	},
     {
-		'input': 'paul van b jones;paul van brunt jones', 
+		'name_one': 'paul van b jones',
+		'name_two': 'paul van brunt jones', 
 		'expected': True, 
 		'description': 'paul van b jones comparison with article'
 	},
     {
-		'input': 'paul vanarsdell;paul m. van arsdell', 
+		'name_one': 'paul vanarsdell',
+		'name_two': 'paul m. van arsdell', 
 		'expected': True, 
 		'description': 'paul vanarsdell comparison with article'
 	},
     {
-		'input': 'paul vanketwick;paul van katwijk', 
+		'name_one': 'paul vanketwick',
+		'name_two': 'paul van katwijk', 
 		'expected': True, 
 		'description': 'paul vanketwick comparison with article'
 	},
     {
-		'input': 'paula c maynoy;carl lamanna', 
+		'name_one': 'paula c maynoy',
+		'name_two': 'carl lamanna', 
 		'expected': False, 
 		'description': 'paula c maynoy comparison with article'
 	},
     {
-		'input': 'percy d wilkins;percy desmond wilkins', 
+		'name_one': 'percy d wilkins',
+		'name_two': 'percy desmond wilkins', 
 		'expected': True, 
 		'description': 'percy d wilkins comparison with article'
 	},
     {
-		'input': 'percy l gainey;percy leigh gainey', 
+		'name_one': 'percy l gainey',
+		'name_two': 'percy leigh gainey', 
 		'expected': True, 
 		'description': 'percy l gainey comparison with article'
 	},
     {
-		'input': 'perley l thorne;perley lenwood thorne', 
+		'name_one': 'perley l thorne',
+		'name_two': 'perley lenwood thorne', 
 		'expected': True, 
 		'description': 'perley l thorne comparison with article'
 	},
     {
-		'input': 'perry p. denune;perry p. denune', 
+		'name_one': 'perry p. denune',
+		'name_two': 'perry p. denune', 
 		'expected': True, 
 		'description': 'perry p. denune comparison with article'
 	},
     {
-		'input': 'perry v miller;perry van miller', 
+		'name_one': 'perry v miller',
+		'name_two': 'perry van miller', 
 		'expected': True, 
 		'description': 'perry v miller comparison with article'
 	},
     {
-		'input': 'perry w vanwagenen;richard whitmore van wagenen', 
+		'name_one': 'perry w vanwagenen',
+		'name_two': 'richard whitmore van wagenen', 
 		'expected': False, 
 		'description': 'perry w vanwagenen comparison with article'
 	},
     {
-		'input': 'peter a corsi;andrew delcorso', 
+		'name_one': 'peter a corsi',
+		'name_two': 'andrew delcorso', 
 		'expected': False, 
 		'description': 'peter a corsi comparison with article'
 	},
     {
-		'input': 'peter dennis;peter g. danis', 
+		'name_one': 'peter dennis',
+		'name_two': 'peter g. danis', 
 		'expected': True, 
 		'description': 'peter dennis comparison with article'
 	},
     {
-		'input': 'peter p h de bruyn;peter p. h. de bruyn', 
+		'name_one': 'peter p h de bruyn',
+		'name_two': 'peter p. h. de bruyn', 
 		'expected': True, 
 		'description': 'peter p h de bruyn comparison with article'
 	},
     {
-		'input': 'peter p lawlor, jr;peter paul lawlor', 
+		'name_one': 'peter p lawlor, jr',
+		'name_two': 'peter paul lawlor', 
 		'expected': True, 
 		'description': 'peter p lawlor, jr comparison with article'
 	},
     {
-		'input': 'peter p lejins;peter p. lejins', 
+		'name_one': 'peter p lejins',
+		'name_two': 'peter p. lejins', 
 		'expected': True, 
 		'description': 'peter p lejins comparison with article'
 	},
     {
-		'input': 'peter vandekamp;peter van de kamp', 
+		'name_one': 'peter vandekamp',
+		'name_two': 'peter van de kamp', 
 		'expected': True, 
 		'description': 'peter vandekamp comparison with article'
 	},
     {
-		'input': 'philip f lerner;philip franklin lerner', 
+		'name_one': 'philip f lerner',
+		'name_two': 'philip franklin lerner', 
 		'expected': True, 
 		'description': 'philip f lerner comparison with article'
 	},
     {
-		'input': 'philip h de lacy;phillip h. delacy', 
+		'name_one': 'philip h de lacy',
+		'name_two': 'phillip h. delacy', 
 		'expected': True, 
 		'description': 'philip h de lacy comparison with article'
 	},
     {
-		'input': 'philip l carpenter;philip lewis carpenter', 
+		'name_one': 'philip l carpenter',
+		'name_two': 'philip lewis carpenter', 
 		'expected': True, 
 		'description': 'philip l carpenter comparison with article'
 	},
     {
-		'input': 'philip l debruyn;philip louis de bruyn', 
+		'name_one': 'philip l debruyn',
+		'name_two': 'philip louis de bruyn', 
 		'expected': True, 
 		'description': 'philip l debruyn comparison with article'
 	},
     {
-		'input': 'philip l peterson;philip lawrence peterson', 
+		'name_one': 'philip l peterson',
+		'name_two': 'philip lawrence peterson', 
 		'expected': True, 
 		'description': 'philip l peterson comparison with article'
 	},
     {
-		'input': 'philip l shipe;philip leister shipe', 
+		'name_one': 'philip l shipe',
+		'name_two': 'philip leister shipe', 
 		'expected': True, 
 		'description': 'philip l shipe comparison with article'
 	},
     {
-		'input': 'philip leighton;philip albert leighton', 
+		'name_one': 'philip leighton',
+		'name_two': 'philip albert leighton', 
 		'expected': True, 
 		'description': 'philip leighton comparison with article'
 	},
     {
-		'input': 'philip levine;philip levine', 
+		'name_one': 'philip levine',
+		'name_two': 'philip levine', 
 		'expected': True, 
 		'description': 'philip levine comparison with article'
 	},
     {
-		'input': 'philipp lecorbielle;philippe emmanuel lecorbeiller', 
+		'name_one': 'philipp lecorbielle',
+		'name_two': 'philippe emmanuel lecorbeiller', 
 		'expected': True, 
 		'description': 'philipp lecorbielle comparison with article'
 	},
     {
-		'input': 'phillip e lear;phillip e. lear', 
+		'name_one': 'phillip e lear',
+		'name_two': 'phillip e. lear', 
 		'expected': True, 
 		'description': 'phillip e lear comparison with article'
 	},
     {
-		'input': 'phillippe de la mare;philippe r. de la mare', 
+		'name_one': 'phillippe de la mare',
+		'name_two': 'philippe r. de la mare', 
 		'expected': True, 
 		'description': 'phillippe de la mare comparison with article'
 	},
     {
-		'input': 'phineas l windsor;phineas lawrence windsor', 
+		'name_one': 'phineas l windsor',
+		'name_two': 'phineas lawrence windsor', 
 		'expected': True, 
 		'description': 'phineas l windsor comparison with article'
 	},
     {
-		'input': 'pierre van rysselberghe;pierre j. van rysselberghe', 
+		'name_one': 'pierre van rysselberghe',
+		'name_two': 'pierre j. van rysselberghe', 
 		'expected': True, 
 		'description': 'pierre van rysselberghe comparison with article'
 	},
     {
-		'input': 'pilar madariaga;pilar de madariaga', 
+		'name_one': 'pilar madariaga',
+		'name_two': 'pilar de madariaga', 
 		'expected': True, 
 		'description': 'pilar madariaga comparison with article'
 	},
     {
-		'input': 'pincus p levine;pincus philip levine', 
+		'name_one': 'pincus p levine',
+		'name_two': 'pincus philip levine', 
 		'expected': True, 
 		'description': 'pincus p levine comparison with article'
 	},
     {
-		'input': 'quentin (none) van winkle;quentin van winkle', 
+		'name_one': 'quentin (none) van winkle',
+		'name_two': 'quentin van winkle', 
 		'expected': True, 
 		'description': 'quentin (none) van winkle comparison with article'
 	},
     {
-		'input': 'quinn b demarsh;quin b. de marsh', 
+		'name_one': 'quinn b demarsh',
+		'name_two': 'quin b. de marsh', 
 		'expected': True, 
 		'description': 'quinn b demarsh comparison with article'
 	},
     {
-		'input': 'r clark lewis;daniel clark lewis', 
+		'name_one': 'r clark lewis',
+		'name_two': 'daniel clark lewis', 
 		'expected': False, 
 		'description': 'r clark lewis comparison with article'
 	},
     {
-		'input': 'r ernest leffel;r. e. leffel', 
+		'name_one': 'r ernest leffel',
+		'name_two': 'r. e. leffel', 
 		'expected': True, 
 		'description': 'r ernest leffel comparison with article'
 	},
     {
-		'input': 'r lamar newport;lamar newport', 
+		'name_one': 'r lamar newport',
+		'name_two': 'lamar newport', 
 		'expected': True, 
 		'description': 'r lamar newport comparison with article'
 	},
     {
-		'input': 'r lee martin;r. lee martin', 
+		'name_one': 'r lee martin',
+		'name_two': 'r. lee martin', 
 		'expected': True, 
 		'description': 'r lee martin comparison with article'
 	},
     {
-		'input': 'rachael w deangelo;rachael wingfield de angelo', 
+		'name_one': 'rachael w deangelo',
+		'name_two': 'rachael wingfield de angelo', 
 		'expected': True, 
 		'description': 'rachael w deangelo comparison with article'
 	},
     {
-		'input': 'raffaele lattes;raffaele lattes', 
+		'name_one': 'raffaele lattes',
+		'name_two': 'raffaele lattes', 
 		'expected': True, 
 		'description': 'raffaele lattes comparison with article'
 	},
     {
-		'input': 'ralph a langsam;ralph h. langsam', 
+		'name_one': 'ralph a langsam',
+		'name_two': 'ralph h. langsam', 
 		'expected': False, 
 		'description': 'ralph a langsam comparison with article'
 	},
     {
-		'input': 'ralph a lassance;ralph a. lassance', 
+		'name_one': 'ralph a lassance',
+		'name_two': 'ralph a. lassance', 
 		'expected': True, 
 		'description': 'ralph a lassance comparison with article'
 	},
     {
-		'input': 'ralph a van wye;ralph a. van wye', 
+		'name_one': 'ralph a van wye',
+		'name_two': 'ralph a. van wye', 
 		'expected': True, 
 		'description': 'ralph a van wye comparison with article'
 	},
     {
-		'input': 'ralph a. deterling;ralph a. deterling', 
+		'name_one': 'ralph a. deterling',
+		'name_two': 'ralph a. deterling', 
 		'expected': True, 
 		'description': 'ralph a. deterling comparison with article'
 	},
     {
-		'input': 'ralph defalco;ralph j. defalco', 
+		'name_one': 'ralph defalco',
+		'name_two': 'ralph j. defalco', 
 		'expected': True, 
 		'description': 'ralph defalco comparison with article'
 	},
     {
-		'input': 'ralph e deal;ralph elbert deal', 
+		'name_one': 'ralph e deal',
+		'name_two': 'ralph elbert deal', 
 		'expected': True, 
 		'description': 'ralph e deal comparison with article'
 	},
     {
-		'input': 'ralph e lane;ralph e. lane', 
+		'name_one': 'ralph e lane',
+		'name_two': 'ralph e. lane', 
 		'expected': True, 
 		'description': 'ralph e lane comparison with article'
 	},
     {
-		'input': 'ralph e lewis;ralph elton lewis', 
+		'name_one': 'ralph e lewis',
+		'name_two': 'ralph elton lewis', 
 		'expected': True, 
 		'description': 'ralph e lewis comparison with article'
 	},
     {
-		'input': 'ralph e vanhorn;ralph e. hone', 
+		'name_one': 'ralph e vanhorn',
+		'name_two': 'ralph e. hone', 
 		'expected': False, 
 		'description': 'ralph e vanhorn comparison with article'
 	},
     {
-		'input': 'ralph e. lancaster;ralph e. lancaster', 
+		'name_one': 'ralph e. lancaster',
+		'name_two': 'ralph e. lancaster', 
 		'expected': True, 
 		'description': 'ralph e. lancaster comparison with article'
 	},
     {
-		'input': 'ralph l cope;ralph leland cope', 
+		'name_one': 'ralph l cope',
+		'name_two': 'ralph leland cope', 
 		'expected': True, 
 		'description': 'ralph l cope comparison with article'
 	},
     {
-		'input': 'ralph l dannley;ralph lawrence dannley', 
+		'name_one': 'ralph l dannley',
+		'name_two': 'ralph lawrence dannley', 
 		'expected': True, 
 		'description': 'ralph l dannley comparison with article'
 	},
     {
-		'input': 'ralph l davis;ralph lanier davis', 
+		'name_one': 'ralph l davis',
+		'name_two': 'ralph lanier davis', 
 		'expected': True, 
 		'description': 'ralph l davis comparison with article'
 	},
     {
-		'input': 'ralph l de flower;leo gerson doefler', 
+		'name_one': 'ralph l de flower',
+		'name_two': 'leo gerson doefler', 
 		'expected': False, 
 		'description': 'ralph l de flower comparison with article'
 	},
     {
-		'input': 'ralph l eyman;ralph lee eyman', 
+		'name_one': 'ralph l eyman',
+		'name_two': 'ralph lee eyman', 
 		'expected': True, 
 		'description': 'ralph l eyman comparison with article'
 	},
     {
-		'input': 'ralph l langenheim;ralph l. langenheim', 
+		'name_one': 'ralph l langenheim',
+		'name_two': 'ralph l. langenheim', 
 		'expected': True, 
 		'description': 'ralph l langenheim comparison with article'
 	},
     {
-		'input': 'ralph l thompson;ralph leroy thompson', 
+		'name_one': 'ralph l thompson',
+		'name_two': 'ralph leroy thompson', 
 		'expected': True, 
 		'description': 'ralph l thompson comparison with article'
 	},
     {
-		'input': 'ralph l. dewey;ralph l. dewey', 
+		'name_one': 'ralph l. dewey',
+		'name_two': 'ralph l. dewey', 
 		'expected': True, 
 		'description': 'ralph l. dewey comparison with article'
 	},
     {
-		'input': 'ralph ledley;ralph g. ledley', 
+		'name_one': 'ralph ledley',
+		'name_two': 'ralph g. ledley', 
 		'expected': True, 
 		'description': 'ralph ledley comparison with article'
 	},
     {
-		'input': 'ralph lefler;ralph waldo lefler', 
+		'name_one': 'ralph lefler',
+		'name_two': 'ralph waldo lefler', 
 		'expected': True, 
 		'description': 'ralph lefler comparison with article'
 	},
     {
-		'input': 'ralph m lakness;ralph m. lakness', 
+		'name_one': 'ralph m lakness',
+		'name_two': 'ralph m. lakness', 
 		'expected': True, 
 		'description': 'ralph m lakness comparison with article'
 	},
     {
-		'input': 'ralph r lashbrook;ralph richard lashbrook', 
+		'name_one': 'ralph r lashbrook',
+		'name_two': 'ralph richard lashbrook', 
 		'expected': True, 
 		'description': 'ralph r lashbrook comparison with article'
 	},
     {
-		'input': 'ralph r lawrence;ralph restieaux lawrence', 
+		'name_one': 'ralph r lawrence',
+		'name_two': 'ralph restieaux lawrence', 
 		'expected': True, 
 		'description': 'ralph r lawrence comparison with article'
 	},
     {
-		'input': 'ralph v bangham;ralph vandervort bangham', 
+		'name_one': 'ralph v bangham',
+		'name_two': 'ralph vandervort bangham', 
 		'expected': True, 
 		'description': 'ralph v bangham comparison with article'
 	},
     {
-		'input': 'randolph l carter;randolph laurie carter', 
+		'name_one': 'randolph l carter',
+		'name_two': 'randolph laurie carter', 
 		'expected': True, 
 		'description': 'randolph l carter comparison with article'
 	},
     {
-		'input': 'randy h laidlaw;harry h. laidlaw', 
+		'name_one': 'randy h laidlaw',
+		'name_two': 'harry h. laidlaw', 
 		'expected': False, 
 		'description': 'randy h laidlaw comparison with article'
 	},
     {
-		'input': 'raphael demos;raphael demos', 
+		'name_one': 'raphael demos',
+		'name_two': 'raphael demos', 
 		'expected': True, 
 		'description': 'raphael demos comparison with article'
 	},
     {
-		'input': 'raphael levy;raphael levy', 
+		'name_one': 'raphael levy',
+		'name_two': 'raphael levy', 
 		'expected': True, 
 		'description': 'raphael levy comparison with article'
 	},
     {
-		'input': 'ray g langebartel;ray g. langebartel', 
+		'name_one': 'ray g langebartel',
+		'name_two': 'ray g. langebartel', 
 		'expected': True, 
 		'description': 'ray g langebartel comparison with article'
 	},
     {
-		'input': 'ray l edwards;ray lee edwards', 
+		'name_one': 'ray l edwards',
+		'name_two': 'ray lee edwards', 
 		'expected': True, 
 		'description': 'ray l edwards comparison with article'
 	},
     {
-		'input': 'ray l shappelle;ray leon chappelle', 
+		'name_one': 'ray l shappelle',
+		'name_two': 'ray leon chappelle', 
 		'expected': True, 
 		'description': 'ray l shappelle comparison with article'
 	},
     {
-		'input': 'ray l watterson;ray leighton watterson', 
+		'name_one': 'ray l watterson',
+		'name_two': 'ray leighton watterson', 
 		'expected': True, 
 		'description': 'ray l watterson comparison with article'
 	},
     {
-		'input': 'raymond c dein;r. c. dein', 
+		'name_one': 'raymond c dein',
+		'name_two': 'r. c. dein', 
 		'expected': True, 
 		'description': 'raymond c dein comparison with article'
 	},
     {
-		'input': 'raymond e lanhard, jr;raymond earl lenhard', 
+		'name_one': 'raymond e lanhard, jr',
+		'name_two': 'raymond earl lenhard', 
 		'expected': True, 
 		'description': 'raymond e lanhard, jr comparison with article'
 	},
     {
-		'input': 'raymond g larson;raymond george larson', 
+		'name_one': 'raymond g larson',
+		'name_two': 'raymond george larson', 
 		'expected': True, 
 		'description': 'raymond g larson comparison with article'
 	},
     {
-		'input': 'raymond h borkenhogen;peter h. von blanckenhagen', 
+		'name_one': 'raymond h borkenhogen',
+		'name_two': 'peter h. von blanckenhagen', 
 		'expected': False, 
 		'description': 'raymond h borkenhogen comparison with article'
 	},
     {
-		'input': 'raymond j adams;raymond delacy adams', 
+		'name_one': 'raymond j adams',
+		'name_two': 'raymond delacy adams', 
 		'expected': False, 
 		'description': 'raymond j adams comparison with article'
 	},
     {
-		'input': 'raymond kendall;raymond leon kendall', 
+		'name_one': 'raymond kendall',
+		'name_two': 'raymond leon kendall', 
 		'expected': True, 
 		'description': 'raymond kendall comparison with article'
 	},
     {
-		'input': 'raymond l davidson;raymond leon davidson', 
+		'name_one': 'raymond l davidson',
+		'name_two': 'raymond leon davidson', 
 		'expected': True, 
 		'description': 'raymond l davidson comparison with article'
 	},
     {
-		'input': 'raymond l hightower;raymond lee hightower', 
+		'name_one': 'raymond l hightower',
+		'name_two': 'raymond lee hightower', 
 		'expected': True, 
 		'description': 'raymond l hightower comparison with article'
 	},
     {
-		'input': 'raymond l lind;raymond e. vanderlinde', 
+		'name_one': 'raymond l lind',
+		'name_two': 'raymond e. vanderlinde', 
 		'expected': False, 
 		'description': 'raymond l lind comparison with article'
 	},
     {
-		'input': 'raymond l murdoch;raymond lester murdoch', 
+		'name_one': 'raymond l murdoch',
+		'name_two': 'raymond lester murdoch', 
 		'expected': True, 
 		'description': 'raymond l murdoch comparison with article'
 	},
     {
-		'input': 'raymond l powell;raymond leo powell', 
+		'name_one': 'raymond l powell',
+		'name_two': 'raymond leo powell', 
 		'expected': True, 
 		'description': 'raymond l powell comparison with article'
 	},
     {
-		'input': 'raymond l shoemaker;raymond leroy shoemaker', 
+		'name_one': 'raymond l shoemaker',
+		'name_two': 'raymond leroy shoemaker', 
 		'expected': True, 
 		'description': 'raymond l shoemaker comparison with article'
 	},
     {
-		'input': 'raymond l. hill;raymond leroy hill', 
+		'name_one': 'raymond l. hill',
+		'name_two': 'raymond leroy hill', 
 		'expected': True, 
 		'description': 'raymond l. hill comparison with article'
 	},
     {
-		'input': 'raymond lee thompson;raymond harris thompson', 
+		'name_one': 'raymond lee thompson',
+		'name_two': 'raymond harris thompson', 
 		'expected': False, 
 		'description': 'raymond lee thompson comparison with article'
 	},
     {
-		'input': 'raymond murray;raymond leroy murray', 
+		'name_one': 'raymond murray',
+		'name_two': 'raymond leroy murray', 
 		'expected': True, 
 		'description': 'raymond murray comparison with article'
 	},
     {
-		'input': 'raymond s bisplinghoff;raymond lewis bisplinghoff', 
+		'name_one': 'raymond s bisplinghoff',
+		'name_two': 'raymond lewis bisplinghoff', 
 		'expected': False, 
 		'description': 'raymond s bisplinghoff comparison with article'
 	},
     {
-		'input': 'raymond t dewitt;r. t. dewitt', 
+		'name_one': 'raymond t dewitt',
+		'name_two': 'r. t. dewitt', 
 		'expected': True, 
 		'description': 'raymond t dewitt comparison with article'
 	},
     {
-		'input': 'raymond v lesikar;raymond v. lesikar', 
+		'name_one': 'raymond v lesikar',
+		'name_two': 'raymond v. lesikar', 
 		'expected': True, 
 		'description': 'raymond v lesikar comparison with article'
 	},
     {
-		'input': 'reginald h mc lean;ross h. mclean', 
+		'name_one': 'reginald h mc lean',
+		'name_two': 'ross h. mclean', 
 		'expected': False, 
 		'description': 'reginald h mc lean comparison with article'
 	},
     {
-		'input': 'reidar l anderson;reidar lars anderson', 
+		'name_one': 'reidar l anderson',
+		'name_two': 'reidar lars anderson', 
 		'expected': True, 
 		'description': 'reidar l anderson comparison with article'
 	},
     {
-		'input': 'reinhold f larson;reinhold fridtjof larson', 
+		'name_one': 'reinhold f larson',
+		'name_two': 'reinhold fridtjof larson', 
 		'expected': True, 
 		'description': 'reinhold f larson comparison with article'
 	},
     {
-		'input': 'rena m larue;rena larue', 
+		'name_one': 'rena m larue',
+		'name_two': 'rena larue', 
 		'expected': True, 
 		'description': 'rena m larue comparison with article'
 	},
     {
-		'input': 'reuben law;reuben d. law', 
+		'name_one': 'reuben law',
+		'name_two': 'reuben d. law', 
 		'expected': True, 
 		'description': 'reuben law comparison with article'
 	},
     {
-		'input': 'rev benedict lenz;benedict lenz', 
+		'name_one': 'rev benedict lenz',
+		'name_two': 'benedict lenz', 
 		'expected': True, 
 		'description': 'rev benedict lenz comparison with article'
 	},
     {
-		'input': 'rev denis strittmatter;denis strittmatter', 
+		'name_one': 'rev denis strittmatter',
+		'name_two': 'denis strittmatter', 
 		'expected': True, 
 		'description': 'rev denis strittmatter comparison with article'
 	},
     {
-		'input': 'rev edmund langton;edmund langton', 
+		'name_one': 'rev edmund langton',
+		'name_two': 'edmund langton', 
 		'expected': True, 
 		'description': 'rev edmund langton comparison with article'
 	},
     {
-		'input': 'rex depew;rex d. depew', 
+		'name_one': 'rex depew',
+		'name_two': 'rex d. depew', 
 		'expected': True, 
 		'description': 'rex depew comparison with article'
 	},
     {
-		'input': 'richard a lang;andrew richard lang', 
+		'name_one': 'richard a lang',
+		'name_two': 'andrew richard lang', 
 		'expected': True, 
 		'description': 'richard a lang comparison with article'
 	},
     {
-		'input': 'richard a lester;richard allen lester', 
+		'name_one': 'richard a lester',
+		'name_two': 'richard allen lester', 
 		'expected': True, 
 		'description': 'richard a lester comparison with article'
 	},
     {
-		'input': 'richard a van leer;richard t. lyer', 
+		'name_one': 'richard a van leer',
+		'name_two': 'richard t. lyer', 
 		'expected': False, 
 		'description': 'richard a van leer comparison with article'
 	},
     {
-		'input': 'richard c. larkins;richard c. larkins', 
+		'name_one': 'richard c. larkins',
+		'name_two': 'richard c. larkins', 
 		'expected': True, 
 		'description': 'richard c. larkins comparison with article'
 	},
     {
-		'input': 'richard d challener;richard delo challener', 
+		'name_one': 'richard d challener',
+		'name_two': 'richard delo challener', 
 		'expected': True, 
 		'description': 'richard d challener comparison with article'
 	},
     {
-		'input': 'richard de bodo;richard c. de bodo', 
+		'name_one': 'richard de bodo',
+		'name_two': 'richard c. de bodo', 
 		'expected': True, 
 		'description': 'richard de bodo comparison with article'
 	},
     {
-		'input': 'richard deimel;richard francis deimel', 
+		'name_one': 'richard deimel',
+		'name_two': 'richard francis deimel', 
 		'expected': True, 
 		'description': 'richard deimel comparison with article'
 	},
     {
-		'input': 'richard dewey;richard s. dewey', 
+		'name_one': 'richard dewey',
+		'name_two': 'richard s. dewey', 
 		'expected': True, 
 		'description': 'richard dewey comparison with article'
 	},
     {
-		'input': 'richard f dean;richard dean', 
+		'name_one': 'richard f dean',
+		'name_two': 'richard dean', 
 		'expected': True, 
 		'description': 'richard f dean comparison with article'
 	},
     {
-		'input': 'richard h van saun;h. richard van saun', 
+		'name_one': 'richard h van saun',
+		'name_two': 'h. richard van saun', 
 		'expected': True, 
 		'description': 'richard h van saun comparison with article'
 	},
     {
-		'input': 'richard j deyoung;richard de young', 
+		'name_one': 'richard j deyoung',
+		'name_two': 'richard de young', 
 		'expected': True, 
 		'description': 'richard j deyoung comparison with article'
 	},
     {
-		'input': 'richard l clark;richard leon clark', 
+		'name_one': 'richard l clark',
+		'name_two': 'richard leon clark', 
 		'expected': True, 
 		'description': 'richard l clark comparison with article'
 	},
     {
-		'input': 'richard l landau;richard louis landau', 
+		'name_one': 'richard l landau',
+		'name_two': 'richard louis landau', 
 		'expected': True, 
 		'description': 'richard l landau comparison with article'
 	},
     {
-		'input': 'richard l sawyer;richard leander sawyer', 
+		'name_one': 'richard l sawyer',
+		'name_two': 'richard leander sawyer', 
 		'expected': True, 
 		'description': 'richard l sawyer comparison with article'
 	},
     {
-		'input': 'richard l scammon;richard lewis scammon', 
+		'name_one': 'richard l scammon',
+		'name_two': 'richard lewis scammon', 
 		'expected': True, 
 		'description': 'richard l scammon comparison with article'
 	},
     {
-		'input': 'richard l solomon;richard lester solomon', 
+		'name_one': 'richard l solomon',
+		'name_two': 'richard lester solomon', 
 		'expected': True, 
 		'description': 'richard l solomon comparison with article'
 	},
     {
-		'input': 'richard l. fulton;richard la marr fulton', 
+		'name_one': 'richard l. fulton',
+		'name_two': 'richard la marr fulton', 
 		'expected': True, 
 		'description': 'richard l. fulton comparison with article'
 	},
     {
-		'input': 'richard l. rudy;richard lee rudy', 
+		'name_one': 'richard l. rudy',
+		'name_two': 'richard lee rudy', 
 		'expected': True, 
 		'description': 'richard l. rudy comparison with article'
 	},
     {
-		'input': 'richard la piere;richard tracy lapiere', 
+		'name_one': 'richard la piere',
+		'name_two': 'richard tracy lapiere', 
 		'expected': True, 
 		'description': 'richard la piere comparison with article'
 	},
     {
-		'input': 'richard lee huntington;richard lee huntington', 
+		'name_one': 'richard lee huntington',
+		'name_two': 'richard lee huntington', 
 		'expected': True, 
 		'description': 'richard lee huntington comparison with article'
 	},
     {
-		'input': 'richard lee patton;richard patton', 
+		'name_one': 'richard lee patton',
+		'name_two': 'richard patton', 
 		'expected': True, 
 		'description': 'richard lee patton comparison with article'
 	},
     {
-		'input': 'richard morse;richard lawrence day morse', 
+		'name_one': 'richard morse',
+		'name_two': 'richard lawrence day morse', 
 		'expected': True, 
 		'description': 'richard morse comparison with article'
 	},
     {
-		'input': 'richard s lawrence;richard s. lawrence', 
+		'name_one': 'richard s lawrence',
+		'name_two': 'richard s. lawrence', 
 		'expected': True, 
 		'description': 'richard s lawrence comparison with article'
 	},
     {
-		'input': 'richard t deters;richard t. deters', 
+		'name_one': 'richard t deters',
+		'name_two': 'richard t. deters', 
 		'expected': True, 
 		'description': 'richard t deters comparison with article'
 	},
     {
-		'input': 'richard van cleve;richard van cleve', 
+		'name_one': 'richard van cleve',
+		'name_two': 'richard van cleve', 
 		'expected': True, 
 		'description': 'richard van cleve comparison with article'
 	},
     {
-		'input': 'richard w deeds;richard w. deeds', 
+		'name_one': 'richard w deeds',
+		'name_two': 'richard w. deeds', 
 		'expected': True, 
 		'description': 'richard w deeds comparison with article'
 	},
     {
-		'input': 'richard w laird;richard willoughby laird', 
+		'name_one': 'richard w laird',
+		'name_two': 'richard willoughby laird', 
 		'expected': True, 
 		'description': 'richard w laird comparison with article'
 	},
     {
-		'input': 'richard w leopold;richard william leopold', 
+		'name_one': 'richard w leopold',
+		'name_two': 'richard william leopold', 
 		'expected': True, 
 		'description': 'richard w leopold comparison with article'
 	},
     {
-		'input': 'robert a hicks;robert lansing hicks', 
+		'name_one': 'robert a hicks',
+		'name_two': 'robert lansing hicks', 
 		'expected': False, 
 		'description': 'robert a hicks comparison with article'
 	},
     {
-		'input': 'robert a law;robert adger law', 
+		'name_one': 'robert a law',
+		'name_two': 'robert adger law', 
 		'expected': True, 
 		'description': 'robert a law comparison with article'
 	},
     {
-		'input': 'robert b berg;robert leonard berg', 
+		'name_one': 'robert b berg',
+		'name_two': 'robert leonard berg', 
 		'expected': False, 
 		'description': 'robert b berg comparison with article'
 	},
     {
-		'input': 'robert b deering;robert b. deering', 
+		'name_one': 'robert b deering',
+		'name_two': 'robert b. deering', 
 		'expected': True, 
 		'description': 'robert b deering comparison with article'
 	},
     {
-		'input': 'robert b lane;robert philips lane', 
+		'name_one': 'robert b lane',
+		'name_two': 'robert philips lane', 
 		'expected': False, 
 		'description': 'robert b lane comparison with article'
 	},
     {
-		'input': 'robert b leighton;robert b. leighton', 
+		'name_one': 'robert b leighton',
+		'name_two': 'robert b. leighton', 
 		'expected': True, 
 		'description': 'robert b leighton comparison with article'
 	},
     {
-		'input': 'robert b lewis;robert burns lewis', 
+		'name_one': 'robert b lewis',
+		'name_two': 'robert burns lewis', 
 		'expected': True, 
 		'description': 'robert b lewis comparison with article'
 	},
     {
-		'input': 'robert d lane;robert edwin lane', 
+		'name_one': 'robert d lane',
+		'name_two': 'robert edwin lane', 
 		'expected': False, 
 		'description': 'robert d lane comparison with article'
 	},
     {
-		'input': 'robert d lang;daniel robert lang', 
+		'name_one': 'robert d lang',
+		'name_two': 'daniel robert lang', 
 		'expected': True, 
 		'description': 'robert d lang comparison with article'
 	},
     {
-		'input': 'robert d leigh;robert d. leigh', 
+		'name_one': 'robert d leigh',
+		'name_two': 'robert d. leigh', 
 		'expected': True, 
 		'description': 'robert d leigh comparison with article'
 	},
     {
-		'input': 'robert d leiter;robert leiter', 
+		'name_one': 'robert d leiter',
+		'name_two': 'robert leiter', 
 		'expected': True, 
 		'description': 'robert d leiter comparison with article'
 	},
     {
-		'input': 'robert d lewis;thomas robert lewis', 
+		'name_one': 'robert d lewis',
+		'name_two': 'thomas robert lewis', 
 		'expected': False, 
 		'description': 'robert d lewis comparison with article'
 	},
     {
-		'input': 'robert d rhynes;robert van reen', 
+		'name_one': 'robert d rhynes',
+		'name_two': 'robert van reen', 
 		'expected': False, 
 		'description': 'robert d rhynes comparison with article'
 	},
     {
-		'input': 'robert de revere;robert e. derevere', 
+		'name_one': 'robert de revere',
+		'name_two': 'robert e. derevere', 
 		'expected': True, 
 		'description': 'robert de revere comparison with article'
 	},
     {
-		'input': 'robert denny;robert frank denny', 
+		'name_one': 'robert denny',
+		'name_two': 'robert frank denny', 
 		'expected': True, 
 		'description': 'robert denny comparison with article'
 	},
     {
-		'input': 'robert denton;robert claude dentan', 
+		'name_one': 'robert denton',
+		'name_two': 'robert claude dentan', 
 		'expected': True, 
 		'description': 'robert denton comparison with article'
 	},
     {
-		'input': 'robert deupree;robt. g. deupree', 
+		'name_one': 'robert deupree',
+		'name_two': 'robt. g. deupree', 
 		'expected': True, 
 		'description': 'robert deupree comparison with article'
 	},
     {
-		'input': 'robert e dengler;robert e. dengler', 
+		'name_one': 'robert e dengler',
+		'name_two': 'robert e. dengler', 
 		'expected': True, 
 		'description': 'robert e dengler comparison with article'
 	},
     {
-		'input': 'robert e dewey;robert e. dewey', 
+		'name_one': 'robert e dewey',
+		'name_two': 'robert e. dewey', 
 		'expected': True, 
 		'description': 'robert e dewey comparison with article'
 	},
     {
-		'input': 'robert e glass;robert lee glass', 
+		'name_one': 'robert e glass',
+		'name_two': 'robert lee glass', 
 		'expected': False, 
 		'description': 'robert e glass comparison with article'
 	},
     {
-		'input': 'robert e l faris;robert e. lee faris', 
+		'name_one': 'robert e l faris',
+		'name_two': 'robert e. lee faris', 
 		'expected': True, 
 		'description': 'robert e l faris comparison with article'
 	},
     {
-		'input': 'robert e l strider;robert edward lee strider', 
+		'name_one': 'robert e l strider',
+		'name_two': 'robert edward lee strider', 
 		'expected': True, 
 		'description': 'robert e l strider comparison with article'
 	},
     {
-		'input': 'robert e ladd;dwight robert ladd', 
+		'name_one': 'robert e ladd',
+		'name_two': 'dwight robert ladd', 
 		'expected': False, 
 		'description': 'robert e ladd comparison with article'
 	},
     {
-		'input': 'robert e lake;robert e. lake', 
+		'name_one': 'robert e lake',
+		'name_two': 'robert e. lake', 
 		'expected': True, 
 		'description': 'robert e lake comparison with article'
 	},
     {
-		'input': 'robert e lane;robert edwards lane', 
+		'name_one': 'robert e lane',
+		'name_two': 'robert edwards lane', 
 		'expected': True, 
 		'description': 'robert e lane comparison with article'
 	},
     {
-		'input': 'robert e larson;robert earl larson', 
+		'name_one': 'robert e larson',
+		'name_two': 'robert earl larson', 
 		'expected': True, 
 		'description': 'robert e larson comparison with article'
 	},
     {
-		'input': 'robert e lee;robert edwin lee', 
+		'name_one': 'robert e lee',
+		'name_two': 'robert edwin lee', 
 		'expected': True, 
 		'description': 'robert e lee comparison with article'
 	},
     {
-		'input': 'robert f deegan;robert f. degen', 
+		'name_one': 'robert f deegan',
+		'name_two': 'robert f. degen', 
 		'expected': True, 
 		'description': 'robert f deegan comparison with article'
 	},
     {
-		'input': 'robert f lawson;robert f. lawson', 
+		'name_one': 'robert f lawson',
+		'name_two': 'robert f. lawson', 
 		'expected': True, 
 		'description': 'robert f lawson comparison with article'
 	},
     {
-		'input': 'robert f lent;robert f. lent', 
+		'name_one': 'robert f lent',
+		'name_two': 'robert f. lent', 
 		'expected': True, 
 		'description': 'robert f lent comparison with article'
 	},
     {
-		'input': 'robert faulkner;robert lee faulkner', 
+		'name_one': 'robert faulkner',
+		'name_two': 'robert lee faulkner', 
 		'expected': True, 
 		'description': 'robert faulkner comparison with article'
 	},
     {
-		'input': 'robert g legge;robert t. legge', 
+		'name_one': 'robert g legge',
+		'name_two': 'robert t. legge', 
 		'expected': False, 
 		'description': 'robert g legge comparison with article'
 	},
     {
-		'input': 'robert g miller;robert lavelle miller', 
+		'name_one': 'robert g miller',
+		'name_two': 'robert lavelle miller', 
 		'expected': False, 
 		'description': 'robert g miller comparison with article'
 	},
     {
-		'input': 'robert h lee, jr;robert h. lee', 
+		'name_one': 'robert h lee, jr',
+		'name_two': 'robert h. lee', 
 		'expected': True, 
 		'description': 'robert h lee, jr comparison with article'
 	},
     {
-		'input': 'robert haun;robert dee haun', 
+		'name_one': 'robert haun',
+		'name_two': 'robert dee haun', 
 		'expected': True, 
 		'description': 'robert haun comparison with article'
 	},
     {
-		'input': 'robert hay;robert dean hay', 
+		'name_one': 'robert hay',
+		'name_two': 'robert dean hay', 
 		'expected': True, 
 		'description': 'robert hay comparison with article'
 	},
     {
-		'input': 'robert j lampman;robert james lampman', 
+		'name_one': 'robert j lampman',
+		'name_two': 'robert james lampman', 
 		'expected': True, 
 		'description': 'robert j lampman comparison with article'
 	},
     {
-		'input': 'robert j leblanc;robert j. leblanc', 
+		'name_one': 'robert j leblanc',
+		'name_two': 'robert j. leblanc', 
 		'expected': True, 
 		'description': 'robert j leblanc comparison with article'
 	},
     {
-		'input': 'robert l briggs;robert leroy briggs', 
+		'name_one': 'robert l briggs',
+		'name_two': 'robert leroy briggs', 
 		'expected': True, 
 		'description': 'robert l briggs comparison with article'
 	},
     {
-		'input': 'robert l clayton;robert lee clayton', 
+		'name_one': 'robert l clayton',
+		'name_two': 'robert lee clayton', 
 		'expected': True, 
 		'description': 'robert l clayton comparison with article'
 	},
     {
-		'input': 'robert l cooper;l. leola cooper', 
+		'name_one': 'robert l cooper',
+		'name_two': 'l. leola cooper', 
 		'expected': False, 
 		'description': 'robert l cooper comparison with article'
 	},
     {
-		'input': 'robert l dillon;theodore robert van dellen', 
+		'name_one': 'robert l dillon',
+		'name_two': 'theodore robert van dellen', 
 		'expected': False, 
 		'description': 'robert l dillon comparison with article'
 	},
     {
-		'input': 'robert l easton;robert lavern easton', 
+		'name_one': 'robert l easton',
+		'name_two': 'robert lavern easton', 
 		'expected': True, 
 		'description': 'robert l easton comparison with article'
 	},
     {
-		'input': 'robert l fernald;robert leslie fernald', 
+		'name_one': 'robert l fernald',
+		'name_two': 'robert leslie fernald', 
 		'expected': True, 
 		'description': 'robert l fernald comparison with article'
 	},
     {
-		'input': 'robert l grilley;robert leroy grilley', 
+		'name_one': 'robert l grilley',
+		'name_two': 'robert leroy grilley', 
 		'expected': True, 
 		'description': 'robert l grilley comparison with article'
 	},
     {
-		'input': 'robert l jackson;robert lawrence jackson', 
+		'name_one': 'robert l jackson',
+		'name_two': 'robert lawrence jackson', 
 		'expected': True, 
 		'description': 'robert l jackson comparison with article'
 	},
     {
-		'input': 'robert l jeske;robert leroy jeske', 
+		'name_one': 'robert l jeske',
+		'name_two': 'robert leroy jeske', 
 		'expected': True, 
 		'description': 'robert l jeske comparison with article'
 	},
     {
-		'input': 'robert l king;robert leslie king', 
+		'name_one': 'robert l king',
+		'name_two': 'robert leslie king', 
 		'expected': True, 
 		'description': 'robert l king comparison with article'
 	},
     {
-		'input': 'robert l koehl;robert lewis koehl', 
+		'name_one': 'robert l koehl',
+		'name_two': 'robert lewis koehl', 
 		'expected': True, 
 		'description': 'robert l koehl comparison with article'
 	},
     {
-		'input': 'robert l lam;robert lam', 
+		'name_one': 'robert l lam',
+		'name_two': 'robert lam', 
 		'expected': True, 
 		'description': 'robert l lam comparison with article'
 	},
     {
-		'input': 'robert l lepper;robert l. lepper', 
+		'name_one': 'robert l lepper',
+		'name_two': 'robert l. lepper', 
 		'expected': True, 
 		'description': 'robert l lepper comparison with article'
 	},
     {
-		'input': 'robert l letsinger;robert lewis letsinger', 
+		'name_one': 'robert l letsinger',
+		'name_two': 'robert lewis letsinger', 
 		'expected': True, 
 		'description': 'robert l letsinger comparison with article'
 	},
     {
-		'input': 'robert l levy;robert l. levy', 
+		'name_one': 'robert l levy',
+		'name_two': 'robert l. levy', 
 		'expected': True, 
 		'description': 'robert l levy comparison with article'
 	},
     {
-		'input': 'robert l mckee;robert lambert mckee', 
+		'name_one': 'robert l mckee',
+		'name_two': 'robert lambert mckee', 
 		'expected': True, 
 		'description': 'robert l mckee comparison with article'
 	},
     {
-		'input': 'robert l meirweather;robert lee meriwether', 
+		'name_one': 'robert l meirweather',
+		'name_two': 'robert lee meriwether', 
 		'expected': True, 
 		'description': 'robert l meirweather comparison with article'
 	},
     {
-		'input': 'robert l newell;robert lee newell', 
+		'name_one': 'robert l newell',
+		'name_two': 'robert lee newell', 
 		'expected': True, 
 		'description': 'robert l newell comparison with article'
 	},
     {
-		'input': 'robert l noell;robert leonard noell', 
+		'name_one': 'robert l noell',
+		'name_two': 'robert leonard noell', 
 		'expected': True, 
 		'description': 'robert l noell comparison with article'
 	},
     {
-		'input': 'robert l patterson;robert leet patterson', 
+		'name_one': 'robert l patterson',
+		'name_two': 'robert leet patterson', 
 		'expected': True, 
 		'description': 'robert l patterson comparison with article'
 	},
     {
-		'input': 'robert l pigford;robert lamar pigford', 
+		'name_one': 'robert l pigford',
+		'name_two': 'robert lamar pigford', 
 		'expected': True, 
 		'description': 'robert l pigford comparison with article'
 	},
     {
-		'input': 'robert l proffer;robert lee proffer', 
+		'name_one': 'robert l proffer',
+		'name_two': 'robert lee proffer', 
 		'expected': True, 
 		'description': 'robert l proffer comparison with article'
 	},
     {
-		'input': 'robert l reynolds;robert leonard reynolds', 
+		'name_one': 'robert l reynolds',
+		'name_two': 'robert leonard reynolds', 
 		'expected': True, 
 		'description': 'robert l reynolds comparison with article'
 	},
     {
-		'input': 'robert l sharp;robert lathrop sharp', 
+		'name_one': 'robert l sharp',
+		'name_two': 'robert lathrop sharp', 
 		'expected': True, 
 		'description': 'robert l sharp comparison with article'
 	},
     {
-		'input': 'robert l smith, sr;robert lewis smith', 
+		'name_one': 'robert l smith, sr',
+		'name_two': 'robert lewis smith', 
 		'expected': True, 
 		'description': 'robert l smith, sr comparison with article'
 	},
     {
-		'input': 'robert l thurman;robert lee thurman', 
+		'name_one': 'robert l thurman',
+		'name_two': 'robert lee thurman', 
 		'expected': True, 
 		'description': 'robert l thurman comparison with article'
 	},
     {
-		'input': 'robert l tugwell;robert lee tugwell', 
+		'name_one': 'robert l tugwell',
+		'name_two': 'robert lee tugwell', 
 		'expected': True, 
 		'description': 'robert l tugwell comparison with article'
 	},
     {
-		'input': 'robert l vandoren;robert lawson van doren', 
+		'name_one': 'robert l vandoren',
+		'name_two': 'robert lawson van doren', 
 		'expected': True, 
 		'description': 'robert l vandoren comparison with article'
 	},
     {
-		'input': 'robert l vanhorne;robert loren van horne', 
+		'name_one': 'robert l vanhorne',
+		'name_two': 'robert loren van horne', 
 		'expected': True, 
 		'description': 'robert l vanhorne comparison with article'
 	},
     {
-		'input': 'robert l wiggins;robert lemuel wiggins', 
+		'name_one': 'robert l wiggins',
+		'name_two': 'robert lemuel wiggins', 
 		'expected': True, 
 		'description': 'robert l wiggins comparison with article'
 	},
     {
-		'input': 'robert l wolff;robert lee wolff', 
+		'name_one': 'robert l wolff',
+		'name_two': 'robert lee wolff', 
 		'expected': True, 
 		'description': 'robert l wolff comparison with article'
 	},
     {
-		'input': 'robert l. leathers;robert l. leathers', 
+		'name_one': 'robert l. leathers',
+		'name_two': 'robert l. leathers', 
 		'expected': True, 
 		'description': 'robert l. leathers comparison with article'
 	},
     {
-		'input': 'robert lafollette;robert lafollette', 
+		'name_one': 'robert lafollette',
+		'name_two': 'robert lafollette', 
 		'expected': True, 
 		'description': 'robert lafollette comparison with article'
 	},
     {
-		'input': 'robert lancaster;robert samuel lancaster', 
+		'name_one': 'robert lancaster',
+		'name_two': 'robert samuel lancaster', 
 		'expected': True, 
 		'description': 'robert lancaster comparison with article'
 	},
     {
-		'input': 'robert lang;robert lang', 
+		'name_one': 'robert lang',
+		'name_two': 'robert lang', 
 		'expected': True, 
 		'description': 'robert lang comparison with article'
 	},
     {
-		'input': 'robert lanni;robert patrick lanni', 
+		'name_one': 'robert lanni',
+		'name_two': 'robert patrick lanni', 
 		'expected': True, 
 		'description': 'robert lanni comparison with article'
 	},
     {
-		'input': 'robert lanzillotti;robert lanzillotti', 
+		'name_one': 'robert lanzillotti',
+		'name_two': 'robert lanzillotti', 
 		'expected': True, 
 		'description': 'robert lanzillotti comparison with article'
 	},
     {
-		'input': 'robert lee christian;robert christian', 
+		'name_one': 'robert lee christian',
+		'name_two': 'robert christian', 
 		'expected': True, 
 		'description': 'robert lee christian comparison with article'
 	},
     {
-		'input': 'robert lee hunter;francis robert hunter', 
+		'name_one': 'robert lee hunter',
+		'name_two': 'francis robert hunter', 
 		'expected': False, 
 		'description': 'robert lee hunter comparison with article'
 	},
     {
-		'input': 'robert lekachman;robert lekachman', 
+		'name_one': 'robert lekachman',
+		'name_two': 'robert lekachman', 
 		'expected': True, 
 		'description': 'robert lekachman comparison with article'
 	},
     {
-		'input': 'robert leon white;robert leon white', 
+		'name_one': 'robert leon white',
+		'name_two': 'robert leon white', 
 		'expected': True, 
 		'description': 'robert leon white comparison with article'
 	},
     {
-		'input': 'robert lepper;robert lepper', 
+		'name_one': 'robert lepper',
+		'name_two': 'robert lepper', 
 		'expected': True, 
 		'description': 'robert lepper comparison with article'
 	},
     {
-		'input': 'robert lew;robert louise', 
+		'name_one': 'robert lew',
+		'name_two': 'robert louise', 
 		'expected': True, 
 		'description': 'robert lew comparison with article'
 	},
     {
-		'input': 'robert m delaney;robert mills delaney', 
+		'name_one': 'robert m delaney',
+		'name_two': 'robert mills delaney', 
 		'expected': True, 
 		'description': 'robert m delaney comparison with article'
 	},
     {
-		'input': 'robert m la forge;robert mallory laforge', 
+		'name_one': 'robert m la forge',
+		'name_two': 'robert mallory laforge', 
 		'expected': True, 
 		'description': 'robert m la forge comparison with article'
 	},
     {
-		'input': 'robert m lewert;robert murdoch lewert', 
+		'name_one': 'robert m lewert',
+		'name_two': 'robert murdoch lewert', 
 		'expected': True, 
 		'description': 'robert m lewert comparison with article'
 	},
     {
-		'input': 'robert miller;robert demorest miller', 
+		'name_one': 'robert miller',
+		'name_two': 'robert demorest miller', 
 		'expected': True, 
 		'description': 'robert miller comparison with article'
 	},
     {
-		'input': 'robert n lass;robert n. lass', 
+		'name_one': 'robert n lass',
+		'name_two': 'robert n. lass', 
 		'expected': True, 
 		'description': 'robert n lass comparison with article'
 	},
     {
-		'input': 'robert r leidy;raimundo lida', 
+		'name_one': 'robert r leidy',
+		'name_two': 'raimundo lida', 
 		'expected': False, 
 		'description': 'robert r leidy comparison with article'
 	},
     {
-		'input': 'robert s landauer;robert s. landauer', 
+		'name_one': 'robert s landauer',
+		'name_two': 'robert s. landauer', 
 		'expected': True, 
 		'description': 'robert s landauer comparison with article'
 	},
     {
-		'input': 'robert s lewis;robert s. lewis', 
+		'name_one': 'robert s lewis',
+		'name_two': 'robert s. lewis', 
 		'expected': True, 
 		'description': 'robert s lewis comparison with article'
 	},
     {
-		'input': 'robert v finney;robert vansant finney', 
+		'name_one': 'robert v finney',
+		'name_two': 'robert vansant finney', 
 		'expected': True, 
 		'description': 'robert v finney comparison with article'
 	},
     {
-		'input': 'robert v longmuir;robert v. langmuir', 
+		'name_one': 'robert v longmuir',
+		'name_two': 'robert v. langmuir', 
 		'expected': True, 
 		'description': 'robert v longmuir comparison with article'
 	},
     {
-		'input': 'robert van de graaff;robert jemison van de graaff', 
+		'name_one': 'robert van de graaff',
+		'name_two': 'robert jemison van de graaff', 
 		'expected': True, 
 		'description': 'robert van de graaff comparison with article'
 	},
     {
-		'input': 'robert van horn;robert bowman van horn', 
+		'name_one': 'robert van horn',
+		'name_two': 'robert bowman van horn', 
 		'expected': True, 
 		'description': 'robert van horn comparison with article'
 	},
     {
-		'input': 'robert von nardroff;robert von nardroff', 
+		'name_one': 'robert von nardroff',
+		'name_two': 'robert von nardroff', 
 		'expected': True, 
 		'description': 'robert von nardroff comparison with article'
 	},
     {
-		'input': 'robert w dean;w. c. dean', 
+		'name_one': 'robert w dean',
+		'name_two': 'w. c. dean', 
 		'expected': False, 
 		'description': 'robert w dean comparison with article'
 	},
     {
-		'input': 'robert w desmond;robert w. desmond', 
+		'name_one': 'robert w desmond',
+		'name_two': 'robert w. desmond', 
 		'expected': True, 
 		'description': 'robert w desmond comparison with article'
 	},
     {
-		'input': 'robert w doisher;robert w. deisher', 
+		'name_one': 'robert w doisher',
+		'name_two': 'robert w. deisher', 
 		'expected': True, 
 		'description': 'robert w doisher comparison with article'
 	},
     {
-		'input': 'robert w houghton;robert w. van houten', 
+		'name_one': 'robert w houghton',
+		'name_two': 'robert w. van houten', 
 		'expected': True, 
 		'description': 'robert w houghton comparison with article'
 	},
     {
-		'input': 'robert w leonard;robert w. leonard', 
+		'name_one': 'robert w leonard',
+		'name_two': 'robert w. leonard', 
 		'expected': True, 
 		'description': 'robert w leonard comparison with article'
 	},
     {
-		'input': 'robert whitman;robert van duyne whitman', 
+		'name_one': 'robert whitman',
+		'name_two': 'robert van duyne whitman', 
 		'expected': True, 
 		'description': 'robert whitman comparison with article'
 	},
     {
-		'input': 'roberta d ortenburger;roberta deam ortenburger', 
+		'name_one': 'roberta d ortenburger',
+		'name_two': 'roberta deam ortenburger', 
 		'expected': True, 
 		'description': 'roberta d ortenburger comparison with article'
 	},
     {
-		'input': 'roberta m law;roberta law', 
+		'name_one': 'roberta m law',
+		'name_two': 'roberta law', 
 		'expected': True, 
 		'description': 'roberta m law comparison with article'
 	},
     {
-		'input': 'robt l burwell, jr;robert lemmon burwell', 
+		'name_one': 'robt l burwell, jr',
+		'name_two': 'robert lemmon burwell', 
 		'expected': True, 
 		'description': 'robt l burwell, jr comparison with article'
 	},
     {
-		'input': 'robt l goulding;robert lee goulding', 
+		'name_one': 'robt l goulding',
+		'name_two': 'robert lee goulding', 
 		'expected': True, 
 		'description': 'robt l goulding comparison with article'
 	},
     {
-		'input': 'roderick d gordon;roderick dean gordon', 
+		'name_one': 'roderick d gordon',
+		'name_two': 'roderick dean gordon', 
 		'expected': True, 
 		'description': 'roderick d gordon comparison with article'
 	},
     {
-		'input': 'roger c. larson;roger c. larson', 
+		'name_one': 'roger c. larson',
+		'name_two': 'roger c. larson', 
 		'expected': True, 
 		'description': 'roger c. larson comparison with article'
 	},
     {
-		'input': 'roger l lawrence;roger l. lawrence', 
+		'name_one': 'roger l lawrence',
+		'name_two': 'roger l. lawrence', 
 		'expected': True, 
 		'description': 'roger l lawrence comparison with article'
 	},
     {
-		'input': 'roger l williams;roger lawrence williams', 
+		'name_one': 'roger l williams',
+		'name_two': 'roger lawrence williams', 
 		'expected': True, 
 		'description': 'roger l williams comparison with article'
 	},
     {
-		'input': 'roland l kramer;roland laird kramer', 
+		'name_one': 'roland l kramer',
+		'name_two': 'roland laird kramer', 
 		'expected': True, 
 		'description': 'roland l kramer comparison with article'
 	},
     {
-		'input': 'roland v rider;rowland vance rider', 
+		'name_one': 'roland v rider',
+		'name_two': 'rowland vance rider', 
 		'expected': True, 
 		'description': 'roland v rider comparison with article'
 	},
     {
-		'input': 'roman s ladewski;roman s. ladewski', 
+		'name_one': 'roman s ladewski',
+		'name_two': 'roman s. ladewski', 
 		'expected': True, 
 		'description': 'roman s ladewski comparison with article'
 	},
     {
-		'input': 'ronald a lanor;a. a. lenior', 
+		'name_one': 'ronald a lanor',
+		'name_two': 'a. a. lenior', 
 		'expected': False, 
 		'description': 'ronald a lanor comparison with article'
 	},
     {
-		'input': 'ronald b levinson;ronald b. levinson', 
+		'name_one': 'ronald b levinson',
+		'name_two': 'ronald b. levinson', 
 		'expected': True, 
 		'description': 'ronald b levinson comparison with article'
 	},
     {
-		'input': 'ronald k de ford;ronald k. deford', 
+		'name_one': 'ronald k de ford',
+		'name_two': 'ronald k. deford', 
 		'expected': True, 
 		'description': 'ronald k de ford comparison with article'
 	},
     {
-		'input': 'ronnald g le sage;romuald g. lesage', 
+		'name_one': 'ronnald g le sage',
+		'name_two': 'romuald g. lesage', 
 		'expected': True, 
 		'description': 'ronnald g le sage comparison with article'
 	},
     {
-		'input': 'rosa lee andrews;mary lee andrews', 
+		'name_one': 'rosa lee andrews',
+		'name_two': 'mary lee andrews', 
 		'expected': False, 
 		'description': 'rosa lee andrews comparison with article'
 	},
     {
-		'input': 'rosalie wessel;rosa lee wessel', 
+		'name_one': 'rosalie wessel',
+		'name_two': 'rosa lee wessel', 
 		'expected': True, 
 		'description': 'rosalie wessel comparison with article'
 	},
     {
-		'input': 'rosalind s langsam;rosalind streep langsam', 
+		'name_one': 'rosalind s langsam',
+		'name_two': 'rosalind streep langsam', 
 		'expected': True, 
 		'description': 'rosalind s langsam comparison with article'
 	},
     {
-		'input': 'roscoe d leas;roscoe david leas', 
+		'name_one': 'roscoe d leas',
+		'name_two': 'roscoe david leas', 
 		'expected': True, 
 		'description': 'roscoe d leas comparison with article'
 	},
     {
-		'input': 'rose c mooney;rose ledieu mooney', 
+		'name_one': 'rose c mooney',
+		'name_two': 'rose ledieu mooney', 
 		'expected': False, 
 		'description': 'rose c mooney comparison with article'
 	},
     {
-		'input': 'rose hum lee;rose hum lee', 
+		'name_one': 'rose hum lee',
+		'name_two': 'rose hum lee', 
 		'expected': True, 
 		'description': 'rose hum lee comparison with article'
 	},
     {
-		'input': 'rose lamme;rose lamme', 
+		'name_one': 'rose lamme',
+		'name_two': 'rose lamme', 
 		'expected': True, 
 		'description': 'rose lamme comparison with article'
 	},
     {
-		'input': 'rose leske;rose katherine leske', 
+		'name_one': 'rose leske',
+		'name_two': 'rose katherine leske', 
 		'expected': True, 
 		'description': 'rose leske comparison with article'
 	},
     {
-		'input': 'rose lisenby;rose lee lisenby', 
+		'name_one': 'rose lisenby',
+		'name_two': 'rose lee lisenby', 
 		'expected': True, 
 		'description': 'rose lisenby comparison with article'
 	},
     {
-		'input': 'rowland w leiby;rowland willis leiby', 
+		'name_one': 'rowland w leiby',
+		'name_two': 'rowland willis leiby', 
 		'expected': True, 
 		'description': 'rowland w leiby comparison with article'
 	},
     {
-		'input': 'roy c langford;roy clinton langford', 
+		'name_one': 'roy c langford',
+		'name_two': 'roy clinton langford', 
 		'expected': True, 
 		'description': 'roy c langford comparison with article'
 	},
     {
-		'input': 'roy d sheffield;roy dexter sheffieid', 
+		'name_one': 'roy d sheffield',
+		'name_two': 'roy dexter sheffieid', 
 		'expected': True, 
 		'description': 'roy d sheffield comparison with article'
 	},
     {
-		'input': 'roy h lanphear;roy higinbotham lanphear', 
+		'name_one': 'roy h lanphear',
+		'name_two': 'roy higinbotham lanphear', 
 		'expected': True, 
 		'description': 'roy h lanphear comparison with article'
 	},
     {
-		'input': 'roy s dearstyne;roy styring dearstyne', 
+		'name_one': 'roy s dearstyne',
+		'name_two': 'roy styring dearstyne', 
 		'expected': True, 
 		'description': 'roy s dearstyne comparison with article'
 	},
     {
-		'input': 'roy s jensen;mead leroy jensen', 
+		'name_one': 'roy s jensen',
+		'name_two': 'mead leroy jensen', 
 		'expected': False, 
 		'description': 'roy s jensen comparison with article'
 	},
     {
-		'input': 'roy v lalmage;roy van neste talmage', 
+		'name_one': 'roy v lalmage',
+		'name_two': 'roy van neste talmage', 
 		'expected': True, 
 		'description': 'roy v lalmage comparison with article'
 	},
     {
-		'input': 'ruby l valz;l. r. la valle', 
+		'name_one': 'ruby l valz',
+		'name_two': 'l. r. la valle', 
 		'expected': False, 
 		'description': 'ruby l valz comparison with article'
 	},
     {
-		'input': 'rudolph e langer;rudolph ernest langer', 
+		'name_one': 'rudolph e langer',
+		'name_two': 'rudolph ernest langer', 
 		'expected': True, 
 		'description': 'rudolph e langer comparison with article'
 	},
     {
-		'input': 'rudolph l biesele;rudolph leopold biesele', 
+		'name_one': 'rudolph l biesele',
+		'name_two': 'rudolph leopold biesele', 
 		'expected': True, 
 		'description': 'rudolph l biesele comparison with article'
 	},
     {
-		'input': 'rupert b vance;rupert bayless vance', 
+		'name_one': 'rupert b vance',
+		'name_two': 'rupert bayless vance', 
 		'expected': True, 
 		'description': 'rupert b vance comparison with article'
 	},
     {
-		'input': 'russel laman;russell laman', 
+		'name_one': 'russel laman',
+		'name_two': 'russell laman', 
 		'expected': True, 
 		'description': 'russel laman comparison with article'
 	},
     {
-		'input': 'russell a lecronier;a. russell lecronier', 
+		'name_one': 'russell a lecronier',
+		'name_two': 'a. russell lecronier', 
 		'expected': True, 
 		'description': 'russell a lecronier comparison with article'
 	},
     {
-		'input': 'russell d dement;r. d. dement', 
+		'name_one': 'russell d dement',
+		'name_two': 'r. d. dement', 
 		'expected': True, 
 		'description': 'russell d dement comparison with article'
 	},
     {
-		'input': 'russell d snyder;russell dewey snyder', 
+		'name_one': 'russell d snyder',
+		'name_two': 'russell dewey snyder', 
 		'expected': True, 
 		'description': 'russell d snyder comparison with article'
 	},
     {
-		'input': 'russell e kittnell;joseph e. von kaenel', 
+		'name_one': 'russell e kittnell',
+		'name_two': 'joseph e. von kaenel', 
 		'expected': False, 
 		'description': 'russell e kittnell comparison with article'
 	},
     {
-		'input': 'russell e larson;russell e. larson', 
+		'name_one': 'russell e larson',
+		'name_two': 'russell e. larson', 
 		'expected': True, 
 		'description': 'russell e larson comparison with article'
 	},
     {
-		'input': 'russell h larson;russell harold larson', 
+		'name_one': 'russell h larson',
+		'name_two': 'russell harold larson', 
 		'expected': True, 
 		'description': 'russell h larson comparison with article'
 	},
     {
-		'input': 'russell l dicks;russell leslie dicks', 
+		'name_one': 'russell l dicks',
+		'name_two': 'russell leslie dicks', 
 		'expected': True, 
 		'description': 'russell l dicks comparison with article'
 	},
     {
-		'input': 'russell r de alvarez;russell r. de alvarez', 
+		'name_one': 'russell r de alvarez',
+		'name_two': 'russell r. de alvarez', 
 		'expected': True, 
 		'description': 'russell r de alvarez comparison with article'
 	},
     {
-		'input': 'russell r larmon;russell raymond larmon', 
+		'name_one': 'russell r larmon',
+		'name_two': 'russell raymond larmon', 
 		'expected': True, 
 		'description': 'russell r larmon comparison with article'
 	},
     {
-		'input': 'ruth b langford;ruth betty langford', 
+		'name_one': 'ruth b langford',
+		'name_two': 'ruth betty langford', 
 		'expected': True, 
 		'description': 'ruth b langford comparison with article'
 	},
     {
-		'input': 'ruth b leedy;ruth berg leedy', 
+		'name_one': 'ruth b leedy',
+		'name_two': 'ruth berg leedy', 
 		'expected': True, 
 		'description': 'ruth b leedy comparison with article'
 	},
     {
-		'input': 'ruth deacon;ruth e. deacon', 
+		'name_one': 'ruth deacon',
+		'name_two': 'ruth e. deacon', 
 		'expected': True, 
 		'description': 'ruth deacon comparison with article'
 	},
     {
-		'input': 'ruth dean;ruth josephine dean', 
+		'name_one': 'ruth dean',
+		'name_two': 'ruth josephine dean', 
 		'expected': True, 
 		'description': 'ruth dean comparison with article'
 	},
     {
-		'input': 'ruth lee kennedy;ruth lee kennedy', 
+		'name_one': 'ruth lee kennedy',
+		'name_two': 'ruth lee kennedy', 
 		'expected': True, 
 		'description': 'ruth lee kennedy comparison with article'
 	},
     {
-		'input': 'ruth leonard;ruth shaw leonard', 
+		'name_one': 'ruth leonard',
+		'name_two': 'ruth shaw leonard', 
 		'expected': True, 
 		'description': 'ruth leonard comparison with article'
 	},
     {
-		'input': 'ruth m lambertus;ruth m. lambertus', 
+		'name_one': 'ruth m lambertus',
+		'name_two': 'ruth m. lambertus', 
 		'expected': True, 
 		'description': 'ruth m lambertus comparison with article'
 	},
     {
-		'input': 'ruth m lampson;ruth murdock lampson', 
+		'name_one': 'ruth m lampson',
+		'name_two': 'ruth murdock lampson', 
 		'expected': True, 
 		'description': 'ruth m lampson comparison with article'
 	},
     {
-		'input': 'ruth n denny;reuel n. denney', 
+		'name_one': 'ruth n denny',
+		'name_two': 'reuel n. denney', 
 		'expected': False, 
 		'description': 'ruth n denny comparison with article'
 	},
     {
-		'input': 'ruth r dismang;winston r. de monsabert', 
+		'name_one': 'ruth r dismang',
+		'name_two': 'winston r. de monsabert', 
 		'expected': False, 
 		'description': 'ruth r dismang comparison with article'
 	},
     {
-		'input': 'ruth r leitch;ruth redding leitch', 
+		'name_one': 'ruth r leitch',
+		'name_two': 'ruth redding leitch', 
 		'expected': True, 
 		'description': 'ruth r leitch comparison with article'
 	},
     {
-		'input': 'ruth s lamb;ruth stanton lamb', 
+		'name_one': 'ruth s lamb',
+		'name_two': 'ruth stanton lamb', 
 		'expected': True, 
 		'description': 'ruth s lamb comparison with article'
 	},
     {
-		'input': 'ruth s lerner;ruth spero lerner', 
+		'name_one': 'ruth s lerner',
+		'name_two': 'ruth spero lerner', 
 		'expected': True, 
 		'description': 'ruth s lerner comparison with article'
 	},
     {
-		'input': 'ruth t. lehman;ruth t. lehman', 
+		'name_one': 'ruth t. lehman',
+		'name_two': 'ruth t. lehman', 
 		'expected': True, 
 		'description': 'ruth t. lehman comparison with article'
 	},
     {
-		'input': 's arthur lake;w. s. lake', 
+		'name_one': 's arthur lake',
+		'name_two': 'w. s. lake', 
 		'expected': False, 
 		'description': 's arthur lake comparison with article'
 	},
     {
-		'input': 's le roy brown;simpson leroy brown', 
+		'name_one': 's le roy brown',
+		'name_two': 'simpson leroy brown', 
 		'expected': True, 
 		'description': 's le roy brown comparison with article'
 	},
     {
-		'input': 's lewis drake;louis s. drake', 
+		'name_one': 's lewis drake',
+		'name_two': 'louis s. drake', 
 		'expected': True, 
 		'description': 's lewis drake comparison with article'
 	},
     {
-		'input': 'salvatore devita;salvatore devita', 
+		'name_one': 'salvatore devita',
+		'name_two': 'salvatore devita', 
 		'expected': True, 
 		'description': 'salvatore devita comparison with article'
 	},
     {
-		'input': 'sam c dellinger;samuel claudius dellinger', 
+		'name_one': 'sam c dellinger',
+		'name_two': 'samuel claudius dellinger', 
 		'expected': True, 
 		'description': 'sam c dellinger comparison with article'
 	},
     {
-		'input': 'sam legvold;sam legvold', 
+		'name_one': 'sam legvold',
+		'name_two': 'sam legvold', 
 		'expected': True, 
 		'description': 'sam legvold comparison with article'
 	},
     {
-		'input': 'sam leifeste;sam a. d. leifeste', 
+		'name_one': 'sam leifeste',
+		'name_two': 'sam a. d. leifeste', 
 		'expected': True, 
 		'description': 'sam leifeste comparison with article'
 	},
     {
-		'input': 'samuel a lear;samuel a. lear', 
+		'name_one': 'samuel a lear',
+		'name_two': 'samuel a. lear', 
 		'expected': True, 
 		'description': 'samuel a lear comparison with article'
 	},
     {
-		'input': 'samuel a levinson;samuel azor levinson', 
+		'name_one': 'samuel a levinson',
+		'name_two': 'samuel azor levinson', 
 		'expected': True, 
 		'description': 'samuel a levinson comparison with article'
 	},
     {
-		'input': 'samuel d atkins;samuel decoster atkins', 
+		'name_one': 'samuel d atkins',
+		'name_two': 'samuel decoster atkins', 
 		'expected': True, 
 		'description': 'samuel d atkins comparison with article'
 	},
     {
-		'input': 'samuel d zelden;samuel demitry zeldin', 
+		'name_one': 'samuel d zelden',
+		'name_two': 'samuel demitry zeldin', 
 		'expected': True, 
 		'description': 'samuel d zelden comparison with article'
 	},
     {
-		'input': 'samuel detwiler;samuel r. detwiler', 
+		'name_one': 'samuel detwiler',
+		'name_two': 'samuel r. detwiler', 
 		'expected': True, 
 		'description': 'samuel detwiler comparison with article'
 	},
     {
-		'input': 'samuel j jr lang;samuel j. lang', 
+		'name_one': 'samuel j jr lang',
+		'name_two': 'samuel j. lang', 
 		'expected': True, 
 		'description': 'samuel j jr lang comparison with article'
 	},
     {
-		'input': 'samuel l gargill;samuel leon gargill', 
+		'name_one': 'samuel l gargill',
+		'name_two': 'samuel leon gargill', 
 		'expected': True, 
 		'description': 'samuel l gargill comparison with article'
 	},
     {
-		'input': 'samuel l greenwood;sam lee greenwood', 
+		'name_one': 'samuel l greenwood',
+		'name_two': 'sam lee greenwood', 
 		'expected': True, 
 		'description': 'samuel l greenwood comparison with article'
 	},
     {
-		'input': 'samuel l leonard;samuel leeson leonard', 
+		'name_one': 'samuel l leonard',
+		'name_two': 'samuel leeson leonard', 
 		'expected': True, 
 		'description': 'samuel l leonard comparison with article'
 	},
     {
-		'input': 'samuel l prince;samuel lander prince', 
+		'name_one': 'samuel l prince',
+		'name_two': 'samuel lander prince', 
 		'expected': True, 
 		'description': 'samuel l prince comparison with article'
 	},
     {
-		'input': 'samuel lang;samuel lang', 
+		'name_one': 'samuel lang',
+		'name_two': 'samuel lang', 
 		'expected': True, 
 		'description': 'samuel lang comparison with article'
 	},
     {
-		'input': 'samuel leger;samuel h. leger', 
+		'name_one': 'samuel leger',
+		'name_two': 'samuel h. leger', 
 		'expected': True, 
 		'description': 'samuel leger comparison with article'
 	},
     {
-		'input': 'samuel lehman;samuel george lehman', 
+		'name_one': 'samuel lehman',
+		'name_two': 'samuel george lehman', 
 		'expected': True, 
 		'description': 'samuel lehman comparison with article'
 	},
     {
-		'input': 'samuel lerner;samuel lerner', 
+		'name_one': 'samuel lerner',
+		'name_two': 'samuel lerner', 
 		'expected': True, 
 		'description': 'samuel lerner comparison with article'
 	},
     {
-		'input': 'samuel m derrick;samuel melanchthon derrick', 
+		'name_one': 'samuel m derrick',
+		'name_two': 'samuel melanchthon derrick', 
 		'expected': True, 
 		'description': 'samuel m derrick comparison with article'
 	},
     {
-		'input': 'samuel m levin;samuel m. levin', 
+		'name_one': 'samuel m levin',
+		'name_two': 'samuel m. levin', 
 		'expected': True, 
 		'description': 'samuel m levin comparison with article'
 	},
     {
-		'input': 'samuel van valkenburg;samuel van valkenburg', 
+		'name_one': 'samuel van valkenburg',
+		'name_two': 'samuel van valkenburg', 
 		'expected': True, 
 		'description': 'samuel van valkenburg comparison with article'
 	},
     {
-		'input': 'sandra lee wray;alexius taikyue ree', 
+		'name_one': 'sandra lee wray',
+		'name_two': 'alexius taikyue ree', 
 		'expected': False, 
 		'description': 'sandra lee wray comparison with article'
 	},
     {
-		'input': 'sandra lehrman;alexander lehrman', 
+		'name_one': 'sandra lehrman',
+		'name_two': 'alexander lehrman', 
 		'expected': False, 
 		'description': 'sandra lehrman comparison with article'
 	},
     {
-		'input': 'sanford e leeds;sanford e. leeds', 
+		'name_one': 'sanford e leeds',
+		'name_two': 'sanford e. leeds', 
 		'expected': True, 
 		'description': 'sanford e leeds comparison with article'
 	},
     {
-		'input': 'sara a deford;sara deford', 
+		'name_one': 'sara a deford',
+		'name_two': 'sara deford', 
 		'expected': True, 
 		'description': 'sara a deford comparison with article'
 	},
     {
-		'input': 'sara e burnham;ebert van buren', 
+		'name_one': 'sara e burnham',
+		'name_two': 'ebert van buren', 
 		'expected': False, 
 		'description': 'sara e burnham comparison with article'
 	},
     {
-		'input': 'sarah denett holmes;sarah bennett holmes', 
+		'name_one': 'sarah denett holmes',
+		'name_two': 'sarah bennett holmes', 
 		'expected': True, 
 		'description': 'sarah denett holmes comparison with article'
 	},
     {
-		'input': 'sarah m vancil;sarah may vancil', 
+		'name_one': 'sarah m vancil',
+		'name_two': 'sarah may vancil', 
 		'expected': True, 
 		'description': 'sarah m vancil comparison with article'
 	},
     {
-		'input': 'saul levy;saul levy', 
+		'name_one': 'saul levy',
+		'name_two': 'saul levy', 
 		'expected': True, 
 		'description': 'saul levy comparison with article'
 	},
     {
-		'input': 'saunders mac lane;saunders mac lane', 
+		'name_one': 'saunders mac lane',
+		'name_two': 'saunders mac lane', 
 		'expected': True, 
 		'description': 'saunders mac lane comparison with article'
 	},
     {
-		'input': 'sergio debenedetti;sergio de benedetti', 
+		'name_one': 'sergio debenedetti',
+		'name_two': 'sergio de benedetti', 
 		'expected': True, 
 		'description': 'sergio debenedetti comparison with article'
 	},
     {
-		'input': 'sharley b demotte;sharley b. demotte', 
+		'name_one': 'sharley b demotte',
+		'name_two': 'sharley b. demotte', 
 		'expected': True, 
 		'description': 'sharley b demotte comparison with article'
 	},
     {
-		'input': 'shelby d gerking, jr;shelby delos gerking', 
+		'name_one': 'shelby d gerking, jr',
+		'name_two': 'shelby delos gerking', 
 		'expected': True, 
 		'description': 'shelby d gerking, jr comparison with article'
 	},
     {
-		'input': 'sherman p lawton;sherman paxton lawton', 
+		'name_one': 'sherman p lawton',
+		'name_two': 'sherman paxton lawton', 
 		'expected': True, 
 		'description': 'sherman p lawton comparison with article'
 	},
     {
-		'input': 'sidney lees;sidney lees', 
+		'name_one': 'sidney lees',
+		'name_two': 'sidney lees', 
 		'expected': True, 
 		'description': 'sidney lees comparison with article'
 	},
     {
-		'input': 'sigmund w leifson;sigmund w. leifson', 
+		'name_one': 'sigmund w leifson',
+		'name_two': 'sigmund w. leifson', 
 		'expected': True, 
 		'description': 'sigmund w leifson comparison with article'
 	},
     {
-		'input': 'signe larsen;esper signius larsen', 
+		'name_one': 'signe larsen',
+		'name_two': 'esper signius larsen', 
 		'expected': True, 
 		'description': 'signe larsen comparison with article'
 	},
     {
-		'input': 'silvere c. vandecaveye;s. c. vandecaveye', 
+		'name_one': 'silvere c. vandecaveye',
+		'name_two': 's. c. vandecaveye', 
 		'expected': True, 
 		'description': 'silvere c. vandecaveye comparison with article'
 	},
     {
-		'input': 'simeon e leland;simeon elbridge leland', 
+		'name_one': 'simeon e leland',
+		'name_two': 'simeon elbridge leland', 
 		'expected': True, 
 		'description': 'simeon e leland comparison with article'
 	},
     {
-		'input': 'simon leopold;simon stein leopold', 
+		'name_one': 'simon leopold',
+		'name_two': 'simon stein leopold', 
 		'expected': True, 
 		'description': 'simon leopold comparison with article'
 	},
     {
-		'input': 'sister mary john leo;mary john', 
+		'name_one': 'sister mary john leo',
+		'name_two': 'mary john', 
 		'expected': True, 
 		'description': 'sister mary john leo comparison with article'
 	},
     {
-		'input': 'sol levin;saul levin', 
+		'name_one': 'sol levin',
+		'name_two': 'saul levin', 
 		'expected': True, 
 		'description': 'sol levin comparison with article'
 	},
     {
-		'input': 'solomon leider;solomon leader', 
+		'name_one': 'solomon leider',
+		'name_two': 'solomon leader', 
 		'expected': True, 
 		'description': 'solomon leider comparison with article'
 	},
     {
-		'input': 'sophia mcdonald;sophia levy mcdonald', 
+		'name_one': 'sophia mcdonald',
+		'name_two': 'sophia levy mcdonald', 
 		'expected': True, 
 		'description': 'sophia mcdonald comparison with article'
 	},
     {
-		'input': 'stanley a leavy;stanley arnold leavy', 
+		'name_one': 'stanley a leavy',
+		'name_two': 'stanley arnold leavy', 
 		'expected': True, 
 		'description': 'stanley a leavy comparison with article'
 	},
     {
-		'input': 'stanley lamm;stanley s. lamm', 
+		'name_one': 'stanley lamm',
+		'name_two': 'stanley s. lamm', 
 		'expected': True, 
 		'description': 'stanley lamm comparison with article'
 	},
     {
-		'input': 'stanley lesser;stanley r. lesser', 
+		'name_one': 'stanley lesser',
+		'name_two': 'stanley r. lesser', 
 		'expected': True, 
 		'description': 'stanley lesser comparison with article'
 	},
     {
-		'input': 'stella l lamond;stella lodge lamond', 
+		'name_one': 'stella l lamond',
+		'name_two': 'stella lodge lamond', 
 		'expected': True, 
 		'description': 'stella l lamond comparison with article'
 	},
     {
-		'input': 'stella l lange;stella lange', 
+		'name_one': 'stella l lange',
+		'name_two': 'stella lange', 
 		'expected': True, 
 		'description': 'stella l lange comparison with article'
 	},
     {
-		'input': 'stephen dean, iii;stephen j. dean', 
+		'name_one': 'stephen dean, iii',
+		'name_two': 'stephen j. dean', 
 		'expected': True, 
 		'description': 'stephen dean, iii comparison with article'
 	},
     {
-		'input': 'stewart l garrison;stewart lee garrison', 
+		'name_one': 'stewart l garrison',
+		'name_two': 'stewart lee garrison', 
 		'expected': True, 
 		'description': 'stewart l garrison comparison with article'
 	},
     {
-		'input': 'stewart s dallyn;stewart lamonte dallyn', 
+		'name_one': 'stewart s dallyn',
+		'name_two': 'stewart lamonte dallyn', 
 		'expected': False, 
 		'description': 'stewart s dallyn comparison with article'
 	},
     {
-		'input': 'stuart b le compte;stuart b. lecompte', 
+		'name_one': 'stuart b le compte',
+		'name_two': 'stuart b. lecompte', 
 		'expected': True, 
 		'description': 'stuart b le compte comparison with article'
 	},
     {
-		'input': 'susan d dees;susan coons dees', 
+		'name_one': 'susan d dees',
+		'name_two': 'susan coons dees', 
 		'expected': False, 
 		'description': 'susan d dees comparison with article'
 	},
     {
-		'input': 'suzanne lasater;suzanne margot lasater', 
+		'name_one': 'suzanne lasater',
+		'name_two': 'suzanne margot lasater', 
 		'expected': True, 
 		'description': 'suzanne lasater comparison with article'
 	},
     {
-		'input': 't l sharfman;isaiah leo sharfman', 
+		'name_one': 't l sharfman',
+		'name_two': 'isaiah leo sharfman', 
 		'expected': False, 
 		'description': 't l sharfman comparison with article'
 	},
     {
-		'input': 't. dewitt carr;t. dewitt carr', 
+		'name_one': 't. dewitt carr',
+		'name_two': 't. dewitt carr', 
 		'expected': True, 
 		'description': 't. dewitt carr comparison with article'
 	},
     {
-		'input': 't. lawerence foran;t. lawrence foran', 
+		'name_one': 't. lawerence foran',
+		'name_two': 't. lawrence foran', 
 		'expected': True, 
 		'description': 't. lawerence foran comparison with article'
 	},
     {
-		'input': 'talmadge l peele;talmadge lee peele', 
+		'name_one': 'talmadge l peele',
+		'name_two': 'talmadge lee peele', 
 		'expected': True, 
 		'description': 'talmadge l peele comparison with article'
 	},
     {
-		'input': 'tella marie debose;tella marie debose', 
+		'name_one': 'tella marie debose',
+		'name_two': 'tella marie debose', 
 		'expected': True, 
 		'description': 'tella marie debose comparison with article'
 	},
     {
-		'input': 'thelma lavine;thelma z. lavine', 
+		'name_one': 'thelma lavine',
+		'name_two': 'thelma z. lavine', 
 		'expected': True, 
 		'description': 'thelma lavine comparison with article'
 	},
     {
-		'input': 'theodore a lams;theodore a. lams', 
+		'name_one': 'theodore a lams',
+		'name_two': 'theodore a. lams', 
 		'expected': True, 
 		'description': 'theodore a lams comparison with article'
 	},
     {
-		'input': 'theodore b ley;theodore de lay', 
+		'name_one': 'theodore b ley',
+		'name_two': 'theodore de lay', 
 		'expected': True, 
 		'description': 'theodore b ley comparison with article'
 	},
     {
-		'input': 'theodore b ley;theodore s. de lay', 
+		'name_one': 'theodore b ley',
+		'name_two': 'theodore s. de lay', 
 		'expected': False, 
 		'description': 'theodore b ley comparison with article'
 	},
     {
-		'input': 'theodore bakermann;theodore von karman', 
+		'name_one': 'theodore bakermann',
+		'name_two': 'theodore von karman', 
 		'expected': False, 
 		'description': 'theodore bakermann comparison with article'
 	},
     {
-		'input': 'theodore harris;theodore lester harris', 
+		'name_one': 'theodore harris',
+		'name_two': 'theodore lester harris', 
 		'expected': True, 
 		'description': 'theodore harris comparison with article'
 	},
     {
-		'input': 'theodore l dehne;theodore l. dehne', 
+		'name_one': 'theodore l dehne',
+		'name_two': 'theodore l. dehne', 
 		'expected': True, 
 		'description': 'theodore l dehne comparison with article'
 	},
     {
-		'input': 'theodore lang;theodore lang', 
+		'name_one': 'theodore lang',
+		'name_two': 'theodore lang', 
 		'expected': True, 
 		'description': 'theodore lang comparison with article'
 	},
     {
-		'input': 'theodore paul phillips;theodore dewitt phillips', 
+		'name_one': 'theodore paul phillips',
+		'name_two': 'theodore dewitt phillips', 
 		'expected': False, 
 		'description': 'theodore paul phillips comparison with article'
 	},
     {
-		'input': 'theodore storch;theodore j. c. von storch', 
+		'name_one': 'theodore storch',
+		'name_two': 'theodore j. c. von storch', 
 		'expected': True, 
 		'description': 'theodore storch comparison with article'
 	},
     {
-		'input': 'theodore t lafferty, sr;theodore t. lafferty', 
+		'name_one': 'theodore t lafferty, sr',
+		'name_two': 'theodore t. lafferty', 
 		'expected': True, 
 		'description': 'theodore t lafferty, sr comparison with article'
 	},
     {
-		'input': 'theordore l reller;theodore lee reller', 
+		'name_one': 'theordore l reller',
+		'name_two': 'theodore lee reller', 
 		'expected': True, 
 		'description': 'theordore l reller comparison with article'
 	},
     {
-		'input': 'thomas a leonard;a. orin leonard', 
+		'name_one': 'thomas a leonard',
+		'name_two': 'a. orin leonard', 
 		'expected': False, 
 		'description': 'thomas a leonard comparison with article'
 	},
     {
-		'input': 'thomas a. dent;thomas johnstone dent', 
+		'name_one': 'thomas a. dent',
+		'name_two': 'thomas johnstone dent', 
 		'expected': False, 
 		'description': 'thomas a. dent comparison with article'
 	},
     {
-		'input': 'thomas c deane;c. thomas dean', 
+		'name_one': 'thomas c deane',
+		'name_two': 'c. thomas dean', 
 		'expected': True, 
 		'description': 'thomas c deane comparison with article'
 	},
     {
-		'input': 'thomas c laipply;thomas charles laipply', 
+		'name_one': 'thomas c laipply',
+		'name_two': 'thomas charles laipply', 
 		'expected': True, 
 		'description': 'thomas c laipply comparison with article'
 	},
     {
-		'input': 'thomas c van cleve;thomas curtis van cleve', 
+		'name_one': 'thomas c van cleve',
+		'name_two': 'thomas curtis van cleve', 
 		'expected': True, 
 		'description': 'thomas c van cleve comparison with article'
 	},
     {
-		'input': 'thomas demott;thomas demott', 
+		'name_one': 'thomas demott',
+		'name_two': 'thomas demott', 
 		'expected': True, 
 		'description': 'thomas demott comparison with article'
 	},
     {
-		'input': 'thomas devries;thomas de vries', 
+		'name_one': 'thomas devries',
+		'name_two': 'thomas de vries', 
 		'expected': True, 
 		'description': 'thomas devries comparison with article'
 	},
     {
-		'input': 'thomas e lasswell;thomas e. lasswell', 
+		'name_one': 'thomas e lasswell',
+		'name_two': 'thomas e. lasswell', 
 		'expected': True, 
 		'description': 'thomas e lasswell comparison with article'
 	},
     {
-		'input': 'thomas f debnam;thomas finley debnam', 
+		'name_one': 'thomas f debnam',
+		'name_two': 'thomas finley debnam', 
 		'expected': True, 
 		'description': 'thomas f debnam comparison with article'
 	},
     {
-		'input': 'thomas h lanman;thomas hinckley lanman', 
+		'name_one': 'thomas h lanman',
+		'name_two': 'thomas hinckley lanman', 
 		'expected': True, 
 		'description': 'thomas h lanman comparison with article'
 	},
     {
-		'input': 'thomas h le duc;thomas harold leduc', 
+		'name_one': 'thomas h le duc',
+		'name_two': 'thomas harold leduc', 
 		'expected': True, 
 		'description': 'thomas h le duc comparison with article'
 	},
     {
-		'input': 'thomas l leach;thomas luther leach', 
+		'name_one': 'thomas l leach',
+		'name_two': 'thomas luther leach', 
 		'expected': True, 
 		'description': 'thomas l leach comparison with article'
 	},
     {
-		'input': 'thomas l quay;thomas lavelle quay', 
+		'name_one': 'thomas l quay',
+		'name_two': 'thomas lavelle quay', 
 		'expected': True, 
 		'description': 'thomas l quay comparison with article'
 	},
     {
-		'input': 'thomas l savage;thomas laman savage', 
+		'name_one': 'thomas l savage',
+		'name_two': 'thomas laman savage', 
 		'expected': True, 
 		'description': 'thomas l savage comparison with article'
 	},
     {
-		'input': 'thomas l wade, jr;thomas leonard wade', 
+		'name_one': 'thomas l wade, jr',
+		'name_two': 'thomas leonard wade', 
 		'expected': True, 
 		'description': 'thomas l wade, jr comparison with article'
 	},
     {
-		'input': 'thomas l wilson;thomas leslie wilson', 
+		'name_one': 'thomas l wilson',
+		'name_two': 'thomas leslie wilson', 
 		'expected': True, 
 		'description': 'thomas l wilson comparison with article'
 	},
     {
-		'input': 'thomas l york;thomas lenoir york', 
+		'name_one': 'thomas l york',
+		'name_two': 'thomas lenoir york', 
 		'expected': True, 
 		'description': 'thomas l york comparison with article'
 	},
     {
-		'input': 'thomas la saine;thomas a. lasaine', 
+		'name_one': 'thomas la saine',
+		'name_two': 'thomas a. lasaine', 
 		'expected': True, 
 		'description': 'thomas la saine comparison with article'
 	},
     {
-		'input': 'thomas lauritsen;thomas lauritsen', 
+		'name_one': 'thomas lauritsen',
+		'name_two': 'thomas lauritsen', 
 		'expected': True, 
 		'description': 'thomas lauritsen comparison with article'
 	},
     {
-		'input': 'thomas lee bahler;thomas l. bahler', 
+		'name_one': 'thomas lee bahler',
+		'name_two': 'thomas l. bahler', 
 		'expected': True, 
 		'description': 'thomas lee bahler comparison with article'
 	},
     {
-		'input': 'thomas n lewis, n;thomas mcdowell nelson lewis', 
+		'name_one': 'thomas n lewis, n',
+		'name_two': 'thomas mcdowell nelson lewis', 
 		'expected': True, 
 		'description': 'thomas n lewis, n comparison with article'
 	},
     {
-		'input': 'thomas o martin;thomas leroy martin', 
+		'name_one': 'thomas o martin',
+		'name_two': 'thomas leroy martin', 
 		'expected': False, 
 		'description': 'thomas o martin comparison with article'
 	},
     {
-		'input': 'thomas r kinney;thomas dearman kinney', 
+		'name_one': 'thomas r kinney',
+		'name_two': 'thomas dearman kinney', 
 		'expected': False, 
 		'description': 'thomas r kinney comparison with article'
 	},
     {
-		'input': 'thomas s lee;thomas seymour lee', 
+		'name_one': 'thomas s lee',
+		'name_two': 'thomas seymour lee', 
 		'expected': True, 
 		'description': 'thomas s lee comparison with article'
 	},
     {
-		'input': 'thomas s leith;thomas seeter leith', 
+		'name_one': 'thomas s leith',
+		'name_two': 'thomas seeter leith', 
 		'expected': True, 
 		'description': 'thomas s leith comparison with article'
 	},
     {
-		'input': 'thomas van voorhis;thomas p. van voorhis', 
+		'name_one': 'thomas van voorhis',
+		'name_two': 'thomas p. van voorhis', 
 		'expected': True, 
 		'description': 'thomas van voorhis comparison with article'
 	},
     {
-		'input': 'thomas vance;thomas franklin vance', 
+		'name_one': 'thomas vance',
+		'name_two': 'thomas franklin vance', 
 		'expected': True, 
 		'description': 'thomas vance comparison with article'
 	},
     {
-		'input': 'thomas vance;thomas hume vance', 
+		'name_one': 'thomas vance',
+		'name_two': 'thomas hume vance', 
 		'expected': True, 
 		'description': 'thomas vance comparison with article'
 	},
     {
-		'input': 'thomas w lambe;thomas william lambe', 
+		'name_one': 'thomas w lambe',
+		'name_two': 'thomas william lambe', 
 		'expected': True, 
 		'description': 'thomas w lambe comparison with article'
 	},
     {
-		'input': 'thomas w lester;thomas william lester', 
+		'name_one': 'thomas w lester',
+		'name_two': 'thomas william lester', 
 		'expected': True, 
 		'description': 'thomas w lester comparison with article'
 	},
     {
-		'input': 'thorstin larsen;thornstein larsen', 
+		'name_one': 'thorstin larsen',
+		'name_two': 'thornstein larsen', 
 		'expected': True, 
 		'description': 'thorstin larsen comparison with article'
 	},
     {
-		'input': 'thurman w van meter;thurman w. van metre', 
+		'name_one': 'thurman w van meter',
+		'name_two': 'thurman w. van metre', 
 		'expected': True, 
 		'description': 'thurman w van meter comparison with article'
 	},
     {
-		'input': 'timothy f oleary;timothy f. leary', 
+		'name_one': 'timothy f oleary',
+		'name_two': 'timothy f. leary', 
 		'expected': True, 
 		'description': 'timothy f oleary comparison with article'
 	},
     {
-		'input': 'tom f lewis;tom f. lewis', 
+		'name_one': 'tom f lewis',
+		'name_two': 'tom f. lewis', 
 		'expected': True, 
 		'description': 'tom f lewis comparison with article'
 	},
     {
-		'input': 'tourgee debose;tourgee a. debose', 
+		'name_one': 'tourgee debose',
+		'name_two': 'tourgee a. debose', 
 		'expected': True, 
 		'description': 'tourgee debose comparison with article'
 	},
     {
-		'input': 'tylene e dunning;e. leon dunning', 
+		'name_one': 'tylene e dunning',
+		'name_two': 'e. leon dunning', 
 		'expected': False, 
 		'description': 'tylene e dunning comparison with article'
 	},
     {
-		'input': 'ulysses s vance;ulysses vance', 
+		'name_one': 'ulysses s vance',
+		'name_two': 'ulysses vance', 
 		'expected': True, 
 		'description': 'ulysses s vance comparison with article'
 	},
     {
-		'input': 'una l robinson;una lane robinson', 
+		'name_one': 'una l robinson',
+		'name_two': 'una lane robinson', 
 		'expected': True, 
 		'description': 'una l robinson comparison with article'
 	},
     {
-		'input': 'v lewis bassie;v. lewis bassie', 
+		'name_one': 'v lewis bassie',
+		'name_two': 'v. lewis bassie', 
 		'expected': True, 
 		'description': 'v lewis bassie comparison with article'
 	},
     {
-		'input': 'valentine listard pinacoli;valentine leotard pinacoli', 
+		'name_one': 'valentine listard pinacoli',
+		'name_two': 'valentine leotard pinacoli', 
 		'expected': True, 
 		'description': 'valentine listard pinacoli comparison with article'
 	},
     {
-		'input': 'van d smith;samuel van dyke smith', 
+		'name_one': 'van d smith',
+		'name_two': 'samuel van dyke smith', 
 		'expected': True, 
 		'description': 'van d smith comparison with article'
 	},
     {
-		'input': 'van d thompson;van denman thompson', 
+		'name_one': 'van d thompson',
+		'name_two': 'van denman thompson', 
 		'expected': True, 
 		'description': 'van d thompson comparison with article'
 	},
     {
-		'input': 'van derek frechette;van derck frechette', 
+		'name_one': 'van derek frechette',
+		'name_two': 'van derck frechette', 
 		'expected': True, 
 		'description': 'van derek frechette comparison with article'
 	},
     {
-		'input': 'van duyn a miller;lea van puymbroeck miller', 
+		'name_one': 'van duyn a miller',
+		'name_two': 'lea van puymbroeck miller', 
 		'expected': False, 
 		'description': 'van duyn a miller comparison with article'
 	},
     {
-		'input': 'van kenyon;van leslie kenyon', 
+		'name_one': 'van kenyon',
+		'name_two': 'van leslie kenyon', 
 		'expected': True, 
 		'description': 'van kenyon comparison with article'
 	},
     {
-		'input': 'van l kenyon;van leslie kenyon', 
+		'name_one': 'van l kenyon',
+		'name_two': 'van leslie kenyon', 
 		'expected': True, 
 		'description': 'van l kenyon comparison with article'
 	},
     {
-		'input': 'van moore;grace van dyke more', 
+		'name_one': 'van moore',
+		'name_two': 'grace van dyke more', 
 		'expected': True, 
 		'description': 'van moore comparison with article'
 	},
     {
-		'input': 'vanue b lacour;vanue b. lacour', 
+		'name_one': 'vanue b lacour',
+		'name_two': 'vanue b. lacour', 
 		'expected': True, 
 		'description': 'vanue b lacour comparison with article'
 	},
     {
-		'input': 'velma r lemance;robert mayer lumiansky', 
+		'name_one': 'velma r lemance',
+		'name_two': 'robert mayer lumiansky', 
 		'expected': False, 
 		'description': 'velma r lemance comparison with article'
 	},
     {
-		'input': 'vern d delaney;verne d. delaney', 
+		'name_one': 'vern d delaney',
+		'name_two': 'verne d. delaney', 
 		'expected': True, 
 		'description': 'vern d delaney comparison with article'
 	},
     {
-		'input': 'vernon a demars;vernon a. demars', 
+		'name_one': 'vernon a demars',
+		'name_two': 'vernon a. demars', 
 		'expected': True, 
 		'description': 'vernon a demars comparison with article'
 	},
     {
-		'input': 'vernon leroy mckenzie;vernon mckenzie', 
+		'name_one': 'vernon leroy mckenzie',
+		'name_two': 'vernon mckenzie', 
 		'expected': True, 
 		'description': 'vernon leroy mckenzie comparison with article'
 	},
     {
-		'input': 'vernon van dyke;vernon van dyke', 
+		'name_one': 'vernon van dyke',
+		'name_two': 'vernon van dyke', 
 		'expected': True, 
 		'description': 'vernon van dyke comparison with article'
 	},
     {
-		'input': 'vernon w. branko;warren van bronkhorst', 
+		'name_one': 'vernon w. branko',
+		'name_two': 'warren van bronkhorst', 
 		'expected': False, 
 		'description': 'vernon w. branko comparison with article'
 	},
     {
-		'input': 'victor f lenzen;victor f. lenzen', 
+		'name_one': 'victor f lenzen',
+		'name_two': 'victor f. lenzen', 
 		'expected': True, 
 		'description': 'victor f lenzen comparison with article'
 	},
     {
-		'input': 'victor j lemke;victor jacob lemke', 
+		'name_one': 'victor j lemke',
+		'name_two': 'victor jacob lemke', 
 		'expected': True, 
 		'description': 'victor j lemke comparison with article'
 	},
     {
-		'input': 'victor lange;victor lange', 
+		'name_one': 'victor lange',
+		'name_two': 'victor lange', 
 		'expected': True, 
 		'description': 'victor lange comparison with article'
 	},
     {
-		'input': 'vila a deubach;vila deubach', 
+		'name_one': 'vila a deubach',
+		'name_two': 'vila deubach', 
 		'expected': True, 
 		'description': 'vila a deubach comparison with article'
 	},
     {
-		'input': 'vincent f. polcyn;vincent de paul', 
+		'name_one': 'vincent f. polcyn',
+		'name_two': 'vincent de paul', 
 		'expected': False, 
 		'description': 'vincent f. polcyn comparison with article'
 	},
     {
-		'input': 'vincent g dethier;vincent gaston dethier', 
+		'name_one': 'vincent g dethier',
+		'name_two': 'vincent gaston dethier', 
 		'expected': True, 
 		'description': 'vincent g dethier comparison with article'
 	},
     {
-		'input': 'vincent j derbes;vincent joseph depaul derbes', 
+		'name_one': 'vincent j derbes',
+		'name_two': 'vincent joseph depaul derbes', 
 		'expected': True, 
 		'description': 'vincent j derbes comparison with article'
 	},
     {
-		'input': 'vincent t lathbury;vincent t. lathbury', 
+		'name_one': 'vincent t lathbury',
+		'name_two': 'vincent t. lathbury', 
 		'expected': True, 
 		'description': 'vincent t lathbury comparison with article'
 	},
     {
-		'input': 'vincent v lanfear;vincent w. lanfear', 
+		'name_one': 'vincent v lanfear',
+		'name_two': 'vincent w. lanfear', 
 		'expected': False, 
 		'description': 'vincent v lanfear comparison with article'
 	},
     {
-		'input': 'vinton u dearing;vinton adams dearing', 
+		'name_one': 'vinton u dearing',
+		'name_two': 'vinton adams dearing', 
 		'expected': False, 
 		'description': 'vinton u dearing comparison with article'
 	},
     {
-		'input': 'viola e leaf;einar leifson', 
+		'name_one': 'viola e leaf',
+		'name_two': 'einar leifson', 
 		'expected': False, 
 		'description': 'viola e leaf comparison with article'
 	},
     {
-		'input': 'viola vanketwick;viola beck van katwijk', 
+		'name_one': 'viola vanketwick',
+		'name_two': 'viola beck van katwijk', 
 		'expected': True, 
 		'description': 'viola vanketwick comparison with article'
 	},
     {
-		'input': 'virgil collins;virgil lee collins', 
+		'name_one': 'virgil collins',
+		'name_two': 'virgil lee collins', 
 		'expected': True, 
 		'description': 'virgil collins comparison with article'
 	},
     {
-		'input': 'virgil s lequire;virgil s. lequire', 
+		'name_one': 'virgil s lequire',
+		'name_two': 'virgil s. lequire', 
 		'expected': True, 
 		'description': 'virgil s lequire comparison with article'
 	},
     {
-		'input': 'virginia a lane;virginia lane', 
+		'name_one': 'virginia a lane',
+		'name_two': 'virginia lane', 
 		'expected': True, 
 		'description': 'virginia a lane comparison with article'
 	},
     {
-		'input': 'virginia e denker;erich dinkier', 
+		'name_one': 'virginia e denker',
+		'name_two': 'erich dinkier', 
 		'expected': True, 
 		'description': 'virginia e denker comparison with article'
 	},
     {
-		'input': 'virginia hamilton;virginia van der veer hamilton', 
+		'name_one': 'virginia hamilton',
+		'name_two': 'virginia van der veer hamilton', 
 		'expected': True, 
 		'description': 'virginia hamilton comparison with article'
 	},
     {
-		'input': 'virginia harris;virginia lee harris', 
+		'name_one': 'virginia harris',
+		'name_two': 'virginia lee harris', 
 		'expected': True, 
 		'description': 'virginia harris comparison with article'
 	},
     {
-		'input': 'virginia lee guernsey;james lee guernsey', 
+		'name_one': 'virginia lee guernsey',
+		'name_two': 'james lee guernsey', 
 		'expected': False, 
 		'description': 'virginia lee guernsey comparison with article'
 	},
     {
-		'input': 'virginia lee harrison;virginia harrison', 
+		'name_one': 'virginia lee harrison',
+		'name_two': 'virginia harrison', 
 		'expected': True, 
 		'description': 'virginia lee harrison comparison with article'
 	},
     {
-		'input': 'vito a vanoni;vito a. vanoni', 
+		'name_one': 'vito a vanoni',
+		'name_two': 'vito a. vanoni', 
 		'expected': True, 
 		'description': 'vito a vanoni comparison with article'
 	},
     {
-		'input': 'vivan l strickland;vivan lewis strickland', 
+		'name_one': 'vivan l strickland',
+		'name_two': 'vivan lewis strickland', 
 		'expected': True, 
 		'description': 'vivan l strickland comparison with article'
 	},
     {
-		'input': 'vladimir de\'lisovoy;vladimir delissovoy', 
+		'name_one': 'vladimir de\'lisovoy',
+		'name_two': 'vladimir delissovoy', 
 		'expected': True, 
 		'description': 'vladimir de\'lisovoy comparison with article'
 	},
     {
-		'input': 'w a dence;wilford a. dence', 
+		'name_one': 'w a dence',
+		'name_two': 'wilford a. dence', 
 		'expected': True, 
 		'description': 'w a dence comparison with article'
 	},
     {
-		'input': 'w e dennis;wilfred sidney dennis', 
+		'name_one': 'w e dennis',
+		'name_two': 'wilfred sidney dennis', 
 		'expected': False, 
 		'description': 'w e dennis comparison with article'
 	},
     {
-		'input': 'w everett derryberry;everett derryberry', 
+		'name_one': 'w everett derryberry',
+		'name_two': 'everett derryberry', 
 		'expected': True, 
 		'description': 'w everett derryberry comparison with article'
 	},
     {
-		'input': 'w lamark dodd;lamar dodd', 
+		'name_one': 'w lamark dodd',
+		'name_two': 'lamar dodd', 
 		'expected': True, 
 		'description': 'w lamark dodd comparison with article'
 	},
     {
-		'input': 'w lee culp;w. lee culp', 
+		'name_one': 'w lee culp',
+		'name_two': 'w. lee culp', 
 		'expected': True, 
 		'description': 'w lee culp comparison with article'
 	},
     {
-		'input': 'w leighton collins;w. leighton collins', 
+		'name_one': 'w leighton collins',
+		'name_two': 'w. leighton collins', 
 		'expected': True, 
 		'description': 'w leighton collins comparison with article'
 	},
     {
-		'input': 'w leo batten;w. leo batten', 
+		'name_one': 'w leo batten',
+		'name_two': 'w. leo batten', 
 		'expected': True, 
 		'description': 'w leo batten comparison with article'
 	},
     {
-		'input': 'w s laughlin;william s. laughlin', 
+		'name_one': 'w s laughlin',
+		'name_two': 'william s. laughlin', 
 		'expected': True, 
 		'description': 'w s laughlin comparison with article'
 	},
     {
-		'input': 'w wayne dedman;w. wayne dedman', 
+		'name_one': 'w wayne dedman',
+		'name_two': 'w. wayne dedman', 
 		'expected': True, 
 		'description': 'w wayne dedman comparison with article'
 	},
     {
-		'input': 'w. james leach;w. james leach', 
+		'name_one': 'w. james leach',
+		'name_two': 'w. james leach', 
 		'expected': True, 
 		'description': 'w. james leach comparison with article'
 	},
     {
-		'input': 'waiten l kindelsperger;walter lewis kindelsperger', 
+		'name_one': 'waiten l kindelsperger',
+		'name_two': 'walter lewis kindelsperger', 
 		'expected': False, 
 		'description': 'waiten l kindelsperger comparison with article'
 	},
     {
-		'input': 'waldo e lessenger;w. e. lessenger', 
+		'name_one': 'waldo e lessenger',
+		'name_two': 'w. e. lessenger', 
 		'expected': True, 
 		'description': 'waldo e lessenger comparison with article'
 	},
     {
-		'input': 'walken l whetten;nathan laselle whetten', 
+		'name_one': 'walken l whetten',
+		'name_two': 'nathan laselle whetten', 
 		'expected': False, 
 		'description': 'walken l whetten comparison with article'
 	},
     {
-		'input': 'wallace m lansford;wallace monroe lansford', 
+		'name_one': 'wallace m lansford',
+		'name_two': 'wallace monroe lansford', 
 		'expected': True, 
 		'description': 'wallace m lansford comparison with article'
 	},
     {
-		'input': 'walter a lawrance;walter albert lawrance', 
+		'name_one': 'walter a lawrance',
+		'name_two': 'walter albert lawrance', 
 		'expected': True, 
 		'description': 'walter a lawrance comparison with article'
 	},
     {
-		'input': 'walter d leavitt;walter d. leavitt', 
+		'name_one': 'walter d leavitt',
+		'name_two': 'walter d. leavitt', 
 		'expected': True, 
 		'description': 'walter d leavitt comparison with article'
 	},
     {
-		'input': 'walter d lewis;walter richard lewis', 
+		'name_one': 'walter d lewis',
+		'name_two': 'walter richard lewis', 
 		'expected': False, 
 		'description': 'walter d lewis comparison with article'
 	},
     {
-		'input': 'walter daykin;walter lesley daykin', 
+		'name_one': 'walter daykin',
+		'name_two': 'walter lesley daykin', 
 		'expected': True, 
 		'description': 'walter daykin comparison with article'
 	},
     {
-		'input': 'walter dewey;walter safford dewey', 
+		'name_one': 'walter dewey',
+		'name_two': 'walter safford dewey', 
 		'expected': True, 
 		'description': 'walter dewey comparison with article'
 	},
     {
-		'input': 'walter e larmie;walter esmond larmie', 
+		'name_one': 'walter e larmie',
+		'name_two': 'walter esmond larmie', 
 		'expected': True, 
 		'description': 'walter e larmie comparison with article'
 	},
     {
-		'input': 'walter ehrenberg;walter j. derenberg', 
+		'name_one': 'walter ehrenberg',
+		'name_two': 'walter j. derenberg', 
 		'expected': True, 
 		'description': 'walter ehrenberg comparison with article'
 	},
     {
-		'input': 'walter f clark;walter leighton clark', 
+		'name_one': 'walter f clark',
+		'name_two': 'walter leighton clark', 
 		'expected': False, 
 		'description': 'walter f clark comparison with article'
 	},
     {
-		'input': 'walter f dearborn;walter fenno dearborn', 
+		'name_one': 'walter f dearborn',
+		'name_two': 'walter fenno dearborn', 
 		'expected': True, 
 		'description': 'walter f dearborn comparison with article'
 	},
     {
-		'input': 'walter h delaplane;walter harold delaplane', 
+		'name_one': 'walter h delaplane',
+		'name_two': 'walter harold delaplane', 
 		'expected': True, 
 		'description': 'walter h delaplane comparison with article'
 	},
     {
-		'input': 'walter j lebeau;walter le beau', 
+		'name_one': 'walter j lebeau',
+		'name_two': 'walter le beau', 
 		'expected': True, 
 		'description': 'walter j lebeau comparison with article'
 	},
     {
-		'input': 'walter j lemke;walter john lemke', 
+		'name_one': 'walter j lemke',
+		'name_two': 'walter john lemke', 
 		'expected': True, 
 		'description': 'walter j lemke comparison with article'
 	},
     {
-		'input': 'walter l coplin;walter lee coplin', 
+		'name_one': 'walter l coplin',
+		'name_two': 'walter lee coplin', 
 		'expected': True, 
 		'description': 'walter l coplin comparison with article'
 	},
     {
-		'input': 'walter l moore;walter lee moore', 
+		'name_one': 'walter l moore',
+		'name_two': 'walter lee moore', 
 		'expected': True, 
 		'description': 'walter l moore comparison with article'
 	},
     {
-		'input': 'walter l roosa;walter laidlaw roosa', 
+		'name_one': 'walter l roosa',
+		'name_two': 'walter laidlaw roosa', 
 		'expected': True, 
 		'description': 'walter l roosa comparison with article'
 	},
     {
-		'input': 'walter l simmons;walter lee simmons', 
+		'name_one': 'walter l simmons',
+		'name_two': 'walter lee simmons', 
 		'expected': True, 
 		'description': 'walter l simmons comparison with article'
 	},
     {
-		'input': 'walter l thomas;walter lee thomas', 
+		'name_one': 'walter l thomas',
+		'name_two': 'walter lee thomas', 
 		'expected': True, 
 		'description': 'walter l thomas comparison with article'
 	},
     {
-		'input': 'walter l van gothen;armand l. degaetano', 
+		'name_one': 'walter l van gothen',
+		'name_two': 'armand l. degaetano', 
 		'expected': False, 
 		'description': 'walter l van gothen comparison with article'
 	},
     {
-		'input': 'walter l vandervest;walter louis vandervest', 
+		'name_one': 'walter l vandervest',
+		'name_two': 'walter louis vandervest', 
 		'expected': True, 
 		'description': 'walter l vandervest comparison with article'
 	},
     {
-		'input': 'walter l wilson;walter leroy wilson', 
+		'name_one': 'walter l wilson',
+		'name_two': 'walter leroy wilson', 
 		'expected': True, 
 		'description': 'walter l wilson comparison with article'
 	},
     {
-		'input': 'walter l winkenwerder;walter lafollette winkenwerder', 
+		'name_one': 'walter l winkenwerder',
+		'name_two': 'walter lafollette winkenwerder', 
 		'expected': True, 
 		'description': 'walter l winkenwerder comparison with article'
 	},
     {
-		'input': 'walter la pierre;walter a. la pierre', 
+		'name_one': 'walter la pierre',
+		'name_two': 'walter a. la pierre', 
 		'expected': True, 
 		'description': 'walter la pierre comparison with article'
 	},
     {
-		'input': 'walter langston;walter stanley langston', 
+		'name_one': 'walter langston',
+		'name_two': 'walter stanley langston', 
 		'expected': True, 
 		'description': 'walter langston comparison with article'
 	},
     {
-		'input': 'walter lay;walter edwin lay', 
+		'name_one': 'walter lay',
+		'name_two': 'walter edwin lay', 
 		'expected': True, 
 		'description': 'walter lay comparison with article'
 	},
     {
-		'input': 'walter lee green;hampton lee green', 
+		'name_one': 'walter lee green',
+		'name_two': 'hampton lee green', 
 		'expected': False, 
 		'description': 'walter lee green comparison with article'
 	},
     {
-		'input': 'walter m denny;walter lee denny', 
+		'name_one': 'walter m denny',
+		'name_two': 'walter lee denny', 
 		'expected': False, 
 		'description': 'walter m denny comparison with article'
 	},
     {
-		'input': 'walter m langford;walter m. langford', 
+		'name_one': 'walter m langford',
+		'name_two': 'walter m. langford', 
 		'expected': True, 
 		'description': 'walter m langford comparison with article'
 	},
     {
-		'input': 'walter marshall;walter vancleve marshall', 
+		'name_one': 'walter marshall',
+		'name_two': 'walter vancleve marshall', 
 		'expected': True, 
 		'description': 'walter marshall comparison with article'
 	},
     {
-		'input': 'walter putz;walter van de putte', 
+		'name_one': 'walter putz',
+		'name_two': 'walter van de putte', 
 		'expected': True, 
 		'description': 'walter putz comparison with article'
 	},
     {
-		'input': 'walter s lake;walter sidelinger lake', 
+		'name_one': 'walter s lake',
+		'name_two': 'walter sidelinger lake', 
 		'expected': True, 
 		'description': 'walter s lake comparison with article'
 	},
     {
-		'input': 'walter summers;walter lee summers', 
+		'name_one': 'walter summers',
+		'name_two': 'walter lee summers', 
 		'expected': True, 
 		'description': 'walter summers comparison with article'
 	},
     {
-		'input': 'walter v price;walter van price', 
+		'name_one': 'walter v price',
+		'name_two': 'walter van price', 
 		'expected': True, 
 		'description': 'walter v price comparison with article'
 	},
     {
-		'input': 'walter v riley;walter lee riley', 
+		'name_one': 'walter v riley',
+		'name_two': 'walter lee riley', 
 		'expected': False, 
 		'description': 'walter v riley comparison with article'
 	},
     {
-		'input': 'walter w leavitt;harold walter leavitt', 
+		'name_one': 'walter w leavitt',
+		'name_two': 'harold walter leavitt', 
 		'expected': False, 
 		'description': 'walter w leavitt comparison with article'
 	},
     {
-		'input': 'walter wilkins;walter laroy wilkins', 
+		'name_one': 'walter wilkins',
+		'name_two': 'walter laroy wilkins', 
 		'expected': True, 
 		'description': 'walter wilkins comparison with article'
 	},
     {
-		'input': 'ward lambert;ward lewis lambert', 
+		'name_one': 'ward lambert',
+		'name_two': 'ward lewis lambert', 
 		'expected': True, 
 		'description': 'ward lambert comparison with article'
 	},
     {
-		'input': 'warren k lewis;warren kendall lewis', 
+		'name_one': 'warren k lewis',
+		'name_two': 'warren kendall lewis', 
 		'expected': True, 
 		'description': 'warren k lewis comparison with article'
 	},
     {
-		'input': 'warren l rosen;warren leucht rosen', 
+		'name_one': 'warren l rosen',
+		'name_two': 'warren leucht rosen', 
 		'expected': True, 
 		'description': 'warren l rosen comparison with article'
 	},
     {
-		'input': 'warren law;warren aubrey law', 
+		'name_one': 'warren law',
+		'name_two': 'warren aubrey law', 
 		'expected': True, 
 		'description': 'warren law comparison with article'
 	},
     {
-		'input': 'warren lee slagle;warren lee slagle', 
+		'name_one': 'warren lee slagle',
+		'name_two': 'warren lee slagle', 
 		'expected': True, 
 		'description': 'warren lee slagle comparison with article'
 	},
     {
-		'input': 'warren m deacon;warren mcallister deacon', 
+		'name_one': 'warren m deacon',
+		'name_two': 'warren mcallister deacon', 
 		'expected': True, 
 		'description': 'warren m deacon comparison with article'
 	},
     {
-		'input': 'warren m. lee;warren lee', 
+		'name_one': 'warren m. lee',
+		'name_two': 'warren lee', 
 		'expected': True, 
 		'description': 'warren m. lee comparison with article'
 	},
     {
-		'input': 'warren w delapp;warren w. delapp', 
+		'name_one': 'warren w delapp',
+		'name_two': 'warren w. delapp', 
 		'expected': True, 
 		'description': 'warren w delapp comparison with article'
 	},
     {
-		'input': 'warren w leigh;warren w. leigh', 
+		'name_one': 'warren w leigh',
+		'name_two': 'warren w. leigh', 
 		'expected': True, 
 		'description': 'warren w leigh comparison with article'
 	},
     {
-		'input': 'washburne shipton;washburn denning shipton', 
+		'name_one': 'washburne shipton',
+		'name_two': 'washburn denning shipton', 
 		'expected': True, 
 		'description': 'washburne shipton comparison with article'
 	},
     {
-		'input': 'wassily w leontief;wassily w. leontief', 
+		'name_one': 'wassily w leontief',
+		'name_two': 'wassily w. leontief', 
 		'expected': True, 
 		'description': 'wassily w leontief comparison with article'
 	},
     {
-		'input': 'wayne a lee;wayne a. lee', 
+		'name_one': 'wayne a lee',
+		'name_two': 'wayne a. lee', 
 		'expected': True, 
 		'description': 'wayne a lee comparison with article'
 	},
     {
-		'input': 'wayne a r leys;wayne a. r. leys', 
+		'name_one': 'wayne a r leys',
+		'name_two': 'wayne a. r. leys', 
 		'expected': True, 
 		'description': 'wayne a r leys comparison with article'
 	},
     {
-		'input': 'wayne d sieh;wayne delbert sieh', 
+		'name_one': 'wayne d sieh',
+		'name_two': 'wayne delbert sieh', 
 		'expected': True, 
 		'description': 'wayne d sieh comparison with article'
 	},
     {
-		'input': 'wayne dennis;wayne dennis', 
+		'name_one': 'wayne dennis',
+		'name_two': 'wayne dennis', 
 		'expected': True, 
 		'description': 'wayne dennis comparison with article'
 	},
     {
-		'input': 'wayne m leitlinger;joaquin mazdak luttinger', 
+		'name_one': 'wayne m leitlinger',
+		'name_two': 'joaquin mazdak luttinger', 
 		'expected': False, 
 		'description': 'wayne m leitlinger comparison with article'
 	},
     {
-		'input': 'webster w decker;webster w. decker', 
+		'name_one': 'webster w decker',
+		'name_two': 'webster w. decker', 
 		'expected': True, 
 		'description': 'webster w decker comparison with article'
 	},
     {
-		'input': 'wendell m latimer;wendell m. latimer', 
+		'name_one': 'wendell m latimer',
+		'name_two': 'wendell m. latimer', 
 		'expected': True, 
 		'description': 'wendell m latimer comparison with article'
 	},
     {
-		'input': 'werner f. leopold;werner f. leopold', 
+		'name_one': 'werner f. leopold',
+		'name_two': 'werner f. leopold', 
 		'expected': True, 
 		'description': 'werner f. leopold comparison with article'
 	},
     {
-		'input': 'werner levi;werner levi', 
+		'name_one': 'werner levi',
+		'name_two': 'werner levi', 
 		'expected': True, 
 		'description': 'werner levi comparison with article'
 	},
     {
-		'input': 'wesley e lewis;wesley lewis', 
+		'name_one': 'wesley e lewis',
+		'name_two': 'wesley lewis', 
 		'expected': True, 
 		'description': 'wesley e lewis comparison with article'
 	},
     {
-		'input': 'weston l murray;weston lafayette murray', 
+		'name_one': 'weston l murray',
+		'name_two': 'weston lafayette murray', 
 		'expected': True, 
 		'description': 'weston l murray comparison with article'
 	},
     {
-		'input': 'wilber l beauchamp;wilbur lee beauchamp', 
+		'name_one': 'wilber l beauchamp',
+		'name_two': 'wilbur lee beauchamp', 
 		'expected': True, 
 		'description': 'wilber l beauchamp comparison with article'
 	},
     {
-		'input': 'wilbur d johnston;wilbur dexter johnston', 
+		'name_one': 'wilbur d johnston',
+		'name_two': 'wilbur dexter johnston', 
 		'expected': True, 
 		'description': 'wilbur d johnston comparison with article'
 	},
     {
-		'input': 'wiley l housewright;wiley lee housewright', 
+		'name_one': 'wiley l housewright',
+		'name_two': 'wiley lee housewright', 
 		'expected': True, 
 		'description': 'wiley l housewright comparison with article'
 	},
     {
-		'input': 'wilfid desmarais;wilfrid desmarais', 
+		'name_one': 'wilfid desmarais',
+		'name_two': 'wilfrid desmarais', 
 		'expected': True, 
 		'description': 'wilfid desmarais comparison with article'
 	},
     {
-		'input': 'wilfred f langelier;wilfred f. langelier', 
+		'name_one': 'wilfred f langelier',
+		'name_two': 'wilfred f. langelier', 
 		'expected': True, 
 		'description': 'wilfred f langelier comparison with article'
 	},
     {
-		'input': 'willard l rogers;willard lewis rogers', 
+		'name_one': 'willard l rogers',
+		'name_two': 'willard lewis rogers', 
 		'expected': True, 
 		'description': 'willard l rogers comparison with article'
 	},
     {
-		'input': 'willard oquinn;willard van orman quine', 
+		'name_one': 'willard oquinn',
+		'name_two': 'willard van orman quine', 
 		'expected': False, 
 		'description': 'willard oquinn comparison with article'
 	},
     {
-		'input': 'willard t leeds;willard l. leeds', 
+		'name_one': 'willard t leeds',
+		'name_two': 'willard l. leeds', 
 		'expected': False, 
 		'description': 'willard t leeds comparison with article'
 	},
     {
-		'input': 'willard van hazel;willard van hazel', 
+		'name_one': 'willard van hazel',
+		'name_two': 'willard van hazel', 
 		'expected': True, 
 		'description': 'willard van hazel comparison with article'
 	},
     {
-		'input': 'willem van wagtendonk;willem johan van wagtendonk', 
+		'name_one': 'willem van wagtendonk',
+		'name_two': 'willem johan van wagtendonk', 
 		'expected': True, 
 		'description': 'willem van wagtendonk comparison with article'
 	},
     {
-		'input': 'william a devine;william a. devine', 
+		'name_one': 'william a devine',
+		'name_two': 'william a. devine', 
 		'expected': True, 
 		'description': 'william a devine comparison with article'
 	},
     {
-		'input': 'william a lewis;william abbett lewis', 
+		'name_one': 'william a lewis',
+		'name_two': 'william abbett lewis', 
 		'expected': True, 
 		'description': 'william a lewis comparison with article'
 	},
     {
-		'input': 'william a pace;william leon pious', 
+		'name_one': 'william a pace',
+		'name_two': 'william leon pious', 
 		'expected': False, 
 		'description': 'william a pace comparison with article'
 	},
     {
-		'input': 'william a van heyn;william a. venin', 
+		'name_one': 'william a van heyn',
+		'name_two': 'william a. venin', 
 		'expected': False, 
 		'description': 'william a van heyn comparison with article'
 	},
     {
-		'input': 'william a van winkle;william alexander van winkle', 
+		'name_one': 'william a van winkle',
+		'name_two': 'william alexander van winkle', 
 		'expected': True, 
 		'description': 'william a van winkle comparison with article'
 	},
     {
-		'input': 'william a. lamb;c. a. lamb', 
+		'name_one': 'william a. lamb',
+		'name_two': 'c. a. lamb', 
 		'expected': False, 
 		'description': 'william a. lamb comparison with article'
 	},
     {
-		'input': 'william b lewis;william benjamin lewis', 
+		'name_one': 'william b lewis',
+		'name_two': 'william benjamin lewis', 
 		'expected': True, 
 		'description': 'william b lewis comparison with article'
 	},
     {
-		'input': 'william c de vane;william clyde de vane', 
+		'name_one': 'william c de vane',
+		'name_two': 'william clyde de vane', 
 		'expected': True, 
 		'description': 'william c de vane comparison with article'
 	},
     {
-		'input': 'william c de vane;william clyde devane', 
+		'name_one': 'william c de vane',
+		'name_two': 'william clyde devane', 
 		'expected': True, 
 		'description': 'william c de vane comparison with article'
 	},
     {
-		'input': 'william c deamer;william c. deamer', 
+		'name_one': 'william c deamer',
+		'name_two': 'william c. deamer', 
 		'expected': True, 
 		'description': 'william c deamer comparison with article'
 	},
     {
-		'input': 'william c deveny;william c. deveny', 
+		'name_one': 'william c deveny',
+		'name_two': 'william c. deveny', 
 		'expected': True, 
 		'description': 'william c deveny comparison with article'
 	},
     {
-		'input': 'william c lam;william c. lam', 
+		'name_one': 'william c lam',
+		'name_two': 'william c. lam', 
 		'expected': True, 
 		'description': 'william c lam comparison with article'
 	},
     {
-		'input': 'william c. dew;william c. dew', 
+		'name_one': 'william c. dew',
+		'name_two': 'william c. dew', 
 		'expected': True, 
 		'description': 'william c. dew comparison with article'
 	},
     {
-		'input': 'william carmichael;william lawson carmichael', 
+		'name_one': 'william carmichael',
+		'name_two': 'william lawson carmichael', 
 		'expected': True, 
 		'description': 'william carmichael comparison with article'
 	},
     {
-		'input': 'william coggshall;william lamar coggshall', 
+		'name_one': 'william coggshall',
+		'name_two': 'william lamar coggshall', 
 		'expected': True, 
 		'description': 'william coggshall comparison with article'
 	},
     {
-		'input': 'william collins;william lee collins', 
+		'name_one': 'william collins',
+		'name_two': 'william lee collins', 
 		'expected': True, 
 		'description': 'william collins comparison with article'
 	},
     {
-		'input': 'william d barns;william derrick barns', 
+		'name_one': 'william d barns',
+		'name_two': 'william derrick barns', 
 		'expected': True, 
 		'description': 'william d barns comparison with article'
 	},
     {
-		'input': 'william d denny;william d. denny', 
+		'name_one': 'william d denny',
+		'name_two': 'william d. denny', 
 		'expected': True, 
 		'description': 'william d denny comparison with article'
 	},
     {
-		'input': 'william d ladd;william edwards ladd', 
+		'name_one': 'william d ladd',
+		'name_two': 'william edwards ladd', 
 		'expected': False, 
 		'description': 'william d ladd comparison with article'
 	},
     {
-		'input': 'william d larson;william d. larson', 
+		'name_one': 'william d larson',
+		'name_two': 'william d. larson', 
 		'expected': True, 
 		'description': 'william d larson comparison with article'
 	},
     {
-		'input': 'william d legg, sr;kenneth d. legge', 
+		'name_one': 'william d legg, sr',
+		'name_two': 'kenneth d. legge', 
 		'expected': False, 
 		'description': 'william d legg, sr comparison with article'
 	},
     {
-		'input': 'william d lewis;william ditto lewis', 
+		'name_one': 'william d lewis',
+		'name_two': 'william ditto lewis', 
 		'expected': True, 
 		'description': 'william d lewis comparison with article'
 	},
     {
-		'input': 'william d metz;william dewitt metz', 
+		'name_one': 'william d metz',
+		'name_two': 'william dewitt metz', 
 		'expected': True, 
 		'description': 'william d metz comparison with article'
 	},
     {
-		'input': 'william d perry;william decatur perry', 
+		'name_one': 'william d perry',
+		'name_two': 'william decatur perry', 
 		'expected': True, 
 		'description': 'william d perry comparison with article'
 	},
     {
-		'input': 'william d van vorst;william d. van vorst', 
+		'name_one': 'william d van vorst',
+		'name_two': 'william d. van vorst', 
 		'expected': True, 
 		'description': 'william d van vorst comparison with article'
 	},
     {
-		'input': 'william daniel lee;william daniel lee', 
+		'name_one': 'william daniel lee',
+		'name_two': 'william daniel lee', 
 		'expected': True, 
 		'description': 'william daniel lee comparison with article'
 	},
     {
-		'input': 'william de feo;william f. macfee', 
+		'name_one': 'william de feo',
+		'name_two': 'william f. macfee', 
 		'expected': True, 
 		'description': 'william de feo comparison with article'
 	},
     {
-		'input': 'william dehorn;william dehorn', 
+		'name_one': 'william dehorn',
+		'name_two': 'william dehorn', 
 		'expected': True, 
 		'description': 'william dehorn comparison with article'
 	},
     {
-		'input': 'william dickerman;william b. deichmann', 
+		'name_one': 'william dickerman',
+		'name_two': 'william b. deichmann', 
 		'expected': False, 
 		'description': 'william dickerman comparison with article'
 	},
     {
-		'input': 'william e de turk;william ernest deturk', 
+		'name_one': 'william e de turk',
+		'name_two': 'william ernest deturk', 
 		'expected': True, 
 		'description': 'william e de turk comparison with article'
 	},
     {
-		'input': 'william e decker;william decker', 
+		'name_one': 'william e decker',
+		'name_two': 'william decker', 
 		'expected': True, 
 		'description': 'william e decker comparison with article'
 	},
     {
-		'input': 'william e lawrence;william ewart lawrence', 
+		'name_one': 'william e lawrence',
+		'name_two': 'william ewart lawrence', 
 		'expected': True, 
 		'description': 'william e lawrence comparison with article'
 	},
     {
-		'input': 'william e merritt;william wellesley demeritt', 
+		'name_one': 'william e merritt',
+		'name_two': 'william wellesley demeritt', 
 		'expected': False, 
 		'description': 'william e merritt comparison with article'
 	},
     {
-		'input': 'william e p clark;william e. de clark', 
+		'name_one': 'william e p clark',
+		'name_two': 'william e. de clark', 
 		'expected': True, 
 		'description': 'william e p clark comparison with article'
 	},
     {
-		'input': 'william f lahey;william f. lahey', 
+		'name_one': 'william f lahey',
+		'name_two': 'william f. lahey', 
 		'expected': True, 
 		'description': 'william f lahey comparison with article'
 	},
     {
-		'input': 'william f lamb;william f. lamb', 
+		'name_one': 'william f lamb',
+		'name_two': 'william f. lamb', 
 		'expected': True, 
 		'description': 'william f lamb comparison with article'
 	},
     {
-		'input': 'william g dent;robert william dent', 
+		'name_one': 'william g dent',
+		'name_two': 'robert william dent', 
 		'expected': False, 
 		'description': 'william g dent comparison with article'
 	},
     {
-		'input': 'william g lennox;william gordon lennox', 
+		'name_one': 'william g lennox',
+		'name_two': 'william gordon lennox', 
 		'expected': True, 
 		'description': 'william g lennox comparison with article'
 	},
     {
-		'input': 'william g leonard;guy william leonard', 
+		'name_one': 'william g leonard',
+		'name_two': 'guy william leonard', 
 		'expected': True, 
 		'description': 'william g leonard comparison with article'
 	},
     {
-		'input': 'william g robertson;william van bogaert robertson', 
+		'name_one': 'william g robertson',
+		'name_two': 'william van bogaert robertson', 
 		'expected': False, 
 		'description': 'william g robertson comparison with article'
 	},
     {
-		'input': 'william h crum;william leonard crum', 
+		'name_one': 'william h crum',
+		'name_two': 'william leonard crum', 
 		'expected': False, 
 		'description': 'william h crum comparison with article'
 	},
     {
-		'input': 'william h garrett;william lawrence garrott', 
+		'name_one': 'william h garrett',
+		'name_two': 'william lawrence garrott', 
 		'expected': False, 
 		'description': 'william h garrett comparison with article'
 	},
     {
-		'input': 'william h lavell;hugh rodman leavell', 
+		'name_one': 'william h lavell',
+		'name_two': 'hugh rodman leavell', 
 		'expected': False, 
 		'description': 'william h lavell comparison with article'
 	},
     {
-		'input': 'william h lawrence;william henry lawrence', 
+		'name_one': 'william h lawrence',
+		'name_two': 'william henry lawrence', 
 		'expected': True, 
 		'description': 'william h lawrence comparison with article'
 	},
     {
-		'input': 'william h leary;wllliam h. leary', 
+		'name_one': 'william h leary',
+		'name_two': 'wllliam h. leary', 
 		'expected': True, 
 		'description': 'william h leary comparison with article'
 	},
     {
-		'input': 'william h meyer;william h. lewis meyer', 
+		'name_one': 'william h meyer',
+		'name_two': 'william h. lewis meyer', 
 		'expected': True, 
 		'description': 'william h meyer comparison with article'
 	},
     {
-		'input': 'william h seward;herbert lee seward', 
+		'name_one': 'william h seward',
+		'name_two': 'herbert lee seward', 
 		'expected': False, 
 		'description': 'william h seward comparison with article'
 	},
     {
-		'input': 'william j dean;william j. dean', 
+		'name_one': 'william j dean',
+		'name_two': 'william j. dean', 
 		'expected': True, 
 		'description': 'william j dean comparison with article'
 	},
     {
-		'input': 'william j dehaas;j. anton de haas', 
+		'name_one': 'william j dehaas',
+		'name_two': 'j. anton de haas', 
 		'expected': False, 
 		'description': 'william j dehaas comparison with article'
 	},
     {
-		'input': 'william j dempsey;william j. dempsey', 
+		'name_one': 'william j dempsey',
+		'name_two': 'william j. dempsey', 
 		'expected': True, 
 		'description': 'william j dempsey comparison with article'
 	},
     {
-		'input': 'william j lee;william j. lee', 
+		'name_one': 'william j lee',
+		'name_two': 'william j. lee', 
 		'expected': True, 
 		'description': 'william j lee comparison with article'
 	},
     {
-		'input': 'william j leipertz;vernon william lippard', 
+		'name_one': 'william j leipertz',
+		'name_two': 'vernon william lippard', 
 		'expected': False, 
 		'description': 'william j leipertz comparison with article'
 	},
     {
-		'input': 'william j leonard;william j. leonard', 
+		'name_one': 'william j leonard',
+		'name_two': 'william j. leonard', 
 		'expected': True, 
 		'description': 'william j leonard comparison with article'
 	},
     {
-		'input': 'william johnston;william denis johnston', 
+		'name_one': 'william johnston',
+		'name_two': 'william denis johnston', 
 		'expected': True, 
 		'description': 'william johnston comparison with article'
 	},
     {
-		'input': 'william l burlison;william leonidas burlison', 
+		'name_one': 'william l burlison',
+		'name_two': 'william leonidas burlison', 
 		'expected': True, 
 		'description': 'william l burlison comparison with article'
 	},
     {
-		'input': 'william l cory;william leonard cory', 
+		'name_one': 'william l cory',
+		'name_two': 'william leonard cory', 
 		'expected': True, 
 		'description': 'william l cory comparison with article'
 	},
     {
-		'input': 'william l doyle;william lewis doyle', 
+		'name_one': 'william l doyle',
+		'name_two': 'william lewis doyle', 
 		'expected': True, 
 		'description': 'william l doyle comparison with article'
 	},
     {
-		'input': 'william l duren;william larkin duren', 
+		'name_one': 'william l duren',
+		'name_two': 'william larkin duren', 
 		'expected': True, 
 		'description': 'william l duren comparison with article'
 	},
     {
-		'input': 'william l gardner;william lawrence gardner', 
+		'name_one': 'william l gardner',
+		'name_two': 'william lawrence gardner', 
 		'expected': True, 
 		'description': 'william l gardner comparison with article'
 	},
     {
-		'input': 'william l king;william lewis king', 
+		'name_one': 'william l king',
+		'name_two': 'william lewis king', 
 		'expected': True, 
 		'description': 'william l king comparison with article'
 	},
     {
-		'input': 'william l lane;laurence william lane', 
+		'name_one': 'william l lane',
+		'name_two': 'laurence william lane', 
 		'expected': True, 
 		'description': 'william l lane comparison with article'
 	},
     {
-		'input': 'william l langer;william leonard langer', 
+		'name_one': 'william l langer',
+		'name_two': 'william leonard langer', 
 		'expected': True, 
 		'description': 'william l langer comparison with article'
 	},
     {
-		'input': 'william l lester;william l. lester', 
+		'name_one': 'william l lester',
+		'name_two': 'william l. lester', 
 		'expected': True, 
 		'description': 'william l lester comparison with article'
 	},
     {
-		'input': 'william l lomey;william l. lamey', 
+		'name_one': 'william l lomey',
+		'name_two': 'william l. lamey', 
 		'expected': True, 
 		'description': 'william l lomey comparison with article'
 	},
     {
-		'input': 'william l sachse;william lewis sachse', 
+		'name_one': 'william l sachse',
+		'name_two': 'william lewis sachse', 
 		'expected': True, 
 		'description': 'william l sachse comparison with article'
 	},
     {
-		'input': 'william l schwartz;william leonard schwartz', 
+		'name_one': 'william l schwartz',
+		'name_two': 'william leonard schwartz', 
 		'expected': True, 
 		'description': 'william l schwartz comparison with article'
 	},
     {
-		'input': 'william l wheeler;william lawrence wheeler', 
+		'name_one': 'william l wheeler',
+		'name_two': 'william lawrence wheeler', 
 		'expected': True, 
 		'description': 'william l wheeler comparison with article'
 	},
     {
-		'input': 'william l wiley;william leon wiley', 
+		'name_one': 'william l wiley',
+		'name_two': 'william leon wiley', 
 		'expected': True, 
 		'description': 'william l wiley comparison with article'
 	},
     {
-		'input': 'william l wylie;william leroy wylie', 
+		'name_one': 'william l wylie',
+		'name_two': 'william leroy wylie', 
 		'expected': True, 
 		'description': 'william l wylie comparison with article'
 	},
     {
-		'input': 'william lafferty;william a. lafferty', 
+		'name_one': 'william lafferty',
+		'name_two': 'william a. lafferty', 
 		'expected': True, 
 		'description': 'william lafferty comparison with article'
 	},
     {
-		'input': 'william lagrange;william f. lagrange', 
+		'name_one': 'william lagrange',
+		'name_two': 'william f. lagrange', 
 		'expected': True, 
 		'description': 'william lagrange comparison with article'
 	},
     {
-		'input': 'william lamont;william hayes fogg lamont', 
+		'name_one': 'william lamont',
+		'name_two': 'william hayes fogg lamont', 
 		'expected': True, 
 		'description': 'william lamont comparison with article'
 	},
     {
-		'input': 'william land;william m. landau', 
+		'name_one': 'william land',
+		'name_two': 'william m. landau', 
 		'expected': True, 
 		'description': 'william land comparison with article'
 	},
     {
-		'input': 'william landeen;william m. landeen', 
+		'name_one': 'william landeen',
+		'name_two': 'william m. landeen', 
 		'expected': True, 
 		'description': 'william landeen comparison with article'
 	},
     {
-		'input': 'william langford;william s. langford', 
+		'name_one': 'william langford',
+		'name_two': 'william s. langford', 
 		'expected': True, 
 		'description': 'william langford comparison with article'
 	},
     {
-		'input': 'william lee;james william lee', 
+		'name_one': 'william lee',
+		'name_two': 'james william lee', 
 		'expected': True, 
 		'description': 'william lee comparison with article'
 	},
     {
-		'input': 'william leo lucey;william l. lucey', 
+		'name_one': 'william leo lucey',
+		'name_two': 'william l. lucey', 
 		'expected': True, 
 		'description': 'william leo lucey comparison with article'
 	},
     {
-		'input': 'william lewis;ben william lewis', 
+		'name_one': 'william lewis',
+		'name_two': 'ben william lewis', 
 		'expected': True, 
 		'description': 'william lewis comparison with article'
 	},
     {
-		'input': 'william m dey;william morton dey', 
+		'name_one': 'william m dey',
+		'name_two': 'william morton dey', 
 		'expected': True, 
 		'description': 'william m dey comparison with article'
 	},
     {
-		'input': 'william m laub;william t. laube', 
+		'name_one': 'william m laub',
+		'name_two': 'william t. laube', 
 		'expected': False, 
 		'description': 'william m laub comparison with article'
 	},
     {
-		'input': 'william miller;william lee miller', 
+		'name_one': 'william miller',
+		'name_two': 'william lee miller', 
 		'expected': True, 
 		'description': 'william miller comparison with article'
 	},
     {
-		'input': 'william n lacey;william n. lacey', 
+		'name_one': 'william n lacey',
+		'name_two': 'william n. lacey', 
 		'expected': True, 
 		'description': 'william n lacey comparison with article'
 	},
     {
-		'input': 'william n leonard;william n. leonard', 
+		'name_one': 'william n leonard',
+		'name_two': 'william n. leonard', 
 		'expected': True, 
 		'description': 'william n leonard comparison with article'
 	},
     {
-		'input': 'william o. dewey;osee hughes dewey', 
+		'name_one': 'william o. dewey',
+		'name_two': 'osee hughes dewey', 
 		'expected': False, 
 		'description': 'william o. dewey comparison with article'
 	},
     {
-		'input': 'william p delaney;william p. delaney', 
+		'name_one': 'william p delaney',
+		'name_two': 'william p. delaney', 
 		'expected': True, 
 		'description': 'william p delaney comparison with article'
 	},
     {
-		'input': 'william p lehrer;william p. lehrer', 
+		'name_one': 'william p lehrer',
+		'name_two': 'william p. lehrer', 
 		'expected': True, 
 		'description': 'william p lehrer comparison with article'
 	},
     {
-		'input': 'william r de valdez;william belcher ballis', 
+		'name_one': 'william r de valdez',
+		'name_two': 'william belcher ballis', 
 		'expected': False, 
 		'description': 'william r de valdez comparison with article'
 	},
     {
-		'input': 'william r dennes;william r. dennes', 
+		'name_one': 'william r dennes',
+		'name_two': 'william r. dennes', 
 		'expected': True, 
 		'description': 'william r dennes comparison with article'
 	},
     {
-		'input': 'william r devine;william r. divine', 
+		'name_one': 'william r devine',
+		'name_two': 'william r. divine', 
 		'expected': True, 
 		'description': 'william r devine comparison with article'
 	},
     {
-		'input': 'william roberts;william lewis roberts', 
+		'name_one': 'william roberts',
+		'name_two': 'william lewis roberts', 
 		'expected': True, 
 		'description': 'william roberts comparison with article'
 	},
     {
-		'input': 'william s la sor, jr;w. s. lasor', 
+		'name_one': 'william s la sor, jr',
+		'name_two': 'w. s. lasor', 
 		'expected': True, 
 		'description': 'william s la sor, jr comparison with article'
 	},
     {
-		'input': 'william s levings;william s. levings', 
+		'name_one': 'william s levings',
+		'name_two': 'william s. levings', 
 		'expected': True, 
 		'description': 'william s levings comparison with article'
 	},
     {
-		'input': 'william s root;william dean rutz', 
+		'name_one': 'william s root',
+		'name_two': 'william dean rutz', 
 		'expected': False, 
 		'description': 'william s root comparison with article'
 	},
     {
-		'input': 'william stephen walker;stephen leonard walker', 
+		'name_one': 'william stephen walker',
+		'name_two': 'stephen leonard walker', 
 		'expected': False, 
 		'description': 'william stephen walker comparison with article'
 	},
     {
-		'input': 'william sullivan;william lawrence sullivan', 
+		'name_one': 'william sullivan',
+		'name_two': 'william lawrence sullivan', 
 		'expected': True, 
 		'description': 'william sullivan comparison with article'
 	},
     {
-		'input': 'william t kolb;william lester kolb', 
+		'name_one': 'william t kolb',
+		'name_two': 'william lester kolb', 
 		'expected': False, 
 		'description': 'william t kolb comparison with article'
 	},
     {
-		'input': 'william t laprade;william thomas laprade', 
+		'name_one': 'william t laprade',
+		'name_two': 'william thomas laprade', 
 		'expected': True, 
 		'description': 'william t laprade comparison with article'
 	},
     {
-		'input': 'william t lentz;william jacoby lentz', 
+		'name_one': 'william t lentz',
+		'name_two': 'william jacoby lentz', 
 		'expected': False, 
 		'description': 'william t lentz comparison with article'
 	},
     {
-		'input': 'william v chandler;william von chandler', 
+		'name_one': 'william v chandler',
+		'name_two': 'william von chandler', 
 		'expected': True, 
 		'description': 'william v chandler comparison with article'
 	},
     {
-		'input': 'william v lambert;william v. lambert', 
+		'name_one': 'william v lambert',
+		'name_two': 'william v. lambert', 
 		'expected': True, 
 		'description': 'william v lambert comparison with article'
 	},
     {
-		'input': 'william van camp;william morris van camp', 
+		'name_one': 'william van camp',
+		'name_two': 'william morris van camp', 
 		'expected': True, 
 		'description': 'william van camp comparison with article'
 	},
     {
-		'input': 'william van parker;william vann parker', 
+		'name_one': 'william van parker',
+		'name_two': 'william vann parker', 
 		'expected': True, 
 		'description': 'william van parker comparison with article'
 	},
     {
-		'input': 'william van tassel;william van tassel', 
+		'name_one': 'william van tassel',
+		'name_two': 'william van tassel', 
 		'expected': True, 
 		'description': 'william van tassel comparison with article'
 	},
     {
-		'input': 'willie lee bonner;lee bonar', 
+		'name_one': 'willie lee bonner',
+		'name_two': 'lee bonar', 
 		'expected': True, 
 		'description': 'willie lee bonner comparison with article'
 	},
     {
-		'input': 'wilmer l sibbet;wilmer lawrence sibbitt', 
+		'name_one': 'wilmer l sibbet',
+		'name_two': 'wilmer lawrence sibbitt', 
 		'expected': True, 
 		'description': 'wilmer l sibbet comparison with article'
 	},
     {
-		'input': 'wilson c ladue;wilson c. ladue', 
+		'name_one': 'wilson c ladue',
+		'name_two': 'wilson c. ladue', 
 		'expected': True, 
 		'description': 'wilson c ladue comparison with article'
 	},
     {
-		'input': 'wilson e langley;wilson d. langley', 
+		'name_one': 'wilson e langley',
+		'name_two': 'wilson d. langley', 
 		'expected': False, 
 		'description': 'wilson e langley comparison with article'
 	},
     {
-		'input': 'wilson l miser;wilson lee miser', 
+		'name_one': 'wilson l miser',
+		'name_two': 'wilson lee miser', 
 		'expected': True, 
 		'description': 'wilson l miser comparison with article'
 	},
     {
-		'input': 'winford l sharp;winford lee sharp', 
+		'name_one': 'winford l sharp',
+		'name_two': 'winford lee sharp', 
 		'expected': True, 
 		'description': 'winford l sharp comparison with article'
 	},
     {
-		'input': 'winfred p lehmann;winfred p. lehmann', 
+		'name_one': 'winfred p lehmann',
+		'name_two': 'winfred p. lehmann', 
 		'expected': True, 
 		'description': 'winfred p lehmann comparison with article'
 	},
     {
-		'input': 'winiferd m leiby;lester m. libo', 
+		'name_one': 'winiferd m leiby',
+		'name_two': 'lester m. libo', 
 		'expected': False, 
 		'description': 'winiferd m leiby comparison with article'
 	},
     {
-		'input': 'winifred v shields;currin vance shields', 
+		'name_one': 'winifred v shields',
+		'name_two': 'currin vance shields', 
 		'expected': False, 
 		'description': 'winifred v shields comparison with article'
 	},
     {
-		'input': 'winston l brembeck;winston lamont brembeck', 
+		'name_one': 'winston l brembeck',
+		'name_two': 'winston lamont brembeck', 
 		'expected': True, 
 		'description': 'winston l brembeck comparison with article'
 	},
     {
-		'input': 'wm a lessa;william a. lessa', 
+		'name_one': 'wm a lessa',
+		'name_two': 'william a. lessa', 
 		'expected': True, 
 		'description': 'wm a lessa comparison with article'
 	},
     {
-		'input': 'wm van a jr clark, jr;william van alan clark', 
+		'name_one': 'wm van a jr clark, jr',
+		'name_two': 'william van alan clark', 
 		'expected': True, 
 		'description': 'wm van a jr clark, jr comparison with article'
 	},
     {
-		'input': 'wm w sanderson;wiley devere sanderson', 
+		'name_one': 'wm w sanderson',
+		'name_two': 'wiley devere sanderson', 
 		'expected': False, 
 		'description': 'wm w sanderson comparison with article'
 	},
     {
-		'input': 'wm. lester jordan;lester jordan', 
+		'name_one': 'wm. lester jordan',
+		'name_two': 'lester jordan', 
 		'expected': True, 
 		'description': 'wm. lester jordan comparison with article'
 	},
     {
-		'input': 'yvonne m cam;lucien m. lecam', 
+		'name_one': 'yvonne m cam',
+		'name_two': 'lucien m. lecam', 
 		'expected': False, 
 		'description': 'yvonne m cam comparison with article'
 	},
     {
-		'input': 'zebulon b vance;zeb vance', 
+		'name_one': 'zebulon b vance',
+		'name_two': 'zeb vance', 
 		'expected': True, 
 		'description': 'zebulon b vance comparison with article'
 	},
     {
-		'input': 'zelma b leonhard;zelma b. leonhard', 
+		'name_one': 'zelma b leonhard',
+		'name_two': 'zelma b. leonhard', 
 		'expected': True, 
 		'description': 'zelma b leonhard comparison with article'
 	},
     {
-		'input': 'zens l smith;zens lawrence smith', 
+		'name_one': 'zens l smith',
+		'name_two': 'zens lawrence smith', 
 		'expected': True, 
 		'description': 'zens l smith comparison with article'
 	},
     {
-		'input': 'a john vounie;john j. a. devenny', 
+		'name_one': 'a john vounie',
+		'name_two': 'john j. a. devenny', 
 		'expected': True, 
 		'description': 'a john vounie comparison with article'
 	},
     {
-		'input': 'albert renzi;albert bernhardi van rennes', 
+		'name_one': 'albert renzi',
+		'name_two': 'albert bernhardi van rennes', 
 		'expected': True, 
 		'description': 'albert renzi comparison with article'
 	},
     {
-		'input': 'alfred von geldern;alfred gellhorn', 
+		'name_one': 'alfred von geldern',
+		'name_two': 'alfred gellhorn', 
 		'expected': True, 
 		'description': 'alfred von geldern comparison with article'
 	},
     {
-		'input': 'clifford mays;clifford j. lemay', 
+		'name_one': 'clifford mays',
+		'name_two': 'clifford j. lemay', 
 		'expected': True, 
 		'description': 'clifford mays comparison with article'
 	},
     {
-		'input': 'helan francest lauterer;helen forrest lauterer', 
+		'name_one': 'helan francest lauterer',
+		'name_two': 'helen forrest lauterer', 
 		'expected': True, 
 		'description': 'helan francest lauterer comparison with article'
 	},
     {
-		'input': 'henry p lane, jr;henry p. lange', 
+		'name_one': 'henry p lane, jr',
+		'name_two': 'henry p. lange', 
 		'expected': False, 
 		'description': 'henry p lane, jr comparison with article'
 	},
     {
-		'input': 'irving large;irving d. lorge', 
+		'name_one': 'irving large',
+		'name_two': 'irving d. lorge', 
 		'expected': True, 
 		'description': 'irving large comparison with article'
 	},
     {
-		'input': 'john w leslie;wolf leslau', 
+		'name_one': 'john w leslie',
+		'name_two': 'wolf leslau', 
 		'expected': False, 
 		'description': 'john w leslie comparison with article'
 	},
     {
-		'input': 'joseph panta;joseph della penta', 
+		'name_one': 'joseph panta',
+		'name_two': 'joseph della penta', 
 		'expected': True, 
 		'description': 'joseph panta comparison with article'
 	},
     {
-		'input': 'joseph w beck;joseph van derbeek', 
+		'name_one': 'joseph w beck',
+		'name_two': 'joseph van derbeek', 
 		'expected': True, 
 		'description': 'joseph w beck comparison with article'
 	},
     {
-		'input': 'louis depolito;robert louis politzer', 
+		'name_one': 'louis depolito',
+		'name_two': 'robert louis politzer', 
 		'expected': False, 
 		'description': 'louis depolito comparison with article'
 	},
     {
-		'input': 'martin lisan;martin lessen', 
+		'name_one': 'martin lisan',
+		'name_two': 'martin lessen', 
 		'expected': True, 
 		'description': 'martin lisan comparison with article'
 	},
     {
-		'input': 'morton levy;martin j. levy', 
+		'name_one': 'morton levy',
+		'name_two': 'martin j. levy', 
 		'expected': False, 
 		'description': 'morton levy comparison with article'
 	},
     {
-		'input': 'theodore b ley;theodore delay', 
+		'name_one': 'theodore b ley',
+		'name_two': 'theodore delay', 
 		'expected': True, 
 		'description': 'theodore b ley comparison with article'
 	},
     {
-		'input': 'victor j cassidy;julian victor langmead casserley', 
+		'name_one': 'victor j cassidy',
+		'name_two': 'julian victor langmead casserley', 
 		'expected': True, 
 		'description': 'victor j cassidy comparison with article'
 	},

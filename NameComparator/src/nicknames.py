@@ -3,8 +3,8 @@ from re import IGNORECASE
 from json import loads as json_loads
 from importlib.resources import files
 
-unparsed_nickname_to_id_data = files('NameComparator').joinpath('data/nicknames/nicknameToId.json').read_text()
-unparsed_id_to_nickname_set = files('NameComparator').joinpath('data/nicknames/nameVariants.json').read_text()
+unparsed_nickname_to_id_data = files('data').joinpath('nicknames/nicknameToId.json').read_text()
+unparsed_id_to_nickname_set = files('data').joinpath('nicknames/nameVariants.json').read_text()
 
 def remove_nicknames(name_one:str, name_two:str) -> tuple[str, str]:
     """Replaces the nickname in one name for the official name found in the other

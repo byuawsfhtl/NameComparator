@@ -8,7 +8,7 @@ from json import loads as json_loads
 from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality
 
 # Read the various variables from a file
-comparison_variables_as_dict = json_loads(files('NameComparator').joinpath('data/variablesForComparisons.json').read_text())
+comparison_variables_as_dict = json_loads(files('data').joinpath('variablesForComparisons.json').read_text())
 
 max_score: int = comparison_variables_as_dict.get("maxScore")
 guaranteed_passing_score: int = comparison_variables_as_dict.get("guaranteedPassingScore")

@@ -12,8 +12,8 @@ from NameComparator.src.ipa import get_ipa
 from NameComparator.src.uniqueness import score_uniqueness
 from NameComparator.src.uniqueness import FrequencyData
 
-unparsed_usa_to_1950_surnames = files('NameComparator').joinpath('data/frequency/surnamesUsaTo1950.json').read_text()
-unparsed_usa_to_1950_first_names = files('NameComparator').joinpath('data/frequency/firstNamesUsaTo1950.json').read_text()
+unparsed_usa_to_1950_surnames = files('data').joinpath('frequency/surnamesUsaTo1950.json').read_text()
+unparsed_usa_to_1950_first_names = files('data').joinpath('frequency/firstNamesUsaTo1950.json').read_text()
 
 class Attempt(NamedTuple):
     """Represents an attempt at name comparison (often used for debugging).
