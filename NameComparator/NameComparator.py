@@ -110,9 +110,9 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     name_one, name_two = remove_nicknames(name_one, name_two)
 
     # 1st attempt: Checks if names are a match according to string comparison alone
-    match, word_combos, attempt_one_score = compare_spelling(name_one, name_two)
-    results.attempt_one = Attempt(name_one, name_two, word_combos, attempt_one_score)
-    if match:
+    attempt_one_match, attempt_one_word_combos, attempt_one_score = compare_spelling(name_one, name_two)
+    results.attempt_one = Attempt(name_one, name_two, attempt_one_word_combos, attempt_one_score)
+    if attempt_one_match:
         results.match = True
         results.most_recent_attempt_score = attempt_one_score
         results.average_score_of_combined_attempts = attempt_one_score
@@ -124,9 +124,9 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
 
     # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
     modified_name_one, modified_name_two = modify_names_together(name_one, name_two)
-    match, word_combos, attempt_two_score = compare_spelling(modified_name_one, modified_name_two)
-    results.attempt_two = Attempt(modified_name_one, modified_name_two, word_combos, attempt_two_score)
-    if match:
+    attempt_two_match, attempt_two_word_combos, attempt_two_score = compare_spelling(modified_name_one, modified_name_two)
+    results.attempt_two = Attempt(modified_name_one, modified_name_two, attempt_two_word_combos, attempt_two_score)
+    if attempt_two_match:
         results.match = True
         results.most_recent_attempt_score = attempt_two_score
         results.average_score_of_combined_attempts = ((attempt_two_score + attempt_one_score) / 2)
@@ -136,9 +136,9 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     ipa_of_modified_name_one = clean_ipa(get_ipa(modified_name_one))
     ipa_of_modified_name_two = clean_ipa(get_ipa(modified_name_two))
     ipa_of_modified_name_one, ipa_of_modified_name_two = modify_ipas_by_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two)
-    match, word_combos, attempt_three_score = pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
-    results.attempt_three = Attempt(ipa_of_modified_name_one, ipa_of_modified_name_two, word_combos, attempt_three_score)
-    if match:
+    attempt_three_match, attempt_three_word_combos, attempt_three_score = pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
+    results.attempt_three = Attempt(ipa_of_modified_name_one, ipa_of_modified_name_two, attempt_three_word_combos, attempt_three_score)
+    if attempt_three_match:
         results.match = True
         results.most_recent_attempt_score = attempt_three_score
         results.average_score_of_combined_attempts = ((attempt_three_score + attempt_two_score + attempt_one_score) / 3)
@@ -148,9 +148,9 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     ipa_of_name_one = clean_ipa(get_ipa(name_one))
     ipa_of_name_two = clean_ipa(get_ipa(name_two))
     ipa_of_name_one, ipa_of_name_two = modify_ipas_by_comparison(ipa_of_name_one, ipa_of_name_two)
-    match, word_combos, attempt_four_score = pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
-    results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, word_combos, attempt_four_score)
-    if match:
+    attempt_four_match, attempt_four_word_combos, attempt_four_score = pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
+    results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, attempt_four_word_combos, attempt_four_score)
+    if attempt_four_match:
         results.match = True
         results.most_recent_attempt_score = attempt_four_score
         results.average_score_of_combined_attempts = ((attempt_four_score + attempt_three_score + attempt_two_score + attempt_one_score) / 4)
