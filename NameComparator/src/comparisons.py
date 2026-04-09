@@ -48,7 +48,7 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
     minimum_length = min(len(name_one.split(' ')), len(name_two.split(' ')))
 
     if (count > 0):
-        averaged_scores = combined_scores / averaged_scores
+        averaged_scores = combined_scores / count
 
     if (count >= number_of_valid_combos_to_skip_further_checks) or (count == minimum_length):
         return True, word_combos, averaged_scores

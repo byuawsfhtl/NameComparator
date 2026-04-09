@@ -90,8 +90,8 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
         };
         if (wordOne.length !== 1 && wordTwo.length !== 1) { // # If neither word is an initial
             const lowestSyllableCount = mathjs_min(
-                consonantsInNameOne.split('я').length - 1,
-                consonantsInNameTwo.split('я').length - 1
+                consonantsInNameOne.split('*').length - 1,
+                consonantsInNameTwo.split('*').length - 1
             );
             if (lowestSyllableCount < 2) {
                 continue
