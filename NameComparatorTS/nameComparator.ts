@@ -113,54 +113,54 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   [nameOne, nameTwo] = removeNicknames(nameOne, nameTwo);
 
   // 1st attempt: Checks if names are a match according to string comparison alone
-  let [attemptOneMatch, attemptOneWordCombos, attemptOneScore] = compareSpelling(nameOne, nameTwo);
+  const [attemptOneMatch, attemptOneWordCombos, attemptOneScore] = compareSpelling(nameOne, nameTwo);
   results.attemptOne = new Attempt(nameOne, nameTwo, attemptOneWordCombos, attemptOneScore);
   if (attemptOneMatch) {
     results.match = true;
     results.mostRecentAttemptScore = attemptOneScore;
     results.averageScoreOfCombinedAttempts = attemptOneScore;
     return results;
-  }
+  };
 
   // Failed first attempt. Check if names are even worth continuing
   if (isWorthContinuing(nameOne, nameTwo) === false){
     return results;
-  } 
+  } ;
 
   // 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
-  let [modifiedNameOne, modifiedNameTwo] = modifyNamesTogether(nameOne, nameTwo);
-  let[attemptTwoMatch, attemptTwoWordCombos, attemptTwoScore] = compareSpelling(modifiedNameOne, modifiedNameTwo);
+  const [modifiedNameOne, modifiedNameTwo] = modifyNamesTogether(nameOne, nameTwo);
+  const[attemptTwoMatch, attemptTwoWordCombos, attemptTwoScore] = compareSpelling(modifiedNameOne, modifiedNameTwo);
   results.attemptTwo = new Attempt(modifiedNameOne, modifiedNameTwo, attemptTwoWordCombos, attemptTwoScore);
   if (attemptTwoMatch) {
     results.match = true;
     results.mostRecentAttemptScore = attemptTwoScore;
     results.averageScoreOfCombinedAttempts = ((attemptTwoScore + attemptOneScore) / 2);
     return results;
-  }
+  };
   
   // 3rd attempt: Checks if modified names are a match according to pronunciation
   let ipaOfModifiedNameOne = cleanIpa(getIpa(modifiedNameOne));
   let ipaOfModifiedNameTwo = cleanIpa(getIpa(modifiedNameTwo));
   [ipaOfModifiedNameOne, ipaOfModifiedNameTwo] = modifyIpasByComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo);
-  let [attemptThreeMatch, attemptThreeWordCombos, attemptThreeScore] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
+  const [attemptThreeMatch, attemptThreeWordCombos, attemptThreeScore] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
   results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, attemptThreeWordCombos, attemptThreeScore);
   if (attemptThreeMatch) {
     results.match = true;
     results.mostRecentAttemptScore = attemptThreeScore;
     results.averageScoreOfCombinedAttempts = ((attemptThreeScore + attemptTwoScore + attemptOneScore) / 3);
     return results;
-  }
+  };
 
   // 4th attempt: Check if original names are a match according to pronunciation
   let ipaOfNameOne = cleanIpa(getIpa(nameOne));
   let ipaOfNameTwo = cleanIpa(getIpa(nameTwo));
   [ipaOfNameOne, ipaOfNameTwo] = modifyIpasByComparison(ipaOfNameOne, ipaOfNameTwo);
-  let [attemptFourMatch, attemptFourWordCombos, attemptFourScore] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
+  const [attemptFourMatch, attemptFourWordCombos, attemptFourScore] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
   results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, attemptFourWordCombos, attemptFourScore);
   if (attemptFourMatch) {
     results.match = true;
     results.mostRecentAttemptScore = attemptFourScore;
     results.averageScoreOfCombinedAttempts = ((attemptFourScore + attemptThreeScore + attemptTwoScore + attemptOneScore) / 4);
-  }
+  };
   return results;
-}
+};

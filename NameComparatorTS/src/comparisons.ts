@@ -3,20 +3,17 @@ import { identifyBestMatches, findWordMatchesAndQuality } from "./usefulTools";
 import { min as mathjs_min, matrix as mathjs_matrix_function, Matrix as mathjs_matrix_class, zeros as mathjs_zeros } from 'mathjs';
 
 // Read the various variables from a file
-import comparisonVariablesAsDict from '../../data/variablesForComparisons.json';
-
-const maxScore = comparisonVariablesAsDict["maxScore" as keyof typeof comparisonVariablesAsDict]
-const guaranteedPassingScore = comparisonVariablesAsDict["guaranteedPassingScore" as keyof typeof comparisonVariablesAsDict]
-const conditionallyPassingScore = comparisonVariablesAsDict["conditionallyPassingScore" as keyof typeof comparisonVariablesAsDict]
-const furtherChecksNeededScore = comparisonVariablesAsDict["furtherChecksNeededScore" as keyof typeof comparisonVariablesAsDict]
-const guaranteedFailScore = comparisonVariablesAsDict["guaranteedFailScore" as keyof typeof comparisonVariablesAsDict]
-
-const fuzzyComparisonWeight = comparisonVariablesAsDict["fuzzyComparisonWeight" as keyof typeof comparisonVariablesAsDict]
-const consonantComparisonWeight = comparisonVariablesAsDict["consonantComparisonWeight" as keyof typeof comparisonVariablesAsDict]
-
-const numberOfValidCombosToSkipFurtherChecks = comparisonVariablesAsDict["numberOfValidCombosToSkipFurtherChecks" as keyof typeof comparisonVariablesAsDict]
-const lengthNeededForConditionallyPassingPronunciationComparison = comparisonVariablesAsDict["lengthNeededForConditionallyPassingPronunciationComparison" as keyof typeof comparisonVariablesAsDict]
-
+import { 
+        maxScore, 
+        guaranteedPassingScore,
+        conditionallyPassingScore,
+        furtherChecksNeededScore,
+        guaranteedFailScore,
+        fuzzyComparisonWeight,
+        consonantComparisonWeight,
+        numberOfValidCombosToSkipFurtherChecks,
+        lengthNeededForConditionallyPassingPronunciationComparison
+} from '../../data/variablesForComparisons.json';
 
 /**
  * Identifies if two names are a match according to a comparison based soley on spelling.

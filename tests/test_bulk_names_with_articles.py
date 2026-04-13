@@ -20,8 +20,8 @@ def typescript_deserializer(dictionary_input):
                                                 make_into_attempt_class(dictionary_input.get('attemptTwo', '')), 
                                                 make_into_attempt_class(dictionary_input.get('attemptThree', '')), 
                                                 make_into_attempt_class(dictionary_input.get('attemptFour', '')), 
-                                                dictionary_input.get('mostRecentAttemptScore'), 
-                                                dictionary_input.get('averageScoreOfCombinedAttempts'))
+                                                float(dictionary_input.get('mostRecentAttemptScore')), 
+                                                float(dictionary_input.get('averageScoreOfCombinedAttempts')))
     
     return deserialized_item
 
@@ -29,10 +29,20 @@ def make_into_attempt_class(input_item):
     if input_item:
         return Attempt(input_item['nameOne'], 
                        input_item['nameTwo'], 
-                       input_item['wordCombos'], 
-                       input_item['scoreOfAttempt'])
+                       reformat_word_combos(input_item['wordCombos']), 
+                       float(input_item['scoreOfAttempt']))
     
     return None
+
+def reformat_word_combos(word_combo_list):
+
+    reformatted_word_combos: list = []
+
+    for item in word_combo_list:
+        new_item = (item[0], item[1], float(item[2]))
+        reformatted_word_combos.append(new_item)
+
+    return reformatted_word_combos
 
 
 test_runner = PyScriptTestRunner(path_for_typescript_version, deserializer=typescript_deserializer)
