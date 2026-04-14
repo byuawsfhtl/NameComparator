@@ -25,6 +25,7 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
             words_in_name_one += [''] * (len(words_in_name_two) - len(words_in_name_one))
         else:
             words_in_name_two += [''] * (len(words_in_name_one) - len(words_in_name_two))
+
     scores = np_zeros((len(words_in_name_one), len(words_in_name_two)))
 
     # Score each matchup
@@ -40,8 +41,8 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
             scores[i, j] = score
     
     # Identify the best matchups
-    final_words_in_name_one: list[str | None] = [str(i) if word is not None else '' for i, word in enumerate(words_in_name_one)]
-    final_words_in_name_two: list[str | None] = [str(i) if word is not None else '' for i, word in enumerate(words_in_name_two)]
+    final_words_in_name_one: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_one)]
+    final_words_in_name_two: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_two)]
     return identify_best_matches(scores=scores, list_one=final_words_in_name_one, list_two=final_words_in_name_two)
 
 def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
@@ -59,12 +60,18 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
         An integer representing the score to be added to the word pairing
     """
 
+    # If either of the scores is empty, it should be fine to say it's a match
+    # with the empty space
+    if (len(word_one) == 0) or (len(word_two) == 0):
+        score = 100
+
     # Assign the score this way if either is initial
-    if (len(word_one) == 1) or (len(word_two) == 1):
+    elif (len(word_one) == 1) or (len(word_two) == 1):
         if (word_one[0] == word_two[0]):
             score = 100
         else:
             score = 0
+
     # For words longer than 2, either use ratio or partial ratio for score as shown below.
     else:
         ratio = fuzz_ratio(word_one, word_two)
@@ -96,9 +103,16 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
         """   
         linear_sum_class = Munkres()     
         list_of_paired_indices = linear_sum_class.compute(-scores)
+
+        print(f"list_one length: {len(list_one)}, list_two length: {len(list_two)}, scores shape: {scores.shape}")
+        print(f"Raw paired indices from Munkres: {list_of_paired_indices}")
+
         best_combinations = []
         for i, j in list_of_paired_indices:
-            if (list_one[i] is not None) and (list_two[j] is not None):
+            # This first if statement quickly removes any possible out of scope results from the matrix padding
+            if (int(i) >= len(list_one)) or (int(j) >= len(list_two)):
+                continue
+            elif (list_one[i] is not None) and (list_two[j] is not None) and (list_one[i] is not '') and (list_two[j] is not ''):
                 matchup_score = scores[i, j]
                 best_combinations.append((list_one[i], list_two[j], matchup_score))
         return best_combinations
@@ -139,8 +153,20 @@ def get_matching_words_and_indices(name_one:str, name_two:str) -> list[tuple[int
     combo = find_word_matches_and_quality(name_one, name_two)
     words_in_name_one = name_one.split()
     words_in_name_two = name_two.split()
+
     match_indices = [(int(tup[0]), int(tup[1])) for tup in combo]
-    match_indices_with_words = [(tup[0], tup[1], words_in_name_one[tup[0]], words_in_name_two[tup[1]]) for tup in match_indices]
+
+    print(f"Match indices value: {match_indices}\nWords in name one value: {words_in_name_one}\nWords in name two value: {words_in_name_two}")
+
+    match_indices_with_words = []
+
+    for tuple in match_indices:
+        if (tuple[0] < len(words_in_name_one)) and (tuple[1] < len(words_in_name_two)):
+            print(f"Approved the addition of this tuple: {tuple}")
+            match_indices_with_words.append((tuple[0], tuple[1], words_in_name_one[tuple[0]], words_in_name_two[tuple[1]]))
+
+    print(f"Final value of this function: {match_indices_with_words}")
+
     return match_indices_with_words
 
 class NameEditor():

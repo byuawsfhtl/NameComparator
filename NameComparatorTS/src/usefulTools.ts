@@ -1,3 +1,4 @@
+import { match } from 'assert';
 import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
 import { munkres } from 'munkres';
 
@@ -42,8 +43,8 @@ export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [str
             scores[i][j] = score;
         };
     };
-    const finalWordsInNameOne = wordsInNameOne.map((word, i) => (word !== '' ? String(i) : ''));
-    const finalWordsInNameTwo = wordsInNameTwo.map((word, i) => (word !== '' ? String(i) : ''));        
+    const finalWordsInNameOne = wordsInNameOne.map((word, i) => ((word !== null && word !== '') ? String(i) : ''));
+    const finalWordsInNameTwo = wordsInNameTwo.map((word, i) => ((word !== null && word !== '') ? String(i) : ''));        
     return identifyBestMatches(scores, finalWordsInNameOne, finalWordsInNameTwo);
 };
 
@@ -62,9 +63,14 @@ export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [str
 function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number {
 
     let score: number;
-    // Assign the score this way if either is initial
-    if (wordOne.length === 1 || wordTwo.length === 1) {
+    // If either of the scores is empty, it should be fine to say it's a match
+    // with the empty space
+    if (wordOne.length === 0 || wordTwo.length === 0) {
+        score = 100;
+
+    } else if (wordOne.length === 1 || wordTwo.length === 1) { // Assign the score this way if either is initial
         score = wordOne[0] === wordTwo[0] ? 100 : 0;
+
     } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
         const ratio = fuzzball_ratio(wordOne, wordTwo);
         if (wordOne[0] === wordTwo[0]) {
@@ -103,7 +109,10 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
     
         const wordOne = listOne[i];
         const wordTwo = listTwo[j];
-        if (wordOne !== "" && wordTwo !== "") {
+        // This first if statement quickly removes any possible out of scope results from the matrix padding
+        if (i >= listOne.length || j >= listTwo.length){
+            continue;
+        } else if (wordOne !== null && wordTwo !== null && wordOne !== "" && wordTwo !== "") {
           const matchupScore = scores[i][j];
           bestCombination.push([wordOne, wordTwo, matchupScore]);
         };
@@ -153,12 +162,14 @@ export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): 
     let matchIndices : [number, number][] = combo.map(
         ([a, b]) => [parseInt(a), parseInt(b)]
     );
-    const matchIndicesWithWords = matchIndices.map(([i, j]) => [
-        i,
-        j,
-        wordsInNameOne[i],
-        wordsInNameTwo[j]
-    ] as [number, number, string, string]);
+
+    let matchIndicesWithWords:[number, number, string, string][] = [];
+
+    for (let i = 0; i < matchIndices.length; i++){
+        if ((matchIndices[i][0] < wordsInNameOne.length) && (matchIndices[i][1] < wordsInNameTwo.length)) {
+            matchIndicesWithWords.push([matchIndices[i][0], matchIndices[i][1], wordsInNameOne[matchIndices[i][0]], wordsInNameTwo[matchIndices[i][1]]]);
+        };
+    };
     
     return matchIndicesWithWords;
 };
