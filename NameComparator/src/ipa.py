@@ -21,7 +21,7 @@ def get_ipa(name:str) -> str:
     pronunciation_of_name = " ".join(pronunciation_list)
     return pronunciation_of_name
 
-# Note here that lru cache is the python equivalent of memoizee in typescript
+# Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1_000)
 def _get_ipa_of_one_word(word:str) -> str:
     """Gets the pronunciation of a word.

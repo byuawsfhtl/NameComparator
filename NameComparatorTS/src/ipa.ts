@@ -3,8 +3,8 @@ import unidecode from 'unidecode';
 import ipaAllNames from '../../data/pronunciation/ipaAllNames.json';
 import ipaCommonWordParts from '../../data/pronunciation/ipaCommonWordParts.json';
 
-// const memoized = memoize(function, {max: 1000});
-
+// Note here that memoizee is the python equivalent of lru cache in Python
+const memoizedGetIpaOfOneWord = memoize(_getIpaOfOneWord, {max: 1000});
 /**
  * Gets the pronunciation of a name.
  * 

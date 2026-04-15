@@ -5,6 +5,7 @@ from munkres import Munkres
 from fuzzywuzzy.fuzz import ratio as fuzz_ratio
 from fuzzywuzzy.fuzz import partial_ratio as fuzz_partial_ratio
 
+# Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1_000)
 def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str, str, int]]:
     """Identifies which words in either name are a match, and how well they match.

@@ -261,13 +261,15 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[bool, str, str]:
 
     # Do not combine words that are only two in length
     if len(words_in_name_one) < 3:
+        print("Words aren't long enough to combine")
         return False, name_one, name_two
     
     # Do not combine words that are already a good spelling match
     if compare_spelling(name_one, name_two)[0]:
+        print("Words are not a good spelling match")
         return False, name_one, name_two
     
-    for index_one, _, word_one, word_two in get_matching_words_and_indices(name_one, name_two):
+    for index_one, index_two, word_one, word_two in get_matching_words_and_indices(name_one, name_two):
         # Skip if word_one and word_two are not a good match
         if (fuzz_partial_ratio(word_one, word_two) < 75):
             continue
@@ -307,10 +309,10 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[bool, str, str]:
         name_editor_instance = NameEditor(name_one, name_two)
         name_editor_instance.update_name_one(index_one, compound)
         name_editor_instance.update_name_one(neighbor_index, '')
-        name_one_edited, _ = name_editor_instance.get_modified_names()
+        name_one_edited, notUsed = name_editor_instance.get_modified_names()
 
         # If the edited name_one is better (or only slightly worse), go with the edited version
-        improvement, _, _ = calculate_edit_improvement(name_one, name_two, name_one_edited, name_two)
+        improvement, useless, useless_two = calculate_edit_improvement(name_one, name_two, name_one_edited, name_two)
         if improvement > -1:
             return True, name_one_edited, name_two
 

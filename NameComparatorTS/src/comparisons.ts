@@ -24,6 +24,9 @@ import {
  * @returns Whether the names are a match and the resulting word combo
  */
 export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any[], number] {
+
+    console.error(`Comparing spelling for ${nameOne} and ${nameTwo} in TypeScript`);
+
     const wordCombos = findWordMatchesAndQuality(nameOne, nameTwo);
 
     let count = 0;

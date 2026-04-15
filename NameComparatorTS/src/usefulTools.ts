@@ -1,7 +1,10 @@
 import { match } from 'assert';
 import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
 import { munkres } from 'munkres';
+import memoize from 'memoizee';
 
+// Note here that memoizee is the python equivalent of lru cache in Python
+const memoizeFindWordMatchesAndQuality = memoize(findWordMatchesAndQuality, {max: 1000});
 /**
  * Identifies which words in either name are a match, and how well they match.
  * 

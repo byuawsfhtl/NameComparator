@@ -34,6 +34,9 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
         a score representing the average percentage match of the word combos that are considered 
         valid
     """        
+
+    print(f"Comparing spelling for {name_one} and {name_two} in Python")
+
     word_combos = find_word_matches_and_quality(name_one, name_two)
 
     count = 0

@@ -281,11 +281,13 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
 
     // Do not combine words that are only two in length
     if (wordsInNameOne.length < 3) {
-        return [false, nameOne, nameTwo]
+        console.error("Words aren't long enough to combine");
+        return [false, nameOne, nameTwo];
     };
 
     // Do not combine words that are already a good spelling match
     if (compareSpelling(nameOne, nameTwo)[0]) {
+        console.error("Words are not a good spelling match");
         return [false, nameOne, nameTwo];
     };
     
@@ -337,12 +339,13 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
         const [nameOneEdited, notUsed] = nameEditorInstance.getModifiedNames();
 
         // If the edited nameOne is better (or only slightly worse), go with the edited version
-        const [diff, useless, useless2] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwo);
-        if (diff > -1) {
+        const [improvement, useless, uselessTwo] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwo);
+        if (improvement > -1) {
             return [true, nameOneEdited, nameTwo];
         };
     };
 
+    // If no edits were beneficial, just return the original words
     return [false, nameOne, nameTwo];
 };
 
