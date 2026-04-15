@@ -70,7 +70,7 @@ export function cleanName(name: string): string {
         'benj': 'benjamin'
     };
     const nameAsList = [];
-    for (const word of name.split(/\s+/)) {
+    for (const word of name.trim().split(/\s+/)) {
         nameAsList.push(commonAbreviations[word as keyof typeof commonAbreviations] || word);
     };
     name = nameAsList.join(' ');
@@ -79,7 +79,7 @@ export function cleanName(name: string): string {
     name = name.replace(/the [1-9][a-z]2,6/g, '').replace(" the ", "");
 
     // Remove Roman numerals
-    name = name.split(/\s+/)
+    name = name.trim().split(/\s+/)
         .map(word => word.replace(/\b(ii|iii|iv)\b/, ''))  // Remove Roman numerals ii, iii, iv
         .join(' ');
 
@@ -192,6 +192,8 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
  */
 function _handlePrefixesInNames(nameOne: string, nameTwo: string): [string, string]{
 
+    console.error("Handling prefixes in names in TypeScript")
+
     // Create a list of prefixes to check
     const possible_prefixes = [
         "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
@@ -273,7 +275,9 @@ function _dealWithDashes(nameOne: string, nameTwo: string): [string, string] {
  */
 function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string, string] {
 
-    const wordsInNameOne = nameOne.split(/\s+/);
+    console.error(`Combining split words ${nameOne} and ${nameTwo} in TypeScript`);
+
+    const wordsInNameOne = nameOne.trim().split(/\s+/);
 
     // Do not combine words that are only two in length
     if (wordsInNameOne.length < 3) {
@@ -521,7 +525,7 @@ function _determineIfSkipNamesInFixMcAndMacNames(nameOne: string, nameTwo: strin
 function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [string, string] {
 
     // Edit the names
-    const surnameOne = nameOne.split(/\s+/).pop() || '';
+    const surnameOne = nameOne.trim().split(/\s+/).pop() || '';
     if (fuzzball_ratio(surnameOne, surname) > 75) {
         if (surnameOne[0] == 'o') {
             nameOne = nameOne.replace(surnameOne, surname);
@@ -529,7 +533,7 @@ function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [stri
             nameOne = nameOne.replace(`o ${surnameOne}`, surname);
         };
     };
-    const surnameTwo = nameTwo.split(/\s+/).pop() || '';
+    const surnameTwo = nameTwo.trim().split(/\s+/).pop() || '';
     if (fuzzball_ratio(surnameTwo, surname) > 75) {
         if (surnameTwo[0] == 'o') {
             nameTwo = nameTwo.replace(surnameTwo, surname);

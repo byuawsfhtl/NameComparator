@@ -14,7 +14,7 @@ import ipaCommonWordParts from '../../data/pronunciation/ipaCommonWordParts.json
 export function getIpa(name: string): string {
 
     const pronunciationList = [];
-    for (const word of name.split(/\s+/)) {
+    for (const word of name.trim().split(/\s+/)) {
         pronunciationList.push(_getIpaOfOneWordMemoized(word));
     }
     return pronunciationList.join(' ');

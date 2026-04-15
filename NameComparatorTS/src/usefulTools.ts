@@ -15,8 +15,8 @@ export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [str
     console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
 
     // Initialize empty list to store scores
-    let wordsInNameOne : string[] = nameOne.split(/\s+/);
-    let wordsInNameTwo : string[] = nameTwo.split(/\s+/);
+    let wordsInNameOne : string[] = nameOne.trim().split(/\s+/);
+    let wordsInNameTwo : string[] = nameTwo.trim().split(/\s+/);
     if (wordsInNameOne.length !== wordsInNameTwo.length) {
         if (wordsInNameOne.length < wordsInNameTwo.length) {
             wordsInNameOne = wordsInNameOne.concat(new Array(wordsInNameTwo.length - wordsInNameOne.length).fill(""));
@@ -161,8 +161,8 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
  */
 export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): [number, number, string, string][] {
     let combo = findWordMatchesAndQuality(nameOne, nameTwo);
-    let wordsInNameOne = nameOne.split(/\s+/);
-    let wordsInNameTwo = nameTwo.split(/\s+/);
+    let wordsInNameOne = nameOne.trim().split(/\s+/);
+    let wordsInNameTwo = nameTwo.trim().split(/\s+/);
     let matchIndices : [number, number][] = combo.map(
         ([a, b]) => [parseInt(a), parseInt(b)]
     );
@@ -192,8 +192,8 @@ export class NameEditor {
      * @param nameTwo - The second name to edit
      */
     constructor(nameOne : string, nameTwo : string){
-        this.wordsInNameOne = nameOne.split(' ');
-        this.wordsInNameTwo = nameTwo.split(' ');
+        this.wordsInNameOne = nameOne.trim().split(/\s+/);
+        this.wordsInNameTwo = nameTwo.trim().split(/\s+/);
     };
 
     /**

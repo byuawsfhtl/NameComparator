@@ -177,6 +177,8 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str]:
         A tuple containing the input names, with prefixes modified in a way that lets
         them be standardized later on
     """
+
+    print("Handling prefixes in names in P")
     
     # Create a list of prefixes to check
     possible_prefixes = [
@@ -252,6 +254,8 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[bool, str, str]:
     Returns:
         A tuple containing whether or not the names were modified and the modified names
     """        
+
+    print(f"Combining split words {name_one} and {name_two} in Python")
 
     words_in_name_one = name_one.split()
 

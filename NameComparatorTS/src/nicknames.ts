@@ -12,8 +12,8 @@ import idToNicknameSetData from "../../data/nicknames/nameVariants.json";
 export function removeNicknames(nameOne: string, nameTwo: string): [string, string] {
 
     const nicknameToIdDataAsRecord: Record<string, number[]> = nicknameToIdData;
-    const wordsInNameOne = nameOne.split(/\s+/);
-    const wordsInNameTwo = nameTwo.split(/\s+/);
+    const wordsInNameOne = nameOne.trim().split(/\s+/);
+    const wordsInNameTwo = nameTwo.trim().split(/\s+/);
     
     for (const wordOne of wordsInNameOne) {
         if (wordsInNameTwo.includes(wordOne)) {

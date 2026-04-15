@@ -72,8 +72,8 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
     // Loop through every word match in the combo
     for (const tup of wordCombos) {
         // Get the matching word data
-        const wordOne = nameOne.split(' ')[parseInt(tup[0])];
-        const wordTwo = nameTwo.split(' ')[parseInt(tup[1])];
+        const wordOne = nameOne.trim().split(/\s+/)[parseInt(tup[0])];
+        const wordTwo = nameTwo.trim().split(/\s+/)[parseInt(tup[1])];
         const originalScoreForWords = Number(tup[2]);
 
         // Get the words as consonants
@@ -124,7 +124,7 @@ function _reduceToSimpleConsonants(string: string): string {
     return string
         .replace(/[aeiouy]/g, '*')
         .replace(/\*{2,}/g, '*')
-        .replace(/(.)\1+/g, '$1');
+        .replace(/(.)\1+/g, `$1`);
 };
 
 /**
@@ -140,8 +140,8 @@ function _reduceToSimpleConsonants(string: string): string {
 export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: string, nameOne: string, nameTwo: string): [boolean, [string, string, number][], number] {
 
     // Initialize empty list to store scores
-    var wordsFromIpaOne = ipaOfNameOne.split(/\s+/);
-    var wordsFromIpaTwo = ipaOfNameTwo.split(/\s+/);
+    var wordsFromIpaOne = ipaOfNameOne.trim().split(/\s+/);
+    var wordsFromIpaTwo = ipaOfNameTwo.trim().split(/\s+/);
     if (wordsFromIpaOne.length < wordsFromIpaTwo.length) {
         wordsFromIpaOne.push(...Array(wordsFromIpaTwo.length - wordsFromIpaOne.length).fill(null));
     } else if (wordsFromIpaOne.length > wordsFromIpaTwo.length) {
@@ -166,7 +166,7 @@ export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: stri
     const lowestScore = wordCombos.length > 0 ? mathjs_min(...wordCombos.map((tuple: [string, string, number]) => tuple[2])) : 0;
     
     // Return whether pronunciation match or not
-    const minimumLength = mathjs_min(ipaOfNameOne.split(/\s+/).length, ipaOfNameTwo.split(/\s+/).length);
+    const minimumLength = mathjs_min(ipaOfNameOne.trim().split(/\s+/).length, ipaOfNameTwo.trim().split(/\s+/).length);
     if (minimumLength < lengthNeededForConditionallyPassingPronunciationComparison) {
         if (lowestScore >= guaranteedPassingScore) {
             return [true, wordCombos, lowestScore];

@@ -123,7 +123,7 @@ def _reduce_to_simple_consonants(string:str) -> str:
         A string containing only the consonants of the original string, separated
         by asterisks
     """            
-    string = re_sub("a|e|i|o|u|y", "*", string)
+    string = re_sub(r"a|e|i|o|u|y", "*", string)
     string = re_sub(r'\*{2,}', "*", string)
     string = re_sub(r'(.)\1+', r'\1', string)
     return string
