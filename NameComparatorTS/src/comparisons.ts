@@ -162,7 +162,8 @@ export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: stri
     // shennanigans. It's functionally the same
     let scoreMatrix : number[][] = scores.toArray() as number[][];
     let wordCombos = identifyBestMatches(scoreMatrix, wordsFromIpaOne, wordsFromIpaTwo);
-    const lowestScore = mathjs_min(...wordCombos.map((tuple: [string, string, number]) => tuple[2]));
+    // This defaults the minimum score to 0 if there is no real minimum score, or sets it to the smalles one otherwise
+    const lowestScore = wordCombos.length > 0 ? mathjs_min(...wordCombos.map((tuple: [string, string, number]) => tuple[2])) : 0;
     
     // Return whether pronunciation match or not
     const minimumLength = mathjs_min(ipaOfNameOne.split(/\s+/).length, ipaOfNameTwo.split(/\s+/).length);

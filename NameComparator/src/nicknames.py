@@ -52,10 +52,11 @@ def _remove_based_on_id_information(set_of_ids: set[int], word_one: str, name_on
     """
     
     id_to_nickname_set_data_as_variable = json_loads(unparsed_id_to_nickname_set)
+    print (id_to_nickname_set_data_as_variable)
     breaking = False
 
     for id in set_of_ids:
-        nicknames = id_to_nickname_set_data_as_variable[id].copy()
+        nicknames = id_to_nickname_set_data_as_variable[str(id)].copy()
         nicknames.remove(word_one)
         for nickname in nicknames:
             if (nickname in words_in_name_one) and (nickname in words_in_name_two):

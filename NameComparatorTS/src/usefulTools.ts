@@ -12,6 +12,8 @@ import { munkres } from 'munkres';
  */
 export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [string, string, number][] {
 
+    console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
+
     // Initialize empty list to store scores
     let wordsInNameOne : string[] = nameOne.split(/\s+/);
     let wordsInNameTwo : string[] = nameTwo.split(/\s+/);
@@ -34,15 +36,17 @@ export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [str
             const wordTwo = wordsInNameTwo[j];
             // Assign a very low finite score to dummy pairings
             scores[i][j] = -1e9
-            if (wordOne == null || wordTwo == null) {
+            if (wordOne === null || wordTwo === null || wordOne === "" || wordTwo === "") {
                 continue;
             };
             // Determine the score of the word pairing
             const score = _determineScoreOfWordMatchup(wordOne, wordTwo);
+            console.error(`TypeScript determined score of matchup for this run is ${score}`)
             // Add the score
             scores[i][j] = score;
         };
     };
+    
     const finalWordsInNameOne = wordsInNameOne.map((word, i) => ((word !== null && word !== '') ? String(i) : ''));
     const finalWordsInNameTwo = wordsInNameTwo.map((word, i) => ((word !== null && word !== '') ? String(i) : ''));        
     return identifyBestMatches(scores, finalWordsInNameOne, finalWordsInNameTwo);
@@ -101,11 +105,11 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
 // ever necessary to revert for some reason, see the hungarian.ts file before any of the
 // changes made on 3/16/2026
     const negatedScores = scores.map(row => row.map(score => -score));
-    const hungairan_pairs_list = munkres(negatedScores);
+    const hungarian_pairs_list = munkres(negatedScores);
     let bestCombination: [string, string, number][] = [];
-    for (let index = 0; index < hungairan_pairs_list.length; index++) {
-        const i = hungairan_pairs_list[index][0];
-        const j = hungairan_pairs_list[index][1];
+    for (let index = 0; index < hungarian_pairs_list.length; index++) {
+        const i = hungarian_pairs_list[index][0];
+        const j = hungarian_pairs_list[index][1];
     
         const wordOne = listOne[i];
         const wordTwo = listTwo[j];

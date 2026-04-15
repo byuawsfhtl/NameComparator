@@ -160,6 +160,7 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
     words_from_ipa_one = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_one)]
     words_from_ipa_two = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_two)]
     word_combos = identify_best_matches(scores=scores, list_one=words_from_ipa_one, list_two=words_from_ipa_two)
+    # This defaults the minimum score to 0 if there is no real minimum score, or sets it to the smalles one otherwise
     lowest_score = min(word_combos, key=lambda tuple: tuple[2])[2] if min(word_combos, key=lambda tuple: tuple[2])[2] else 0
     
     # Return whether pronunciaion match or not

@@ -17,6 +17,9 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
         A list of tuples idenifying the index of the word in the first name,
         the index of the word in the second name, and the score of how well they match
     """
+
+    print(f"Entering Python findWordMatchesAndQuality function with the names {name_one} and {name_two}")
+
     # Initialize empty list to store scores
     words_in_name_one = name_one.split()
     words_in_name_two = name_two.split()
@@ -33,10 +36,11 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
         for j, word_two in enumerate(words_in_name_two):
             # Assign a very low finite score to dummy pairings
             scores[i, j] = -1e9 
-            if (word_one is None) or (word_two is None):
+            if (word_one is None) or (word_two is None) or (word_one == '') or (word_two == ''):
                 continue
             # Determine the score of the word pairing
             score = _determine_score_of_word_matchup(word_one, word_two)
+            print(f"Python determined score of matchup for this run is {score}")
             # Add the score
             scores[i, j] = score
     
@@ -102,17 +106,13 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
             representing how closely they match
         """   
         linear_sum_class = Munkres()     
-        list_of_paired_indices = linear_sum_class.compute(-scores)
-
-        print(f"list_one length: {len(list_one)}, list_two length: {len(list_two)}, scores shape: {scores.shape}")
-        print(f"Raw paired indices from Munkres: {list_of_paired_indices}")
-
+        hungarian_pairs_list = linear_sum_class.compute(-scores)
         best_combinations = []
-        for i, j in list_of_paired_indices:
+        for i, j in hungarian_pairs_list:
             # This first if statement quickly removes any possible out of scope results from the matrix padding
             if (int(i) >= len(list_one)) or (int(j) >= len(list_two)):
                 continue
-            elif (list_one[i] is not None) and (list_two[j] is not None) and (list_one[i] is not '') and (list_two[j] is not ''):
+            elif (list_one[i] is not None) and (list_two[j] is not None) and (list_one[i] != '') and (list_two[j] != ''):
                 matchup_score = scores[i, j]
                 best_combinations.append((list_one[i], list_two[j], matchup_score))
         return best_combinations
@@ -156,16 +156,11 @@ def get_matching_words_and_indices(name_one:str, name_two:str) -> list[tuple[int
 
     match_indices = [(int(tup[0]), int(tup[1])) for tup in combo]
 
-    print(f"Match indices value: {match_indices}\nWords in name one value: {words_in_name_one}\nWords in name two value: {words_in_name_two}")
-
     match_indices_with_words = []
 
     for tuple in match_indices:
         if (tuple[0] < len(words_in_name_one)) and (tuple[1] < len(words_in_name_two)):
-            print(f"Approved the addition of this tuple: {tuple}")
             match_indices_with_words.append((tuple[0], tuple[1], words_in_name_one[tuple[0]], words_in_name_two[tuple[1]]))
-
-    print(f"Final value of this function: {match_indices_with_words}")
 
     return match_indices_with_words
 
