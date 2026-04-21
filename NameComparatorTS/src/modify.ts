@@ -5,11 +5,11 @@ import { findWordMatchesAndQuality, getMatchingWordsAndIndices, NameEditor } fro
 
 // This is required to make sure that it reads in the characters correctly
 const spellingRules = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../../data/rulesSpelling.json'), 'utf-8')
+    fs.readFileSync(path.resolve(__dirname, '../../data/rules/rulesSpelling.json'), 'utf-8')
 ) as [string, string, string[], string[], number][];
 
 const ipaRules = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../../data/ipaRules.json'), 'utf-8')
+    fs.readFileSync(path.resolve(__dirname, '../../data/rules/rulesIpa.json'), 'utf-8')
 ) as [string, string, string[], string[], number][];
 
 /** 
