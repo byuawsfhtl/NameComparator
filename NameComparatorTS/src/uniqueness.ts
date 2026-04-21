@@ -3,6 +3,10 @@ import { getMatchingWordsAndIndices } from "./usefulTools";
 /**
  * A class that stores the name frequencies for first names and surnames 
  * within a given population in two Records.
+ * 
+ * WARNING: When this is being made, the characters in the data *MUST* be 
+ * in the utf-8 format before declaring this class or the comparison will 
+ * be bad. This is especially true of international langauges.
  */
 export class FrequencyData {
     public firstNameFrequencies: Record<string, number>;

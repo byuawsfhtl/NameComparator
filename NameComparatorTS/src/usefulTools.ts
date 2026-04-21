@@ -44,7 +44,7 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
             };
             // Determine the score of the word pairing
             const score = _determineScoreOfWordMatchup(wordOne, wordTwo);
-            console.error(`TypeScript determined score of matchup for this run is ${score}`)
+            console.error(`TypeScript determined score of matchup for ${wordOne} and ${wordTwo} for this run is ${score}`)
             // Add the score
             scores[i][j] = score;
         };
@@ -79,9 +79,9 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
         score = wordOne[0] === wordTwo[0] ? 100 : 0;
 
     } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
-        const ratio = fuzzball_ratio(wordOne, wordTwo);
+        const ratio = fuzzball_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
         if (wordOne[0] === wordTwo[0]) {
-            const partialRatioScore = fuzzball_partial_ratio(wordOne, wordTwo);
+            const partialRatioScore = fuzzball_partial_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
             score = Math.max(ratio, partialRatioScore);
         } else {
             score = ratio;

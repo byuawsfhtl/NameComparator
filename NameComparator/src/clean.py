@@ -1,6 +1,6 @@
 from re import sub as re_sub, search as re_search
 from unidecode import unidecode
-from fuzzywuzzy.fuzz import ratio as fuzz_ratio, partial_ratio as fuzz_partial_ratio
+from rapidfuzz.fuzz import ratio as fuzz_ratio, partial_ratio as fuzz_partial_ratio
 
 from NameComparator.src.comparisons import compare_spelling
 from NameComparator.src.usefulTools import calculate_edit_improvement, get_matching_words_and_indices, NameEditor

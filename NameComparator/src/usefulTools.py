@@ -2,8 +2,8 @@ from numpy import zeros as np_zeros
 from numpy import ndarray
 from functools import lru_cache
 from munkres import Munkres
-from fuzzywuzzy.fuzz import ratio as fuzz_ratio
-from fuzzywuzzy.fuzz import partial_ratio as fuzz_partial_ratio
+from rapidfuzz.fuzz import ratio as fuzz_ratio
+from rapidfuzz.fuzz import partial_ratio as fuzz_partial_ratio
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1_000)
@@ -19,7 +19,7 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
         the index of the word in the second name, and the score of how well they match
     """
 
-    print(f"Entering Python findWordMatchesAndQuality function with the names {name_one} and {name_two}")
+    print(f"Entering Python find_word_matches_and_quality function with the names {name_one} and {name_two}")
 
     # Initialize empty list to store scores
     words_in_name_one = name_one.split()
@@ -41,7 +41,7 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
                 continue
             # Determine the score of the word pairing
             score = _determine_score_of_word_matchup(word_one, word_two)
-            print(f"Python determined score of matchup for this run is {score}")
+            print(f"Python determined score of matchup for {word_one} and {word_two} for this run is {score}")
             # Add the score
             scores[i, j] = score
     
@@ -79,9 +79,9 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
 
     # For words longer than 2, either use ratio or partial ratio for score as shown below.
     else:
-        ratio = fuzz_ratio(word_one, word_two)
+        ratio = round(fuzz_ratio(word_one, word_two, processor=None))
         if (word_one[0] == word_two[0]):
-            partial_ratio_score = fuzz_partial_ratio(word_one, word_two)
+            partial_ratio_score = round(fuzz_partial_ratio(word_one, word_two, processor=None))
             score = max(ratio, partial_ratio_score)
         else:
             score = ratio
@@ -114,7 +114,7 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
             if (int(i) >= len(list_one)) or (int(j) >= len(list_two)):
                 continue
             elif (list_one[i] is not None) and (list_two[j] is not None) and (list_one[i] != '') and (list_two[j] != ''):
-                matchup_score = scores[i, j]
+                matchup_score = round(scores[i, j])
                 best_combinations.append((list_one[i], list_two[j], matchup_score))
         return best_combinations
 

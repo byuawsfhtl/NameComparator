@@ -1,7 +1,16 @@
+import fs from 'fs';
+import path from 'path';
 import memoize from 'memoizee';
 import unidecode from 'unidecode';
-import ipaAllNames from '../../data/pronunciation/ipaAllNames.json';
-import ipaCommonWordParts from '../../data/pronunciation/ipaCommonWordParts.json';
+
+// This is required to make sure that it reads in the characters correctly
+const ipaAllNames = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, '../../data/pronunciation/ipaAllNames.json'), 'utf-8')
+) as Record<string, string>;
+
+const ipaCommonWordParts = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, '../../data/pronunciation/ipaCommonWordParts.json'), 'utf-8')
+) as Record<string, string>;
 
 /**
  * Gets the pronunciation of a name.
@@ -127,7 +136,7 @@ function _iterateAllPossibleSubstrings(wordNormalized:string): [boolean, number,
  */
 function _wordPronunciationIpaGuess(word: string): [string, boolean] {
 
-    const wordPronunciation = ipaAllNames[word as keyof typeof ipaAllNames];
+    const wordPronunciation = ipaAllNames[word];
     if (wordPronunciation) {
         return [wordPronunciation, true];
     }
@@ -143,7 +152,7 @@ function _wordPronunciationIpaGuess(word: string): [string, boolean] {
  */
 function _stringPronunciationIpaGuess(string: string): [string, boolean] {
 
-    const ipaPronunciation = ipaCommonWordParts[string as keyof typeof ipaCommonWordParts];
+    const ipaPronunciation = ipaCommonWordParts[string];
     if (ipaPronunciation) {
         return [ipaPronunciation, true];
     }

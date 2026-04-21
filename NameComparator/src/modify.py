@@ -3,11 +3,12 @@ from re import search as re_search
 from json import loads as json_loads
 from importlib.resources import files
 
-from fuzzywuzzy.fuzz import ratio as fuzz_ratio
+from rapidfuzz.fuzz import ratio as fuzz_ratio
 from NameComparator.src.usefulTools import find_word_matches_and_quality, get_matching_words_and_indices, NameEditor
 
-unparsed_spelling_rules = files('data').joinpath('rules/rulesSpelling.json').read_text()
-unparsed_ipa_rules = files('data').joinpath('rules/rulesIpa.json').read_text()
+# This is required to make sure that it reads in the characters correctly
+unparsed_spelling_rules = files('data').joinpath('rules/rulesSpelling.json').read_text(encoding='utf-8')
+unparsed_ipa_rules = files('data').joinpath('rules/rulesIpa.json').read_text(encoding='utf-8')
 
 def modify_names_together(name_one:str, name_two:str) -> tuple[str,str]:
     """Modifies the name together, changing them in a way that is much more intense than simply cleaning together.

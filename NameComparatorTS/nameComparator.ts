@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { cleanName, cleanNamesByComparison, cleanIpa } from './src/clean';
 import { removeNicknames } from './src/nicknames';
 import { isWorthContinuing, eitherNameTooShort } from './src/insights';
@@ -6,8 +8,15 @@ import { modifyNamesTogether, modifyIpasByComparison } from './src/modify';
 import { getIpa } from './src/ipa';
 import { scoreUniqueness } from './src/uniqueness';
 import { FrequencyData } from './src/uniqueness';
-import usaTo1950Surnames from '../data/frequency/surnamesUsaTo1950.json';
-import usaTo1950FirstNames from '../data/frequency/firstNamesUsaTo1950.json';
+
+// This is required to make sure that it reads in the characters correctly
+const usaTo1950Surnames = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, '../data/frequency/surnamesUsaTo1950.json'), 'utf-8')
+) as Record<string, number>;
+
+const usaTo1950FirstNames = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, '../data/frequency/firstNamesUsaTo1950.json'), 'utf-8')
+) as Record<string, number>;
 
 /**
  * Represents an attempt at name comparison (often used for debugging).
@@ -150,7 +159,9 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   console.error("Starting TypeScript attempt three");
   let ipaOfModifiedNameOne = cleanIpa(getIpa(modifiedNameOne));
   let ipaOfModifiedNameTwo = cleanIpa(getIpa(modifiedNameTwo));
+  console.error(`TypeScript cleaned ipas in attempt three: nameOne - ${ipaOfModifiedNameOne}, nameTwo - ${ipaOfModifiedNameTwo}`);
   [ipaOfModifiedNameOne, ipaOfModifiedNameTwo] = modifyIpasByComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo);
+  console.error(`TypeScript ipas after modifying by comparison in attempt three: nameOne - ${ipaOfModifiedNameOne}, nameTwo - ${ipaOfModifiedNameTwo}`);
   const [attemptThreeMatch, attemptThreeWordCombos, attemptThreeScore] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
   results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, attemptThreeWordCombos, attemptThreeScore);
   if (attemptThreeMatch) {
@@ -164,7 +175,9 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   console.error("Starting TypeScript attempt four");
   let ipaOfNameOne = cleanIpa(getIpa(nameOne));
   let ipaOfNameTwo = cleanIpa(getIpa(nameTwo));
+  console.error(`TypeScript cleaned ipas in attempt four: nameOne - ${ipaOfNameOne}, nameTwo - ${ipaOfNameTwo}`);
   [ipaOfNameOne, ipaOfNameTwo] = modifyIpasByComparison(ipaOfNameOne, ipaOfNameTwo);
+  console.error(`TypeScript ipas after modifying by comparison in attempt four: nameOne - ${ipaOfNameOne}, nameTwo - ${ipaOfNameTwo}`);
   const [attemptFourMatch, attemptFourWordCombos, attemptFourScore] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
   results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, attemptFourWordCombos, attemptFourScore);
   if (attemptFourMatch) {

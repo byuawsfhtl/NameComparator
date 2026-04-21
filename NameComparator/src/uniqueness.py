@@ -5,7 +5,11 @@ from NameComparator.src.usefulTools import get_matching_words_and_indices
 
 class FrequencyData(NamedTuple):
     """A named tuple that stores the name frequencies for first names and surnames 
-    within a given population in two dictionaries."""
+    within a given population in two dictionaries.
+    
+    WARNING: When this is being made, the characters in the data *MUST* be in the 
+    utf-8 format before declaring this class or the comparison will be bad. This
+    is especially true of international languages."""
     first_name_frequencies: dict[str, str]
     surname_frequencies: dict[str, str]
 

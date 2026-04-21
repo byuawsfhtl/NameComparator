@@ -12,8 +12,9 @@ from NameComparator.src.ipa import get_ipa
 from NameComparator.src.uniqueness import score_uniqueness
 from NameComparator.src.uniqueness import FrequencyData
 
-unparsed_usa_to_1950_surnames = files('data').joinpath('frequency/surnamesUsaTo1950.json').read_text()
-unparsed_usa_to_1950_first_names = files('data').joinpath('frequency/firstNamesUsaTo1950.json').read_text()
+# This is required to make sure that it reads in the characters correctly
+unparsed_usa_to_1950_surnames = files('data').joinpath('frequency/surnamesUsaTo1950.json').read_text(encoding='utf-8')
+unparsed_usa_to_1950_first_names = files('data').joinpath('frequency/firstNamesUsaTo1950.json').read_text(encoding='utf-8')
 
 class Attempt(NamedTuple):
     """Represents an attempt at name comparison (often used for debugging).
@@ -144,7 +145,9 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     print("Starting Python attempt three")
     ipa_of_modified_name_one = clean_ipa(get_ipa(modified_name_one))
     ipa_of_modified_name_two = clean_ipa(get_ipa(modified_name_two))
+    print(f"Python cleaned ipas in attempt three: name_one - {ipa_of_modified_name_one}, name_two - {ipa_of_modified_name_two}")
     ipa_of_modified_name_one, ipa_of_modified_name_two = modify_ipas_by_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two)
+    print(f"Python ipas after modifying by comparison in attempt three: name_one - {ipa_of_modified_name_one}, name_two - {ipa_of_modified_name_two}")
     attempt_three_match, attempt_three_word_combos, attempt_three_score = pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
     results.attempt_three = Attempt(ipa_of_modified_name_one, ipa_of_modified_name_two, attempt_three_word_combos, attempt_three_score)
     if attempt_three_match:
@@ -157,7 +160,9 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     print("Starting Python attempt four")
     ipa_of_name_one = clean_ipa(get_ipa(name_one))
     ipa_of_name_two = clean_ipa(get_ipa(name_two))
+    print(f"Python cleaned ipas in attempt four: name_one - {ipa_of_name_one}, name_two - {ipa_of_name_two}")
     ipa_of_name_one, ipa_of_name_two = modify_ipas_by_comparison(ipa_of_name_one, ipa_of_name_two)
+    print(f"Python ipas after modifying by comparison in attempt four: name_one - {ipa_of_name_one}, name_two - {ipa_of_name_two}")
     attempt_four_match, attempt_four_word_combos, attempt_four_score = pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
     results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, attempt_four_word_combos, attempt_four_score)
     if attempt_four_match:

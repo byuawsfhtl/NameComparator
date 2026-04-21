@@ -1,8 +1,16 @@
+import fs from 'fs';
+import path from 'path';
 import { ratio as fuzzball_ratio } from "fuzzball";
-
 import { findWordMatchesAndQuality, getMatchingWordsAndIndices, NameEditor } from "./usefulTools";
-import spellingRules from "../../data/rules/rulesSpelling.json";
-import ipaRules from "../../data/rules/rulesIpa.json";
+
+// This is required to make sure that it reads in the characters correctly
+const spellingRules = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, '../../data/rulesSpelling.json'), 'utf-8')
+) as [string, string, string[], string[], number][];
+
+const ipaRules = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, '../../data/ipaRules.json'), 'utf-8')
+) as [string, string, string[], string[], number][];
 
 /** 
  * Modifies the name together, changing them in a way that is much more intense than simply cleaning together.
@@ -18,7 +26,7 @@ export function modifyNamesTogether(nameOne: string, nameTwo: string): [string, 
     [nameOne, nameTwo] = _fixVowelMistakes(nameOne, nameTwo);
     [nameOne, nameTwo] = _fixSwappedCharacters(nameOne, nameTwo);
     [nameOne, nameTwo] = _dealWithWrongFirstChar(nameOne, nameTwo);
-    for (const[middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of spellingRules as [string, string, string[], string[], number][]) {
+    for (const[middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of spellingRules) {
         [nameOne, nameTwo] = _replaceSubstringCentersIfNamesAreSimilar(nameOne, nameTwo, middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters);
     }
     nameOne = nameOne.replace(/\s+/g, " ");
@@ -356,7 +364,7 @@ function _overwriteWithSubstring(string: string, replacement: string, startIndex
  * @returns The modified ipas of two words or names
  */
 export function modifyIpasByComparison(ipaOne: string, ipaTwo: string): [string, string] {
-    for (const [middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of ipaRules as [string, string, string[], string[], number][]) {
+    for (const [middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of ipaRules) {
         [ipaOne, ipaTwo] = _replaceSubstringCentersIfNamesAreSimilar(ipaOne, ipaTwo, middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters);
     }
     return [ipaOne, ipaTwo];

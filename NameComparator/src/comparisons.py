@@ -1,14 +1,14 @@
 from re import sub as re_sub
 from numpy import ndarray
 from numpy import zeros as numpy_zeros
-from fuzzywuzzy.fuzz import ratio as fuzz_ratio
+from rapidfuzz.fuzz import ratio as fuzz_ratio
 from importlib.resources import files
 from json import loads as json_loads
 
 from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality
 
 # Read the various variables from a file
-comparison_variables_as_dict = json_loads(files('data').joinpath('variablesForComparisons.json').read_text())
+comparison_variables_as_dict = json_loads(files('data').joinpath('variablesForComparisons.json').read_text(encoding='utf-8'))
 
 max_score: int = comparison_variables_as_dict.get("maxScore")
 guaranteed_passing_score: int = comparison_variables_as_dict.get("guaranteedPassingScore")

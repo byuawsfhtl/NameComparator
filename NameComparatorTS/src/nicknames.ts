@@ -1,5 +1,14 @@
-import nicknameToIdData from "../../data/nicknames/nicknameToId.json";
-import idToNicknameSetData from "../../data/nicknames/nameVariants.json";
+import fs from 'fs';
+import path from 'path';
+
+// This is required to make sure that it reads in the characters correctly
+const nicknameToIdData = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, '../../data/nicknames/nicknameToId.json'), 'utf-8')
+) as Record<string, number[]>;
+
+const idToNicknameSetData = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, '../../data/nicknames/nameVariants.json'), 'utf-8')
+) as Record<number, string[]>;
 
 /**
  * Replaces the nickname in one name for the official name found in the other
