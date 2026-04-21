@@ -37,7 +37,10 @@ const _getIpaOfOneWord = memoize(_getIpaOfOneWordUnmemoized, {max: 1000});
  */
 function _getIpaOfOneWordUnmemoized(word: string): string {
 
-    var wordNormalized = unidecode(word.trim()).toLowerCase();
+    // Setup
+    var wordNormalized = word.trim();
+    wordNormalized = unidecode(wordNormalized);
+    wordNormalized = wordNormalized.toLowerCase();
     const pronunciationList = Array(wordNormalized.length).fill("");
 
     // Tries to get the ipa from the word
@@ -136,7 +139,8 @@ function _iterateAllPossibleSubstrings(wordNormalized:string): [boolean, number,
  */
 function _wordPronunciationIpaGuess(word: string): [string, boolean] {
 
-    const wordPronunciation = ipaAllNames[word];
+    const wordPronunciation = ipaAllNames[word] ?? "";
+    console.error(`Found the pronunciation ${wordPronunciation} for ${word} in our data`)
     if (wordPronunciation) {
         return [wordPronunciation, true];
     }

@@ -124,6 +124,7 @@ def _word_pronunciation_ipa_guess(word:str) -> tuple[str, bool]:
         A tuple comtaining the ipa of the word (or the original word if not found), and whether it was found.
     """        
     word_pronunciation = json_loads(unparsed_all_ipa_names).get(word, '')
+    print(f"Found the pronunciation {word_pronunciation} for {word} in our data")
     if word_pronunciation:
         return word_pronunciation, True
     return word, False

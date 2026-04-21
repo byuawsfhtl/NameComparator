@@ -140,6 +140,11 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
         results.most_recent_attempt_score = attempt_two_score
         results.average_score_of_combined_attempts = ((attempt_two_score + attempt_one_score) / 2)
         return results
+
+    # This is just to help with a test case
+    test_modify_one = get_ipa(modified_name_one)
+    test_modify_two = get_ipa(modified_name_two)
+    print(f"Retrieved ipas in Python: name_one - {test_modify_one} name_two - {test_modify_two}")
         
     # 3rd attempt: Checks if modified names are a match according to pronunciation
     print("Starting Python attempt three")

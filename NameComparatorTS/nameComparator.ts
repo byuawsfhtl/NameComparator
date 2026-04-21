@@ -154,6 +154,11 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
     results.averageScoreOfCombinedAttempts = ((attemptTwoScore + attemptOneScore) / 2);
     return results;
   };
+
+  // This is just to help with a test case
+  let testModifyOne = getIpa(modifiedNameOne);
+  let testModifyTwo = getIpa(modifiedNameTwo);
+  console.error(`Retrieved ipas in TypeScript: nameOne - ${testModifyOne} nameTwo - ${testModifyTwo}`);
   
   // 3rd attempt: Checks if modified names are a match according to pronunciation
   console.error("Starting TypeScript attempt three");
