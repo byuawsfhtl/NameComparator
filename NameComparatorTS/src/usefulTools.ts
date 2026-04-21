@@ -3,8 +3,8 @@ import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 
 import { munkres } from 'munkres';
 import memoize from 'memoizee';
 
-// Note here that memoizee is the python equivalent of lru cache in Python
-const memoizeFindWordMatchesAndQuality = memoize(findWordMatchesAndQuality, {max: 1000});
+// Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
+export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemoized, {max: 1000});
 /**
  * Identifies which words in either name are a match, and how well they match.
  * 
@@ -13,7 +13,7 @@ const memoizeFindWordMatchesAndQuality = memoize(findWordMatchesAndQuality, {max
  * @returns A list of tuples idenifying the index of the word in the first name,
             the index of the word in the second name, and the score of how well they match
  */
-export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [string, string, number][] {
+function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [string, string, number][] {
 
     console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
 

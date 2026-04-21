@@ -3,8 +3,6 @@ import unidecode from 'unidecode';
 import ipaAllNames from '../../data/pronunciation/ipaAllNames.json';
 import ipaCommonWordParts from '../../data/pronunciation/ipaCommonWordParts.json';
 
-// Note here that memoizee is the python equivalent of lru cache in Python
-const memoizedGetIpaOfOneWord = memoize(_getIpaOfOneWord, {max: 1000});
 /**
  * Gets the pronunciation of a name.
  * 
@@ -15,21 +13,20 @@ export function getIpa(name: string): string {
 
     const pronunciationList = [];
     for (const word of name.trim().split(/\s+/)) {
-        pronunciationList.push(_getIpaOfOneWordMemoized(word));
+        pronunciationList.push(_getIpaOfOneWord(word));
     }
     return pronunciationList.join(' ');
 }
 
-// Note here that memoizee is the typescript equivalent of lru cache in python
-const _getIpaOfOneWordMemoized = memoize(_getIpaOfOneWord, {max: 1000});
-
+// Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
+const _getIpaOfOneWord = memoize(_getIpaOfOneWordUnmemoized, {max: 1000});
 /**
  * Gets the pronunciation of a word.
  * 
  * @param word - The word to get the pronunciation of
  * @returns The ipa pronunciation of the word
  */
-function _getIpaOfOneWord(word: string): string {
+function _getIpaOfOneWordUnmemoized(word: string): string {
 
     var wordNormalized = unidecode(word.trim()).toLowerCase();
     const pronunciationList = Array(wordNormalized.length).fill("");
