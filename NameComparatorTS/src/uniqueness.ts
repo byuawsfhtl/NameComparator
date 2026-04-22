@@ -1,4 +1,4 @@
-import { getMatchingWordsAndIndices } from "./usefulTools";
+import { getMatchingWordsAndIndices } from "./usefulTools.js";
 
 /**
  * A class that stores the name frequencies for first names and surnames 

@@ -1,8 +1,8 @@
 import unidecode from 'unidecode';
 import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
 
-import { calculateEditImprovement, getMatchingWordsAndIndices, NameEditor } from './usefulTools';
-import { compareSpelling } from './comparisons';
+import { calculateEditImprovement, getMatchingWordsAndIndices, NameEditor } from './usefulTools.js';
+import { compareSpelling } from './comparisons.js';
 
 /**
  * Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.

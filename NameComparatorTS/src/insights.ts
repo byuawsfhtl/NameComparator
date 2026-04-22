@@ -1,4 +1,4 @@
-import { findWordMatchesAndQuality } from "./usefulTools";
+import { findWordMatchesAndQuality } from "./usefulTools.js";
 
 /**
  * Identifies if a name comparison will always prove false.

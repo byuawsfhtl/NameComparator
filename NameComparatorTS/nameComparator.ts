@@ -1,22 +1,19 @@
 import fs from 'fs';
 import path from 'path';
-import { cleanName, cleanNamesByComparison, cleanIpa } from './src/clean';
-import { removeNicknames } from './src/nicknames';
-import { isWorthContinuing, eitherNameTooShort } from './src/insights';
-import { compareSpelling, pronunciationComparison } from './src/comparisons';
-import { modifyNamesTogether, modifyIpasByComparison } from './src/modify';
-import { getIpa } from './src/ipa';
-import { scoreUniqueness } from './src/uniqueness';
-import { FrequencyData } from './src/uniqueness';
+import { cleanName, cleanNamesByComparison, cleanIpa } from './src/clean.js';
+import { removeNicknames } from './src/nicknames.js';
+import { isWorthContinuing, eitherNameTooShort } from './src/insights.js';
+import { compareSpelling, pronunciationComparison } from './src/comparisons.js';
+import { modifyNamesTogether, modifyIpasByComparison } from './src/modify.js';
+import { getIpa } from './src/ipa.js';
+import { scoreUniqueness, FrequencyData } from './src/uniqueness.js';
 
 // This is required to make sure that it reads in the characters correctly
-const usaTo1950Surnames = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../data/frequency/surnamesUsaTo1950.json'), 'utf-8')
-) as Record<string, number>;
+import usaTo1950SurnamesUnparsed from '../data/frequency/surnamesUsaTo1950.json' with {type: 'json'};
+const usaTo1950Surnames = usaTo1950SurnamesUnparsed as Record<string, number>;
 
-const usaTo1950FirstNames = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../data/frequency/firstNamesUsaTo1950.json'), 'utf-8')
-) as Record<string, number>;
+import usaTo1950FirstNamesUnparsed from '../data/frequency/firstNamesUsaTo1950.json' with  {type: 'json'};
+const usaTo1950FirstNames = usaTo1950FirstNamesUnparsed as Record<string, number>;
 
 /**
  * Represents an attempt at name comparison (often used for debugging).

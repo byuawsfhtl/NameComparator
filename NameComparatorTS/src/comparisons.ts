@@ -1,10 +1,10 @@
 import { ratio as fuzzball_ratio} from "fuzzball";
-import { identifyBestMatches, findWordMatchesAndQuality } from "./usefulTools";
+import { identifyBestMatches, findWordMatchesAndQuality } from "./usefulTools.js";
 import { min as mathjs_min, matrix as mathjs_matrix_function, Matrix as mathjs_matrix_class, zeros as mathjs_zeros } from 'mathjs';
 
 // Read the various variables from a file
-import { 
-        maxScore, 
+import values from '../../data/variablesForComparisons.json' with { type: "json"};
+const { maxScore, 
         guaranteedPassingScore,
         conditionallyPassingScore,
         furtherChecksNeededScore,
@@ -12,8 +12,8 @@ import {
         fuzzyComparisonWeight,
         consonantComparisonWeight,
         numberOfValidCombosToSkipFurtherChecks,
-        lengthNeededForConditionallyPassingPronunciationComparison
-} from '../../data/variablesForComparisons.json';
+        lengthNeededForConditionallyPassingPronunciationComparison 
+    } = values;
 
 /**
  * Identifies if two names are a match according to a comparison based soley on spelling.

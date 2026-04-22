@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@3leaps/string-metrics-wasm": "^0.3.8"
+  }
+}

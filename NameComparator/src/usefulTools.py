@@ -82,6 +82,7 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
         ratio = round(fuzz_ratio(word_one, word_two, processor=None))
         if (word_one[0] == word_two[0]):
             partial_ratio_score = round(fuzz_partial_ratio(word_one, word_two, processor=None))
+            print(f"Found the partial ratio {partial_ratio_score} for {word_one} and {word_two} in Python")
             score = max(ratio, partial_ratio_score)
         else:
             score = ratio

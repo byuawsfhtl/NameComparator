@@ -4,13 +4,11 @@ import memoize from 'memoizee';
 import unidecode from 'unidecode';
 
 // This is required to make sure that it reads in the characters correctly
-const ipaAllNames = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../../data/pronunciation/ipaAllNames.json'), 'utf-8')
-) as Record<string, string>;
+import ipaAllNamesUnparsed from '../../data/pronunciation/ipaAllNames.json' with { type: 'json' };
+const ipaAllNames = ipaAllNamesUnparsed as Record<string, string>;
 
-const ipaCommonWordParts = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../../data/pronunciation/ipaCommonWordParts.json'), 'utf-8')
-) as Record<string, string>;
+import ipaCommonWordPartsUnparsed from '../../data/pronunciation/ipaCommonWordParts.json' with { type: 'json'}
+const ipaCommonWordParts = ipaCommonWordPartsUnparsed as Record<string, string>;
 
 /**
  * Gets the pronunciation of a name.

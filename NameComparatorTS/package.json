@@ -1,7 +1,7 @@
 {
   "name": "namecomparator-ts",
   "version": "1.0.0",
-  "type": "commonjs",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "author": "Record Linking Lab",
   "license": "ISC",
   "dependencies": {
+    "@3leaps/string-metrics-wasm": "^0.3.8",
     "fuzzball": "^2.2.2",
     "jest": "^30.3.0",
     "mathjs": "^15.2.0",

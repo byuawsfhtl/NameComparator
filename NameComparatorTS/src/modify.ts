@@ -1,16 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import { ratio as fuzzball_ratio } from "fuzzball";
-import { findWordMatchesAndQuality, getMatchingWordsAndIndices, NameEditor } from "./usefulTools";
+import { findWordMatchesAndQuality, getMatchingWordsAndIndices, NameEditor } from "./usefulTools.js";
 
 // This is required to make sure that it reads in the characters correctly
-const spellingRules = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../../data/rules/rulesSpelling.json'), 'utf-8')
-) as [string, string, string[], string[], number][];
+import spellingRulesUnparsed from '../../data/rules/rulesSpelling.json' with {type: 'json'};
+const spellingRules = spellingRulesUnparsed as [string, string, string[], string[], number][];
 
-const ipaRules = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../../data/rules/rulesIpa.json'), 'utf-8')
-) as [string, string, string[], string[], number][];
+import ipaRulesUnparsed from '../../data/rules/rulesIpa.json' with {type: 'json'};
+const ipaRules = ipaRulesUnparsed as [string, string, string[], string[], number][];
 
 /** 
  * Modifies the name together, changing them in a way that is much more intense than simply cleaning together.

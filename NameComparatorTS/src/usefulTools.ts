@@ -1,7 +1,7 @@
-import { match } from 'assert';
 import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
 import { munkres } from 'munkres';
 import memoize from 'memoizee';
+import { partialRatio as stringMetricsPartialRatio } from '@3leaps/string-metrics-wasm';
 
 // Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
 export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemoized, {max: 1000});
@@ -16,6 +16,8 @@ export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemo
 function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [string, string, number][] {
 
     console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
+    const { partialRatio } = await import('@3leaps/string-metrics-wasm');
+    console.error(`3leaps partialRatio result: ${partialRatio("aurel", "albert")}`);
 
     // Initialize empty list to store scores
     let wordsInNameOne : string[] = nameOne.trim().split(/\s+/);
@@ -81,7 +83,8 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
     } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
         const ratio = fuzzball_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
         if (wordOne[0] === wordTwo[0]) {
-            const partialRatioScore = fuzzball_partial_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
+            const partialRatioScore = stringMetricsPartialRatio(wordOne, wordTwo);
+            console.error(`Found the partial ratio ${partialRatioScore} for ${wordOne} and ${wordTwo} in TypeScript`)
             score = Math.max(ratio, partialRatioScore);
         } else {
             score = ratio;
