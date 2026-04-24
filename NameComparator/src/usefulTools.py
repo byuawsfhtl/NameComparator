@@ -3,7 +3,7 @@ from numpy import ndarray
 from functools import lru_cache
 from munkres import Munkres
 from rapidfuzz.fuzz import ratio as fuzz_ratio
-from rapidfuzz.fuzz import partial_ratio as fuzz_partial_ratio
+from rapidfuzz.distance.Levenshtein import normalized_similarity
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1_000)
@@ -81,7 +81,7 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
     else:
         ratio = round(fuzz_ratio(word_one, word_two, processor=None))
         if (word_one[0] == word_two[0]):
-            partial_ratio_score = round(fuzz_partial_ratio(word_one, word_two, processor=None))
+            partial_ratio_score = round(partial_levenshtein_ratio(word_one, word_two))
             print(f"Found the partial ratio {partial_ratio_score} for {word_one} and {word_two} in Python")
             score = max(ratio, partial_ratio_score)
         else:
@@ -210,3 +210,24 @@ class NameEditor():
         if not name_two:
             name_two = '_'
         return name_one, name_two
+    
+def partial_levenshtein_ratio(string_one, string_two):
+    """This is an implementation of the same partial ratio function that TypeScript
+    uses since rapidfuzz uses a custom one that is inconsistent with every other
+    package
+    
+    Args:
+        string_one - The first string to run a levenshtein partial ratio on
+        string_two - The second string to run a levenshtein partial ratio on
+    
+    Returns:
+        The best score from the results of comparing the two strings by segments"""
+    # We need to make sure that whatever is labelled as the first string is shorter
+    if len(string_one) > len(string_two):
+        string_one, string_two = string_two, string_one
+    best = 0
+    for i in range(len(string_two) - len(string_one) + 1):
+        window = string_two[i:i+len(string_one)]
+        score = normalized_similarity(string_one, window) * 100
+        best = max(best, score)
+    return best

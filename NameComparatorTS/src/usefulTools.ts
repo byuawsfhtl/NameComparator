@@ -16,8 +16,7 @@ export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemo
 function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [string, string, number][] {
 
     console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
-    const { partialRatio } = await import('@3leaps/string-metrics-wasm');
-    console.error(`3leaps partialRatio result: ${partialRatio("aurel", "albert")}`);
+    console.error(`3leaps partialRatio result: ${stringMetricsPartialRatio("aurel", "albert")}`);
 
     // Initialize empty list to store scores
     let wordsInNameOne : string[] = nameOne.trim().split(/\s+/);
