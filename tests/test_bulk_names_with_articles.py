@@ -50,7 +50,7 @@ test_runner = PyScriptTestRunner(path_for_typescript_version, deserializer=types
 test_runner.add_method(compare_two_names, "compareTwoNames", executor = lambda args: compare_two_names(args[0], args[1]))
 
 def test_for_specific_person():
-    test_case = {"input": ["albert a la plante, a. jr", "albert aurel la plante"]}
+    test_case = {"input": ["albert l leduc, jr", "albert l. leduc"]}
     python_result, typescript_result = test_runner.run("compare_two_names", "compareTwoNames", test_case)
     assert python_result.match == True
     assert typescript_result.match == True

@@ -138,7 +138,7 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   // Failed first attempt. Check if names are even worth continuing
   if (isWorthContinuing(nameOne, nameTwo) === false){
     return results;
-  } ;
+  };
 
   // 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
   console.error("Starting TypeScript attempt two");

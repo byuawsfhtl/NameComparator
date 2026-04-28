@@ -11,7 +11,6 @@
   "author": "Record Linking Lab",
   "license": "ISC",
   "dependencies": {
-    "@3leaps/string-metrics-wasm": "^0.3.8",
     "fuzzball": "^2.2.2",
     "jest": "^30.3.0",
     "mathjs": "^15.2.0",

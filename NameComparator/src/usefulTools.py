@@ -1,5 +1,4 @@
-from numpy import zeros as np_zeros
-from numpy import ndarray
+from numpy import ndarray, array as numpy_array, zeros as np_zeros
 from functools import lru_cache
 from munkres import Munkres
 from rapidfuzz.fuzz import ratio as fuzz_ratio
@@ -7,7 +6,7 @@ from rapidfuzz.distance.Levenshtein import normalized_similarity
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1_000)
-def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str, str, int]]:
+def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str, str, float]]:
     """Identifies which words in either name are a match, and how well they match.
 
     Args:
@@ -94,32 +93,38 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
 # this function to use the scipy.optimize linear_sum_assignment again. I changed it to use the munkres 
 # linear sum for now since it will be much faster to import and have comparable run times with its
 # current use cases
-def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list[str|None]) -> list[tuple[str, str, int]]:
-        """Uses the Hungarian algorithm to find the pair of two words that are the
-        closest match to each other from two lists.
+def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list[str|None]) -> list[tuple[str, str, float]]:
+    """Uses the Hungarian algorithm to find the pair of two words that are the
+    closest match to each other from two lists.
 
-        Args:
-            scores: the scores of a certain matchup
-            list_one: a list of indices as strings or None
-            list_two: a list of indices as strings or None
+    Args:
+        scores: the scores of a certain matchup
+        list_one: a list of indices as strings or None
+        list_two: a list of indices as strings or None
 
-        Returns:
-            A list of tuples containing the two words that are the best match and a score
-            representing how closely they match
-        """   
-        linear_sum_class = Munkres()     
-        hungarian_pairs_list = linear_sum_class.compute(-scores)
-        best_combinations = []
-        for i, j in hungarian_pairs_list:
-            # This first if statement quickly removes any possible out of scope results from the matrix padding
-            if (int(i) >= len(list_one)) or (int(j) >= len(list_two)):
-                continue
-            elif (list_one[i] is not None) and (list_two[j] is not None) and (list_one[i] != '') and (list_two[j] != ''):
-                matchup_score = round(scores[i, j])
-                best_combinations.append((list_one[i], list_two[j], matchup_score))
-        return best_combinations
+    Returns:
+        A list of tuples containing the two words that are the best match and a score
+        representing how closely they match
+    """   
+    print(f"Input lists for identify matches in Python: \nlist_one: {list_one} \nlist_two: {list_two}")
+    print('Making sure that matches tiebreak as expected')
+    modified_scores = tiebreak_matches_consistently(scores)
+    linear_sum_class = Munkres()     
+    print(f"Checking that negated scores look the same in Python: {-modified_scores}")
+    hungarian_pairs_list = linear_sum_class.compute((-modified_scores).tolist())
+    print(f"Hungarian pairs list in Python: \n{hungarian_pairs_list}")
+    best_combinations = []
+    for i, j in hungarian_pairs_list:
+        # This first if statement quickly removes any possible out of scope results from the matrix padding
+        if (int(i) >= len(list_one)) or (int(j) >= len(list_two)):
+            continue
+        elif (list_one[i] is not None) and (list_two[j] is not None) and (list_one[i] != '') and (list_two[j] != ''):
+            # This rounding and typecasting to a float is needed to make it match the TypeScript output in tests
+            matchup_score = float(round(scores[i, j]))
+            best_combinations.append((list_one[i], list_two[j], matchup_score))
+    return best_combinations
 
-def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, name_two_edited:str) -> tuple[float, list[tuple[str, str, int]], list[tuple[str, str, int]]]:
+def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, name_two_edited:str) -> tuple[float, list[tuple[str, str, float]], list[tuple[str, str, float]]]:
     """Calculates how much editing a name or both names improved the score in comparison to the original names.
 
     Args:
@@ -231,3 +236,14 @@ def partial_levenshtein_ratio(string_one, string_two):
         score = normalized_similarity(string_one, window) * 100
         best = max(best, score)
     return best
+
+def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 1e-6):
+    rows, columns = input_matrix.shape
+    new_matrix = []
+    for i in range(rows):
+        new_row = []
+        for j in range(columns):
+            new_row.append(input_matrix[i][j] + (epsilon_value * (i * columns + j)))
+        new_matrix.append(new_row)
+        
+    return numpy_array(new_matrix)

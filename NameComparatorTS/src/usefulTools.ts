@@ -1,7 +1,6 @@
 import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
 import { munkres } from 'munkres';
 import memoize from 'memoizee';
-import { partialRatio as stringMetricsPartialRatio } from '@3leaps/string-metrics-wasm';
 
 // Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
 export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemoized, {max: 1000});
@@ -16,7 +15,7 @@ export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemo
 function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [string, string, number][] {
 
     console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
-    console.error(`3leaps partialRatio result: ${stringMetricsPartialRatio("aurel", "albert")}`);
+    console.error(`3leaps partialRatio result: ${fuzzball_partial_ratio("aurel", "albert")}`);
 
     // Initialize empty list to store scores
     let wordsInNameOne : string[] = nameOne.trim().split(/\s+/);
@@ -29,6 +28,7 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
         };
     };
 
+    // Initialize an array of the proper size, filled with zeros
     let scores: number[][] = Array.from({ length: wordsInNameOne.length }, () =>
         new Array(wordsInNameTwo.length).fill(0)
     );
@@ -82,7 +82,7 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
     } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
         const ratio = fuzzball_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
         if (wordOne[0] === wordTwo[0]) {
-            const partialRatioScore = stringMetricsPartialRatio(wordOne, wordTwo);
+            const partialRatioScore = fuzzball_partial_ratio(wordOne, wordTwo);
             console.error(`Found the partial ratio ${partialRatioScore} for ${wordOne} and ${wordTwo} in TypeScript`)
             score = Math.max(ratio, partialRatioScore);
         } else {
@@ -109,8 +109,13 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
 // package for our hungarian algorithm (also known as the munkres algorithm). If it is
 // ever necessary to revert for some reason, see the hungarian.ts file before any of the
 // changes made on 3/16/2026
-    const negatedScores = scores.map(row => row.map(score => -score));
+    console.error(`Input lists for identify matches in TypeScript: \nlistOne: ${listOne} \nlistTwo: ${listTwo}`);
+    console.error("Making sure that matches tiebreak as expected");
+    const modified_scores = tiebreakMatchesConsistently(scores);
+    const negatedScores = modified_scores.map(row => row.map(score => -score));
+    console.error(`Checking that negated scores look the same in TypeScript: ${negatedScores}`);
     const hungarian_pairs_list = munkres(negatedScores);
+    console.error(`Hungarian pairs list in TypeScript: \n${hungarian_pairs_list}`)
     let bestCombination: [string, string, number][] = [];
     for (let index = 0; index < hungarian_pairs_list.length; index++) {
         const i = hungarian_pairs_list[index][0];
@@ -240,3 +245,10 @@ export class NameEditor {
     };
 };
 
+function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: number = 1e-6){
+    const rows = inputMatrix.length;
+    const columns = inputMatrix[0].length;
+    return inputMatrix.map((row, i) =>
+        row.map((val, j) => val + epsilonValue * (i * columns + j))
+    );
+};
