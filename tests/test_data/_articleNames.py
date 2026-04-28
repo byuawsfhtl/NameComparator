@@ -350,7 +350,7 @@ articleNames = [
     {
 		'name_one': 'albert s dealaman, jr',
 		'name_two': 'gellert s. alleman', 
-		'expected': True, 
+		'expected': False, 
 		'description': 'albert s dealaman, jr comparison with article'
 	},
     {
