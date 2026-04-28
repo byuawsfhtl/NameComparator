@@ -107,8 +107,8 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
         representing how closely they match
     """   
     print(f"Input lists for identify matches in Python: \nlist_one: {list_one} \nlist_two: {list_two}")
-    print('Making sure that matches tiebreak as expected')
     modified_scores = tiebreak_matches_consistently(scores)
+    print(f'Making sure that matches tiebreak as expected. Python tiebroken scores: {modified_scores}')
     linear_sum_class = Munkres()     
     print(f"Checking that negated scores look the same in Python: {-modified_scores}")
     hungarian_pairs_list = linear_sum_class.compute((-modified_scores).tolist())
@@ -237,13 +237,13 @@ def partial_levenshtein_ratio(string_one, string_two):
         best = max(best, score)
     return best
 
-def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 1e-6):
+def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 1e-3):
     rows, columns = input_matrix.shape
     new_matrix = []
     for i in range(rows):
         new_row = []
         for j in range(columns):
-            new_row.append(input_matrix[i][j] + (epsilon_value * (i * columns + j)))
+            new_row.append(input_matrix[i][j] + (epsilon_value * (j * rows + i)))
         new_matrix.append(new_row)
         
     return numpy_array(new_matrix)

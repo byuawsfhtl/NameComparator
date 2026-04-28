@@ -16,6 +16,7 @@
     "mathjs": "^15.2.0",
     "memoizee": "^0.4.17",
     "munkres": "^2.0.4",
+    "munkres-js": "^1.2.2",
     "unidecode": "^1.1.0"
   },
   "devDependencies": {

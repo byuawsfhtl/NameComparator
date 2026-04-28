@@ -1,5 +1,5 @@
 import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
-import { munkres } from 'munkres';
+import munkres from 'munkres-js';
 import memoize from 'memoizee';
 
 // Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
@@ -110,12 +110,12 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
 // ever necessary to revert for some reason, see the hungarian.ts file before any of the
 // changes made on 3/16/2026
     console.error(`Input lists for identify matches in TypeScript: \nlistOne: ${listOne} \nlistTwo: ${listTwo}`);
-    console.error("Making sure that matches tiebreak as expected");
-    const modified_scores = tiebreakMatchesConsistently(scores);
-    const negatedScores = modified_scores.map(row => row.map(score => -score));
+    const modifiedScores = tiebreakMatchesConsistently(scores);
+    console.error(`Making sure that matches tiebreak as expected. TypeScript tiebroken scores: ${modifiedScores}`);
+    const negatedScores = modifiedScores.map(row => row.map(score => -score));
     console.error(`Checking that negated scores look the same in TypeScript: ${negatedScores}`);
     const hungarian_pairs_list = munkres(negatedScores);
-    console.error(`Hungarian pairs list in TypeScript: \n${hungarian_pairs_list}`)
+    console.error(`Hungarian pairs list in TypeScript: \n${hungarian_pairs_list}`);
     let bestCombination: [string, string, number][] = [];
     for (let index = 0; index < hungarian_pairs_list.length; index++) {
         const i = hungarian_pairs_list[index][0];
@@ -245,10 +245,10 @@ export class NameEditor {
     };
 };
 
-function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: number = 1e-6){
+function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: number = 1e-3){
     const rows = inputMatrix.length;
     const columns = inputMatrix[0].length;
     return inputMatrix.map((row, i) =>
-        row.map((val, j) => val + epsilonValue * (i * columns + j))
+        row.map((val, j) => val + epsilonValue * (j * rows + i))
     );
 };
