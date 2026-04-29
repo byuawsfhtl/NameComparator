@@ -97,6 +97,7 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     name_two = clean_name(name_two)
     print("Cleaning names by comparison in Python")
     name_one, name_two = clean_names_by_comparison(name_one, name_two)
+    print(f"Names after cleaning in Python - name_one: {name_one}  name_two: {name_two}")
 
     # Deal with names that are too short
     print("Determining if either name is too short in Python")

@@ -31,6 +31,8 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
 
     scores = np_zeros((len(words_in_name_one), len(words_in_name_two)))
 
+    print(f"Found the list of words in the names in Python. \nwords_in_name_one: {words_in_name_one} \nwords_in_name_two: {words_in_name_two}")
+
     # Score each matchup
     for i, word_one in enumerate(words_in_name_one):
         for j, word_two in enumerate(words_in_name_two):

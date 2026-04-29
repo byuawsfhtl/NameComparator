@@ -178,7 +178,7 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str]:
         them be standardized later on
     """
 
-    print("Handling prefixes in names in P")
+    print(f"Handling prefixes in names {name_one} and {name_two} in Python")
     
     # Create a list of prefixes to check
     possible_prefixes = [
@@ -195,17 +195,23 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str]:
     for prefix in possible_prefixes:
         if (f" {prefix}" in name_one) or (f" {prefix}" in name_two):
             if (prefix == 'de') or (prefix == 'di'):
+                print("Found a de or di prefix in a word in Python")
                 name_one, name_two = _fix_related_prefixes(name_one, name_two, 'de', 'di')
                 name_one, name_two = _remove_unnecessary_prefixes("de", name_one, name_two)
                 name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "de")
             elif (prefix == 'del') or (prefix == 'dil'):
+                print("Found a del or dil prefix in a word in Python")
                 name_one, name_two = _fix_related_prefixes(name_one, name_two, 'del', 'dil')
                 name_one, name_two = _remove_unnecessary_prefixes("del", name_one, name_two)
             elif prefix == 'van':
+                print("Found a van prefix in a word in Python")
                 name_one, name_two = _remove_unnecessary_prefixes("van", name_one, name_two)
                 name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "van")
             else:
+                print("Found a generic prefix in a word in Python")
                 name_one, name_two = _remove_unnecessary_prefixes(prefix, name_one, name_two)
+
+    print(f"Finished handling names in prefixes in Python. Final result - name_one: {name_one}  name_two: {name_two}")
 
     return name_one, name_two
 
@@ -331,16 +337,23 @@ def _fix_related_prefixes(name_one:str, name_two:str, prefix_variant_one:str, pr
     Returns:
         A tuple containing the two names, cleaned to have consistent prefixes
     """        
+
+    print(f"Fixing prefixes for the names {name_one} and {name_two} in Python")
+
     # Return if prefix_variant_one in neither or prefix_variant_two in neither
     if (f' {prefix_variant_one}' not in name_one) and (f' {prefix_variant_one}' not in name_two):
+        print(f"Final result of fixing prefixes in Python - name_one: {name_one}  name_two: {name_two}")
         return name_one, name_two
     if (f' {prefix_variant_two}' not in name_one) and (f' {prefix_variant_two}' not in name_two):
+        print(f"Final result of fixing prefixes in Python - name_one: {name_one}  name_two: {name_two}")
         return name_one, name_two
 
     # Return if prefix_variant_one or prefix_variant_two is found in both
     if (f' {prefix_variant_one}' in name_one) and (f' {prefix_variant_one}' in name_two):
+        print(f"Final result of fixing prefixes in Python - name_one: {name_one}  name_two: {name_two}")
         return name_one, name_two
     if (f' {prefix_variant_two}' in name_one) and (f' {prefix_variant_two}' in name_two):
+        print(f"Final result of fixing prefixes in Python - name_one: {name_one}  name_two: {name_two}")
         return name_one, name_two
     
     # Replace prefix_variant_two with prefix_variant_one
@@ -348,6 +361,8 @@ def _fix_related_prefixes(name_one:str, name_two:str, prefix_variant_one:str, pr
         name_one = name_one.replace(f' {prefix_variant_two}', f' {prefix_variant_one}')
     else:
         name_two = name_two.replace(f' {prefix_variant_two}', f' {prefix_variant_one}')
+
+    print(f"Final result of fixing prefixes in Python - name_one: {name_one}  name_two: {name_two}")
     return name_one, name_two
 
 def _choose_best_neighbor_word(word_one: str, index_one: int, word_two: str, left_neighbor: str, right_neighbor: str) -> tuple[str, str, int]:
@@ -505,12 +520,20 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
         A tuple containing the two names, modified to have their prefixes removed
         if it's easier to find a name match without them
     """        
+
+    print(f"Removing unnecessary prefixes from {name_one} and {name_two} in Python")
+
     # If the prefix is not in either names, return the names
     if (f" {prefix}" not in name_one) and (f" {prefix}" not in name_two):
+        print(f"Result of removing unnecessary prefixes in Python - name_one: {name_one}  name_two: {name_two}")
+        print("Python determined the prefix wasn't in either name")
         return name_one, name_two
     
     # If the names are already a good match, return the names
+    print(f"Result of compare spelling on the initial two words in Python: {compare_spelling(name_one, name_two)}")
     if compare_spelling(name_one, name_two)[0]:
+        print(f"Result of removing unnecessary prefixes in Python - name_one: {name_one}  name_two: {name_two}")
+        print("Python determined the names were already a good enough spelling match")
         return name_one, name_two
 
     # Setup
@@ -545,11 +568,17 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     # If the edits were significantly beneficial (or pass spell), return the edited versions
     improvement, _, _= calculate_edit_improvement(name_one, name_two, name_one_edited, name_two_edited)
     if (improvement >= 10) or compare_spelling(name_one_edited, name_two_edited)[0]:
+        print(f"Result of removing unnecessary prefixes in Python - name_one: {name_one_edited}  name_two: {name_two_edited}")
+        print("Calculated an edit improvement in Python that was beneficial")
         return name_one_edited, name_two_edited
     
     # Finally, if the names are identical other than the prefix, remove the prefix
-    name_one, name_two = _remove_prefix_if_prefix_is_only_difference_in_names(prefix, name_one, name_two)
-    return name_one, name_two
+    name_one_edited, name_two_edited = _remove_prefix_if_prefix_is_only_difference_in_names(prefix, name_one, name_two)
+
+    print(f"Result of removing unnecessary prefixes in Python - name_one: {name_one_edited}  name_two: {name_two_edited}")
+    print("Python ran through all cases in _remove_unnecessary_prefixes")
+
+    return name_one_edited, name_two_edited
 
 def _remove_prefix_if_prefix_is_only_difference_in_names(prefix: str, name_one: str, name_two: str) -> tuple[str, str]:
     """This is a helper function for _remove_unnecessary_prefixes that is intended to help

@@ -67,6 +67,9 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
  */
 function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [string, string, number][]): [boolean, number] {
     // Setup
+
+    console.error(`Comparing consonants for ${nameOne} and ${nameTwo} in TypeScript`);
+
     const minimumRequiredMatches = wordCombos.length;
     let numberOfConsonantMatches = 0;
     let combinedScoresBasedOnConsonantFuzzyMatches = 0;
@@ -82,10 +85,14 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
         // Get the words as consonants
         const consonantsInNameOne = _reduceToSimpleConsonants(wordOne);
         const consonantsInNameTwo = _reduceToSimpleConsonants(wordTwo);
-        const consonantRatio = fuzzball_ratio(consonantsInNameOne, consonantsInNameTwo);
+        const consonantRatio = fuzzball_ratio(consonantsInNameOne, consonantsInNameTwo, { full_process: false });
+
+        console.error(`Consonants in each name in TypeScript - nameOne: ${consonantsInNameOne}  nameTwo: ${consonantsInNameTwo}`);
+        console.error(`Consonant ratio in TypeScript: ${consonantRatio}`);
         
         // Continue if bad match
         if (originalScoreForWords <= guaranteedFailScore) {
+            console.error("Below guaranteed fail score");
             continue;
         };
         if (wordOne.length !== 1 && wordTwo.length !== 1) { // # If neither word is an initial
@@ -93,11 +100,14 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
                 consonantsInNameOne.split('*').length - 1,
                 consonantsInNameTwo.split('*').length - 1
             );
+            console.error(`Lowest syllable count for words is ${lowestSyllableCount}`);
             if (lowestSyllableCount < 2) {
+                console.error("Syllable count was too low");
                 continue
             };
         };
-        if (consonantRatio < guaranteedPassingScore || (originalScoreForWords < furtherChecksNeededScore && consonantRatio !== maxScore)) {
+        if (((consonantRatio < guaranteedPassingScore) || (originalScoreForWords < furtherChecksNeededScore)) && (consonantRatio !== maxScore)) {
+            console.error(`Failed big check where consonantRatio = ${consonantRatio}, guaranteedPassingScore = ${guaranteedPassingScore}, originalScoreForWords = ${originalScoreForWords}, furtherChecksNeededScore = ${furtherChecksNeededScore}, and maxScore = ${maxScore}`);
             continue;
         };
 
@@ -112,6 +122,8 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
     }
 
     // If there are enough matches, return true and a score. Otherwise return false and a score
+    console.error(`Number of consonant matches in TypeScript: ${numberOfConsonantMatches}`);
+    console.error(`Result of consonant comparison in TypeScript: ${[((numberOfConsonantMatches > minimumRequiredMatches) || (numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks)), averageScore]}`);
     return [((numberOfConsonantMatches > minimumRequiredMatches) || (numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks)), averageScore];
 };
 
@@ -234,7 +246,7 @@ function _matchupScores(wordCombosForScores: [string, string, number][], scores:
  */
 function _scoreWordCombosHelper(wordOne: string, wordTwo: string, indexOne: number, indexTwo: number, wordCombosForScores: [string, string, number][]): number {
 
-    let score = fuzzball_ratio(wordOne, wordTwo);
+    let score = fuzzball_ratio(wordOne, wordTwo, { full_process: false });
     for (let i = 0; i < wordCombosForScores.length; i++){
         const [wordCombosForScoresIndexOne, wordCombosForScoresIndexTwo, initialScore] = wordCombosForScores[i];
         // Use initial score for initials (bad pun)

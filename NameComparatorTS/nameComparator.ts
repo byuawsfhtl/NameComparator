@@ -102,6 +102,7 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   nameTwo = cleanName(nameTwo);
   console.error("Cleaning names by comparison in TypeScript");
   [nameOne, nameTwo] = cleanNamesByComparison(nameOne, nameTwo);
+  console.error(`Names after cleaning in TypeScript - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
 
   // Deal with names that are too short
   console.error("Determining if either name is too short in TypeScript");

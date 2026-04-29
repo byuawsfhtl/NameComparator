@@ -178,7 +178,7 @@ function _fixSwappedCharacters(nameOne: string, nameTwo: string): [string, strin
     const nameEditorInstance = new NameEditor(nameOne, nameTwo);
     for (const [indexOne, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         // Skip if the words are not 5 long, are different length, or not fuzzy 80
-        if (wordOne.length !== 5 || wordOne.length !== wordTwo.length || fuzzball_ratio(wordOne, wordTwo) !== 80) {
+        if (wordOne.length !== 5 || wordOne.length !== wordTwo.length || fuzzball_ratio(wordOne, wordTwo, { full_process: false }) !== 80) {
             continue;
         }
 

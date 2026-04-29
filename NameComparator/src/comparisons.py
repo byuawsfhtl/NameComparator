@@ -62,7 +62,7 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
     # Return the values, averaging the score and slightly favoring the initial fuzzy string match ones
     return is_consonant_match, word_combos, ((averaged_scores * fuzzy_comparison_weight) + (consonant_match_score * consonant_comparison_weight))
 
-def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[str, str, int]]) -> tuple[bool, float]:
+def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[str, str, float]]) -> tuple[bool, float]:
     """Identifies if two names are a match according to consonant comparison and
     determines a score representing how closely the contonants line up according
     to a fuzzy match comparison for all of the accepted word combos.
@@ -77,6 +77,9 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         are a match according to consonant comparison and a score representing
         the quality of the matches on average
     """        
+
+    print(f"Comparing consonants for {name_one} and {name_two} in Python")
+
     # Setup
     minimum_required_matches = len(word_combos)
     number_of_consonant_matches = 0
@@ -95,14 +98,21 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         consonants_in_name_two = _reduce_to_simple_consonants(word_two)
         consonant_ratio = fuzz_ratio(consonants_in_name_one, consonants_in_name_two)
 
+        print(f"Consonants in each name in Python - name_one: {consonants_in_name_one}  name_two: {consonants_in_name_two}")
+        print(f"Consonant ratio in Python: {consonant_ratio}")
+
         # Continue if bad match
         if original_score_for_words <= guaranteed_fail_score:
+            print("Below guaranteed fail score")
             continue
         if (len(word_one) != 1) and (len(word_two) != 1): # If neither word is an initial
             lowest_syllable_count = min(consonants_in_name_one.count("*"), consonants_in_name_two.count("*"))
+            print(f"Lowest syllable count for words is {lowest_syllable_count}")
             if lowest_syllable_count < 2:
+                print("Syllable count was too low")
                 continue
-        if (consonant_ratio < guaranteed_passing_score or original_score_for_words < further_checks_needed_score) and consonant_ratio != max_score:
+        if (((consonant_ratio < guaranteed_passing_score) or (original_score_for_words < further_checks_needed_score)) and (consonant_ratio != max_score)):
+            print(f"Failed big check where consonant_ratio = {consonant_ratio}, guaranteed_passing_score = {guaranteed_passing_score}, original_score_for_words = {original_score_for_words}, further_checks_needed_score = {further_checks_needed_score}, and max_score = {max_score}")
             continue
 
         # If not rejected, increment the number of matches and increase the total score
@@ -114,6 +124,8 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         average_score = combined_scores_based_on_consonant_fuzzy_matches / number_of_consonant_matches
 
     # If there are enough matches, return true and a score. Otherwise return false and a score
+    print(f"Number of consonant matches in Python: {number_of_consonant_matches}")
+    print(f"Result of consonant comparison in Python {((number_of_consonant_matches > minimum_required_matches) or (number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks)), average_score}")
     return ((number_of_consonant_matches > minimum_required_matches) or (number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks)), average_score
     
 def _reduce_to_simple_consonants(string:str) -> str:

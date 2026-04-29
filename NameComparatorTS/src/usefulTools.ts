@@ -15,7 +15,6 @@ export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemo
 function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [string, string, number][] {
 
     console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
-    console.error(`3leaps partialRatio result: ${fuzzball_partial_ratio("aurel", "albert")}`);
 
     // Initialize empty list to store scores
     let wordsInNameOne : string[] = nameOne.trim().split(/\s+/);
@@ -32,6 +31,8 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
     let scores: number[][] = Array.from({ length: wordsInNameOne.length }, () =>
         new Array(wordsInNameTwo.length).fill(0)
     );
+
+    console.error(`Found the list of words in the names in TypeScript. \wordsInNameOne: ${wordsInNameOne} \nwordsInNameTwo: ${wordsInNameTwo}`);
 
     // Score each matchup
     for (let i = 0; i < wordsInNameOne.length; i++) {
@@ -82,7 +83,7 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
     } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
         const ratio = fuzzball_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
         if (wordOne[0] === wordTwo[0]) {
-            const partialRatioScore = fuzzball_partial_ratio(wordOne, wordTwo);
+            const partialRatioScore = fuzzball_partial_ratio(wordOne, wordTwo, { full_process: false });
             console.error(`Found the partial ratio ${partialRatioScore} for ${wordOne} and ${wordTwo} in TypeScript`)
             score = Math.max(ratio, partialRatioScore);
         } else {
