@@ -12,7 +12,8 @@ const { maxScore,
         fuzzyComparisonWeight,
         consonantComparisonWeight,
         numberOfValidCombosToSkipFurtherChecks,
-        lengthNeededForConditionallyPassingPronunciationComparison 
+        lengthNeededForConditionallyPassingPronunciationComparison,
+        penaltyForMismatchedPrefixes
     } = values;
 
 /**

@@ -7,5 +7,6 @@
     "fuzzyComparisonWeight": 0.6,
     "consonantComparisonWeight": 0.4,
     "numberOfValidCombosToSkipFurtherChecks": 3,
-    "lengthNeededForConditionallyPassingPronunciationComparison": 3
+    "lengthNeededForConditionallyPassingPronunciationComparison": 3,
+    "penaltyForMismatchedPrefixes": -5
 }

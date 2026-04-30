@@ -15,6 +15,20 @@ const usaTo1950Surnames = usaTo1950SurnamesUnparsed as Record<string, number>;
 import usaTo1950FirstNamesUnparsed from '../data/frequency/firstNamesUsaTo1950.json' with  {type: 'json'};
 const usaTo1950FirstNames = usaTo1950FirstNamesUnparsed as Record<string, number>;
 
+// Read the penalty variable from a file
+import values from '../../data/variablesForComparisons.json' with { type: "json"};
+const { maxScore, 
+        guaranteedPassingScore,
+        conditionallyPassingScore,
+        furtherChecksNeededScore,
+        guaranteedFailScore,
+        fuzzyComparisonWeight,
+        consonantComparisonWeight,
+        numberOfValidCombosToSkipFurtherChecks,
+        lengthNeededForConditionallyPassingPronunciationComparison,
+        penaltyForMismatchedPrefixes
+  } = values;
+
 /**
  * Represents an attempt at name comparison (often used for debugging).
  * 
@@ -79,6 +93,10 @@ export class ResultsOfNameComparison {
  *          comparison method used
  */
 export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData: FrequencyData | null = null): ResultsOfNameComparison {
+
+  var appliedPenalty: number = 0;
+  var shouldApplyPenalty = false;
+
   // Deal with the optional frequencyData argument
   if (!frequencyData) {
     frequencyData = new FrequencyData(usaTo1950FirstNames, usaTo1950Surnames);
@@ -101,8 +119,12 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   console.error("Cleaning nameTwo in TypeScript");
   nameTwo = cleanName(nameTwo);
   console.error("Cleaning names by comparison in TypeScript");
-  [nameOne, nameTwo] = cleanNamesByComparison(nameOne, nameTwo);
+  [nameOne, nameTwo, shouldApplyPenalty] = cleanNamesByComparison(nameOne, nameTwo);
   console.error(`Names after cleaning in TypeScript - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
+
+  if (shouldApplyPenalty === true){
+    appliedPenalty = penaltyForMismatchedPrefixes
+  };
 
   // Deal with names that are too short
   console.error("Determining if either name is too short in TypeScript");
@@ -127,7 +149,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
 
   // 1st attempt: Checks if names are a match according to string comparison alone
   console.error("Starting TypeScript attempt one");
-  const [attemptOneMatch, attemptOneWordCombos, attemptOneScore] = compareSpelling(nameOne, nameTwo);
+  var [attemptOneMatch, attemptOneWordCombos, attemptOneScore] = compareSpelling(nameOne, nameTwo);
+  attemptOneScore = attemptOneScore + appliedPenalty;
   results.attemptOne = new Attempt(nameOne, nameTwo, attemptOneWordCombos, attemptOneScore);
   if (attemptOneMatch) {
     results.match = true;
@@ -144,7 +167,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   // 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
   console.error("Starting TypeScript attempt two");
   const [modifiedNameOne, modifiedNameTwo] = modifyNamesTogether(nameOne, nameTwo);
-  const[attemptTwoMatch, attemptTwoWordCombos, attemptTwoScore] = compareSpelling(modifiedNameOne, modifiedNameTwo);
+  var [attemptTwoMatch, attemptTwoWordCombos, attemptTwoScore] = compareSpelling(modifiedNameOne, modifiedNameTwo);
+  attemptTwoScore = attemptTwoScore + appliedPenalty;
   results.attemptTwo = new Attempt(modifiedNameOne, modifiedNameTwo, attemptTwoWordCombos, attemptTwoScore);
   if (attemptTwoMatch) {
     results.match = true;
@@ -165,7 +189,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   console.error(`TypeScript cleaned ipas in attempt three: nameOne - ${ipaOfModifiedNameOne}, nameTwo - ${ipaOfModifiedNameTwo}`);
   [ipaOfModifiedNameOne, ipaOfModifiedNameTwo] = modifyIpasByComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo);
   console.error(`TypeScript ipas after modifying by comparison in attempt three: nameOne - ${ipaOfModifiedNameOne}, nameTwo - ${ipaOfModifiedNameTwo}`);
-  const [attemptThreeMatch, attemptThreeWordCombos, attemptThreeScore] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
+  var [attemptThreeMatch, attemptThreeWordCombos, attemptThreeScore] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
+  attemptThreeScore = attemptThreeScore + appliedPenalty;
   results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, attemptThreeWordCombos, attemptThreeScore);
   if (attemptThreeMatch) {
     results.match = true;
@@ -181,7 +206,8 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   console.error(`TypeScript cleaned ipas in attempt four: nameOne - ${ipaOfNameOne}, nameTwo - ${ipaOfNameTwo}`);
   [ipaOfNameOne, ipaOfNameTwo] = modifyIpasByComparison(ipaOfNameOne, ipaOfNameTwo);
   console.error(`TypeScript ipas after modifying by comparison in attempt four: nameOne - ${ipaOfNameOne}, nameTwo - ${ipaOfNameTwo}`);
-  const [attemptFourMatch, attemptFourWordCombos, attemptFourScore] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
+  var [attemptFourMatch, attemptFourWordCombos, attemptFourScore] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
+  attemptFourScore = attemptFourScore + appliedPenalty;
   results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, attemptFourWordCombos, attemptFourScore);
   if (attemptFourMatch) {
     results.match = true;

@@ -105,21 +105,28 @@ export function cleanName(name: string): string {
  * 
  * @param nameOne - The first name to clean
  * @param nameTwo - The second name to clean
- * @returns The two cleaned names
+ * @returns The two cleaned names and a boolean noting whether or 
+            not to perform a confidence penalty based on if a prefix 
+            was removed
  */
-export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = "_"): [string, string] {
+export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = "_"): [string, string, boolean] {
+
+    var shouldApplyPenalty = false;
+    var wasScottishPrefixRemoved = false;
+    var wasMcOrMacRemoved = false;
+    var wasPrefixModified = false;
 
     // Return if either name is blank
     if (nameOne == "_" || nameTwo == "_") {
-        return [nameOne, nameTwo]
+        return [nameOne, nameTwo, false]
     };
 
     // Deal with dashes
     [nameOne, nameTwo] = _dealWithDashes(nameOne, nameTwo);
 
     // Deal with Scottish and Irish names
-    [nameOne, nameTwo] = _fixRelatedPrefixes(nameOne, nameTwo, 'mac', 'mc');
-    [nameOne, nameTwo] = _fixMcAndMacNames(nameOne, nameTwo);
+    [nameOne, nameTwo, wasScottishPrefixRemoved] = _fixRelatedPrefixes(nameOne, nameTwo, 'mac', 'mc');
+    [nameOne, nameTwo, wasMcOrMacRemoved] = _fixMcAndMacNames(nameOne, nameTwo);
 
     // Deal with just Irish names
     const irishNamesStartingWithO = [
@@ -144,7 +151,7 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
     };
 
     // Deal with prefixes and optional intros that make the match worse
-    [nameOne, nameTwo] = _handlePrefixesInNames(nameOne, nameTwo);
+    [nameOne, nameTwo, wasPrefixModified] = _handlePrefixesInNames(nameOne, nameTwo);
 
     // Combine words that are one word in the other name
     while (true) {
@@ -190,7 +197,7 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
  * @returns A tuple containing the input names, with prefixes modified in a way that 
  *          lets them be standardized later on
  */
-function _handlePrefixesInNames(nameOne: string, nameTwo: string): [string, string]{
+function _handlePrefixesInNames(nameOne: string, nameTwo: string): [string, string, boolean]{
 
     console.error(`Handling prefixes in names ${nameOne} and ${nameTwo} in TypeScript`);
 
@@ -205,25 +212,30 @@ function _handlePrefixesInNames(nameOne: string, nameTwo: string): [string, stri
                      .trim();
     nameTwo = nameTwo.replace(/\s+/, ' ')
                      .trim();
+    var wasAPrefixModified = false;
 
     for (const prefix of possible_prefixes){
         if (nameOne.includes(` ${prefix}`) || nameTwo.includes(` ${prefix}`)){
+
+            var didWeFixPrefixes = false;
+            var didWeRemovePrefixes = false;
+
             if ((prefix === "de") || (prefix ==="di")){
                 console.error("Found a de or di prefix in a word in TypeScript");
-                [nameOne, nameTwo] = _fixRelatedPrefixes(nameOne, nameTwo, 'de', 'di');
-                [nameOne, nameTwo] = _removeUnnecessaryPrefixes('de', nameOne, nameTwo);
+                [nameOne, nameTwo, didWeFixPrefixes] = _fixRelatedPrefixes(nameOne, nameTwo, 'de', 'di');
+                [nameOne, nameTwo, didWeRemovePrefixes] = _removeUnnecessaryPrefixes('de', nameOne, nameTwo);
                 [nameOne, nameTwo] = _combinePrefixWithSurnameifInBoth(nameOne, nameTwo, 'de');
             } else if ((prefix === "del") || (prefix === "dil")){
                 console.error("Found a del or dil prefix in a word in TypeScript");
-                [nameOne, nameTwo] = _fixRelatedPrefixes(nameOne, nameTwo, 'del', 'dil');
-                [nameOne, nameTwo] = _removeUnnecessaryPrefixes('del', nameOne, nameTwo);
+                [nameOne, nameTwo, didWeFixPrefixes] = _fixRelatedPrefixes(nameOne, nameTwo, 'del', 'dil');
+                [nameOne, nameTwo, didWeRemovePrefixes] = _removeUnnecessaryPrefixes('del', nameOne, nameTwo);
             } else if (prefix === "van") {
                 console.error("Found a van prefix in a word in TypeScript");
-                [nameOne, nameTwo] = _removeUnnecessaryPrefixes('van', nameOne, nameTwo);
+                [nameOne, nameTwo, didWeRemovePrefixes] = _removeUnnecessaryPrefixes('van', nameOne, nameTwo);
                 [nameOne, nameTwo] = _combinePrefixWithSurnameifInBoth(nameOne, nameTwo, 'van');
             } else {
                 console.error("Found a generic prefix in a word in TypeScript");
-                [nameOne, nameTwo] = _removeUnnecessaryPrefixes(prefix, nameOne, nameTwo);
+                [nameOne, nameTwo, didWeRemovePrefixes] = _removeUnnecessaryPrefixes(prefix, nameOne, nameTwo);
             };
         };
     };
@@ -362,30 +374,31 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
  * @param nameTwo - The second name to clean
  * @param prefixVariantOne - The first related prefix to check
  * @param prefixVariantTwo - The second related prefix to check
- * @returns The two cleaned names, cleaned to have consistent prefixes
+ * @returns The two cleaned names, cleaned to have consistent prefixes, and a boolean 
+            representing if changes were made to either of the names
  */
-function _fixRelatedPrefixes(nameOne: string, nameTwo: string, prefixVariantOne: string, prefixVariantTwo: string): [string, string] {
+function _fixRelatedPrefixes(nameOne: string, nameTwo: string, prefixVariantOne: string, prefixVariantTwo: string): [string, string, boolean] {
 
     console.error(`Fixing prefixes for the names ${nameOne} and ${nameTwo} in TypeScript`);
 
     // Return if prefixVariantOne in neither or prefixVariantTwo in neither
     if (!nameOne.includes(` ${prefixVariantOne}`) && !nameTwo.includes(` ${prefixVariantOne}`)) {
         console.error(`Final result of fixing prefixes in TypeScript - nameOne: ${nameOne}  nameTwo ${nameTwo}`);
-        return [nameOne, nameTwo];
+        return [nameOne, nameTwo, false];
     };
     if (!nameOne.includes(` ${prefixVariantTwo}`) && !nameTwo.includes(` ${prefixVariantTwo}`)) {
         console.error(`Final result of fixing prefixes in TypeScript - nameOne: ${nameOne}  nameTwo ${nameTwo}`);
-        return [nameOne, nameTwo];
+        return [nameOne, nameTwo, false];
     };
 
     // Return if prefixVariantOne in both or prefixVariantTwo in both
     if (nameOne.includes(` ${prefixVariantOne}`) && nameTwo.includes(` ${prefixVariantOne}`)) {
         console.error(`Final result of fixing prefixes in TypeScript - nameOne: ${nameOne}  nameTwo ${nameTwo}`);
-        return [nameOne, nameTwo];
+        return [nameOne, nameTwo, false];
     };
     if (nameOne.includes(` ${prefixVariantTwo}`) && nameTwo.includes(` ${prefixVariantTwo}`)) {
         console.error(`Final result of fixing prefixes in TypeScript - nameOne: ${nameOne}  nameTwo ${nameTwo}`);
-        return [nameOne, nameTwo];
+        return [nameOne, nameTwo, false];
     };
 
     // Replace prefixVariantTwo with prefixVariantOne
@@ -397,7 +410,7 @@ function _fixRelatedPrefixes(nameOne: string, nameTwo: string, prefixVariantOne:
 
     console.error(`Final result of fixing prefixes in TypeScript - nameOne: ${nameOne}  nameTwo ${nameTwo}`);
 
-    return [nameOne, nameTwo];
+    return [nameOne, nameTwo, true];
 };
 
 /**
@@ -454,13 +467,14 @@ function _chooseBestNeighborWord(wordOne: string, indexOne: number, wordTwo: str
  * 
  * @param nameOne - The first name to clean
  * @param nameTwo - The second name to clean
- * @returns The two names, modified to have matching 'mc' or 'mac' uses
+ * @returns The two names, modified to have matching 'mc' or 'mac' uses, and 
+            a boolean representing whether or not the names were modified
  */
-function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string] {
+function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string, boolean] {
 
     // Return names if mc and mac aren't in either of them
     if (_determineIfSkipNamesInFixMcAndMacNames(nameOne, nameTwo)){
-        return [nameOne, nameTwo];
+        return [nameOne, nameTwo, false];
     };
 
     // Combine split words (if any)
@@ -469,8 +483,12 @@ function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string] {
 
     // Edit the names, if necessary
     const nameEditorInstance = new NameEditor(nameOne, nameTwo);
+    var wasMcOrMacRemoved = false;
     for (const prefix of ['mc', 'mac']) {
         for (const [indexOne, indexTwo, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
+
+            var tempFlagForChanges = false;
+
             // Skip pair if the prefix is in both words
             if (wordOne.startsWith(prefix) && wordTwo.startsWith(prefix)) {
                 continue;
@@ -500,9 +518,11 @@ function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string] {
             if (wordOne.startsWith(prefix)) {
                 var updatedWordOne = wordOne.replace(prefix, '');
                 var updatedWordTwo = wordTwo;
+                tempFlagForChanges = true;
             } else {
                 updatedWordOne = wordOne;
                 updatedWordTwo = wordTwo.replace(prefix, '');
+                tempFlagForChanges = true;
             };
             if (fuzzball_ratio(updatedWordOne, updatedWordTwo, { full_process: false }) < 75) {
                 continue;
@@ -511,11 +531,14 @@ function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string] {
             // Update the words
             nameEditorInstance.updateNameOne(indexOne, updatedWordOne);
             nameEditorInstance.updateNameTwo(indexTwo, updatedWordTwo);
+            wasMcOrMacRemoved = tempFlagForChanges;
         };
     };
 
     // Return the edited (or not) names
-    return nameEditorInstance.getModifiedNames();
+    const [editedNameOne, editedNameTwo] = nameEditorInstance.getModifiedNames();
+
+    return [editedNameOne, editedNameTwo, wasMcOrMacRemoved];
 };
 
 /**
@@ -570,9 +593,11 @@ function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [stri
  * @param nameOne - The first name to remove a possible prefix from
  * @param nameTwo - The second name to remove a possible prefix from
  * @returns The two names, modified to have their prefixes removed
-            if it's easier to find a name match without them
+            if it's easier to find a name match without them. After 
+            this it has a boolean representing whether or not a 
+            prefix was removed
  */
-function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameTwo: string = "_"): [string, string] {
+function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameTwo: string = "_"): [string, string, boolean] {
 
     console.error(`Removing unnecessary prefixes from ${nameOne} and ${nameTwo} in TypeScript`);
 
@@ -580,7 +605,7 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
     if (!nameOne.includes(` ${prefix}`) && !nameTwo.includes(` ${prefix}`)) {
         console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
         console.error("TypeScript determined the prefix wasn't in either name")
-        return [nameOne, nameTwo];
+        return [nameOne, nameTwo, false];
     };
     
     // If the names are already a good match, return the names
@@ -588,7 +613,7 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
     if (compareSpelling(nameOne, nameTwo)[0]) {
         console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
         console.error("TypeScript determined the names were already a good enough spelling match");
-        return [nameOne, nameTwo];
+        return [nameOne, nameTwo, false];
     };
 
     // Setup
@@ -611,16 +636,16 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
     nameTwoEdited = nameTwoEdited.replace(/\s+/, " ");
 
     // Determine if any edits were made in the above processes
-    var noEditsMade = (nameOne == nameOneEdited) && (nameTwo == nameTwoEdited);
+    var editsMade = !(nameOne == nameOneEdited) && !(nameTwo == nameTwoEdited);
     
     // If no edits were made, try removing spaceThenPrefix if only in nameOne and it's a long word
-    if (noEditsMade === true){
-        [nameOneEdited, noEditsMade] = _removeSpaceThenPrefixFromUneditedNames(prefix, spaceThenPrefix, nameOne, nameTwo);
+    if (editsMade === false){
+        [nameOneEdited, editsMade] = _removeSpaceThenPrefixFromUneditedNames(prefix, spaceThenPrefix, nameOne, nameTwo);
     };
 
     // If no edits were made, try removing spaceThenPrefix if only in nameTwo and it's a long word
-    if (noEditsMade === true){
-        [nameTwoEdited, noEditsMade] = _removeSpaceThenPrefixFromUneditedNames(prefix, spaceThenPrefix, nameTwo, nameOne);
+    if (editsMade === false){
+        [nameTwoEdited, editsMade] = _removeSpaceThenPrefixFromUneditedNames(prefix, spaceThenPrefix, nameTwo, nameOne);
     };
 
     // If the edits were significantly beneficial (or pass spell), return the edited versions
@@ -628,17 +653,23 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
     if (improvement >= 10 || compareSpelling(nameOneEdited, nameTwoEdited)[0]) {
         console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOneEdited}  nameTwo: ${nameTwoEdited}`);
         console.error("Calculated an edit improvement in TypeScript that was beneficial");
-        return [nameOneEdited, nameTwoEdited];
+        return [nameOneEdited, nameTwoEdited, editsMade];
     };
 
     // Finally, if the words are identical other than the prefix, remove the prefix
-
-    [nameOneEdited, nameTwoEdited] = _removePrefixIfPrefixIsOnlyDifferenceInNames(prefix, nameOne, nameTwo);
+    var prefixRemoved = false;
+    [nameOneEdited, nameTwoEdited, prefixRemoved] = _removePrefixIfPrefixIsOnlyDifferenceInNames(prefix, nameOne, nameTwo);
     
     console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOneEdited}  nameTwo: ${nameTwoEdited}`);
     console.error("TypeScript ran through all cases in _removeUnnecessaryPrefixes");
 
-    return [nameOneEdited, nameTwoEdited];
+    if ((prefixRemoved === true) || (editsMade === true)){
+        editsMade = true;
+    } else {
+        editsMade = false;
+    };
+
+    return [nameOneEdited, nameTwoEdited, editsMade];
 }
 
 /**
@@ -649,24 +680,29 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
  * @param prefix - The prefix to check to see if it is the only difference
  * @param nameOne - The first name to compare and possibly remove a prefix from
  * @param nameTwo - The second name to compare and possibly remove a prefix from
- * @returns A tuple containing two names, modified to remove the prefix if they are identical, 
-            or the names as input if they aren't identical outside of the prefix
+ * @returns A tuple containing two names, modified to remove the prefix if they are 
+            identical, or the names as input if they aren't identical outside of the 
+            prefix. It also has a boolean after this, representing whether or not a 
+            prefix was removed
  */
-function _removePrefixIfPrefixIsOnlyDifferenceInNames(prefix: string, nameOne: string, nameTwo: string): [string, string]{
+function _removePrefixIfPrefixIsOnlyDifferenceInNames(prefix: string, nameOne: string, nameTwo: string): [string, string, boolean]{
 
     let nameEditorInstance = new NameEditor(nameOne, nameTwo);
+    var nameEdited = false;
 
     for (const [indexOne, indexTwo, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         if (wordOne.startsWith(prefix) && wordOne.slice(prefix.length) == wordTwo && wordTwo.length > 2) {
             nameEditorInstance.updateNameOne(indexOne, wordOne.slice(prefix.length));
+            nameEdited = true;
         } else if (wordTwo.startsWith(prefix) && wordTwo.slice(prefix.length) == wordOne && wordOne.length > 2) {
             nameEditorInstance.updateNameTwo(indexTwo, wordTwo.slice(prefix.length));
+            nameEdited = true;
         };
     };
 
     [nameOne, nameTwo] = nameEditorInstance.getModifiedNames();
 
-    return [nameOne, nameTwo];
+    return [nameOne, nameTwo, nameEdited];
 };
 
 /**
