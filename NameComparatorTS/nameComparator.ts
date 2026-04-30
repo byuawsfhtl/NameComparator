@@ -16,7 +16,7 @@ import usaTo1950FirstNamesUnparsed from '../data/frequency/firstNamesUsaTo1950.j
 const usaTo1950FirstNames = usaTo1950FirstNamesUnparsed as Record<string, number>;
 
 // Read the penalty variable from a file
-import values from '../../data/variablesForComparisons.json' with { type: "json"};
+import values from '../data/variablesForComparisons.json' with { type: "json"};
 const { maxScore, 
         guaranteedPassingScore,
         conditionallyPassingScore,

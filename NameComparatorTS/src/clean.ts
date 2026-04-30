@@ -111,7 +111,7 @@ export function cleanName(name: string): string {
  */
 export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = "_"): [string, string, boolean] {
 
-    var shouldApplyPenalty = false;
+    var shouldPenaltyApply = false;
     var wasScottishPrefixRemoved = false;
     var wasMcOrMacRemoved = false;
     var wasPrefixModified = false;
@@ -175,6 +175,10 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
     nameTwo = nameTwo.replace(/\s+/g, ' ')
                      .trim();
 
+    if ((wasMcOrMacRemoved === true) || (wasPrefixModified === true) || (wasScottishPrefixRemoved === true)){
+        shouldPenaltyApply = true;
+    };
+
     // Return if either name is blank
     if (nameOne == "") {
         nameOne = "_";
@@ -183,7 +187,7 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
         nameTwo = "_";
     };
 
-    return [nameOne, nameTwo];
+    return [nameOne, nameTwo, shouldPenaltyApply];
 };
 
 /**
@@ -237,12 +241,16 @@ function _handlePrefixesInNames(nameOne: string, nameTwo: string): [string, stri
                 console.error("Found a generic prefix in a word in TypeScript");
                 [nameOne, nameTwo, didWeRemovePrefixes] = _removeUnnecessaryPrefixes(prefix, nameOne, nameTwo);
             };
+
+            if ((didWeFixPrefixes === true) || (didWeRemovePrefixes === true)){
+                wasAPrefixModified = true;
+            };
         };
     };
 
     console.error(`Finished handling names in prefixes in TypeScript. Final result - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
 
-    return [nameOne, nameTwo];
+    return [nameOne, nameTwo, wasAPrefixModified];
 };
 
 /**
@@ -599,7 +607,7 @@ function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [stri
  */
 function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameTwo: string = "_"): [string, string, boolean] {
 
-    console.error(`Removing unnecessary prefixes from ${nameOne} and ${nameTwo} in TypeScript`);
+    console.error(`Removing unnecessary prefix ${prefix} from ${nameOne} and ${nameTwo} in TypeScript`);
 
     // If the prefix is not in either names, return the names
     if (!nameOne.includes(` ${prefix}`) && !nameTwo.includes(` ${prefix}`)) {
@@ -637,16 +645,22 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
 
     // Determine if any edits were made in the above processes
     var editsMade = !(nameOne == nameOneEdited) && !(nameTwo == nameTwoEdited);
+
+    console.error(`In TypeScript, for the names ${nameOneEdited} and ${nameTwoEdited}, the first edit check has the value ${editsMade}`);
     
     // If no edits were made, try removing spaceThenPrefix if only in nameOne and it's a long word
     if (editsMade === false){
         [nameOneEdited, editsMade] = _removeSpaceThenPrefixFromUneditedNames(prefix, spaceThenPrefix, nameOne, nameTwo);
     };
 
+    console.error(`In TypeScript, for the names ${nameOneEdited} and ${nameTwoEdited}, the second edit check has the value ${editsMade}`);
+
     // If no edits were made, try removing spaceThenPrefix if only in nameTwo and it's a long word
     if (editsMade === false){
         [nameTwoEdited, editsMade] = _removeSpaceThenPrefixFromUneditedNames(prefix, spaceThenPrefix, nameTwo, nameOne);
     };
+
+    console.error(`In TypeScript, for the names ${nameOneEdited} and ${nameTwoEdited}, one final edit check is a good idea. It has a value of ${editsMade}`);
 
     // If the edits were significantly beneficial (or pass spell), return the edited versions
     const [improvement, useless, useless2] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwoEdited);
@@ -658,7 +672,7 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
 
     // Finally, if the words are identical other than the prefix, remove the prefix
     var prefixRemoved = false;
-    [nameOneEdited, nameTwoEdited, prefixRemoved] = _removePrefixIfPrefixIsOnlyDifferenceInNames(prefix, nameOne, nameTwo);
+    [nameOneEdited, nameTwoEdited, prefixRemoved] = _removePrefixIfPrefixIsOnlyDifferenceInNames(prefix, nameOneEdited, nameTwoEdited);
     
     console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOneEdited}  nameTwo: ${nameTwoEdited}`);
     console.error("TypeScript ran through all cases in _removeUnnecessaryPrefixes");
@@ -694,9 +708,11 @@ function _removePrefixIfPrefixIsOnlyDifferenceInNames(prefix: string, nameOne: s
         if (wordOne.startsWith(prefix) && wordOne.slice(prefix.length) == wordTwo && wordTwo.length > 2) {
             nameEditorInstance.updateNameOne(indexOne, wordOne.slice(prefix.length));
             nameEdited = true;
+            console.error("Removed the prefix in TypeScript because it's the only difference between the names");
         } else if (wordTwo.startsWith(prefix) && wordTwo.slice(prefix.length) == wordOne && wordOne.length > 2) {
             nameEditorInstance.updateNameTwo(indexTwo, wordTwo.slice(prefix.length));
             nameEdited = true;
+            console.error("Removed the prefix in TypeScript because it's the only difference between the names");
         };
     };
 
@@ -723,16 +739,22 @@ function _removePrefixIfPrefixIsOnlyDifferenceInNames(prefix: string, nameOne: s
 function _removeSpaceThenPrefixFromUneditedNames(prefix: string, spaceThenPrefix: string, nameToPossiblyChange: string, otherName: string): [string, boolean] {
 
     var editHappened: boolean = false;
-    const pattern = new RegExp(`\\b${spaceThenPrefix}\\w*\\b`, 'g');
-    const isSpaceThenPrefixOnlyInNameToChange: boolean = (nameToPossiblyChange.includes(spaceThenPrefix) && !otherName.includes(spaceThenPrefix));
+    const pattern = new RegExp(`\\b${spaceThenPrefix}\\w*\\b`);
+    const isSpaceThenPrefixOnlyInNameToChange: boolean = ((nameToPossiblyChange.includes(spaceThenPrefix) === true) && (otherName.includes(spaceThenPrefix) === false));
     const matchInNameToPossiblyChange = nameToPossiblyChange.match(pattern);
-    if (isSpaceThenPrefixOnlyInNameToChange === true && matchInNameToPossiblyChange !== null){
+    console.error(`Value check for remove space then prefix from unedited names in TypeScript: pattern - ${pattern} isSpaceThenPrefixOnlyInNameToChange - ${isSpaceThenPrefixOnlyInNameToChange} matchInNameToPossiblyChange - ${matchInNameToPossiblyChange}`);
+    if ((isSpaceThenPrefixOnlyInNameToChange === true) && (matchInNameToPossiblyChange !== null)){
         var matchedWord = matchInNameToPossiblyChange[0];
+        console.error(`Checking matched word value in TypeScript: ${matchedWord}`);
         if (matchedWord.length > (prefix.length + 4)){
+            console.error(`TypeScript name before change: ${nameToPossiblyChange}`);
             nameToPossiblyChange = nameToPossiblyChange.replace(spaceThenPrefix, " ");
+            console.error(`TypeScript name after change: ${nameToPossiblyChange}`);
             editHappened = true;
         };
     };
+
+    console.error(`TypeScript name after all space the prefix removals: ${nameToPossiblyChange}`);
 
     return [nameToPossiblyChange, editHappened]
 };

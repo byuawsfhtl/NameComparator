@@ -53,8 +53,8 @@ def test_for_specific_person():
     test_case = {"input": ["alfred a devellio", "claude alvin villee"]}
     python_result, typescript_result = test_runner.run("compare_two_names", "compareTwoNames", test_case)
     test_runner.assert_strict_parity(python_result, typescript_result)
-    assert python_result.match == True
-    assert typescript_result.match == True
+    assert python_result.match == False
+    assert typescript_result.match == False
 
 
 @pytest.mark.parametrize('names_to_test', list_of_names_with_articles, ids=lambda x: x['description'])

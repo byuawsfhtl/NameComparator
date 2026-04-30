@@ -585,13 +585,19 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     # Determine if any edits were made in the above processes
     edits_made = not (name_one == name_one_edited) and not (name_two == name_two_edited) 
 
+    print(f"In Python, for the names {name_one} and {name_two}, the first edit check has the value {edits_made}")
+
     # If no edits were made, try removing space_then_prefix if only in name_one and it's a long word
     if not edits_made:
-        name_one, edits_made = _remove_space_then_prefix_from_unedited_name(prefix, space_then_prefix, name_one, name_two)
+        name_one, edits_made = _remove_space_then_prefix_from_unedited_names(prefix, space_then_prefix, name_one, name_two)
+
+    print(f"In Python, for the names {name_one} and {name_two}, the second edit check has the value {edits_made}")
 
     # If no edits were made, try removing space_then_prefix if only in name_two and it's a long word
     if not edits_made:
-        name_two, edits_made = _remove_space_then_prefix_from_unedited_name(prefix, space_then_prefix, name_two, name_one)
+        name_two, edits_made = _remove_space_then_prefix_from_unedited_names(prefix, space_then_prefix, name_two, name_one)
+
+    print(f"In Python, for the names {name_one} and {name_two}, one final edit check is a good idea. It has a value of {edits_made}")
 
     # If the edits were significantly beneficial (or pass spell), return the edited versions
     improvement, _, _= calculate_edit_improvement(name_one, name_two, name_one_edited, name_two_edited)
@@ -636,15 +642,17 @@ def _remove_prefix_if_prefix_is_only_difference_in_names(prefix: str, name_one: 
         if (word_one.startswith(prefix)) and (word_one[len(prefix):] == word_two) and (len(word_two) > 2):
             name_editor_instance.update_name_one(index_one, word_one[len(prefix):])
             name_edited = True
+            print("Removed the prefix in Python because it's the only difference between the names")
         elif (word_two.startswith(prefix)) and (word_two[len(prefix):] == word_one) and (len(word_one) > 2):
             name_editor_instance.update_name_two(index_two, word_two[len(prefix):])
             name_edited = True
+            print("Removed the prefix in Python because it's the only difference between the names")
 
     name_one, name_two = name_editor_instance.get_modified_names()
 
     return name_one, name_two, name_edited
 
-def _remove_space_then_prefix_from_unedited_name(prefix: str, space_then_prefix: str, name_to_possibly_change: str, other_name: str) -> tuple[str, bool]:
+def _remove_space_then_prefix_from_unedited_names(prefix: str, space_then_prefix: str, name_to_possibly_change: str, other_name: str) -> tuple[str, bool]:
     """This is a helper function for _remove_unnecessary_prefixes that is intended to remove
     the " prefix" pattern from words that may or may not have it, if the same pattern is not
     present in a second word. The utility of this is to create parity between different name
@@ -667,11 +675,17 @@ def _remove_space_then_prefix_from_unedited_name(prefix: str, space_then_prefix:
     pattern = r'\b{}\w*\b'.format(space_then_prefix)
     is_space_then_prefix_only_in_name_to_change = (space_then_prefix in name_to_possibly_change) and (space_then_prefix not in other_name)
     match_in_name_to_possibly_change = re_search(pattern, name_to_possibly_change)
-    if (is_space_then_prefix_only_in_name_to_change) and (match_in_name_to_possibly_change is not None):
+    print(f"Value check for remove space then prefix from unedited names in Python: pattern - {pattern} is_space_then_prefix_only_in_name_to_change - {is_space_then_prefix_only_in_name_to_change} match_in_name_to_possibly_change - {match_in_name_to_possibly_change}")
+    if ((is_space_then_prefix_only_in_name_to_change) and (match_in_name_to_possibly_change is not None)):
         matched_word = match_in_name_to_possibly_change.group()
-        if len(matched_word) > len(prefix) + 4:
+        print(f"Checking matched word value in Python: {matched_word}")
+        if (len(matched_word) > len(prefix) + 4):
+            print(f"Python name before change: {name_to_possibly_change}")
             name_to_possibly_change = name_to_possibly_change.replace(space_then_prefix, " ")
+            print(f"Python name after change: {name_to_possibly_change}")
             edit_happened = True
+
+    print(f"Python name after all space the prefix removals: {name_to_possibly_change}")
     
     return name_to_possibly_change, edit_happened
 
