@@ -114,9 +114,9 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   let results = new ResultsOfNameComparison(nameOne, nameTwo);
 
   // Clean the names
-  console.error("Cleaning nameOne in TypeScript");
+  console.error(`Cleaning nameOne in TypeScript. Name before cleaning: ${nameOne}`);
   nameOne = cleanName(nameOne);
-  console.error("Cleaning nameTwo in TypeScript");
+  console.error(`Cleaning nameTwo in TypeScript. Name before cleaning: ${nameTwo}`);
   nameTwo = cleanName(nameTwo);
   console.error("Cleaning names by comparison in TypeScript");
   [nameOne, nameTwo, shouldApplyPenalty] = cleanNamesByComparison(nameOne, nameTwo);

@@ -99,6 +99,9 @@ def clean_name(name:str) -> str:
     name = name.strip()
     if not name:
         name = '_'
+
+    print(f"Python cleaned the name to be {name}")
+
     return name
 
 def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[str, str, bool]:
@@ -549,7 +552,7 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
         boolean representing whether or not a prefix was removed
     """        
 
-    print(f"Removing unnecessary prefixes from {name_one} and {name_two} in Python")
+    print(f"Removing unnecessary prefix {prefix} from {name_one} and {name_two} in Python")
 
     # If the prefix is not in either names, return the names
     if (f" {prefix}" not in name_one) and (f" {prefix}" not in name_two):
@@ -570,11 +573,17 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     space_then_prefix_then_space = f" {prefix} "
     space_then_prefix = f" {prefix}"
 
+    edits_made = False
+
     # If the names have different prefix patterns, make them match the same one
     if (space_then_prefix_then_space in name_one) and (space_then_prefix in name_two):
+        print("Made an edit to the names in Python, following the first possibility")
         name_one_edited = name_one_edited.replace(space_then_prefix_then_space, space_then_prefix)
+        edits_made = True
     elif (space_then_prefix in name_one) and (space_then_prefix_then_space in name_two):
+        print("Made an edit to the names in Python, following the second possibility")
         name_two_edited = name_two_edited.replace(space_then_prefix_then_space, space_then_prefix)
+        edits_made = True
     
     # If nothing was changed above, this will simply remove the prefixes since they likely don't matter
     name_one_edited = name_one_edited.replace(space_then_prefix_then_space, " ")
@@ -582,32 +591,30 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     name_one_edited = re_sub(r"\s+", " ", name_one_edited)
     name_two_edited = re_sub(r"\s+", " ", name_two_edited)
 
-    # Determine if any edits were made in the above processes
-    edits_made = not (name_one == name_one_edited) and not (name_two == name_two_edited) 
-
-    print(f"In Python, for the names {name_one} and {name_two}, the first edit check has the value {edits_made}")
+    print(f"In Python, for the names {name_one_edited} and {name_two_edited}, the first edit check has the value {edits_made}")
 
     # If no edits were made, try removing space_then_prefix if only in name_one and it's a long word
     if not edits_made:
-        name_one, edits_made = _remove_space_then_prefix_from_unedited_names(prefix, space_then_prefix, name_one, name_two)
+        name_one_edited, edits_made = _remove_space_then_prefix_from_unedited_names(prefix, space_then_prefix, name_one, name_two)
 
-    print(f"In Python, for the names {name_one} and {name_two}, the second edit check has the value {edits_made}")
+    print(f"In Python, for the names {name_one_edited} and {name_two_edited}, the second edit check has the value {edits_made}")
 
     # If no edits were made, try removing space_then_prefix if only in name_two and it's a long word
     if not edits_made:
-        name_two, edits_made = _remove_space_then_prefix_from_unedited_names(prefix, space_then_prefix, name_two, name_one)
+        name_two_edited, edits_made = _remove_space_then_prefix_from_unedited_names(prefix, space_then_prefix, name_two, name_one)
 
-    print(f"In Python, for the names {name_one} and {name_two}, one final edit check is a good idea. It has a value of {edits_made}")
+    print(f"In Python, for the names {name_one_edited} and {name_two_edited}, one final edit check is a good idea. It has a value of {edits_made}")
 
     # If the edits were significantly beneficial (or pass spell), return the edited versions
     improvement, _, _= calculate_edit_improvement(name_one, name_two, name_one_edited, name_two_edited)
+    print(f"Edit improvement value in Python at this point: {improvement}")
     if (improvement >= 10) or compare_spelling(name_one_edited, name_two_edited)[0]:
         print(f"Result of removing unnecessary prefixes in Python - name_one: {name_one_edited}  name_two: {name_two_edited}")
         print("Calculated an edit improvement in Python that was beneficial")
         return name_one_edited, name_two_edited, edits_made
     
     # Finally, if the names are identical other than the prefix, remove the prefix
-    name_one_edited, name_two_edited, prefix_removed = _remove_prefix_if_prefix_is_only_difference_in_names(prefix, name_one, name_two)
+    name_one_edited, name_two_edited, prefix_removed = _remove_prefix_if_prefix_is_only_difference_in_names(prefix, name_one_edited, name_two_edited)
 
     print(f"Result of removing unnecessary prefixes in Python - name_one: {name_one_edited}  name_two: {name_two_edited}")
     print("Python ran through all cases in _remove_unnecessary_prefixes")

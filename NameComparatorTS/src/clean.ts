@@ -97,6 +97,9 @@ export function cleanName(name: string): string {
     if (name == "") {
         return "_";
     };
+
+    console.error(`TypeScript cleaned the name to be ${name}`);
+
     return name;
 };
 
@@ -630,11 +633,17 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
     const spaceThenPrefixThenSpace = ` ${prefix} `;
     const spaceThenPrefix = ` ${prefix}`;
 
+    var editsMade = false;
+
     // If the names have different prefix patterns, make them match the same one
     if (nameOne.includes(spaceThenPrefixThenSpace) && nameTwo.includes(spaceThenPrefix)) {
+        console.error("Made an edit to the names in TypeScript, following the first possibility");
         nameOneEdited = nameOneEdited.replace(spaceThenPrefixThenSpace, spaceThenPrefix);
+        editsMade = true;
     } else if (nameOne.includes(spaceThenPrefix) && nameTwo.includes(spaceThenPrefixThenSpace)) {
+        console.error("Made an edit to the names in TypeScript, following the second possibility");
         nameTwoEdited = nameTwoEdited.replace(spaceThenPrefixThenSpace, spaceThenPrefix);
+        editsMade = true;
     };
 
     // If nothing was changed above, this will simply remove the prefixes since they likely don't matter
@@ -642,9 +651,6 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
     nameTwoEdited = nameTwoEdited.replace(spaceThenPrefixThenSpace, " ");
     nameOneEdited = nameOneEdited.replace(/\s+/, " ");
     nameTwoEdited = nameTwoEdited.replace(/\s+/, " ");
-
-    // Determine if any edits were made in the above processes
-    var editsMade = !(nameOne == nameOneEdited) && !(nameTwo == nameTwoEdited);
 
     console.error(`In TypeScript, for the names ${nameOneEdited} and ${nameTwoEdited}, the first edit check has the value ${editsMade}`);
     
@@ -664,6 +670,7 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
 
     // If the edits were significantly beneficial (or pass spell), return the edited versions
     const [improvement, useless, useless2] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwoEdited);
+    console.error(`Edit improvement value in TypeScript at this point: ${improvement}`);
     if (improvement >= 10 || compareSpelling(nameOneEdited, nameTwoEdited)[0]) {
         console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOneEdited}  nameTwo: ${nameTwoEdited}`);
         console.error("Calculated an edit improvement in TypeScript that was beneficial");

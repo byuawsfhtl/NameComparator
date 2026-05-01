@@ -32,7 +32,7 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
         new Array(wordsInNameTwo.length).fill(0)
     );
 
-    console.error(`Found the list of words in the names in TypeScript. \wordsInNameOne: ${wordsInNameOne} \nwordsInNameTwo: ${wordsInNameTwo}`);
+    console.error(`Found the list of words in the names in TypeScript. \nwordsInNameOne: ${wordsInNameOne} \nwordsInNameTwo: ${wordsInNameTwo}`);
 
     // Score each matchup
     for (let i = 0; i < wordsInNameOne.length; i++) {

@@ -99,9 +99,9 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     results = ResultsOfNameComparison(name_one=name_one, name_two=name_two)
 
     # Clean the names
-    print("Cleaning name_one in Python")
+    print(f"Cleaning name_one in Python. Name before cleaning: {name_one}")
     name_one = clean_name(name_one)
-    print("Cleaning name_two in Python")
+    print(f"Cleaning name_two in Python. Name before cleaning: {name_two}")
     name_two = clean_name(name_two)
     print("Cleaning names by comparison in Python")
     name_one, name_two, should_penalty_apply = clean_names_by_comparison(name_one, name_two)
