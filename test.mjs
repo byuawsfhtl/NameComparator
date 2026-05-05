@@ -1,3 +1,3 @@
-const { partialRatio } = await import('@3leaps/string-metrics-wasm');
+import { partial_ratio } from 'fuzzball';
 
-console.log(partialRatio("aurel", "albert"));
+console.log(partial_ratio("papailion", "pappelendam"));

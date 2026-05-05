@@ -90,9 +90,9 @@ def clean_name(name:str) -> str:
     name = name.replace("no suffix", "")
 
     # Deal with Dutch names
-    name = re_sub(r"\bvan de", "vande", name)
-    name = re_sub(r"\bvan den", "vanden", name)
-    name = re_sub(r"\bvan der", "vander", name)
+    # name = re_sub(r"\bvan de", "vande", name)
+    # name = re_sub(r"\bvan den", "vanden", name)
+    # name = re_sub(r"\bvan der", "vander", name)
     
     # Deal with whitespace one last time, then return
     name = re_sub(r" +", " ", name)
@@ -214,7 +214,7 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str, b
                 print("Found a de or di prefix in a word in Python")
                 name_one, name_two, did_we_fix_prefixes = _fix_related_prefixes(name_one, name_two, 'de', 'di')
                 name_one, name_two, did_we_remove_prefixes = _remove_unnecessary_prefixes("de", name_one, name_two)
-                name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "de")
+                # name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "de")
             elif (prefix == 'del') or (prefix == 'dil'):
                 print("Found a del or dil prefix in a word in Python")
                 name_one, name_two, did_we_fix_prefixes = _fix_related_prefixes(name_one, name_two, 'del', 'dil')
@@ -222,7 +222,7 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str, b
             elif prefix == 'van':
                 print("Found a van prefix in a word in Python")
                 name_one, name_two, did_we_remove_prefixes = _remove_unnecessary_prefixes("van", name_one, name_two)
-                name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "van")
+                # name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "van")
             else:
                 print("Found a generic prefix in a word in Python")
                 name_one, name_two, did_we_remove_prefixes = _remove_unnecessary_prefixes(prefix, name_one, name_two)
@@ -586,8 +586,10 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
         edits_made = True
     
     # If nothing was changed above, this will simply remove the prefixes since they likely don't matter
+    print(f"Names before prefix removal in Python: {name_one}, {name_two}")
     name_one_edited = name_one_edited.replace(space_then_prefix_then_space, " ")
     name_two_edited = name_two_edited.replace(space_then_prefix_then_space, " ")
+    print(f"Names after prefix removal in Python: {name_one_edited}, {name_two_edited}")
     name_one_edited = re_sub(r"\s+", " ", name_one_edited)
     name_two_edited = re_sub(r"\s+", " ", name_two_edited)
 

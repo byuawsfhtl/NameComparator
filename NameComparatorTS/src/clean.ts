@@ -87,9 +87,9 @@ export function cleanName(name: string): string {
     name = name.replace("no suffix", "");
 
     // Deal with Dutch names
-    name = name.replace(/\bvan de\b/g, 'vande')
-               .replace(/\bvan den\b/g, 'vanden')
-               .replace(/\bvan der\b/g, 'vander');
+    // name = name.replace(/\bvan de\b/g, 'vande')
+    //            .replace(/\bvan den\b/g, 'vanden')
+    //            .replace(/\bvan der\b/g, 'vander');
     
     // Deal with whitespace one last time, then return
     name = name.replace(/\s+/g, ' ')
@@ -231,7 +231,7 @@ function _handlePrefixesInNames(nameOne: string, nameTwo: string): [string, stri
                 console.error("Found a de or di prefix in a word in TypeScript");
                 [nameOne, nameTwo, didWeFixPrefixes] = _fixRelatedPrefixes(nameOne, nameTwo, 'de', 'di');
                 [nameOne, nameTwo, didWeRemovePrefixes] = _removeUnnecessaryPrefixes('de', nameOne, nameTwo);
-                [nameOne, nameTwo] = _combinePrefixWithSurnameifInBoth(nameOne, nameTwo, 'de');
+                // [nameOne, nameTwo] = _combinePrefixWithSurnameifInBoth(nameOne, nameTwo, 'de');
             } else if ((prefix === "del") || (prefix === "dil")){
                 console.error("Found a del or dil prefix in a word in TypeScript");
                 [nameOne, nameTwo, didWeFixPrefixes] = _fixRelatedPrefixes(nameOne, nameTwo, 'del', 'dil');
@@ -239,7 +239,7 @@ function _handlePrefixesInNames(nameOne: string, nameTwo: string): [string, stri
             } else if (prefix === "van") {
                 console.error("Found a van prefix in a word in TypeScript");
                 [nameOne, nameTwo, didWeRemovePrefixes] = _removeUnnecessaryPrefixes('van', nameOne, nameTwo);
-                [nameOne, nameTwo] = _combinePrefixWithSurnameifInBoth(nameOne, nameTwo, 'van');
+                // [nameOne, nameTwo] = _combinePrefixWithSurnameifInBoth(nameOne, nameTwo, 'van');
             } else {
                 console.error("Found a generic prefix in a word in TypeScript");
                 [nameOne, nameTwo, didWeRemovePrefixes] = _removeUnnecessaryPrefixes(prefix, nameOne, nameTwo);

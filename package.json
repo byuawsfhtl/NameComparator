@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@3leaps/string-metrics-wasm": "^0.3.8",
-    "munkres-js": "^1.2.2"
+    "munkres-js": "^1.2.2",
+    "fuzzball": "^2.2.2"
   }
 }
