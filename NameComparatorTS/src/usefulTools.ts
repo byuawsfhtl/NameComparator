@@ -250,6 +250,8 @@ function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: numb
     const rows = inputMatrix.length;
     const columns = inputMatrix[0].length;
     return inputMatrix.map((row, i) =>
-        row.map((val, j) => val + epsilonValue * (j * rows + i))
+        // There is a match bonus in the Python version. It is functionally the same as
+        // this line of code but looks different due to language differences
+        row.map((val, j) => val + epsilonValue * (j * rows + i) + (i === j ? 0.005 : 0))
     );
 };

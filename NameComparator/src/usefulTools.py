@@ -245,7 +245,9 @@ def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 
     for i in range(rows):
         new_row = []
         for j in range(columns):
-            new_row.append(input_matrix[i][j] + (epsilon_value * (j * rows + i)))
+            # This match bonus is also in the TypeScript but looks different due to language differences
+            match_bonus = 0.005 if i == j else 0
+            new_row.append(input_matrix[i][j] + (epsilon_value * (j * rows + i)) + match_bonus)
         new_matrix.append(new_row)
         
     return numpy_array(new_matrix)

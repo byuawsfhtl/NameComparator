@@ -647,8 +647,10 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
     };
 
     // If nothing was changed above, this will simply remove the prefixes since they likely don't matter
+    console.error(`Names before prefix removal in TypeScript: ${nameOne}, ${nameTwo}`);
     nameOneEdited = nameOneEdited.replace(spaceThenPrefixThenSpace, " ");
     nameTwoEdited = nameTwoEdited.replace(spaceThenPrefixThenSpace, " ");
+    console.error(`Names after prefix removal in TypeScript: ${nameOne}, ${nameTwo}`);
     nameOneEdited = nameOneEdited.replace(/\s+/, " ");
     nameTwoEdited = nameTwoEdited.replace(/\s+/, " ");
 
@@ -656,14 +658,14 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
     
     // If no edits were made, try removing spaceThenPrefix if only in nameOne and it's a long word
     if (editsMade === false){
-        [nameOneEdited, editsMade] = _removeSpaceThenPrefixFromUneditedNames(prefix, spaceThenPrefix, nameOne, nameTwo);
+        [nameOneEdited, editsMade] = _removeSpaceThenPrefixFromUneditedNames(prefix, spaceThenPrefix, nameOneEdited, nameTwoEdited);
     };
 
     console.error(`In TypeScript, for the names ${nameOneEdited} and ${nameTwoEdited}, the second edit check has the value ${editsMade}`);
 
     // If no edits were made, try removing spaceThenPrefix if only in nameTwo and it's a long word
     if (editsMade === false){
-        [nameTwoEdited, editsMade] = _removeSpaceThenPrefixFromUneditedNames(prefix, spaceThenPrefix, nameTwo, nameOne);
+        [nameTwoEdited, editsMade] = _removeSpaceThenPrefixFromUneditedNames(prefix, spaceThenPrefix, nameTwoEdited, nameOneEdited);
     };
 
     console.error(`In TypeScript, for the names ${nameOneEdited} and ${nameTwoEdited}, one final edit check is a good idea. It has a value of ${editsMade}`);

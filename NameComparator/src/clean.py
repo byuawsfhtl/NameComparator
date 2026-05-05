@@ -597,13 +597,13 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
 
     # If no edits were made, try removing space_then_prefix if only in name_one and it's a long word
     if not edits_made:
-        name_one_edited, edits_made = _remove_space_then_prefix_from_unedited_names(prefix, space_then_prefix, name_one, name_two)
+        name_one_edited, edits_made = _remove_space_then_prefix_from_unedited_names(prefix, space_then_prefix, name_one_edited, name_two_edited)
 
     print(f"In Python, for the names {name_one_edited} and {name_two_edited}, the second edit check has the value {edits_made}")
 
     # If no edits were made, try removing space_then_prefix if only in name_two and it's a long word
     if not edits_made:
-        name_two_edited, edits_made = _remove_space_then_prefix_from_unedited_names(prefix, space_then_prefix, name_two, name_one)
+        name_two_edited, edits_made = _remove_space_then_prefix_from_unedited_names(prefix, space_then_prefix, name_two_edited, name_one_edited)
 
     print(f"In Python, for the names {name_one_edited} and {name_two_edited}, one final edit check is a good idea. It has a value of {edits_made}")
 
