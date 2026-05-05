@@ -232,12 +232,13 @@ def partial_ratio_with_parity(string_one, string_two):
     # We need to make sure that whatever is labelled as the first string is shorter
     if len(string_one) > len(string_two):
         string_one, string_two = string_two, string_one
-    best = 0
-    for i in range(len(string_two) - len(string_one) + 1):
-        window = string_two[i:i+len(string_one)]
-        score = normalized_similarity(string_one, window) * 100
-        best = max(best, score)
-    return best
+    best_score = 0
+    for i in range((len(string_two) - len(string_one)) + 1):
+        window = string_two[i:i + len(string_one)]
+        new_score = normalized_similarity(string_one, window) * 100
+        print(f"New score in Python: {new_score}")
+        best_score = max(best_score, new_score)
+    return best_score
 
 def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 1e-3):
     rows, columns = input_matrix.shape

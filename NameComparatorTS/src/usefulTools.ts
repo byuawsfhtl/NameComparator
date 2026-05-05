@@ -1,6 +1,7 @@
 import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
 import munkres from 'munkres-js';
 import memoize from 'memoizee';
+import { string } from 'mathjs';
 
 // Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
 export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemoized, {max: 1000});
@@ -83,7 +84,7 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
     } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
         const ratio = fuzzball_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
         if (wordOne[0] === wordTwo[0]) {
-            const partialRatioScore = fuzzball_partial_ratio(wordOne, wordTwo, { full_process: false });
+            const partialRatioScore = partialRatioWithParity(wordOne, wordTwo);
             console.error(`Found the partial ratio ${partialRatioScore} for ${wordOne} and ${wordTwo} in TypeScript`)
             score = Math.max(ratio, partialRatioScore);
         } else {
@@ -246,6 +247,22 @@ export class NameEditor {
     };
 };
 
+export function partialRatioWithParity(stringOne: string, stringTwo:string): number{
+
+    if (stringOne.length > stringTwo.length){
+        [stringOne, stringTwo] = [stringTwo, stringOne];
+    };
+    var bestScore = 0;
+    for(var i = 0; i < ((stringTwo.length - stringOne.length) + 1); i++){
+        var window = stringTwo.slice(i,i + stringOne.length);
+        var newScore = indelNormalizedSimilarity(stringOne, window) * 100;
+        console.error(`New score in TypeScript: ${newScore}`);
+        bestScore = Math.max(bestScore, newScore);
+    };
+
+    return bestScore;
+};
+
 function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: number = 1e-3){
     const rows = inputMatrix.length;
     const columns = inputMatrix[0].length;
@@ -255,3 +272,23 @@ function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: numb
         row.map((val, j) => val + epsilonValue * (j * rows + i) + (i === j ? 0.005 : 0))
     );
 };
+
+// This is needed to ensure parity with a Python function's behavior
+function indelNormalizedSimilarity(a: string, b: string): number {
+  const dp: number[][] = Array.from({ length: a.length + 1 }, (_, i) =>
+    Array.from({ length: b.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
+  );
+
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      if (a[i - 1] === b[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1]); // insert or delete only, no substitution
+      }
+    }
+  }
+
+  const editDistance = dp[a.length][b.length];
+  return 1 - editDistance / (a.length + b.length);
+}

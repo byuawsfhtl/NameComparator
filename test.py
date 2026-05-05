@@ -1,11 +1,7 @@
-from NameComparator.NameComparator import compare_two_names, compare_spelling
+from NameComparator.src.usefulTools import partial_ratio_with_parity
 
-# result = compare_two_names("anthony de michele", "laurence anthony michel")
+print(f"Partial ratio with parity in Python: {partial_ratio_with_parity('deluca', 'de')}")
 
-# print(result)
 
-print(compare_spelling("arthur o lewis", "arthur a lewis"))
-
-print(compare_spelling("arthur a lewis", "arthur o lewis"))
 
 

@@ -1,3 +1,3 @@
-import { partial_ratio } from 'fuzzball';
+import { partialRatioWithParity } from './NameComparatorTS/src/usefulTools.ts';
 
-console.log(partial_ratio("papailion", "pappelendam"));
+console.log(`Partial ratio with parity in TypeScript: ${partialRatioWithParity('deluca', 'de')}`)
