@@ -33,6 +33,9 @@ def _get_ipa_of_one_word(word:str) -> str:
     Returns:
         The ipa pronunciation of the word
     """
+
+    print(f"Getting the IPA of the word {word} in Python")
+
     # Setup
     word = word.strip()
     word = unidecode(word)
@@ -42,6 +45,7 @@ def _get_ipa_of_one_word(word:str) -> str:
     # Tries to get the ipa from the plain word
     first_attempt, success = _word_pronunciation_ipa_guess(word)
     if success:
+        print("Successfully guessed the word pronunciation in Python")
         return first_attempt
 
     # While there are still letters in the word
@@ -76,6 +80,7 @@ def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, in
         the largest substring
     """
 
+    print(f"Iterating through all the possible substrings of {word} in Python")
 
     # Initialize variables to store the largest matching substring and its length
     substring_added = False
@@ -91,26 +96,35 @@ def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, in
             substring = word[i:j]
 
             if len(substring) <= largest_substring_length:
+                print(f"Skipped the substring {substring} due to it being shorter than the largest substring in Python")
                 continue
             if " " in substring:
+                print(f"Skipped the substring {substring} due to it containing a space in Python")
                 continue
             if len(substring) > 1:
                 ipa_substring, success = _string_pronuncation_ipa_guess(substring)
-                if (not success) or (len(ipa_substring) >= len(substring) * 2) or (substring_splits_th_sound(substring, word, i, j)): continue
-                else: pronunciation_of_largest_substring = ipa_substring
+                if (not success) or (len(ipa_substring) >= len(substring) * 2) or (substring_splits_th_sound(substring, word, i, j)): 
+                    print(f"Skipped the substring {substring} due to manyh conditions in Python")
+                    continue
+                else: 
+                    pronunciation_of_largest_substring = ipa_substring
+                    print(f"Updated largest substring to be {ipa_substring} based on a guess in Python")
             elif len(substring) == 1:
                 letter_to_pronunciation = {
-                "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
-                "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
-                "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
+                    "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
+                    "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
+                    "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
                 }
                 pronunciation_of_largest_substring = letter_to_pronunciation.get(substring, largest_substring)
+                print(f"Updated largest substring to be {pronunciation_of_largest_substring} based on the letter to pronunciation table in Python")
 
             largest_substring = substring
             substring_added = True
             largest_substring_length = len(substring)
             beginning_index_of_substring = i
             end_index_of_substring = j
+
+    print(f"After the for loop, the values of the variables are as follows in TypeScript: substring_added - {substring_added} beginning_index_of_substring - {beginning_index_of_substring} end_index_of_substring - {end_index_of_substring} pronunciation_of_largest_substring - {pronunciation_of_largest_substring} largest_substring_length - {largest_substring_length}")
 
     return substring_added, beginning_index_of_substring, end_index_of_substring, pronunciation_of_largest_substring, largest_substring_length
 

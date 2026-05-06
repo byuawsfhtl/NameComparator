@@ -260,7 +260,7 @@ export function partialRatioWithParity(stringOne: string, stringTwo:string): num
         bestScore = Math.max(bestScore, newScore);
     };
 
-    return bestScore;
+    return Math.round(bestScore);
 };
 
 function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: number = 1e-3){

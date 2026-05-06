@@ -650,7 +650,7 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
     console.error(`Names before prefix removal in TypeScript: ${nameOne}, ${nameTwo}`);
     nameOneEdited = nameOneEdited.replace(spaceThenPrefixThenSpace, " ");
     nameTwoEdited = nameTwoEdited.replace(spaceThenPrefixThenSpace, " ");
-    console.error(`Names after prefix removal in TypeScript: ${nameOne}, ${nameTwo}`);
+    console.error(`Names after prefix removal in TypeScript: ${nameOneEdited}, ${nameTwoEdited}`);
     nameOneEdited = nameOneEdited.replace(/\s+/, " ");
     nameTwoEdited = nameTwoEdited.replace(/\s+/, " ");
 

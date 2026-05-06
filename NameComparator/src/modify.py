@@ -238,8 +238,12 @@ def _replace_substring_centers_if_names_are_similar(name_one:str, name_two:str, 
     Returns:
         A tuple containing the names, modified to have the same substrings in the center (if applicable)
     """        
+
+    print(f"Determining if the centers should be replaced for the following variables in Python: name_one - {name_one} name_two - {name_two} middle_substring_option_one - {middle_substring_option_one} middle_substring_option_two - {middle_substring_option_two} possible_substring_beginnings - {possible_substring_beginnings} possible_substring_endings - {possible_substring_endings} minimum_required_letters - {minimum_required_letters}")
+
     # Return if both middles not in different words
     if (middle_substring_option_one not in name_one and middle_substring_option_two not in name_one) or (middle_substring_option_one not in name_two and middle_substring_option_two not in name_two):
+        print("No replacements made in Python due to substrings that are already the same")
         return name_one, name_two
 
     name_editor_instance = NameEditor(name_one, name_two)
@@ -260,6 +264,8 @@ def _replace_substring_centers_if_names_are_similar(name_one:str, name_two:str, 
         word_two = word_two.replace("-", "")
         name_editor_instance.update_name_one(index_one, word_one)
         name_editor_instance.update_name_two(index_two, word_two)
+        print(f"Updated name_one with {word_one} in Python")
+        print(f"Updated name_two with {word_two} in Python")
 
     # concatonates the two lists together back into strings
     name_one, name_two = name_editor_instance.get_modified_names()
@@ -331,7 +337,7 @@ def _overwrite_with_substring(string:str, replacement:str, start_index:int, end_
     Returns:
         A new string, with the specified indices replaced by the replacement string
     """
-    return string[:start_index] + replacement + string[(end_index + 1):]
+    return string[:start_index] + replacement + string[(end_index):]
 
 def modify_ipas_by_comparison(ipa_one:str, ipa_two:str) -> tuple[str,str]:
     """Modifies two ipas by comparing them to each other.

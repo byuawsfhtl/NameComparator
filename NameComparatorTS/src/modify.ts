@@ -252,7 +252,11 @@ function _dealWithWrongFirstChar(nameOne: string, nameTwo: string): [string, str
  */
 function _replaceSubstringCentersIfNamesAreSimilar(nameOne: string, nameTwo: string, middleSubstringOptionOne: string, middleSubstringOptionTwo: string, possibleSubstringBeginnings: string[], possibleSubstringEndings: string[], minimumRequiredLetters: number): [string, string] {
     // Return if both middles not in different words
+
+    console.error(`Determining if the centers should be replaced for the following variables in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo} middleSubstringOptionOne - ${middleSubstringOptionOne} middleSubstringOptionTwo - ${middleSubstringOptionTwo} possibleSubstringBeginnings - ${possibleSubstringBeginnings} possibleSubstringEndings - ${possibleSubstringEndings} minimumRequiredLetters - ${minimumRequiredLetters}`);
+
     if ((!nameOne.includes(middleSubstringOptionOne) && !nameOne.includes(middleSubstringOptionTwo)) || (!nameTwo.includes(middleSubstringOptionOne) && !nameTwo.includes(middleSubstringOptionTwo))) {
+        console.error("No replacements made in TypeScript due to substrings that are already the same");
         return [nameOne, nameTwo];
     }
 
@@ -271,10 +275,12 @@ function _replaceSubstringCentersIfNamesAreSimilar(nameOne: string, nameTwo: str
         [wordOne, wordTwo] = _handleSubstringReplacementsAndChecks(wordOne, wordTwo, possibleSubstringBeginnings, middleSubstringOptionOne, middleSubstringOptionTwo, possibleSubstringEndings)
 
         // Update the words for that match (though a change may not have occured)
-        wordOne = wordOne.replace(/-/g, "");
-        wordTwo = wordTwo.replace(/-/g, "");
+        wordOne = wordOne.replace(/-/, "");
+        wordTwo = wordTwo.replace(/-/, "");
         nameEditorInstance.updateNameOne(indexOne, wordOne);
         nameEditorInstance.updateNameTwo(indexTwo, wordTwo);
+        console.error(`Updated nameOne with ${wordOne} in TypeScript`);
+        console.error(`Updated nameTwo with ${wordTwo} in TypeScript`);
     }
     
     // concatonates the two lists together back into strings
@@ -307,7 +313,7 @@ function _handleSubstringReplacementsAndChecks(wordOne: string, wordTwo: string,
         for (const substringEnding of possibleSubstringEndings) {
             if (!wordOne.includes(substringEnding) || !wordTwo.includes(substringEnding)) {
                 continue;
-            }
+            };
 
             // Skip the beginnings and ends if the pattern is not found in both,
             // if the middles are the same, or if the patterns are too far appart
@@ -315,9 +321,13 @@ function _handleSubstringReplacementsAndChecks(wordOne: string, wordTwo: string,
             const resultListOne = pattern.exec(wordOne);
             const resultListTwo = pattern.exec(wordTwo);
 
-            if (!resultListOne || !resultListTwo) continue;
+            if (!resultListOne || !resultListTwo) {
+                continue
+            };
 
-            if (resultListOne[0] === resultListTwo[0]) continue;
+            if (resultListOne[0] === resultListTwo[0]) {
+                continue
+            };
 
             const startIndexOfListOneSpan = resultListOne.index;
             const endIndexOfListOneSpan = startIndexOfListOneSpan + resultListOne[0].length;

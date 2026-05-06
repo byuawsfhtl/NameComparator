@@ -35,6 +35,8 @@ const _getIpaOfOneWord = memoize(_getIpaOfOneWordUnmemoized, {max: 1000});
  */
 function _getIpaOfOneWordUnmemoized(word: string): string {
 
+    console.error(`Getting the IPA of the word ${word} in TypeScript`);
+
     // Setup
     var wordNormalized = word.trim();
     wordNormalized = unidecode(wordNormalized);
@@ -44,8 +46,9 @@ function _getIpaOfOneWordUnmemoized(word: string): string {
     // Tries to get the ipa from the word
     const [firstAttempt, success] = _wordPronunciationIpaGuess(wordNormalized);
     if (success) {
+        console.error("Successfully guessed the word pronunciation in TypeScript");
         return firstAttempt;
-    }
+    };
 
     // Initialize variables that will be needed later
     let beginningIndexOfSubstring;
@@ -84,7 +87,9 @@ function _getIpaOfOneWordUnmemoized(word: string): string {
  *          the beginning index of the substring, the end index of the substring, the 
  *          pronunciation of the largest substring, and the length of the largest substring
  */
-function _iterateAllPossibleSubstrings(wordNormalized:string): [boolean, number, number, string, number]{
+function _iterateAllPossibleSubstrings(word:string): [boolean, number, number, string, number]{
+
+    console.error(`Iterating through all the possible substrings of ${word} in TypeScript`);
 
     // Initialize variables to store the largest matching substring and its length
     let substringAdded = false;
@@ -95,27 +100,36 @@ function _iterateAllPossibleSubstrings(wordNormalized:string): [boolean, number,
     let endIndexOfSubstring = 0;
 
     // Iterate over every possible substring
-    for (let i = 0; i < wordNormalized.length; i++) {
-        for (let j = i + 1; j <= wordNormalized.length + 1; j++) {
-            var substring = wordNormalized.substring(i, j);
+    for (let i = 0; i < word.length; i++) {
+        for (let j = i + 1; j <= word.length + 1; j++) {
+            var substring = word.substring(i, j);
 
             if (substring.length <= largestSubstringLength) {
+                console.error(`Skipped the substring ${substring} due to it being shorter than the largest substring in TypeScript`);
                 continue;
             }
             if (substring.includes(" ")) {
+                console.error(`Skipped the substring ${substring} due to it containing a space in TypeScript`);
                 continue;
             }
             if (substring.length > 1){
                 const [ipaSubstring, success] = _stringPronunciationIpaGuess(substring);
-                if (!success || (ipaSubstring.length >= substring.length * 2) || (substringSplitsThSound(substring, wordNormalized, i, j))) {continue;}
-                else {pronunciationOfLargestSubstring = ipaSubstring;}
+                if (!success || (ipaSubstring.length >= substring.length * 2) || (substringSplitsThSound(substring, word, i, j))) {
+                    console.error(`Skipped the substring ${substring} due to many conditions in TypeScript`);
+                    continue;
+                }
+                else {
+                    pronunciationOfLargestSubstring = ipaSubstring;
+                    console.error(`Updated largest substring to be ${ipaSubstring} based on a guess in TypeScript`);
+                }
             } else if (substring.length === 1) {
                 const letterToPronunciation = {
-                "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
-                "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
-                "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
+                    "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
+                    "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
+                    "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
                 };
                 pronunciationOfLargestSubstring = letterToPronunciation[substring as keyof typeof letterToPronunciation] || largestSubstring;
+                console.error(`Updated largest substring to be ${pronunciationOfLargestSubstring} based on the letter to pronunciation table in TypeScript`);
             }
 
             largestSubstring = substring;
@@ -125,6 +139,8 @@ function _iterateAllPossibleSubstrings(wordNormalized:string): [boolean, number,
             endIndexOfSubstring = j;
         }
     }
+
+    console.error(`After the for loop, the values of the variables are as follows in TypeScript: substringAdded - ${substringAdded} beginningIndexOfSubstring - ${beginningIndexOfSubstring} endIndexOfSubstring - ${endIndexOfSubstring} pronunciationOfLargestSubstring - ${pronunciationOfLargestSubstring} largestSubstringLength - ${largestSubstringLength}`);
 
     return [substringAdded, beginningIndexOfSubstring, endIndexOfSubstring, pronunciationOfLargestSubstring, largestSubstringLength]
 }
