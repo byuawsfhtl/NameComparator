@@ -5,7 +5,7 @@ from rapidfuzz.fuzz import ratio as fuzz_ratio
 from importlib.resources import files
 from json import loads as json_loads
 
-from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality
+from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality, round_in_a_normal_way
 
 # Read the various variables from a file
 comparison_variables_as_dict = json_loads(files('data').joinpath('variablesForComparisons.json').read_text(encoding='utf-8'))
@@ -96,7 +96,7 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         # Get the words as consonants
         consonants_in_name_one = _reduce_to_simple_consonants(word_one)
         consonants_in_name_two = _reduce_to_simple_consonants(word_two)
-        consonant_ratio = round(fuzz_ratio(consonants_in_name_one, consonants_in_name_two))
+        consonant_ratio = round_in_a_normal_way(fuzz_ratio(consonants_in_name_one, consonants_in_name_two))
 
         print(f"Consonants in each name in Python - name_one: {consonants_in_name_one}  name_two: {consonants_in_name_two}")
         print(f"Consonant ratio in Python: {consonant_ratio}")

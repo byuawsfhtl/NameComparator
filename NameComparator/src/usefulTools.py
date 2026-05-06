@@ -3,6 +3,7 @@ from functools import lru_cache
 from munkres import Munkres
 from rapidfuzz.fuzz import ratio as fuzz_ratio
 from rapidfuzz.distance.Indel import normalized_similarity
+from math import floor as math_floor
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1_000)
@@ -80,9 +81,9 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
 
     # For words longer than 2, either use ratio or partial ratio for score as shown below.
     else:
-        ratio = round(fuzz_ratio(word_one, word_two, processor=None))
+        ratio = round_in_a_normal_way(fuzz_ratio(word_one, word_two, processor=None))
         if (word_one[0] == word_two[0]):
-            partial_ratio_score = round(partial_ratio_with_parity(word_one, word_two))
+            partial_ratio_score = round_in_a_normal_way(partial_ratio_with_parity(word_one, word_two))
             print(f"Found the partial ratio {partial_ratio_score} for {word_one} and {word_two} in Python")
             score = max(ratio, partial_ratio_score)
         else:
@@ -122,7 +123,7 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
             continue
         elif (list_one[i] is not None) and (list_two[j] is not None) and (list_one[i] != '') and (list_two[j] != ''):
             # This rounding and typecasting to a float is needed to make it match the TypeScript output in tests
-            matchup_score = float(round(scores[i, j]))
+            matchup_score = float(round_in_a_normal_way(scores[i, j]))
             best_combinations.append((list_one[i], list_two[j], matchup_score))
     return best_combinations
 
@@ -236,9 +237,9 @@ def partial_ratio_with_parity(string_one, string_two):
     for i in range((len(string_two) - len(string_one)) + 1):
         window = string_two[i:i + len(string_one)]
         new_score = normalized_similarity(string_one, window) * 100
-        print(f"New score in Python: {new_score}")
+        print(f"New score in Python: {new_score}, when rounded it's: {round_in_a_normal_way(new_score)}")
         best_score = max(best_score, new_score)
-    return best_score
+    return round_in_a_normal_way(best_score)
 
 def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 1e-3):
     rows, columns = input_matrix.shape
@@ -252,3 +253,7 @@ def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 
         new_matrix.append(new_row)
         
     return numpy_array(new_matrix)
+
+def round_in_a_normal_way(number_to_round: float) -> int:
+
+    return math_floor(number_to_round + 0.5)
