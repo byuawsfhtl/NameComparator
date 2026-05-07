@@ -21,6 +21,7 @@ export function getIpa(name: string): string {
     const pronunciationList = [];
     for (const word of name.trim().split(/\s+/)) {
         pronunciationList.push(_getIpaOfOneWord(word));
+        console.error(`Current pronunciation list in TypeScript: ${pronunciationList}`);
     }
     return pronunciationList.join(' ');
 }
@@ -104,6 +105,8 @@ function _iterateAllPossibleSubstrings(word:string): [boolean, number, number, s
         for (let j = i + 1; j <= word.length + 1; j++) {
             var substring = word.substring(i, j);
 
+            console.error(`Checking possible pronunciation improvements for the substring ${substring} in TypeScript`)
+
             if (substring.length <= largestSubstringLength) {
                 console.error(`Skipped the substring ${substring} due to it being shorter than the largest substring in TypeScript`);
                 continue;
@@ -114,6 +117,7 @@ function _iterateAllPossibleSubstrings(word:string): [boolean, number, number, s
             }
             if (substring.length > 1){
                 const [ipaSubstring, success] = _stringPronunciationIpaGuess(substring);
+                console.error(`Variable check for skipping due to conditions in TypeScript: success - ${success} ipaSubstring.length - ${ipaSubstring.length} substring.length * 2 - ${substring.length * 2}, substringSplitsThSound(substring, word, i, j) - ${substringSplitsThSound(substring, word, i, j)}`);
                 if (!success || (ipaSubstring.length >= substring.length * 2) || (substringSplitsThSound(substring, word, i, j))) {
                     console.error(`Skipped the substring ${substring} due to many conditions in TypeScript`);
                     continue;
@@ -154,7 +158,7 @@ function _iterateAllPossibleSubstrings(word:string): [boolean, number, number, s
 function _wordPronunciationIpaGuess(word: string): [string, boolean] {
 
     const wordPronunciation = ipaAllNames[word] ?? "";
-    console.error(`Found the pronunciation ${wordPronunciation} for ${word} in our data`)
+    console.error(`Found the pronunciation '${wordPronunciation}' for ${word} in our data`)
     if (wordPronunciation) {
         return [wordPronunciation, true];
     }
@@ -170,10 +174,14 @@ function _wordPronunciationIpaGuess(word: string): [string, boolean] {
  */
 function _stringPronunciationIpaGuess(string: string): [string, boolean] {
 
+    console.error(`Finding the pronunciation guess for the string ${string} in TypeScript`);
+
     const ipaPronunciation = ipaCommonWordParts[string];
     if (ipaPronunciation) {
+        console.error(`Found the pronunciation guess ${ipaPronunciation} for the string ${string} in TypeScript`);
         return [ipaPronunciation, true];
     }
+    console.error(`Failed to find a pronunciation guess for the string ${string} in TypeScript`);
     return [string, false];
 }
 
@@ -187,14 +195,20 @@ function _stringPronunciationIpaGuess(string: string): [string, boolean] {
 */ 
 function substringSplitsThSound(substring:string, word:string, i:number, j:number): boolean {
 
+    console.error(`The substring splitting on th sounds has the following variables on startup: substring - ${substring} word - ${word} i - ${i} j - ${j}`);
+
     if (i === j) {
+        console.error("i equalled j in TypeScript");
         return false;
     }
-    if (i >= 0 && substring[0] === 'h' && word[i-1] === 't') {
+    if (i >= 0 && substring[0] === 'h' && word.at(i-1) === 't') {
+        console.error("The first true return case in TypeScript");
         return true;
     }
-    if (j <= word.length - 1 && substring[substring.length - 1] == 't' && word[j] === 'h') {
+    if (j <= word.length - 1 && substring.at(-1) === 't' && word[j] === 'h') {
+        console.error("The second true return case in TypeScript");
         return true;
     }
+    console.error("Hit the default return case in TypeScript");
     return false;
 }

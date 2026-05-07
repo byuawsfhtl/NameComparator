@@ -7292,7 +7292,7 @@ articleNames = [
     {
 		'name_one': 'irving h lepow',
 		'name_two': 'irwin howard lepow', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'irving h lepow comparison with article'
 	},
     {

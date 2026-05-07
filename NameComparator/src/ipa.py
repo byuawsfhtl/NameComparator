@@ -19,6 +19,7 @@ def get_ipa(name:str) -> str:
     pronunciation_list = []
     for word in name.split():
         pronunciation_list.append(_get_ipa_of_one_word(word))
+        print(f"Current pronunciation list in Python: {pronunciation_list}")
     pronunciation_of_name = " ".join(pronunciation_list)
     return pronunciation_of_name
 
@@ -95,6 +96,8 @@ def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, in
         for j in range(i + 1, len(word) + 1):
             substring = word[i:j]
 
+            print(f"Checking possible pronunciation improvements for the substring {substring} in Python")
+
             if len(substring) <= largest_substring_length:
                 print(f"Skipped the substring {substring} due to it being shorter than the largest substring in Python")
                 continue
@@ -103,8 +106,9 @@ def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, in
                 continue
             if len(substring) > 1:
                 ipa_substring, success = _string_pronuncation_ipa_guess(substring)
-                if (not success) or (len(ipa_substring) >= len(substring) * 2) or (substring_splits_th_sound(substring, word, i, j)): 
-                    print(f"Skipped the substring {substring} due to manyh conditions in Python")
+                print(f"Variable check for skipping due to conditions in Python: success - {success}, len(ipa_substring) - {len(ipa_substring)} (len(substring) * 2) - {(len(substring) * 2)}, substring_splits_th_sound(substring, word, i, j) - {substring_splits_th_sound(substring, word, i, j)}")
+                if (not success) or (len(ipa_substring) >= (len(substring) * 2)) or (substring_splits_th_sound(substring, word, i, j)): 
+                    print(f"Skipped the substring {substring} due to many conditions in Python")
                     continue
                 else: 
                     pronunciation_of_largest_substring = ipa_substring
@@ -138,7 +142,7 @@ def _word_pronunciation_ipa_guess(word:str) -> tuple[str, bool]:
         A tuple comtaining the ipa of the word (or the original word if not found), and whether it was found.
     """        
     word_pronunciation = json_loads(unparsed_all_ipa_names).get(word, '')
-    print(f"Found the pronunciation {word_pronunciation} for {word} in our data")
+    print(f"Found the pronunciation '{word_pronunciation}' for {word} in our data")
     if word_pronunciation:
         return word_pronunciation, True
     return word, False
@@ -153,9 +157,14 @@ def _string_pronuncation_ipa_guess(string:str) -> tuple[str, bool]:
     Returns:
         A tuple containing the ipa of the string (or the original string if not found), and whether it was found.
     """        
+
+    print(f"Finding the pronunciation guess for the string {string} in Python")
+
     ipa_pronunciation = json_loads(unparsed_common_ipa_word_parts).get(string, '')
     if ipa_pronunciation:
+        print(f"Found the pronunciation guess {ipa_pronunciation} for the string {string} in Python")
         return ipa_pronunciation, True
+    print(f"Failed to find a pronunciation guess for the string {string} in Python")
     return string, False
 
 def substring_splits_th_sound(substring:str, word:str, i:int, j:int) -> bool:
@@ -169,11 +178,18 @@ def substring_splits_th_sound(substring:str, word:str, i:int, j:int) -> bool:
 
     Returns:
         A boolean representing whether or not it was a good substring
-    """            
+    """      
+
+    print(f"The substring splitting on th sounds has the following variables on startup: substring - {substring} word - {word} i - {i} j - {j}")
+
     if i == j:
+        print("i equalled j in Python")
         return False
     if i >= 0 and substring[0] == 'h' and word[i - 1] == 't':
+        print("The first true return case in Python")
         return True
     if j <= len(word) - 1 and substring[-1] == 't' and word[j] == 'h':
+        print("The second true return case in Python")
         return True
+    print("Hit the default return case in Python")
     return False
