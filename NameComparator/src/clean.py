@@ -125,11 +125,7 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
     # Deal with dashes
     name_one, name_two = _deal_with_dashes(name_one, name_two)
     
-    # Deal with Scottish and Irish names
-    name_one, name_two, was_scottish_prefix_removed = _fix_related_prefixes(name_one, name_two, 'mac', 'mc')
-    name_one, name_two, was_mc_or_mac_removed = _fix_mc_and_mac_names(name_one, name_two)
-
-    # Deal with just Irish names
+    # Deal with just Irish 'O' names
     irish_names_starting_with_o = [
         'beirne', 'berry', 'boyle', 'bryant', 'brian', 'brien', 'bryan', 'ceallaigh', 'conner',
         'connor', 'conor', 'daniel', 'day', 'dean', 'dea', 'doherty', 'donnell', 'donnel', 'donoghue',
@@ -167,7 +163,7 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
     name_two = re_sub(r'\s+', ' ', name_two)
     name_two = name_two.strip()
 
-    if was_mc_or_mac_removed or was_prefix_modified or was_scottish_prefix_removed:
+    if was_prefix_modified:
         should_penalty_apply = True
 
     # Return the cleaned names
@@ -194,7 +190,7 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str, b
     # Create a list of prefixes to check
     possible_prefixes = [
         "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
-        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil'
+        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
     ]
 
     # Deal with any prefixes and optional intros that make the match worse
@@ -223,6 +219,9 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str, b
                 print("Found a van prefix in a word in Python")
                 name_one, name_two, did_we_remove_prefixes = _remove_unnecessary_prefixes("van", name_one, name_two)
                 # name_one, name_two = _combine_prefix_with_surname_if_in_both(name_one, name_two, "van")
+            elif (prefix == 'mc') or (prefix == 'mac'):
+                name_one, name_two, did_we_fix_prefixes = _fix_related_prefixes(name_one, name_two, 'mac', 'mc')
+                name_one, name_two, did_we_remove_prefixes = _fix_mc_and_mac_names(name_one, name_two)
             else:
                 print("Found a generic prefix in a word in Python")
                 name_one, name_two, did_we_remove_prefixes = _remove_unnecessary_prefixes(prefix, name_one, name_two)
@@ -230,7 +229,7 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str, b
             if did_we_fix_prefixes or did_we_remove_prefixes:
                 was_a_prefix_modified = True
 
-    print(f"Finished handling names in prefixes in Python. Final result - name_one: {name_one}  name_two: {name_two}")
+    print(f"Finished handling names in prefixes in Python. Final result: name_one - {name_one}  name_two - {name_two} was_a_prefix_modified - {was_a_prefix_modified}")
 
     return name_one, name_two, was_a_prefix_modified
 
@@ -440,6 +439,7 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str, bool]:
     """        
     # Return names if mc and mac aren't in either of them
     if _determine_if_skip_names_in_fix_mc_and_mac_names(name_one, name_two):
+        print("Skipped fixing Mc and Mac names in TypeScript")
         return name_one, name_two, False
     
     # Combine split words (if any)
@@ -453,42 +453,56 @@ def _fix_mc_and_mac_names(name_one:str, name_two:str) -> tuple[str, str, bool]:
 
             temp_flag_for_changes = False
 
+            print(f"Attempting {prefix} edits for {word_one} and {word_two} in Python")
+
             # Skip pair if the prefix is in both words
             if (word_one.startswith(prefix)) and (word_two.startswith(prefix)):
+                print(f"Skipped {prefix} edits for {word_one} and {word_two} in Python because they both started with {prefix}")
                 continue
 
             # Skip pair if the prefix is not in either of them
             if (not word_one.startswith(prefix)) and (not word_two.startswith(prefix)):
+                print(f"Skipped {prefix} edits for {word_one} and {word_two} in Python because neither started with {prefix}")
                 continue
 
             # Skip pair if either word is a firstname
             if (index_one < 1) or (index_two < 1):
+                print(f"Skipped {prefix} edits for {word_one} and {word_two} in Python because one of them is a first name")
                 continue
 
-            # Skip pair if the shortest word is only 4 long
-            if min(len(word_one), len(word_two)) < 3:
+            # Skip pair if the shortest word is less than 4 characters long
+            if min(len(word_one), len(word_two)) < 4:
+                print(f"Skipped {prefix} edits for {word_one} and {word_two} in Python because one of them is 4 or less characters long")
                 continue
 
             # Skip pair if they are already a solid match
             if fuzz_ratio(word_one, word_two) > 80:
+                print(f"Skipped {prefix} edits for {word_one} and {word_two} in Python because they are already a good enough match")
                 continue
 
             # Skip pair if the prefix is removed and not a good fuzzy match
+            updated_word_one = word_one
+            updated_word_two = word_two
+
             if word_one.startswith(prefix):
                 updated_word_one = word_one.replace(prefix, '', 1)
                 updated_word_two = word_two
                 temp_flag_for_changes = True
-            else:
+            elif word_two.startswith(prefix):
                 updated_word_one = word_one
                 updated_word_two = word_two.replace(prefix, '', 1)
                 temp_flag_for_changes = True
-            if fuzz_ratio(updated_word_one, updated_word_two) < 75:
+
+            if temp_flag_for_changes and (fuzz_ratio(updated_word_one, updated_word_two) < 75):
+                print(f"Skipped {prefix} edits for {word_one} and {word_two} in Python because the prefix removal doesn't create a better match")
                 continue
 
             # Update the words
             name_editor_instance.update_name_one(index_one, updated_word_one)
             name_editor_instance.update_name_two(index_two, updated_word_two)
             was_mc_or_mac_removed = temp_flag_for_changes
+            temp_name_one, temp_name_two = name_editor_instance.get_modified_names()
+            print(f"Successfully updated the names to remove {prefix} in Python. Names after updates: {temp_name_one}, {temp_name_two}")
 
     # Return the edited (or not) names
     edited_name_one, edited_name_two = name_editor_instance.get_modified_names()
@@ -576,17 +590,17 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     edits_made = False
 
     # If the names have different prefix patterns, make them match the same one
-    if (space_then_prefix_then_space in name_one) and (space_then_prefix in name_two):
+    if (space_then_prefix_then_space in name_one_edited) and (space_then_prefix in name_two_edited) and (space_then_prefix_then_space not in name_two_edited):
         print("Made an edit to the names in Python, following the first possibility")
         name_one_edited = name_one_edited.replace(space_then_prefix_then_space, space_then_prefix)
         edits_made = True
-    elif (space_then_prefix in name_one) and (space_then_prefix_then_space in name_two):
+    elif (space_then_prefix in name_one_edited) and (space_then_prefix_then_space in name_two_edited) and (space_then_prefix_then_space not in name_one_edited):
         print("Made an edit to the names in Python, following the second possibility")
         name_two_edited = name_two_edited.replace(space_then_prefix_then_space, space_then_prefix)
         edits_made = True
     
     # If nothing was changed above, this will simply remove the prefixes since they likely don't matter
-    print(f"Names before prefix removal in Python: {name_one}, {name_two}")
+    print(f"Names before prefix removal in Python: {name_one_edited}, {name_two_edited}")
     name_one_edited = name_one_edited.replace(space_then_prefix_then_space, " ")
     name_two_edited = name_two_edited.replace(space_then_prefix_then_space, " ")
     print(f"Names after prefix removal in Python: {name_one_edited}, {name_two_edited}")

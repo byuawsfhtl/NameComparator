@@ -1,6 +1,6 @@
-from NameComparator.src.usefulTools import partial_ratio_with_parity
+from NameComparator.NameComparator import compare_two_names
 
-print(f"Partial ratio with parity in Python: {partial_ratio_with_parity('deluca', 'de')}")
+print(compare_two_names("lorenze", "lawrence"))
 
 
 

@@ -53,7 +53,8 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
     if (count > 0):
         averaged_scores = combined_scores / count
 
-    if (count >= number_of_valid_combos_to_skip_further_checks) or (count == minimum_length):
+    if (count >= number_of_valid_combos_to_skip_further_checks) and (count == minimum_length):
+        print(f"Determined to return true in Python. Current variables: count - {count} number_of_valid_combos_to_skip_further_checks - {number_of_valid_combos_to_skip_further_checks}, minimum_length - {minimum_length}")
         return True, word_combos, averaged_scores
     
     # Determine if it matches on consonants or not if the whole fuzzy string comparison is unclear
@@ -192,7 +193,7 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
     # Default return just in case something gets here
     return False, word_combos, lowest_score
 
-def _matchup_scores(word_combos_for_scores: list[tuple[str, str, int]], scores: ndarray, words_from_ipa_one: list, words_from_ipa_two: list) -> None:
+def _matchup_scores(word_combos_for_scores: list[tuple[str, str, float]], scores: ndarray, words_from_ipa_one: list, words_from_ipa_two: list) -> None:
     """Finds the score for the quality of each matchup of words that are potential matches, in terms of ipa
     pronunciations. It then updates a list of scores to reflect this for later processing in the
     pronunciation_comparison function.
@@ -214,7 +215,7 @@ def _matchup_scores(word_combos_for_scores: list[tuple[str, str, int]], scores: 
             score = _score_word_combos_helper(word_one, word_two, index_one, index_two, word_combos_for_scores)
             scores[index_one, index_two] = score
 
-def _score_word_combos_helper(word_one: str, word_two: str, index_one: int, index_two: int, word_combos_for_scores: list[tuple[str, str, int]]) -> int:
+def _score_word_combos_helper(word_one: str, word_two: str, index_one: int, index_two: int, word_combos_for_scores: list[tuple[str, str, float]]) -> float:
     """This function is a helper function to reduce the nesting depth of _matchup_scores.
     What it does is it compares all of the scores for a word combo and then finds a score
     that is going to be more accurate for them, as opposed to a default score.

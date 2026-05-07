@@ -64,8 +64,8 @@ class ResultsOfNameComparison:
     attempt_two: Attempt | None = None
     attempt_three: Attempt | None = None
     attempt_four: Attempt | None = None
-    most_recent_attempt_score: float = 0
-    average_score_of_combined_attempts: float = 0
+    most_recent_attempt_score: float = 0.0
+    average_score_of_combined_attempts: float = 0.0
 
 def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|None = None) -> ResultsOfNameComparison:
     """Compares two names to identify whether or not they are a match.
@@ -138,10 +138,14 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
         results.most_recent_attempt_score = attempt_one_score
         results.average_score_of_combined_attempts = attempt_one_score
         return results
+    
+    print(f"Check to make sure the names weren't modified strangely after attempt one in Python: name_one - {name_one} name_two - {name_two}")
 
     # Failed first attempt. Check if names are even worth continuing
     if is_worth_continuing(name_one, name_two) is False:
         return results
+    
+    print(f"Check to make sure the names weren't modified strangely after continuation check in Python: name_one - {name_one} name_two - {name_two}")
 
     # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
     print("Starting Python attempt two")
@@ -186,8 +190,12 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     attempt_four_match, attempt_four_word_combos, attempt_four_score = pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
     attempt_four_score = attempt_four_score + applied_penalty
     results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, attempt_four_word_combos, attempt_four_score)
+
     if attempt_four_match:
         results.match = True
-        results.most_recent_attempt_score = attempt_four_score
-        results.average_score_of_combined_attempts = ((attempt_four_score + attempt_three_score + attempt_two_score + attempt_one_score) / 4)
+
+    # Since we want the return values to be right, we need this to be a default case for them
+    results.most_recent_attempt_score = attempt_four_score
+    results.average_score_of_combined_attempts = ((attempt_four_score + attempt_three_score + attempt_two_score + attempt_one_score) / 4)
+
     return results

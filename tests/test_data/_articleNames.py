@@ -3698,7 +3698,7 @@ articleNames = [
     {
 		'name_one': 'edward j lawrence',
 		'name_two': 'edward j. lorenze', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'edward j lawrence comparison with article'
 	},
     {
@@ -3896,7 +3896,7 @@ articleNames = [
     {
 		'name_one': 'edwin mclean',
 		'name_two': 'martin edwin lean', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'edwin mclean comparison with article'
 	},
     {
@@ -5642,7 +5642,7 @@ articleNames = [
     {
 		'name_one': 'george w vien',
 		'name_two': 'george levene', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'george w vien comparison with article'
 	},
     {

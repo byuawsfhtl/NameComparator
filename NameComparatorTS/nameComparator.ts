@@ -74,8 +74,8 @@ export class ResultsOfNameComparison {
     public attemptTwo: Attempt | null = null,
     public attemptThree: Attempt | null = null,
     public attemptFour: Attempt | null = null,
-    public mostRecentAttemptScore: number = 0,
-    public averageScoreOfCombinedAttempts: number = 0
+    public mostRecentAttemptScore: number = 0.0,
+    public averageScoreOfCombinedAttempts: number = 0.0
   ) {}
 }
 
@@ -159,10 +159,14 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
     return results;
   };
 
+  console.error(`Check to make sure the names weren't modified strangely after attempt one in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo}`);
+
   // Failed first attempt. Check if names are even worth continuing
   if (isWorthContinuing(nameOne, nameTwo) === false){
     return results;
   };
+
+  console.error(`Check to make sure the names weren't modified strangely after continuation check in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo}`);
 
   // 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
   console.error("Starting TypeScript attempt two");
@@ -209,10 +213,14 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   var [attemptFourMatch, attemptFourWordCombos, attemptFourScore] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
   attemptFourScore = attemptFourScore + appliedPenalty;
   results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, attemptFourWordCombos, attemptFourScore);
+
   if (attemptFourMatch) {
     results.match = true;
-    results.mostRecentAttemptScore = attemptFourScore;
-    results.averageScoreOfCombinedAttempts = ((attemptFourScore + attemptThreeScore + attemptTwoScore + attemptOneScore) / 4);
   };
+
+  // Since we want the return values to be right, we need this to be a default case for them
+  results.mostRecentAttemptScore = attemptFourScore;
+  results.averageScoreOfCombinedAttempts = ((attemptFourScore + attemptThreeScore + attemptTwoScore + attemptOneScore) / 4);
+
   return results;
 };

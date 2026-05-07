@@ -53,7 +53,6 @@ def _remove_based_on_id_information(set_of_ids: set[int], word_one: str, name_on
     """
     
     id_to_nickname_set_data_as_variable = json_loads(unparsed_id_to_nickname_set)
-    print (id_to_nickname_set_data_as_variable)
     breaking = False
 
     for id in set_of_ids:

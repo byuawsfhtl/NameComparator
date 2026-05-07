@@ -275,8 +275,8 @@ function _replaceSubstringCentersIfNamesAreSimilar(nameOne: string, nameTwo: str
         [wordOne, wordTwo] = _handleSubstringReplacementsAndChecks(wordOne, wordTwo, possibleSubstringBeginnings, middleSubstringOptionOne, middleSubstringOptionTwo, possibleSubstringEndings)
 
         // Update the words for that match (though a change may not have occured)
-        wordOne = wordOne.replace(/-/, "");
-        wordTwo = wordTwo.replace(/-/, "");
+        wordOne = wordOne.replace(/-/g, "");
+        wordTwo = wordTwo.replace(/-/g, "");
         nameEditorInstance.updateNameOne(indexOne, wordOne);
         nameEditorInstance.updateNameTwo(indexTwo, wordTwo);
         console.error(`Updated nameOne with ${wordOne} in TypeScript`);
