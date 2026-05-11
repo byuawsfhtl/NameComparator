@@ -39,6 +39,8 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
 
     word_combos = find_word_matches_and_quality(name_one, name_two)
 
+    print(f"Word combos for compare spelling in Python: {word_combos}")
+
     count = 0
     combined_scores = 0
     averaged_scores = 0
@@ -53,7 +55,7 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
     if len(word_combos) >= 1:
         averaged_scores = combined_scores / len(word_combos)
 
-    if (count >= number_of_valid_combos_to_skip_further_checks) and (count == minimum_length):
+    if (count >= number_of_valid_combos_to_skip_further_checks) and ((count == minimum_length) or (count == minimum_length - 1)):
         print(f"Determined to return true in Python. Current variables: count - {count} number_of_valid_combos_to_skip_further_checks - {number_of_valid_combos_to_skip_further_checks}, minimum_length - {minimum_length}")
         return True, word_combos, averaged_scores
     

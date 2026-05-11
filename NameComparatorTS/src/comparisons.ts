@@ -47,7 +47,7 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
         averagedScores = combinedScores / wordCombos.length;
     };
 
-    if (count >= numberOfValidCombosToSkipFurtherChecks && count === minimumLength) {
+    if (count >= numberOfValidCombosToSkipFurtherChecks && (count === minimumLength || count === minimumLength - 1)) {
         console.error(`Determined to return true in TypeScript. Current variables: count - ${count} numberOfValidCombosToSkipFurtherChecks - ${numberOfValidCombosToSkipFurtherChecks}, minimumLength - ${minimumLength}`);
         return [true, wordCombos, averagedScores];
     };
