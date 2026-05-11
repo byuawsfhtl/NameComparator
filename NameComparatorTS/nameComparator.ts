@@ -222,9 +222,12 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
 
   if (attemptFourMatch) {
     results.match = true;
+    results.mostRecentAttemptScore = attemptFourScore;
+    results.averageScoreOfCombinedAttempts = ((attemptFourScore + attemptThreeScore + attemptTwoScore + attemptOneScore) / 4);
+    return results;
   };
 
-  // Since we want the return values to be right, we need this to be a default case for them
+  // Since we want the return values to be right, we need the last check to be a default case for them
   results.mostRecentAttemptScore = attemptFourScore;
   results.averageScoreOfCombinedAttempts = ((attemptFourScore + attemptThreeScore + attemptTwoScore + attemptOneScore) / 4);
 

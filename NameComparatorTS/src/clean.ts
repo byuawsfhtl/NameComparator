@@ -366,9 +366,9 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
         nameEditorInstance.updateNameOne(neighborIndex, '');
         const [nameOneEdited, notUsed] = nameEditorInstance.getModifiedNames();
 
-        // If the edited nameOne is better (or only slightly worse), go with the edited version
+        // If the edited nameOne is better, go with the edited version
         const [improvement, useless, uselessTwo] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwo);
-        if (improvement > -1) {
+        if (improvement > 0) {
             return [true, nameOneEdited, nameTwo];
         };
     };
@@ -687,7 +687,7 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
     // If the edits were significantly beneficial (or pass spell), return the edited versions
     const [improvement, useless, useless2] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwoEdited);
     console.error(`Edit improvement value in TypeScript at this point: ${improvement}`);
-    if (improvement >= 10 || compareSpelling(nameOneEdited, nameTwoEdited)[0]) {
+    if (improvement >= 10 && compareSpelling(nameOneEdited, nameTwoEdited)[0]) {
         console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOneEdited}  nameTwo: ${nameTwoEdited}`);
         console.error("Calculated an edit improvement in TypeScript that was beneficial");
         return [nameOneEdited, nameTwoEdited, editsMade];
@@ -706,8 +706,15 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
         editsMade = false;
     };
 
-    return [nameOneEdited, nameTwoEdited, editsMade];
-}
+    // At the end of the function, check for improvments. If it's actually better, return the edits otherwise
+    // return the original one
+    const [finalImprovementCheck, irrelevant, irrelevant2] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwoEdited);
+    if (finalImprovementCheck > 0){
+        return [nameOneEdited, nameTwoEdited, editsMade];
+    } else {
+        return [nameOne, nameTwo, false];
+    };
+};
 
 /**
  * This is a helper function for _remove_unnecessary_prefixes that is intended to help
@@ -765,13 +772,13 @@ function _removeSpaceThenPrefixFromUneditedNames(prefix: string, spaceThenPrefix
     const pattern = new RegExp(`\\b${spaceThenPrefix}\\w*\\b`);
     const isSpaceThenPrefixOnlyInNameToChange: boolean = ((nameToPossiblyChange.includes(spaceThenPrefix) === true) && (otherName.includes(spaceThenPrefix) === false));
     const matchInNameToPossiblyChange = nameToPossiblyChange.match(pattern);
-    console.error(`Value check for remove space then prefix from unedited names in TypeScript: pattern - ${pattern} isSpaceThenPrefixOnlyInNameToChange - ${isSpaceThenPrefixOnlyInNameToChange} matchInNameToPossiblyChange - ${matchInNameToPossiblyChange}`);
+    console.error(`Value check for remove space then prefix from unedited names in TypeScript: pattern - '${pattern}' isSpaceThenPrefixOnlyInNameToChange - '${isSpaceThenPrefixOnlyInNameToChange}' matchInNameToPossiblyChange - '${matchInNameToPossiblyChange}'`);
     if ((isSpaceThenPrefixOnlyInNameToChange === true) && (matchInNameToPossiblyChange !== null)){
         var matchedWord = matchInNameToPossiblyChange[0];
         console.error(`Checking matched word value in TypeScript: ${matchedWord}`);
         if (matchedWord.length > (prefix.length + 4)){
             console.error(`TypeScript name before change: ${nameToPossiblyChange}`);
-            nameToPossiblyChange = nameToPossiblyChange.replace(spaceThenPrefix, " ");
+            nameToPossiblyChange = nameToPossiblyChange.replaceAll(spaceThenPrefix, " ");
             console.error(`TypeScript name after change: ${nameToPossiblyChange}`);
             editHappened = true;
         };

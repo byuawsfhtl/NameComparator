@@ -2,6 +2,7 @@ import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 
 import munkres from 'munkres-js';
 import memoize from 'memoizee';
 import { string } from 'mathjs';
+import { getIpa } from './ipa.js';
 
 // Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
 export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemoized, {max: 1000});
@@ -149,8 +150,12 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
  *          the word combos of the original, and the word combos of the edited version
  */
 export function calculateEditImprovement(nameOne : string, nameTwo : string, nameOneEdited :string, nameTwoEdited : string): [number, [string, string, number][], [string, string, number][]] {
-    let originalWordCombos = findWordMatchesAndQuality(nameOne, nameTwo);
-    let editedWordCombos = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
+    let nameOneIpa = getIpa(nameOne);
+    let nameTwoIpa = getIpa(nameTwo);
+    let originalWordCombos = findWordMatchesAndQuality(nameOneIpa, nameTwoIpa);
+    let nameOneEditedIpa = getIpa(nameOneEdited);
+    let nameTwoEditedIpa = getIpa(nameTwoEdited)
+    let editedWordCombos = findWordMatchesAndQuality(nameOneEditedIpa, nameTwoEditedIpa);
     if(!originalWordCombos.length || !editedWordCombos.length) {
         return [0, originalWordCombos, editedWordCombos]
     };
@@ -158,6 +163,7 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
     const editedAverageScore = editedWordCombos.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombos.length;
     const diff = editedAverageScore - originalAverageScore;
 
+    console.error(`End result of calculating edit improvements in TypeScript: nameOne - ${nameOne} nameOneIpa - ${nameOneIpa} nameTwo - ${nameTwo} nameTwoIpa - ${nameTwoIpa} originalAverageScore - ${originalAverageScore} nameOneEdited - ${nameOneEdited} nameOneEditedIpa - ${nameOneEditedIpa} nameTwoEdited - ${nameTwoEdited} nameTwoEditedIpa - ${nameOneEditedIpa} editedAverageScore - ${editedAverageScore} diff - ${diff}`);
     return [diff, originalWordCombos, editedWordCombos];
 };
 

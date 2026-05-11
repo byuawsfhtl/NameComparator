@@ -188,6 +188,7 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
 
     # 4th attempt: Check if original names are a match according to pronunciation
     print("Starting Python attempt four")
+    print(f"Checking that names aren't modified strangely: name_one - {name_one} name_two - {name_two}")
     ipa_of_name_one = clean_ipa(get_ipa(name_one))
     ipa_of_name_two = clean_ipa(get_ipa(name_two))
     print(f"Python cleaned ipas in attempt four: name_one - {ipa_of_name_one}, name_two - {ipa_of_name_two}")
@@ -198,9 +199,12 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, attempt_four_word_combos, attempt_four_score)
 
     if attempt_four_match:
+        results.most_recent_attempt_score = attempt_four_score
+        results.average_score_of_combined_attempts = ((attempt_four_score + attempt_three_score + attempt_two_score + attempt_one_score) / 4)
         results.match = True
+        return results
 
-    # Since we want the return values to be right, we need this to be a default case for them
+    # Since we want the return values to be right, we need the last check to be a default case for them
     results.most_recent_attempt_score = attempt_four_score
     results.average_score_of_combined_attempts = ((attempt_four_score + attempt_three_score + attempt_two_score + attempt_one_score) / 4)
 

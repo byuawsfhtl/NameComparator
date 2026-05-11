@@ -21,7 +21,8 @@ def typescript_deserializer(dictionary_input: dict):
                                                 make_into_attempt_class(dictionary_input.get('attemptThree', '')), 
                                                 make_into_attempt_class(dictionary_input.get('attemptFour', '')), 
                                                 float(dictionary_input.get('mostRecentAttemptScore', '')), 
-                                                float(dictionary_input.get('averageScoreOfCombinedAttempts', '')))
+                                                float(dictionary_input.get('averageScoreOfCombinedAttempts', '')),
+                                                dictionary_input.get('notWorthContinuing', False))
     
     return deserialized_item
 
@@ -50,11 +51,11 @@ test_runner = PyScriptTestRunner(path_for_typescript_version, deserializer=types
 test_runner.add_method(compare_two_names, "compareTwoNames", executor = lambda args: compare_two_names(args[0], args[1]))
 
 def test_for_specific_person():
-    test_case = {"input": ["james m ledanard", "james lawrence lardner"]}
+    test_case = {"input": ["john leaser", "hans lisser"]}
     python_result, typescript_result = test_runner.run("compare_two_names", "compareTwoNames", test_case)
     test_runner.assert_strict_parity(python_result, typescript_result)
-    assert typescript_result.match == False
-    assert python_result.match == False
+    assert python_result.match == True
+    assert typescript_result.match == True
 
 
 @pytest.mark.parametrize('names_to_test', list_of_names_with_articles, ids=lambda x: x['description'])

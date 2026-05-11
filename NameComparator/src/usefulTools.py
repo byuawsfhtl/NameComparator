@@ -4,9 +4,10 @@ from munkres import Munkres
 from rapidfuzz.fuzz import ratio as fuzz_ratio
 from rapidfuzz.distance.Indel import normalized_similarity
 from math import floor as math_floor
+from NameComparator.src.ipa import get_ipa
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
-@lru_cache(maxsize=1_000)
+@lru_cache(maxsize=1000)
 def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str, str, float]]:
     """Identifies which words in either name are a match, and how well they match.
 
@@ -128,7 +129,8 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
     return best_combinations
 
 def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, name_two_edited:str) -> tuple[float, list[tuple[str, str, float]], list[tuple[str, str, float]]]:
-    """Calculates how much editing a name or both names improved the score in comparison to the original names.
+    """Calculates how much editing a name or both names improved the score in comparison to the original names,
+    using their pronunciations as the guide.
 
     Args:
         name_one: the original first name
@@ -139,14 +141,20 @@ def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, 
     Returns:
         A tuple containing the score of how much the edits improved the comparison (can be negative), 
         the word combos of the original, and the word combos of the edited verison
-    """        
-    original_word_combos = find_word_matches_and_quality(name_one, name_two)
-    edited_word_combos = find_word_matches_and_quality(name_one_edited, name_two_edited)
+    """
+    name_one_ipa = get_ipa(name_one)
+    name_two_ipa = get_ipa(name_two)
+    original_word_combos = find_word_matches_and_quality(name_one_ipa, name_two_ipa)
+    name_one_edited_ipa = get_ipa(name_one_edited)
+    name_two_edited_ipa = get_ipa(name_two_edited)
+    edited_word_combos = find_word_matches_and_quality(name_one_edited_ipa, name_two_edited_ipa)
     if (not original_word_combos) or (not edited_word_combos):
         return 0, original_word_combos, edited_word_combos
     original_average_score = sum(tup[2] for tup in original_word_combos) / len(original_word_combos)
     edited_average_score = sum(tup[2] for tup in edited_word_combos) / len(edited_word_combos)
     diff = edited_average_score - original_average_score
+    
+    print(f"End result of calculating edit improvements in Python: name_one - {name_one} name_one_ipa - {name_one_ipa} name_two - {name_two} name_two_ipa - {name_two_ipa} original_average_score - {original_average_score} name_one_edited - {name_one_edited} name_one_edited_ipa - {name_one_edited_ipa} name_two_edited - {name_two_edited} name_two_edited_ipa - {name_one_edited_ipa} edited_average_score - {edited_average_score} diff - {diff}")
     return diff, original_word_combos, edited_word_combos
 
 def get_matching_words_and_indices(name_one:str, name_two:str) -> list[tuple[int, int, str, str]]:

@@ -10,19 +10,23 @@ const ipaAllNames = ipaAllNamesUnparsed as Record<string, string>;
 import ipaCommonWordPartsUnparsed from '../../data/pronunciation/ipaCommonWordParts.json' with { type: 'json'}
 const ipaCommonWordParts = ipaCommonWordPartsUnparsed as Record<string, string>;
 
+// Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
+export const getIpa = memoize(getIpaUnmemoized, {max: 1000});
 /**
  * Gets the pronunciation of a name.
  * 
  * @param name - The name to get the pronunciation of
  * @returns The ipa pronunciation of the name
  */
-export function getIpa(name: string): string {
+function getIpaUnmemoized(name: string): string {
 
     const pronunciationList = [];
     for (const word of name.trim().split(/\s+/)) {
         pronunciationList.push(_getIpaOfOneWord(word));
         console.error(`Current pronunciation list in TypeScript: ${pronunciationList}`);
     }
+
+    console.error(`Final pronunciation list in TypeScript: ${pronunciationList}`);
     return pronunciationList.join(' ');
 }
 

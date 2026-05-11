@@ -7,6 +7,8 @@ from importlib.resources import files
 unparsed_all_ipa_names = files('data').joinpath('pronunciation/ipaAllNames.json').read_text(encoding='utf-8')
 unparsed_common_ipa_word_parts = files('data').joinpath('pronunciation/ipaCommonWordParts.json').read_text(encoding='utf-8')
 
+# Note here that lru cache is the python equivalent of memoizee in TypeScript
+@lru_cache(maxsize=1000)
 def get_ipa(name:str) -> str:
     """Gets the pronunciation of a name.
 
@@ -21,10 +23,12 @@ def get_ipa(name:str) -> str:
         pronunciation_list.append(_get_ipa_of_one_word(word))
         print(f"Current pronunciation list in Python: {pronunciation_list}")
     pronunciation_of_name = " ".join(pronunciation_list)
+
+    print(f"Final pronunciation list in Python: {pronunciation_list}")
     return pronunciation_of_name
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
-@lru_cache(maxsize=1_000)
+@lru_cache(maxsize=1000)
 def _get_ipa_of_one_word(word:str) -> str:
     """Gets the pronunciation of a word.
 

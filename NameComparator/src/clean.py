@@ -124,6 +124,7 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
     
     # Deal with dashes
     name_one, name_two = _deal_with_dashes(name_one, name_two)
+    print(f"Names after dealing with dashes in Python: name_one - {name_one} name_two - {name_two}")
     
     # Deal with just Irish 'O' names
     irish_names_starting_with_o = [
@@ -144,8 +145,12 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
             if (surname in name_one) or (surname in name_two):
                 name_one, name_two = _remove_irish_o(name_one, name_two, surname)
 
+    print(f"Names after dealing with Irish 'O's in Python: name_one - {name_one} name_two - {name_two}")
+
     # Figure out what needs to be done with prefixes in the names and make needed changes
     name_one, name_two, was_prefix_modified = _handle_prefixes_in_names(name_one, name_two)
+
+    print(f"Names after handling prefixes in Python: name_one - {name_one} name_two - {name_two}")
 
     # Combine words that are one word in the other name
     while True:
@@ -156,6 +161,8 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
         combined, name_two, name_one = _combine_split_words(name_two, name_one)
         if not combined:
             break
+
+    print(f"Names after combining split words in Python: name_one - {name_one} name_two - {name_two}")
 
     # Remove extra spaces
     name_one = re_sub(r'\s+', ' ', name_one)
@@ -335,9 +342,9 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[bool, str, str]:
         name_editor_instance.update_name_one(neighbor_index, '')
         name_one_edited, notUsed = name_editor_instance.get_modified_names()
 
-        # If the edited name_one is better (or only slightly worse), go with the edited version
+        # If the edited name_one is better, go with the edited version
         improvement, useless, useless_two = calculate_edit_improvement(name_one, name_two, name_one_edited, name_two)
-        if improvement > -1:
+        if improvement > 0:
             return True, name_one_edited, name_two
 
     # If no edits were beneficial, just return the original words
@@ -624,7 +631,7 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     # If the edits were significantly beneficial (or pass spell), return the edited versions
     improvement, _, _= calculate_edit_improvement(name_one, name_two, name_one_edited, name_two_edited)
     print(f"Edit improvement value in Python at this point: {improvement}")
-    if (improvement >= 10) or compare_spelling(name_one_edited, name_two_edited)[0]:
+    if (improvement >= 10) and compare_spelling(name_one_edited, name_two_edited)[0]:
         print(f"Result of removing unnecessary prefixes in Python - name_one: {name_one_edited}  name_two: {name_two_edited}")
         print("Calculated an edit improvement in Python that was beneficial")
         return name_one_edited, name_two_edited, edits_made
@@ -640,7 +647,13 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
     else:
         edits_made = False
 
-    return name_one_edited, name_two_edited, edits_made
+    # At the end of the function, check for improvments. If it's actually better, return the edits otherwise
+    # return the original one
+    final_improvement_check, _, _= calculate_edit_improvement(name_one, name_two, name_one_edited, name_two_edited)
+    if final_improvement_check > 0:
+        return name_one_edited, name_two_edited, edits_made
+    else:
+        return name_one, name_two, False
 
 def _remove_prefix_if_prefix_is_only_difference_in_names(prefix: str, name_one: str, name_two: str) -> tuple[str, str, bool]:
     """This is a helper function for _remove_unnecessary_prefixes that is intended to help
@@ -698,7 +711,7 @@ def _remove_space_then_prefix_from_unedited_names(prefix: str, space_then_prefix
     pattern = r'\b{}\w*\b'.format(space_then_prefix)
     is_space_then_prefix_only_in_name_to_change = (space_then_prefix in name_to_possibly_change) and (space_then_prefix not in other_name)
     match_in_name_to_possibly_change = re_search(pattern, name_to_possibly_change)
-    print(f"Value check for remove space then prefix from unedited names in Python: pattern - {pattern} is_space_then_prefix_only_in_name_to_change - {is_space_then_prefix_only_in_name_to_change} match_in_name_to_possibly_change - {match_in_name_to_possibly_change}")
+    print(f"Value check for remove space then prefix from unedited names in Python: pattern - '{pattern}' is_space_then_prefix_only_in_name_to_change - '{is_space_then_prefix_only_in_name_to_change}' match_in_name_to_possibly_change - '{match_in_name_to_possibly_change}'")
     if ((is_space_then_prefix_only_in_name_to_change) and (match_in_name_to_possibly_change is not None)):
         matched_word = match_in_name_to_possibly_change.group()
         print(f"Checking matched word value in Python: {matched_word}")

@@ -43,8 +43,8 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
 
     const minimumLength = mathjs_min(nameOne.split(' ').length, nameTwo.split(' ').length);
 
-    if (count > 0){
-        averagedScores = combinedScores / count;
+    if (wordCombos.length >= 1){
+        averagedScores = combinedScores / wordCombos.length;
     };
 
     if (count >= numberOfValidCombosToSkipFurtherChecks && count === minimumLength) {
