@@ -54,6 +54,8 @@ class ResultsOfNameComparison:
             that was made while comparing the names
         average_score_of_combined_attempts: The average percent confidence score from all of the
             attempts that were made while comparing the names
+        not_worth_continuing: Whether or not NameComparator determined if the name was not worth
+            running more checks on after the first check
     """
     name_one: str
     name_two: str
@@ -66,6 +68,7 @@ class ResultsOfNameComparison:
     attempt_four: Attempt | None = None
     most_recent_attempt_score: float = 0.0
     average_score_of_combined_attempts: float = 0.0
+    not_worth_continuing: bool = False
 
 def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|None = None) -> ResultsOfNameComparison:
     """Compares two names to identify whether or not they are a match.
@@ -143,6 +146,9 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
 
     # Failed first attempt. Check if names are even worth continuing
     if is_worth_continuing(name_one, name_two) is False:
+        results.not_worth_continuing = True
+        results.most_recent_attempt_score = attempt_one_score
+        results.average_score_of_combined_attempts = attempt_one_score
         return results
     
     print(f"Check to make sure the names weren't modified strangely after continuation check in Python: name_one - {name_one} name_two - {name_two}")

@@ -46,7 +46,7 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
     for tuple in word_combos:
         if tuple[2] >= guaranteed_passing_score:
             count = count + 1
-            combined_scores = combined_scores + tuple[2]
+        combined_scores = combined_scores + tuple[2]
 
     minimum_length = min(len(name_one.split(' ')), len(name_two.split(' ')))
 

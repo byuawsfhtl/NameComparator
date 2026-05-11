@@ -62,6 +62,8 @@ export class Attempt {
  *                                             was made while comparing the names
  * @property {number} averageScoreOfCombinedAttempts - The average percent confidence score from all of the attempts that 
  *                                                     were made while comparing the names
+ * @property {boolean} notWorthContinuing - Whether or not NameComparator determined if the name was not worth
+ *                                          running more checks on after the first check
  */
 export class ResultsOfNameComparison {
   constructor(
@@ -75,7 +77,8 @@ export class ResultsOfNameComparison {
     public attemptThree: Attempt | null = null,
     public attemptFour: Attempt | null = null,
     public mostRecentAttemptScore: number = 0.0,
-    public averageScoreOfCombinedAttempts: number = 0.0
+    public averageScoreOfCombinedAttempts: number = 0.0,
+    public notWorthContinuing: boolean = false
   ) {}
 }
 
@@ -163,6 +166,9 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
 
   // Failed first attempt. Check if names are even worth continuing
   if (isWorthContinuing(nameOne, nameTwo) === false){
+    results.notWorthContinuing = true;
+    results.mostRecentAttemptScore = attemptOneScore;
+    results.averageScoreOfCombinedAttempts = attemptOneScore;
     return results;
   };
 

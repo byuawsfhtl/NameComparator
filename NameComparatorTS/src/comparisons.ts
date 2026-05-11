@@ -37,8 +37,8 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
     for (const tuple of wordCombos){
         if (tuple[2] >= guaranteedPassingScore){
             count = count + 1;
-            combinedScores = combinedScores + tuple[2]
         };
+        combinedScores = combinedScores + tuple[2];
     };
 
     const minimumLength = mathjs_min(nameOne.split(' ').length, nameTwo.split(' ').length);
