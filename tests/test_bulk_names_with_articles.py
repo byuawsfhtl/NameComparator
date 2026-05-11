@@ -50,7 +50,7 @@ test_runner = PyScriptTestRunner(path_for_typescript_version, deserializer=types
 test_runner.add_method(compare_two_names, "compareTwoNames", executor = lambda args: compare_two_names(args[0], args[1]))
 
 def test_for_specific_person():
-    test_case = {"input": ["j andreas (joseph andreas) de marco", "rene j. marcou"]}
+    test_case = {"input": ["james m ledanard", "james lawrence lardner"]}
     python_result, typescript_result = test_runner.run("compare_two_names", "compareTwoNames", test_case)
     test_runner.assert_strict_parity(python_result, typescript_result)
     assert typescript_result.match == False

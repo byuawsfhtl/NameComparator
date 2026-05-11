@@ -112,7 +112,7 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
     print(f"Input lists for identify matches in Python: \nlist_one: {list_one} \nlist_two: {list_two}")
     modified_scores = tiebreak_matches_consistently(scores)
     print(f'Making sure that matches tiebreak as expected. Python tiebroken scores: {modified_scores}')
-    linear_sum_class = Munkres()     
+    linear_sum_class = MakeMunkresConsistentWithTypeScript()     
     print(f"Checking that negated scores look the same in Python: {-modified_scores}")
     hungarian_pairs_list = linear_sum_class.compute((-modified_scores).tolist())
     print(f"Hungarian pairs list in Python: \n{hungarian_pairs_list}")
@@ -249,7 +249,7 @@ def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 
         for j in range(columns):
             # This match bonus is also in the TypeScript but looks different due to language differences
             match_bonus = 0.005 if i == j else 0
-            new_row.append(input_matrix[i][j] + (epsilon_value * (j * rows + i)) + match_bonus)
+            new_row.append(input_matrix[i][j] + (epsilon_value * ((columns - j) * rows + i)) + match_bonus)
         new_matrix.append(new_row)
         
     return numpy_array(new_matrix)
@@ -257,3 +257,24 @@ def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 
 def round_in_a_normal_way(number_to_round: float) -> int:
 
     return math_floor(number_to_round + 0.5)
+
+class MakeMunkresConsistentWithTypeScript(Munkres):
+    def __init__(self):
+        """Create a new instance"""
+        self.C = []
+        self.row_covered = []
+        self.col_covered = []
+        self.n = 0
+        self.Z0_r = 0
+        self.Z0_c = 0
+        self.marked = None
+        self.path = None
+
+    def _Munkres__find_a_zero(self, i0: int = 0, j0: int = 0):
+        for i in range(self.n):
+            for j in range(self.n):
+                if (self.C[i][j] == 0 and
+                    not self.row_covered[i] and
+                    not self.col_covered[j]):
+                    return (i, j)
+        return (-1, -1)

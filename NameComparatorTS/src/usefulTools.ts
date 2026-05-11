@@ -269,7 +269,7 @@ function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: numb
     return inputMatrix.map((row, i) =>
         // There is a match bonus in the Python version. It is functionally the same as
         // this line of code but looks different due to language differences
-        row.map((val, j) => val + epsilonValue * (j * rows + i) + (i === j ? 0.005 : 0))
+        row.map((val, j) => val + epsilonValue * ((columns - j) * rows + i) + (i === j ? 0.005 : 0))
     );
 };
 
@@ -285,10 +285,10 @@ function indelNormalizedSimilarity(a: string, b: string): number {
         dp[i][j] = dp[i - 1][j - 1];
       } else {
         dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1]); // insert or delete only, no substitution
-      }
-    }
-  }
+      };
+    };
+  };
 
   const editDistance = dp[a.length][b.length];
   return 1 - editDistance / (a.length + b.length);
-}
+};
