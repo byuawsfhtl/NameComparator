@@ -660,13 +660,13 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
         editsMade = true;
     };
 
-    // If nothing was changed above, this will simply remove the prefixes since they likely don't matter
-    console.error(`Names before prefix removal in TypeScript: ${nameOneEdited}, ${nameTwoEdited}`);
-    nameOneEdited = nameOneEdited.replace(spaceThenPrefixThenSpace, " ");
-    nameTwoEdited = nameTwoEdited.replace(spaceThenPrefixThenSpace, " ");
-    console.error(`Names after prefix removal in TypeScript: ${nameOneEdited}, ${nameTwoEdited}`);
-    nameOneEdited = nameOneEdited.replace(/\s+/, " ");
-    nameTwoEdited = nameTwoEdited.replace(/\s+/, " ");
+    // // If nothing was changed above, this will simply remove the prefixes since they likely don't matter
+    // console.error(`Names before prefix removal in TypeScript: ${nameOneEdited}, ${nameTwoEdited}`);
+    // nameOneEdited = nameOneEdited.replace(spaceThenPrefixThenSpace, " ");
+    // nameTwoEdited = nameTwoEdited.replace(spaceThenPrefixThenSpace, " ");
+    // console.error(`Names after prefix removal in TypeScript: ${nameOneEdited}, ${nameTwoEdited}`);
+    // nameOneEdited = nameOneEdited.replace(/\s+/, " ");
+    // nameTwoEdited = nameTwoEdited.replace(/\s+/, " ");
 
     console.error(`In TypeScript, for the names ${nameOneEdited} and ${nameTwoEdited}, the first edit check has the value ${editsMade}`);
     

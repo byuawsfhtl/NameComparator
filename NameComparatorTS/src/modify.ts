@@ -70,7 +70,7 @@ function _removeWordOrFromNames(nameOne: string, nameTwo: string): [string, stri
         if (!rightNameOne) {
             rightNameOne = "_";
         }
-        const rightWordCombos = findWordMatchesAndQuality(rightNameOne, nameTwo);
+        const [rightWordCombos, possibleRightPrefixCount] = findWordMatchesAndQuality(rightNameOne, nameTwo);
         const rightAverageScore = rightWordCombos.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / rightWordCombos.length;
         
         // Gets the score for if the word after 'or' is removed
@@ -79,7 +79,7 @@ function _removeWordOrFromNames(nameOne: string, nameTwo: string): [string, stri
         if (!leftnameOne) {
             leftnameOne = "_";
         }
-        const leftWordCombos = findWordMatchesAndQuality(leftnameOne, nameTwo);
+        const [leftWordCombos, possibleLeftPrefixCount] = findWordMatchesAndQuality(leftnameOne, nameTwo);
         const leftAverageScore = leftWordCombos.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / leftWordCombos.length;
 
         // Return the higher one
@@ -97,7 +97,7 @@ function _removeWordOrFromNames(nameOne: string, nameTwo: string): [string, stri
         if (!rightnameTwo) {
             rightnameTwo = "_";
         }
-        const rightWordCombos = findWordMatchesAndQuality(rightnameTwo, nameOne);
+        const [rightWordCombos, possibleRightPrefixCount] = findWordMatchesAndQuality(rightnameTwo, nameOne);
         const rightAverageScore = rightWordCombos.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / rightWordCombos.length;
         
         // Gets the score for if the word after 'or' is removed
@@ -105,7 +105,7 @@ function _removeWordOrFromNames(nameOne: string, nameTwo: string): [string, stri
         if (!leftNameTwo) {
             leftNameTwo = "_";
         }
-        const leftWordCombos = findWordMatchesAndQuality(leftNameTwo, nameOne);
+        const [leftWordCombos, possibleLeftPrefixCount] = findWordMatchesAndQuality(leftNameTwo, nameOne);
         const leftAverageScore = leftWordCombos.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / leftWordCombos.length;
         
         // Return the higher one

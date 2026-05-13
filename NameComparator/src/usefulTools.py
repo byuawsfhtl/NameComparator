@@ -8,7 +8,7 @@ from NameComparator.src.ipa import get_ipa
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1000)
-def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str, str, float]]:
+def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tuple[str, str, float]], int]:
     """Identifies which words in either name are a match, and how well they match.
 
     Args:
@@ -17,7 +17,9 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> list[tuple[str,
 
     Returns:
         A list of tuples idenifying the index of the word in the first name,
-        the index of the word in the second name, and the score of how well they match
+        the index of the word in the second name, and the score of how well they match.
+        After that it returns a value representing the number of possible prefixes in the
+        name
     """
 
     print(f"Entering Python find_word_matches_and_quality function with the names {name_one} and {name_two}")
@@ -97,7 +99,7 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
 # this function to use the scipy.optimize linear_sum_assignment again. I changed it to use the munkres 
 # linear sum for now since it will be much faster to import and have comparable run times with its
 # current use cases
-def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list[str|None]) -> list[tuple[str, str, float]]:
+def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list[str|None]) -> tuple[list[tuple[str, str, float]], int]:
     """Uses the Hungarian algorithm to find the pair of two words that are the
     closest match to each other from two lists.
 
@@ -108,7 +110,8 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
 
     Returns:
         A list of tuples containing the two words that are the best match and a score
-        representing how closely they match
+        representing how closely they match. After that it returns a value representing
+        the number of possible prefixes that were found
     """   
     print(f"Input lists for identify matches in Python: \nlist_one: {list_one} \nlist_two: {list_two}")
     modified_scores = tiebreak_matches_consistently(scores)
@@ -126,7 +129,17 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
             # This rounding and typecasting to a float is needed to make it match the TypeScript output in tests
             matchup_score = float(round_in_a_normal_way(scores[i, j]))
             best_combinations.append((list_one[i], list_two[j], matchup_score))
-    return best_combinations
+        
+    # For each of the best combinations, we now need to note how many are a combo containing a possible prefix
+    possible_prefixes = [
+        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
+        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
+    ]
+    possible_prefix_count = 0
+    for found_combination in best_combinations:
+        if (found_combination[0] in possible_prefixes) or (found_combination[1] in possible_prefixes):
+            possible_prefix_count = possible_prefix_count + 1
+    return (best_combinations, possible_prefix_count)
 
 def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, name_two_edited:str) -> tuple[float, list[tuple[str, str, float]], list[tuple[str, str, float]]]:
     """Calculates how much editing a name or both names improved the score in comparison to the original names,
@@ -142,19 +155,34 @@ def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, 
         A tuple containing the score of how much the edits improved the comparison (can be negative), 
         the word combos of the original, and the word combos of the edited verison
     """
-    name_one_ipa = get_ipa(name_one)
-    name_two_ipa = get_ipa(name_two)
-    original_word_combos = find_word_matches_and_quality(name_one_ipa, name_two_ipa)
-    name_one_edited_ipa = get_ipa(name_one_edited)
-    name_two_edited_ipa = get_ipa(name_two_edited)
-    edited_word_combos = find_word_matches_and_quality(name_one_edited_ipa, name_two_edited_ipa)
+    # First run a quick check on it to see how the spelling changes line up
+    original_word_combos, possible_prefix_count = find_word_matches_and_quality(name_one, name_two)
+    edited_word_combos, possible_edited_prefix_count = find_word_matches_and_quality(name_one_edited, name_two_edited)
     if (not original_word_combos) or (not edited_word_combos):
         return 0, original_word_combos, edited_word_combos
     original_average_score = sum(tup[2] for tup in original_word_combos) / len(original_word_combos)
     edited_average_score = sum(tup[2] for tup in edited_word_combos) / len(edited_word_combos)
     diff = edited_average_score - original_average_score
-    
-    print(f"End result of calculating edit improvements in Python: name_one - {name_one} name_one_ipa - {name_one_ipa} name_two - {name_two} name_two_ipa - {name_two_ipa} original_average_score - {original_average_score} name_one_edited - {name_one_edited} name_one_edited_ipa - {name_one_edited_ipa} name_two_edited - {name_two_edited} name_two_edited_ipa - {name_one_edited_ipa} edited_average_score - {edited_average_score} diff - {diff}")
+
+    print(f"Checkpoint for calculating edit improvements in Python: name_one - {name_one} name_two - {name_two} original_average_score - {original_average_score} name_one_edited - {name_one_edited} name_two_edited - {name_two_edited} edited_average_score - {edited_average_score} diff - {diff}")
+
+    if diff < 0:
+        return diff, original_word_combos, edited_word_combos
+
+    # If it passes the first set, we want to make sure that it also works with the pronunciations
+    name_one_ipa = get_ipa(name_one)
+    name_two_ipa = get_ipa(name_two)
+    original_word_combos, possible_prefix_count = find_word_matches_and_quality(name_one_ipa, name_two_ipa)
+    name_one_edited_ipa = get_ipa(name_one_edited)
+    name_two_edited_ipa = get_ipa(name_two_edited)
+    edited_word_combos, possible_edited_prefix_count = find_word_matches_and_quality(name_one_edited_ipa, name_two_edited_ipa)
+    if (not original_word_combos) or (not edited_word_combos):
+        return 0, original_word_combos, edited_word_combos
+    original_average_score = sum(tup[2] for tup in original_word_combos) / len(original_word_combos)
+    edited_average_score = sum(tup[2] for tup in edited_word_combos) / len(edited_word_combos)
+    diff = edited_average_score - original_average_score
+
+    print(f"End result of calculating edit improvements in Python: name_one - {name_one} name_one_ipa - {name_one_ipa} name_two - {name_two} name_two_ipa - {name_two_ipa} original_average_score - {original_average_score} name_one_edited - {name_one_edited} name_one_edited_ipa - {name_one_edited_ipa} name_two_edited - {name_two_edited} name_two_edited_ipa - {name_two_edited_ipa} edited_average_score - {edited_average_score} diff - {diff}")
     return diff, original_word_combos, edited_word_combos
 
 def get_matching_words_and_indices(name_one:str, name_two:str) -> list[tuple[int, int, str, str]]:
@@ -168,7 +196,7 @@ def get_matching_words_and_indices(name_one:str, name_two:str) -> list[tuple[int
         A list of tuples containing which words match. The tuples contain the index of a matching word in name_one, 
         the index of a matching word in name_two, the matching word in name_one, and the matching word in name_two
     """        
-    combo = find_word_matches_and_quality(name_one, name_two)
+    combo, possible_prefix_count = find_word_matches_and_quality(name_one, name_two)
     words_in_name_one = name_one.split()
     words_in_name_two = name_two.split()
 

@@ -67,7 +67,7 @@ def remove_word_or_from_names(name_one:str, name_two:str) -> tuple[str, str]:
 
         if not right_name_one:
             right_name_one = '_'
-        right_word_combos = find_word_matches_and_quality(right_name_one, name_two)
+        right_word_combos, possible_right_prefix_count = find_word_matches_and_quality(right_name_one, name_two)
         right_average_score = sum(tup[2] for tup in right_word_combos) / len(right_word_combos)
 
         # Gets the score for if the word after 'or' is removed
@@ -75,7 +75,7 @@ def remove_word_or_from_names(name_one:str, name_two:str) -> tuple[str, str]:
 
         if not left_name_one:
             left_name_one = '_'
-        left_word_combos =  find_word_matches_and_quality(left_name_one, name_two)
+        left_word_combos, possible_left_prefix_count =  find_word_matches_and_quality(left_name_one, name_two)
         left_average_score = sum(tup[2] for tup in left_word_combos) / len(left_word_combos)
 
         # Return the higher one
@@ -89,14 +89,14 @@ def remove_word_or_from_names(name_one:str, name_two:str) -> tuple[str, str]:
 
         if not right_name_two:
             right_name_two = '_'
-        right_word_combos = find_word_matches_and_quality(right_name_two, name_one)
+        right_word_combos, possible_right_prefix_count = find_word_matches_and_quality(right_name_two, name_one)
         right_average_score = sum(tup[2] for tup in right_word_combos) / len(right_word_combos)
 
         # Gets the score for if the word after 'or' is removed
         left_name_two = re_sub(" or [a-z]+", " ", name_two)
         if not left_name_two:
             left_name_two = '_'
-        left_word_combos =  find_word_matches_and_quality(left_name_two, name_one)
+        left_word_combos, possible_left_prefix_count =  find_word_matches_and_quality(left_name_two, name_one)
         left_average_score = sum(tup[2] for tup in left_word_combos) / len(left_word_combos)
 
         # Return the higher one

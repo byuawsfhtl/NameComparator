@@ -28,7 +28,9 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
 
     console.error(`Comparing spelling for ${nameOne} and ${nameTwo} in TypeScript`);
 
-    const wordCombos = findWordMatchesAndQuality(nameOne, nameTwo);
+    const [wordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
+
+    console.error(`Word combos for compare spelling in TypeScript: ${wordCombos}`);
 
     let count = 0;
     let combinedScores = 0;
@@ -47,8 +49,8 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
         averagedScores = combinedScores / wordCombos.length;
     };
 
-    if (count >= numberOfValidCombosToSkipFurtherChecks && (count === minimumLength || count === minimumLength - 1)) {
-        console.error(`Determined to return true in TypeScript. Current variables: count - ${count} numberOfValidCombosToSkipFurtherChecks - ${numberOfValidCombosToSkipFurtherChecks}, minimumLength - ${minimumLength}`);
+    if (count >= numberOfValidCombosToSkipFurtherChecks && (count >= minimumLength - possiblePrefixCount)) {
+        console.error(`Determined to return true in TypeScript. Current variables: count - ${count} numberOfValidCombosToSkipFurtherChecks - ${numberOfValidCombosToSkipFurtherChecks} minimumLength - ${minimumLength} possiblePrefixCount - ${possiblePrefixCount}`);
         return [true, wordCombos, averagedScores];
     };
 
@@ -87,14 +89,14 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
         // Get the words as consonants
         const consonantsInNameOne = _reduceToSimpleConsonants(wordOne);
         const consonantsInNameTwo = _reduceToSimpleConsonants(wordTwo);
-        const consonantRatio = fuzzball_ratio(consonantsInNameOne, consonantsInNameTwo, { full_process: false });
+        let consonantRatio = fuzzball_ratio(consonantsInNameOne, consonantsInNameTwo, { full_process: false });
 
         console.error(`Consonants in each name in TypeScript - nameOne: ${consonantsInNameOne}  nameTwo: ${consonantsInNameTwo}`);
         console.error(`Consonant ratio in TypeScript: ${consonantRatio}`);
         
         // Continue if bad match
         if (originalScoreForWords <= guaranteedFailScore) {
-            console.error("Below guaranteed fail score");
+            console.error("Below guaranteed fail score in TypeScript");
             continue;
         };
         if (wordOne.length !== 1 && wordTwo.length !== 1) { // # If neither word is an initial
@@ -102,14 +104,19 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
                 consonantsInNameOne.split('*').length - 1,
                 consonantsInNameTwo.split('*').length - 1
             );
-            console.error(`Lowest syllable count for words is ${lowestSyllableCount}`);
+            console.error(`Lowest syllable count for words is ${lowestSyllableCount} in TypeScript`);
             if (lowestSyllableCount < 2) {
-                console.error("Syllable count was too low");
-                continue
+                console.error("Syllable count was too low in TypeScript");
+                continue;
+            };
+        } else {
+            if ((wordOne.length === 1 && wordOne === wordTwo[0]) || (wordTwo.length === 1 && wordTwo === wordOne[0])){
+                console.error("Updated consonant ratio due to initials in TypeScript");
+                consonantRatio = 80;
             };
         };
         if (((consonantRatio < guaranteedPassingScore) || (originalScoreForWords < furtherChecksNeededScore)) && (consonantRatio !== maxScore)) {
-            console.error(`Failed big check where consonantRatio = ${consonantRatio}, guaranteedPassingScore = ${guaranteedPassingScore}, originalScoreForWords = ${originalScoreForWords}, furtherChecksNeededScore = ${furtherChecksNeededScore}, and maxScore = ${maxScore}`);
+            console.error(`Failed big check in TypeScript where consonantRatio = ${consonantRatio}, guaranteedPassingScore = ${guaranteedPassingScore}, originalScoreForWords = ${originalScoreForWords}, furtherChecksNeededScore = ${furtherChecksNeededScore}, and maxScore = ${maxScore}`);
             continue;
         };
 
@@ -125,8 +132,8 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
 
     // If there are enough matches, return true and a score. Otherwise return false and a score
     console.error(`Number of consonant matches in TypeScript: ${numberOfConsonantMatches}`);
-    console.error(`Result of consonant comparison in TypeScript: ${[((numberOfConsonantMatches > minimumRequiredMatches) || (numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks)), averageScore]}`);
-    return [((numberOfConsonantMatches > minimumRequiredMatches) || (numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks)), averageScore];
+    console.error(`Result of consonant comparison in TypeScript: ${[((numberOfConsonantMatches >= minimumRequiredMatches) || (numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks)), averageScore]}`);
+    return [((numberOfConsonantMatches >= minimumRequiredMatches) || (numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks)), averageScore];
 };
 
 /**
@@ -169,7 +176,7 @@ export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: stri
     let scores = mathjs_matrix_function(mathjs_zeros([wordsFromIpaOne.length, wordsFromIpaTwo.length])) as mathjs_matrix_class;
     
     // Score each matchup
-    var wordCombosForScores = findWordMatchesAndQuality(nameOne, nameTwo);
+    var [wordCombosForScores, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
     _matchupScores(wordCombosForScores, scores, wordsFromIpaOne, wordsFromIpaTwo);
     
     // Identify the best matchups
@@ -178,7 +185,8 @@ export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: stri
     // This next line differs from the python version, but it's only due to TypeScript typing
     // shennanigans. It's functionally the same
     let scoreMatrix : number[][] = scores.toArray() as number[][];
-    let wordCombos = identifyBestMatches(scoreMatrix, wordsFromIpaOne, wordsFromIpaTwo);
+    let wordCombos;
+    [wordCombos, possiblePrefixCount] = identifyBestMatches(scoreMatrix, wordsFromIpaOne, wordsFromIpaTwo);
     // This defaults the minimum score to 0 if there is no real minimum score, or sets it to the smalles one otherwise
     const lowestScore = wordCombos.length > 0 ? mathjs_min(...wordCombos.map((tuple: [string, string, number]) => tuple[2])) : 0;
     

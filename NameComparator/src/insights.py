@@ -10,7 +10,7 @@ def is_worth_continuing(name_one:str, name_two:str) -> bool:
     Returns:
         A boolean representing whether the names are worth working on further
     """        
-    word_combos = find_word_matches_and_quality(name_one, name_two)
+    word_combos, possible_prefix_count = find_word_matches_and_quality(name_one, name_two)
     one_letter_match_fail_count = 0
     for match in word_combos:
         word_one = name_one[int(match[0])]
@@ -32,6 +32,6 @@ def either_name_too_short(name_one:str, name_two:str) -> bool:
     Returns:
         A boolean representing if either name was too short
     """        
-    combo = find_word_matches_and_quality(name_one, name_two)
+    combo, possible_prefix_count = find_word_matches_and_quality(name_one, name_two)
     shortest_word_count = len(combo)
     return shortest_word_count < 2

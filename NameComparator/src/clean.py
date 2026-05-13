@@ -607,12 +607,12 @@ def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = 
         edits_made = True
     
     # If nothing was changed above, this will simply remove the prefixes since they likely don't matter
-    print(f"Names before prefix removal in Python: {name_one_edited}, {name_two_edited}")
-    name_one_edited = name_one_edited.replace(space_then_prefix_then_space, " ")
-    name_two_edited = name_two_edited.replace(space_then_prefix_then_space, " ")
-    print(f"Names after prefix removal in Python: {name_one_edited}, {name_two_edited}")
-    name_one_edited = re_sub(r"\s+", " ", name_one_edited)
-    name_two_edited = re_sub(r"\s+", " ", name_two_edited)
+    # print(f"Names before prefix removal in Python: {name_one_edited}, {name_two_edited}")
+    # name_one_edited = name_one_edited.replace(space_then_prefix_then_space, " ")
+    # name_two_edited = name_two_edited.replace(space_then_prefix_then_space, " ")
+    # print(f"Names after prefix removal in Python: {name_one_edited}, {name_two_edited}")
+    # name_one_edited = re_sub(r"\s+", " ", name_one_edited)
+    # name_two_edited = re_sub(r"\s+", " ", name_two_edited)
 
     print(f"In Python, for the names {name_one_edited} and {name_two_edited}, the first edit check has the value {edits_made}")
 

@@ -11,10 +11,12 @@ export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemo
  * 
  * @param nameOne - The first name to check for matches
  * @param nameTwo - The second name to check for matches
- * @returns A list of tuples idenifying the index of the word in the first name,
-            the index of the word in the second name, and the score of how well they match
+ * @returns A list of lists idenifying the index of the word in the first name,
+ *          the index of the word in the second name, and the score of how well 
+ *          they match. After that it returns a value representing the number 
+ *          of possible prefixes in the name
  */
-function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [string, string, number][] {
+function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [[string, string, number][], number] {
 
     console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
 
@@ -105,9 +107,11 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
  * @param listTwo - a list of indices as strings or null
  * 
  * @returns A list of lists containing the two words that are the best match 
- *          and a score representing how closely they match
+ *          and a score representing how closely they match After that it 
+ *          returns a value representing the number of possible prefixes that 
+ *          were found
  */
-export function identifyBestMatches(scores: number[][], listOne: string[], listTwo: string[]) : [string, string, number][] {
+export function identifyBestMatches(scores: number[][], listOne: string[], listTwo: string[]) : [[string, string, number][], number] {
 // Note that as a part of updating this function, I opted for a more well-tested external
 // package for our hungarian algorithm (also known as the munkres algorithm). If it is
 // ever necessary to revert for some reason, see the hungarian.ts file before any of the
@@ -119,7 +123,7 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
     console.error(`Checking that negated scores look the same in TypeScript: ${negatedScores}`);
     const hungarian_pairs_list = munkres(negatedScores);
     console.error(`Hungarian pairs list in TypeScript: \n${hungarian_pairs_list}`);
-    let bestCombination: [string, string, number][] = [];
+    let bestCombinations: [string, string, number][] = [];
     for (let index = 0; index < hungarian_pairs_list.length; index++) {
         const i = hungarian_pairs_list[index][0];
         const j = hungarian_pairs_list[index][1];
@@ -131,11 +135,23 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
             continue;
         } else if (wordOne !== null && wordTwo !== null && wordOne !== "" && wordTwo !== "") {
           const matchupScore = scores[i][j];
-          bestCombination.push([wordOne, wordTwo, matchupScore]);
+          bestCombinations.push([wordOne, wordTwo, matchupScore]);
         };
     };
 
-    return bestCombination;
+    // For each of the best combinations, we now need to note how many are a combo containing a possible prefix
+    const possiblePrefixes = [
+        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
+        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
+    ];
+    let possiblePrefixCount = 0;
+    for (const foundCombination of bestCombinations){
+        if ((possiblePrefixes.includes(foundCombination[0])) || (possiblePrefixes.includes(foundCombination[1]))){
+            possiblePrefixCount = possiblePrefixCount + 1;
+        };
+    };
+
+    return [bestCombinations, possiblePrefixCount];
 };
 
 /**
@@ -150,18 +166,35 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
  *          the word combos of the original, and the word combos of the edited version
  */
 export function calculateEditImprovement(nameOne : string, nameTwo : string, nameOneEdited :string, nameTwoEdited : string): [number, [string, string, number][], [string, string, number][]] {
-    let nameOneIpa = getIpa(nameOne);
-    let nameTwoIpa = getIpa(nameTwo);
-    let originalWordCombos = findWordMatchesAndQuality(nameOneIpa, nameTwoIpa);
-    let nameOneEditedIpa = getIpa(nameOneEdited);
-    let nameTwoEditedIpa = getIpa(nameTwoEdited)
-    let editedWordCombos = findWordMatchesAndQuality(nameOneEditedIpa, nameTwoEditedIpa);
+
+    let [originalWordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
+    let [editedWordCombos, possibleEditedPrefixCount] = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
     if(!originalWordCombos.length || !editedWordCombos.length) {
         return [0, originalWordCombos, editedWordCombos]
     };
-    const originalAverageScore = originalWordCombos.reduce((sum, [, , score]) => sum + score, 0) / originalWordCombos.length;
-    const editedAverageScore = editedWordCombos.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombos.length;
-    const diff = editedAverageScore - originalAverageScore;
+    let originalAverageScore = originalWordCombos.reduce((sum, [, , score]) => sum + score, 0) / originalWordCombos.length;
+    let editedAverageScore = editedWordCombos.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombos.length;
+    let diff = editedAverageScore - originalAverageScore;
+
+    console.error(`Checkpoint for calculating edit improvements in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo} originalAverageScore - ${originalAverageScore} nameOneEdited - ${nameOneEdited} nameTwoEdited - ${nameTwoEdited} editedAverageScore - ${editedAverageScore} diff - ${diff}`);
+
+    if (diff < 0){
+        return [diff, originalWordCombos, editedWordCombos];
+    };
+
+    // If it passes the first set, we want to make sure that it also works with the pronunciations
+    const nameOneIpa = getIpa(nameOne);
+    const nameTwoIpa = getIpa(nameTwo);
+    [originalWordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOneIpa, nameTwoIpa);
+    const nameOneEditedIpa = getIpa(nameOneEdited);
+    const nameTwoEditedIpa = getIpa(nameTwoEdited);
+    [editedWordCombos, possibleEditedPrefixCount] = findWordMatchesAndQuality(nameOneEditedIpa, nameTwoEditedIpa);
+    if(!originalWordCombos.length || !editedWordCombos.length) {
+        return [0, originalWordCombos, editedWordCombos]
+    };
+    originalAverageScore = originalWordCombos.reduce((sum, [, , score]) => sum + score, 0) / originalWordCombos.length;
+    editedAverageScore = editedWordCombos.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombos.length;
+    diff = editedAverageScore - originalAverageScore;
 
     console.error(`End result of calculating edit improvements in TypeScript: nameOne - ${nameOne} nameOneIpa - ${nameOneIpa} nameTwo - ${nameTwo} nameTwoIpa - ${nameTwoIpa} originalAverageScore - ${originalAverageScore} nameOneEdited - ${nameOneEdited} nameOneEditedIpa - ${nameOneEditedIpa} nameTwoEdited - ${nameTwoEdited} nameTwoEditedIpa - ${nameOneEditedIpa} editedAverageScore - ${editedAverageScore} diff - ${diff}`);
     return [diff, originalWordCombos, editedWordCombos];
@@ -178,7 +211,7 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
  *          word in name_two
  */
 export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): [number, number, string, string][] {
-    let combo = findWordMatchesAndQuality(nameOne, nameTwo);
+    let [combo, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
     let wordsInNameOne = nameOne.trim().split(/\s+/);
     let wordsInNameTwo = nameTwo.trim().split(/\s+/);
     let matchIndices : [number, number][] = combo.map(
