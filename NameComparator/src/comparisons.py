@@ -60,12 +60,12 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
         return True, word_combos, averaged_scores
     
     # Determine if it matches on consonants or not if the whole fuzzy string comparison is unclear
-    is_consonant_match, consonant_match_score = _consonant_comparison(name_one, name_two, word_combos)
+    is_consonant_match, consonant_match_score = _consonant_comparison(name_one, name_two, word_combos, possible_prefix_count)
 
     # Return the values, averaging the score and slightly favoring the initial fuzzy string match ones
     return is_consonant_match, word_combos, ((averaged_scores * fuzzy_comparison_weight) + (consonant_match_score * consonant_comparison_weight))
 
-def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[str, str, float]]) -> tuple[bool, float]:
+def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[str, str, float]], possible_prefix_count: int) -> tuple[bool, float]:
     """Identifies if two names are a match according to consonant comparison and
     determines a score representing how closely the contonants line up according
     to a fuzzy match comparison for all of the accepted word combos.
@@ -84,10 +84,12 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
     print(f"Comparing consonants for {name_one} and {name_two} in Python")
 
     # Setup
-    minimum_required_matches = len(word_combos)
+    minimum_required_matches = len(word_combos) - possible_prefix_count
     number_of_consonant_matches = 0
     combined_scores_based_on_consonant_fuzzy_matches = 0
     average_score = 0
+
+    print(f"Determined the minimum number of required matches is {minimum_required_matches} in Python")
 
     # Loop through every word match in the combo
     for tup in word_combos:
@@ -108,12 +110,12 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         if original_score_for_words <= guaranteed_fail_score:
             print("Below guaranteed fail score in Python")
             continue
-        if (len(word_one) != 1) and (len(word_two) != 1): # If neither word is an initial
-            lowest_syllable_count = min(consonants_in_name_one.count("*"), consonants_in_name_two.count("*"))
-            print(f"Lowest syllable count for words is {lowest_syllable_count} in Python")
-            if lowest_syllable_count < 2:
-                print("Syllable count was too low in Python")
-                continue
+        # if (len(word_one) != 1) and (len(word_two) != 1): # If neither word is an initial
+        #     lowest_syllable_count = min(consonants_in_name_one.count("*"), consonants_in_name_two.count("*"))
+        #     print(f"Lowest syllable count for words is {lowest_syllable_count} in Python")
+        #     if lowest_syllable_count < 2:
+        #         print("Syllable count was too low in Python")
+        #         continue
         else:
             if (len(word_one) == 1 and word_one == word_two[0]) or (len(word_two) == 1 and word_two == word_one[0]):
                 print("Updated consonant ratio due to initials in Python")
@@ -181,7 +183,7 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
     # Identify the best matchups
     words_from_ipa_one = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_one)]
     words_from_ipa_two = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_two)]
-    word_combos, possible_prefix_count = identify_best_matches(scores=scores, list_one=words_from_ipa_one, list_two=words_from_ipa_two)
+    word_combos = identify_best_matches(scores=scores, list_one=words_from_ipa_one, list_two=words_from_ipa_two)
     # This defaults the minimum score to 0 if there is no real minimum score, or sets it to the smalles one otherwise
     lowest_score = min(word_combos, key=lambda tuple: tuple[2])[2] if min(word_combos, key=lambda tuple: tuple[2])[2] else 0
     

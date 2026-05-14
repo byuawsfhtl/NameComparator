@@ -3,6 +3,7 @@ import munkres from 'munkres-js';
 import memoize from 'memoizee';
 import { string } from 'mathjs';
 import { getIpa } from './ipa.js';
+import { warn } from 'console';
 
 // Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
 export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemoized, {max: 1000});
@@ -38,6 +39,10 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
 
     console.error(`Found the list of words in the names in TypeScript. \nwordsInNameOne: ${wordsInNameOne} \nwordsInNameTwo: ${wordsInNameTwo}`);
 
+    // We need to keep track of the matchups that return an initial in case there is another, more complete match
+    let scoreWarnings = [];
+    let notInitialNearlyPerfectScores = [];
+
     // Score each matchup
     for (let i = 0; i < wordsInNameOne.length; i++) {
         const wordOne = wordsInNameOne[i];
@@ -49,16 +54,51 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
                 continue;
             };
             // Determine the score of the word pairing
-            const score = _determineScoreOfWordMatchup(wordOne, wordTwo);
-            console.error(`TypeScript determined score of matchup for ${wordOne} and ${wordTwo} for this run is ${score}`)
+            const [score, warning] = _determineScoreOfWordMatchup(wordOne, wordTwo);
+            console.error(`TypeScript determined score of matchup for ${wordOne} and ${wordTwo} for this run is ${score}`);
+            if (warning === true){
+                scoreWarnings.push([i, j]);
+            };
+            if (score >= 95){
+                notInitialNearlyPerfectScores.push([i, j]);
+            };
             // Add the score
             scores[i][j] = score;
         };
     };
+
+    // This ensures that in a name pair like ben l love and ben del love the two loves will
+    // be a better match than l and love, which is also technically a 100 but less accurate
+    // than 'love' and 'love'
+    for (const warningToCheck of scoreWarnings){
+        // If there's a perfect full name match, we want to penalize the score of the initial
+        // since we want the other nearly perfect matches to take priority
+        if (notInitialNearlyPerfectScores[0].includes(warningToCheck[0])){
+            scores[warningToCheck[0]][warningToCheck[1]] = 0;
+        } else if (notInitialNearlyPerfectScores[1].includes(warningToCheck[1])){
+            scores[warningToCheck[0]][warningToCheck[1]] = 0;
+        };
+    };
     
+    // Identify the best matchups
     const finalWordsInNameOne = wordsInNameOne.map((word, i) => ((word !== null && word !== '') ? String(i) : ''));
-    const finalWordsInNameTwo = wordsInNameTwo.map((word, i) => ((word !== null && word !== '') ? String(i) : ''));        
-    return identifyBestMatches(scores, finalWordsInNameOne, finalWordsInNameTwo);
+    const finalWordsInNameTwo = wordsInNameTwo.map((word, i) => ((word !== null && word !== '') ? String(i) : ''));
+
+    const bestCombinations = identifyBestMatches(scores, finalWordsInNameOne, finalWordsInNameTwo);
+
+    // For each of the best combinations, we now need to note how many are a combo containing a possible prefix
+    const possiblePrefixes = [
+        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
+        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
+    ];
+    let possiblePrefixCount = 0;
+    for (const foundCombination of bestCombinations){
+        if (((possiblePrefixes.includes(wordsInNameOne[Number(foundCombination[0])])) === true) || (possiblePrefixes.includes(wordsInNameTwo[Number(foundCombination[1])]) === true)){
+            possiblePrefixCount = possiblePrefixCount + 1;
+        };
+    };
+
+    return [bestCombinations, possiblePrefixCount];
 };
 
 /**
@@ -73,7 +113,9 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
  * 
  * @returns An integer representing the score to be added to the word pairing
  */
-function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number {
+function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): [number, boolean] {
+
+    let warningFlag = false;
 
     let score: number;
     // If either of the scores is empty, it should be fine to say it's a match
@@ -82,7 +124,12 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
         score = 100;
 
     } else if (wordOne.length === 1 || wordTwo.length === 1) { // Assign the score this way if either is initial
-        score = wordOne[0] === wordTwo[0] ? 100 : 0;
+        if (wordOne[0] === wordTwo[0]){
+            score = 100;
+            warningFlag = true;
+        } else {
+            score = 0
+        };
 
     } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
         const ratio = fuzzball_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
@@ -95,7 +142,7 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
         };
     };
 
-    return score;
+    return [score, warningFlag];
 }
 
 /**
@@ -107,11 +154,9 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
  * @param listTwo - a list of indices as strings or null
  * 
  * @returns A list of lists containing the two words that are the best match 
- *          and a score representing how closely they match After that it 
- *          returns a value representing the number of possible prefixes that 
- *          were found
+ *          and a score representing how closely they match
  */
-export function identifyBestMatches(scores: number[][], listOne: string[], listTwo: string[]) : [[string, string, number][], number] {
+export function identifyBestMatches(scores: number[][], listOne: string[], listTwo: string[]) : [string, string, number][]{
 // Note that as a part of updating this function, I opted for a more well-tested external
 // package for our hungarian algorithm (also known as the munkres algorithm). If it is
 // ever necessary to revert for some reason, see the hungarian.ts file before any of the
@@ -139,19 +184,7 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
         };
     };
 
-    // For each of the best combinations, we now need to note how many are a combo containing a possible prefix
-    const possiblePrefixes = [
-        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
-        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
-    ];
-    let possiblePrefixCount = 0;
-    for (const foundCombination of bestCombinations){
-        if ((possiblePrefixes.includes(foundCombination[0])) || (possiblePrefixes.includes(foundCombination[1]))){
-            possiblePrefixCount = possiblePrefixCount + 1;
-        };
-    };
-
-    return [bestCombinations, possiblePrefixCount];
+    return bestCombinations;
 };
 
 /**
@@ -302,7 +335,7 @@ export function partialRatioWithParity(stringOne: string, stringTwo:string): num
     return Math.round(bestScore);
 };
 
-function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: number = 1e-3){
+function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: number = 1e-4){
     const rows = inputMatrix.length;
     const columns = inputMatrix[0].length;
     return inputMatrix.map((row, i) =>

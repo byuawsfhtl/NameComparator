@@ -55,7 +55,7 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
     };
 
     // Determine if it matches on consonants or not if the whole fuzzy string comparison is unclear
-    const [isConsonantMatch, consonantMatchScore] = _consonantComparison(nameOne, nameTwo, wordCombos);
+    const [isConsonantMatch, consonantMatchScore] = _consonantComparison(nameOne, nameTwo, wordCombos, possiblePrefixCount);
 
     // Return the values, averaging the score and slightly favoring the initial fuzzy string match ones
     return [isConsonantMatch, wordCombos, ((averagedScores * fuzzyComparisonWeight) + (consonantMatchScore * consonantComparisonWeight))];
@@ -69,15 +69,17 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
  * @param wordCombos - The word combos of the names, as found in compare_spelling
  * @returns Whether the two names are a match, according to consonant comparison
  */
-function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [string, string, number][]): [boolean, number] {
+function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [string, string, number][], possiblePrefixCount: number): [boolean, number] {
     // Setup
 
     console.error(`Comparing consonants for ${nameOne} and ${nameTwo} in TypeScript`);
 
-    const minimumRequiredMatches = wordCombos.length;
+    const minimumRequiredMatches = wordCombos.length - possiblePrefixCount;
     let numberOfConsonantMatches = 0;
     let combinedScoresBasedOnConsonantFuzzyMatches = 0;
     let averageScore = 0;
+
+    console.error(`Determined minimum number of required matches is ${minimumRequiredMatches} in TypeScript`);
 
     // Loop through every word match in the combo
     for (const tup of wordCombos) {
@@ -98,17 +100,17 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
         if (originalScoreForWords <= guaranteedFailScore) {
             console.error("Below guaranteed fail score in TypeScript");
             continue;
-        };
-        if (wordOne.length !== 1 && wordTwo.length !== 1) { // # If neither word is an initial
-            const lowestSyllableCount = mathjs_min(
-                consonantsInNameOne.split('*').length - 1,
-                consonantsInNameTwo.split('*').length - 1
-            );
-            console.error(`Lowest syllable count for words is ${lowestSyllableCount} in TypeScript`);
-            if (lowestSyllableCount < 2) {
-                console.error("Syllable count was too low in TypeScript");
-                continue;
-            };
+        // };
+        // if (wordOne.length !== 1 && wordTwo.length !== 1) { // # If neither word is an initial
+        //     const lowestSyllableCount = mathjs_min(
+        //         consonantsInNameOne.split('*').length - 1,
+        //         consonantsInNameTwo.split('*').length - 1
+        //     );
+        //     console.error(`Lowest syllable count for words is ${lowestSyllableCount} in TypeScript`);
+        //     if (lowestSyllableCount < 2) {
+        //         console.error("Syllable count was too low in TypeScript");
+        //         continue;
+        //     };
         } else {
             if ((wordOne.length === 1 && wordOne === wordTwo[0]) || (wordTwo.length === 1 && wordTwo === wordOne[0])){
                 console.error("Updated consonant ratio due to initials in TypeScript");
@@ -185,8 +187,7 @@ export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: stri
     // This next line differs from the python version, but it's only due to TypeScript typing
     // shennanigans. It's functionally the same
     let scoreMatrix : number[][] = scores.toArray() as number[][];
-    let wordCombos;
-    [wordCombos, possiblePrefixCount] = identifyBestMatches(scoreMatrix, wordsFromIpaOne, wordsFromIpaTwo);
+    let wordCombos = identifyBestMatches(scoreMatrix, wordsFromIpaOne, wordsFromIpaTwo);
     // This defaults the minimum score to 0 if there is no real minimum score, or sets it to the smalles one otherwise
     const lowestScore = wordCombos.length > 0 ? mathjs_min(...wordCombos.map((tuple: [string, string, number]) => tuple[2])) : 0;
     

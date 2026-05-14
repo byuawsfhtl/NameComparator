@@ -37,6 +37,10 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
 
     print(f"Found the list of words in the names in Python. \nwords_in_name_one: {words_in_name_one} \nwords_in_name_two: {words_in_name_two}")
 
+    # We need to keep track of the matchups that return an initial in case there is another, more complete match
+    score_warnings = []
+    not_initial_nearly_perfect_scores = []
+
     # Score each matchup
     for i, word_one in enumerate(words_in_name_one):
         for j, word_two in enumerate(words_in_name_two):
@@ -45,17 +49,48 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
             if (word_one is None) or (word_two is None) or (word_one == '') or (word_two == ''):
                 continue
             # Determine the score of the word pairing
-            score = _determine_score_of_word_matchup(word_one, word_two)
+            score, warning = _determine_score_of_word_matchup(word_one, word_two)
             print(f"Python determined score of matchup for {word_one} and {word_two} for this run is {score}")
             # Add the score
+            if warning:
+                score_warnings.append((i, j))
+            if score >= 95:
+                not_initial_nearly_perfect_scores.append((i, j))
             scores[i, j] = score
-    
+
+    # This ensures that in a name pair like ben l love and ben del love the two loves will
+    # be a better match than l and love, which is also technically a 100 but less accurate
+    # than 'love' and 'love'
+    for warning_to_check in score_warnings:
+        # If there's a perfect full name match, we want to penalize the score of the initial
+        # since we want the other nearly perfect matches to take priority
+        if warning_to_check[0] in not_initial_nearly_perfect_scores[0]:
+            scores[warning_to_check[0], warning_to_check[1]] = 0
+        elif warning_to_check[1] in not_initial_nearly_perfect_scores[1]:
+            new_score_for_initial_pairing = 100 / len(words_in_name_one[warning_to_check[0]])
+            scores[warning_to_check[0], warning_to_check[1]] = 0
+
     # Identify the best matchups
     final_words_in_name_one: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_one)]
     final_words_in_name_two: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_two)]
-    return identify_best_matches(scores=scores, list_one=final_words_in_name_one, list_two=final_words_in_name_two)
 
-def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
+    best_combinations = identify_best_matches(scores=scores, list_one=final_words_in_name_one, list_two=final_words_in_name_two)
+
+    # For each of the best combinations, we now need to note how many are a combo containing a possible prefix
+    possible_prefixes = [
+        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
+        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
+    ]
+    possible_prefix_count = 0
+    for found_combination in best_combinations:
+        print(f"Checking the combination {found_combination} for prefixes in Python")
+        if (words_in_name_one[int(found_combination[0])] in possible_prefixes) or (words_in_name_two[int(found_combination[1])] in possible_prefixes):
+            print(f"Determined that there was a possible prefix in the combination {found_combination} in Python")
+            possible_prefix_count = possible_prefix_count + 1
+
+    return best_combinations, possible_prefix_count
+
+def _determine_score_of_word_matchup(word_one: str, word_two: str) -> tuple[int, bool]:
     """This is a helper function for find_word_matches_and_quality to fix its
     nesting depth. What it does is it takes in a word and an integer
     representation of a list position for two different words. Then it
@@ -67,8 +102,11 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
         word_two: The second word used in the comparison and scoring
     
     Returns:
-        An integer representing the score to be added to the word pairing
+        A tuple with an integer representing the score to be added to the 
+        word pairing and a warning if the name was an initial
     """
+
+    warning_flag = False
 
     # If either of the scores is empty, it should be fine to say it's a match
     # with the empty space
@@ -79,6 +117,7 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
     elif (len(word_one) == 1) or (len(word_two) == 1):
         if (word_one[0] == word_two[0]):
             score = 100
+            warning_flag = True
         else:
             score = 0
 
@@ -92,14 +131,14 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> int:
         else:
             score = ratio
 
-    return score
+    return score, warning_flag
 
 # This function is only used in a single location, for small lists. Specifically, it is only reached if
 # the compare_two_names function is called in NameComparator. If this changes it might be worth changing 
 # this function to use the scipy.optimize linear_sum_assignment again. I changed it to use the munkres 
 # linear sum for now since it will be much faster to import and have comparable run times with its
 # current use cases
-def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list[str|None]) -> tuple[list[tuple[str, str, float]], int]:
+def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list[str|None]) -> list[tuple[str, str, float]]:
     """Uses the Hungarian algorithm to find the pair of two words that are the
     closest match to each other from two lists.
 
@@ -110,14 +149,13 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
 
     Returns:
         A list of tuples containing the two words that are the best match and a score
-        representing how closely they match. After that it returns a value representing
-        the number of possible prefixes that were found
+        representing how closely they match
     """   
     print(f"Input lists for identify matches in Python: \nlist_one: {list_one} \nlist_two: {list_two}")
     modified_scores = tiebreak_matches_consistently(scores)
-    print(f'Making sure that matches tiebreak as expected. Python tiebroken scores: {modified_scores}')
+    print(f'Making sure that matches tiebreak as expected. Python tiebroken scores: \n{modified_scores}')
     linear_sum_class = MakeMunkresConsistentWithTypeScript()     
-    print(f"Checking that negated scores look the same in Python: {-modified_scores}")
+    print(f"Checking that negated scores look the same in Python: \n{-modified_scores}")
     hungarian_pairs_list = linear_sum_class.compute((-modified_scores).tolist())
     print(f"Hungarian pairs list in Python: \n{hungarian_pairs_list}")
     best_combinations = []
@@ -130,16 +168,7 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
             matchup_score = float(round_in_a_normal_way(scores[i, j]))
             best_combinations.append((list_one[i], list_two[j], matchup_score))
         
-    # For each of the best combinations, we now need to note how many are a combo containing a possible prefix
-    possible_prefixes = [
-        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
-        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
-    ]
-    possible_prefix_count = 0
-    for found_combination in best_combinations:
-        if (found_combination[0] in possible_prefixes) or (found_combination[1] in possible_prefixes):
-            possible_prefix_count = possible_prefix_count + 1
-    return (best_combinations, possible_prefix_count)
+    return best_combinations
 
 def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, name_two_edited:str) -> tuple[float, list[tuple[str, str, float]], list[tuple[str, str, float]]]:
     """Calculates how much editing a name or both names improved the score in comparison to the original names,
@@ -277,7 +306,7 @@ def partial_ratio_with_parity(string_one, string_two):
         best_score = max(best_score, new_score)
     return round_in_a_normal_way(best_score)
 
-def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 1e-3):
+def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 1e-4):
     rows, columns = input_matrix.shape
     new_matrix = []
     for i in range(rows):
