@@ -58,7 +58,7 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
                 continue
             # Determine the score of the word pairing
             score, warning = _determine_score_of_word_matchup(word_one, word_two)
-            print(f"Python determined score of matchup for {word_one} and {word_two} for this run is {score}")
+            print(f"Python determined score of matchup for {word_one} and {word_two} for this run is {score} and that the warning value is {warning}")
             # Add the score
             if warning:
                 score_warnings.append((i, j))
@@ -73,18 +73,17 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
         print(f"Performing warning check with the following variables in Python: warning_to_check - {warning_to_check} not_initial_nearly_perfect_scores - {not_initial_nearly_perfect_scores}")
         # If there's a perfect full name match, we want to penalize the score of the initial
         # since we want the other nearly perfect matches to take priority
-        if len(not_initial_nearly_perfect_scores) >= 1 and warning_to_check[0] in not_initial_nearly_perfect_scores[0]:
+        if (len(not_initial_nearly_perfect_scores) >= 1) and any(warning_to_check[0] == specific_score[0] for specific_score in not_initial_nearly_perfect_scores):
+            print("Failed the first warning check segment in Python")
             scores[warning_to_check[0], warning_to_check[1]] = 0
-        elif len(not_initial_nearly_perfect_scores) >= 2 and warning_to_check[1] in not_initial_nearly_perfect_scores[1]:
+        elif (len(not_initial_nearly_perfect_scores) >= 2) and any(warning_to_check[1] == specific_score[1] for specific_score in not_initial_nearly_perfect_scores):
+            print("Failed the second warning check segment in Python")
             scores[warning_to_check[0], warning_to_check[1]] = 0
         # If both of those are fine, we can likely add this warning as a possible odd exception
-        # NOTE: This could possible break some other logic, so just make that check before committing it
         elif words_in_name_one[warning_to_check[0]][0] == words_in_name_two[warning_to_check[1]][0] and len(words_in_name_one[warning_to_check[0]]) == len(words_in_name_two[warning_to_check[1]]):
             scores[warning_to_check[0], warning_to_check[1]] = 100
         elif words_in_name_one[warning_to_check[0]][0] == words_in_name_two[warning_to_check[1]][0]:
             scores[warning_to_check[0], warning_to_check[1]] = 85
-        # elif warning_to_check[0] == warning_to_check[1]:
-        #     scores[warning_to_check[0], warning_to_check[1]] = 95
 
     # Identify the best matchups
     final_words_in_name_one: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_one)]

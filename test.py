@@ -1,6 +1,6 @@
 from NameComparator.NameComparator import compare_two_names
 
-print(compare_two_names("alan v mcgee", "alan van keuren mcgee"))
+print(compare_two_names("angie t king", "angie lena turner king"))
 
 # # This should return false
 # check_one = compare_two_names("angela d oglesby", "dwayne la vergne oglesby")

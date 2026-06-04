@@ -58,7 +58,7 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
             };
             // Determine the score of the word pairing
             const [score, warning] = _determineScoreOfWordMatchup(wordOne, wordTwo);
-            console.error(`TypeScript determined score of matchup for ${wordOne} and ${wordTwo} for this run is ${score}`);
+            console.error(`TypeScript determined score of matchup for ${wordOne} and ${wordTwo} for this run is ${score} and that the warning value is ${warning}`);
             if (warning === true){
                 scoreWarnings.push([i, j]);
             } else if (score >= 95){
@@ -76,20 +76,18 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
         console.error(`Performing warning check with the following variables in TypeScript: warningToCheck - ${warningToCheck} notInitialNearlyPerfectScores - ${notInitialNearlyPerfectScores}`);
         // If there's a perfect full name match, we want to penalize the score of the initial
         // since we want the other nearly perfect matches to take priority
-        if ((notInitialNearlyPerfectScores.length >= 1) && (notInitialNearlyPerfectScores[0].includes(warningToCheck[0]))){
+        if ((notInitialNearlyPerfectScores.length >= 1) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[0] === specificScore[0]))){
+            console.error("Failed the first warning check segment in TypeScript");
             scores[warningToCheck[0]][warningToCheck[1]] = 0;
-        } else if ((notInitialNearlyPerfectScores.length >= 2) && (notInitialNearlyPerfectScores[1].includes(warningToCheck[1]))){
+        } else if ((notInitialNearlyPerfectScores.length >= 2) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[0] === specificScore[0]))){
+            console.error("Failed the second warning check segment in TypeScript");
             scores[warningToCheck[0]][warningToCheck[1]] = 0;
         // If both of those are fine, we can likely add this warning as a possible odd exception
-        // NOTE: This could possible break some other logic, so just make that check before committing it
         } else if ((wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]) && (wordsInNameOne[warningToCheck[0]].length === wordsInNameTwo[warningToCheck[1]].length)){
             scores[warningToCheck[0]][warningToCheck[1]] = 100;
         } else if (wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]){
             scores[warningToCheck[0]][warningToCheck[1]] = 85;
         };
-        // } else if (warningToCheck[0] === warningToCheck[1]){
-        //     scores[warningToCheck[0]][warningToCheck[1]] = 95;
-        // };
     };
     
     // Identify the best matchups
