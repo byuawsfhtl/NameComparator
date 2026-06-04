@@ -4,6 +4,8 @@ import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 
 import { calculateEditImprovement, getMatchingWordsAndIndices, NameEditor } from './usefulTools.js';
 import { compareSpelling } from './comparisons.js';
 
+import prefixList from '../../data/possiblePrefixList.json' with { type: "json"};
+
 /**
  * Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.
  * 
@@ -57,7 +59,7 @@ export function cleanName(name: string): string {
     // Remove "head of household"
     name = name.replace(/head of household/g, '');
 
-    // Remove Common Abbreviations
+    // Remove common abbreviations
     const commonAbreviations = {
         'wm': 'william',
         'geo': 'george',
@@ -149,8 +151,21 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
         };
     };
 
-    // Deal with prefixes and optional intros that make the match worse
+    // Determine if there is a floating prefix that should be removed before making any other changes
+    var nameOneSegments = nameOne.trim().split(/\s+/);
+    var nameTwoSegments = nameTwo.trim().split(/\s+/);
+
+    // Compare the first letters. If something looks like a prefix, see if it matches the first letters of 
+    // anything else in the other name. If it doesn't, we can just delete it
+    nameOne = _removeFloatingPrefixIfUnnecessary(nameOneSegments, nameTwoSegments);
+    nameTwo = _removeFloatingPrefixIfUnnecessary(nameTwoSegments, nameOneSegments);
+
+    console.error(`Names after removing floating prefixes in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo}`);
+
+    // Figure out what else needs to be done with prefixes in the names and make needed changes
     [nameOne, nameTwo, wasPrefixModified] = _handlePrefixesInNames(nameOne, nameTwo);
+
+    console.error(`Names after handling prefixes in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo}`);
 
     // Combine words that are one word in the other name
     while (true) {
@@ -204,11 +219,6 @@ function _handlePrefixesInNames(nameOne: string, nameTwo: string): [string, stri
 
     console.error(`Handling prefixes in names ${nameOne} and ${nameTwo} in TypeScript`);
 
-    // Create a list of prefixes to check
-    const possible_prefixes = [
-        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
-        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
-    ];
 
     // Deal with any prefix and optional intros that make the match worse
     nameOne = nameOne.replace(/\s+/, ' ')
@@ -217,7 +227,7 @@ function _handlePrefixesInNames(nameOne: string, nameTwo: string): [string, stri
                      .trim();
     var wasAPrefixModified = false;
 
-    for (const prefix of possible_prefixes){
+    for (const prefix of prefixList){
         if (nameOne.includes(` ${prefix}`) || nameTwo.includes(` ${prefix}`)){
 
             var didWeFixPrefixes = false;
@@ -299,9 +309,12 @@ function _dealWithDashes(nameOne: string, nameTwo: string): [string, string] {
  * 
  * @param nameOne - The first name to clean
  * @param nameTwo - The second name to clean
+ * @param optionalNameOneForComparison - An optional field that will compare recursive runs
+            of this function to this name rather than whatever is put into the 'name one'
+            variable. Defaults to null
  * @returns Whether or not the names were modified and the modified names
  */
-function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string, string] {
+function _combineSplitWords(nameOne: string, nameTwo: string, optionalNameOneForComparisons: string | null = null): [boolean, string, string] {
 
     console.error(`Combining split words ${nameOne} and ${nameTwo} in TypeScript`);
 
@@ -309,24 +322,29 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
 
     // Do not combine words that are only two in length
     if (wordsInNameOne.length < 3) {
-        console.error("Words aren't long enough to combine");
+        console.error("Words aren't long enough to combine in TypeScript");
         return [false, nameOne, nameTwo];
     };
 
-    // Do not combine words that are already a good spelling match
-    if (compareSpelling(nameOne, nameTwo)[0]) {
-        console.error("Words are not a good spelling match");
-        return [false, nameOne, nameTwo];
-    };
+    // // Do not combine words that are already a good spelling match
+    // if (compareSpelling(nameOne, nameTwo)[0]) {
+    //     console.error("Words are not a good spelling match in TypeScript");
+    //     return [false, nameOne, nameTwo];
+    // };
     
     for (const [indexOne, indexTwo, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
+
+        console.error(`Attempting to combine ${wordOne} with ${wordTwo} in TypeScript`);
+
         // Skip if wordOne and wordTwo are not a good match
         if (fuzzball_partial_ratio(wordOne, wordTwo, { full_process: false }) < 75) {
+            console.error("Skipped combining words because they are a bad match in TypeScript");
             continue;
         };
 
         // Skip if either word is only an initial
         if (wordOne.length == 1 || wordTwo.length == 1) {
+            console.error("Skipped combining words one is only an initial in TypeScript");
             continue;
         };
 
@@ -334,10 +352,13 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
         var leftNeighbor = (indexOne - 1) >= 0 ? wordsInNameOne[indexOne - 1] : "";
         var rightNeighbor = (indexOne + 1) < wordsInNameOne.length ? wordsInNameOne[indexOne + 1] : "";
 
+        console.error(`Found the neighbors ${leftNeighbor} and ${rightNeighbor} in TypeScript`);
+
         // Skip neighbors if they are initials
         leftNeighbor = leftNeighbor.length > 1 ? leftNeighbor : '';
         rightNeighbor = rightNeighbor.length > 1 ? rightNeighbor : '';
         if (!leftNeighbor && !rightNeighbor) {
+            console.error("Names not combined because there were no neighbors to return in TypeScript");
             return [false, nameOne, nameTwo];
         };
 
@@ -345,6 +366,7 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
 
         // Skip if the neighbor is a bad partial match to wordTwo's match
         if (fuzzball_partial_ratio(chosenNeighbor, wordTwo, { full_process: false }) < 65) {
+            console.error("Skipped combining words because the neigbor was a bad partial match with word two in TypeScript");
             continue;
         };
 
@@ -352,11 +374,13 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
         const originalScore = fuzzball_ratio(wordOne, wordTwo, { full_process: false });
         const compoundScore = fuzzball_ratio(compound, wordTwo, { full_process: false });
         if (compoundScore < originalScore + 20) {
+            console.error("Skipped combining words because the compound score wasn't enough of an improvement in TypeScript");
             continue;
         };
         const differenceOfOriginalLengths = Math.abs(wordTwo.length - wordOne.length);
         const differenceOfCompoundLengths = Math.abs(wordTwo.length - compound.length);
         if (differenceOfOriginalLengths < differenceOfCompoundLengths) {
+            console.error("Skipped combining words because it somehow made the word longer in TypeScript");
             continue;
         };
 
@@ -364,16 +388,32 @@ function _combineSplitWords(nameOne: string, nameTwo: string): [boolean, string,
         const nameEditorInstance = new NameEditor(nameOne, nameTwo);
         nameEditorInstance.updateNameOne(indexOne, compound);
         nameEditorInstance.updateNameOne(neighborIndex, '');
-        const [nameOneEdited, notUsed] = nameEditorInstance.getModifiedNames();
+        let [nameOneEdited, notUsed] = nameEditorInstance.getModifiedNames();
 
+        // If we get to this point, it's worth checking for another neighbor word that may match situationally
+        console.error("Beginning recursion for better matching of words in TypeScript");
+        const [didAnotherPassImproveItMore, updatedNameResult, ignore] = _combineSplitWords(nameOneEdited, nameTwo, nameOne);
+        if (didAnotherPassImproveItMore === true){
+            nameOneEdited = updatedNameResult;
+        };
+
+        let improvement, useless, uselessTwo;
         // If the edited nameOne is better, go with the edited version
-        const [improvement, useless, uselessTwo] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwo);
+        if (optionalNameOneForComparisons !== null){
+            console.error(`Determined to use the optional edit improvement calculation in TypeScript. Variable check: nameOne - ${optionalNameOneForComparisons}, nameTwo - ${nameTwo}, nameOneEdited - ${nameOneEdited}`);
+            [improvement, useless, uselessTwo] = calculateEditImprovement(optionalNameOneForComparisons, nameTwo, nameOneEdited, nameTwo);
+        } else {
+            console.error(`Determined to use the normal edit improvement calculation in TypeScript. Variable check: nameOne - ${nameOne}, nameTwo - ${nameTwo}, nameOneEdited - ${nameOneEdited}`);
+            [improvement, useless, uselessTwo] = calculateEditImprovement(nameOne, nameTwo, nameOneEdited, nameTwo);
+        };
         if (improvement > 0) {
+            console.error("Determined that combining some words was beneficial. Returning them in TypeScript");
             return [true, nameOneEdited, nameTwo];
         };
     };
 
     // If no edits were beneficial, just return the original words
+    console.error("Combining the words is not beneficial so they weren't combined in TypeScript");
     return [false, nameOne, nameTwo];
 };
 
@@ -421,6 +461,30 @@ function _fixRelatedPrefixes(nameOne: string, nameTwo: string, prefixVariantOne:
     console.error(`Final result of fixing prefixes in TypeScript - nameOne: ${nameOne}  nameTwo ${nameTwo}`);
 
     return [nameOne, nameTwo, true];
+};
+
+function _removeFloatingPrefixIfUnnecessary(targetNameSegments: string[], otherNameSegments: string[]): string {
+    
+    console.error(`Check to make sure prefixList imported correctly in TypeScript: ${prefixList}`);
+
+    var improvedNameSegmentList = [];
+
+    for (var nameSegment of targetNameSegments) {
+        if (prefixList.includes(nameSegment)) {
+            for (var segmentFromOtherName of otherNameSegments) {
+                if (nameSegment[0] === segmentFromOtherName[0]){
+                    improvedNameSegmentList.push(nameSegment);
+                    break;
+                };
+            };
+        } else {
+            improvedNameSegmentList.push(nameSegment);
+        };
+    };
+
+    console.error(`improvedNameSegmentList at the end of removing floating prefixes in TypeScript: ${improvedNameSegmentList}`);
+
+    return improvedNameSegmentList.join(' ');
 };
 
 /**

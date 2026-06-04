@@ -32,7 +32,7 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
 
     console.error(`Word combos for compare spelling in TypeScript: ${wordCombos}`);
 
-    let count = 0;
+    let count = 0; // Or should this be the number of exceptions? We'll have to find out here soon hahaha
     let combinedScores = 0;
     let averagedScores = 0;
 

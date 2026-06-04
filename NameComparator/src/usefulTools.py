@@ -4,7 +4,12 @@ from munkres import Munkres
 from rapidfuzz.fuzz import ratio as fuzz_ratio
 from rapidfuzz.distance.Indel import normalized_similarity
 from math import floor as math_floor
+
 from NameComparator.src.ipa import get_ipa
+
+from json import loads as json_loads
+from importlib.resources import files
+prefix_list = json_loads(files('data').joinpath('possiblePrefixList.json').read_text(encoding='utf-8'))
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1000)
@@ -18,11 +23,14 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
     Returns:
         A list of tuples idenifying the index of the word in the first name,
         the index of the word in the second name, and the score of how well they match.
-        After that it returns a value representing the number of possible prefixes in the
-        name
+        After that it returns a value representing the number of possible prefixes and
+        other odd exceptions in the name
     """
 
     print(f"Entering Python find_word_matches_and_quality function with the names {name_one} and {name_two}")
+
+    # Initialize a variable for exceptions regarding possible prefixes and warning flags we can ignore
+    exception_count = 0
 
     # Initialize empty list to store scores
     words_in_name_one = name_one.split()
@@ -54,7 +62,7 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
             # Add the score
             if warning:
                 score_warnings.append((i, j))
-            if score >= 95:
+            elif score >= 95:
                 not_initial_nearly_perfect_scores.append((i, j))
             scores[i, j] = score
 
@@ -62,13 +70,21 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
     # be a better match than l and love, which is also technically a 100 but less accurate
     # than 'love' and 'love'
     for warning_to_check in score_warnings:
+        print(f"Performing warning check with the following variables in Python: warning_to_check - {warning_to_check} not_initial_nearly_perfect_scores - {not_initial_nearly_perfect_scores}")
         # If there's a perfect full name match, we want to penalize the score of the initial
         # since we want the other nearly perfect matches to take priority
-        if warning_to_check[0] in not_initial_nearly_perfect_scores[0]:
+        if len(not_initial_nearly_perfect_scores) >= 1 and warning_to_check[0] in not_initial_nearly_perfect_scores[0]:
             scores[warning_to_check[0], warning_to_check[1]] = 0
-        elif warning_to_check[1] in not_initial_nearly_perfect_scores[1]:
-            new_score_for_initial_pairing = 100 / len(words_in_name_one[warning_to_check[0]])
+        elif len(not_initial_nearly_perfect_scores) >= 2 and warning_to_check[1] in not_initial_nearly_perfect_scores[1]:
             scores[warning_to_check[0], warning_to_check[1]] = 0
+        # If both of those are fine, we can likely add this warning as a possible odd exception
+        # NOTE: This could possible break some other logic, so just make that check before committing it
+        elif words_in_name_one[warning_to_check[0]][0] == words_in_name_two[warning_to_check[1]][0] and len(words_in_name_one[warning_to_check[0]]) == len(words_in_name_two[warning_to_check[1]]):
+            scores[warning_to_check[0], warning_to_check[1]] = 100
+        elif words_in_name_one[warning_to_check[0]][0] == words_in_name_two[warning_to_check[1]][0]:
+            scores[warning_to_check[0], warning_to_check[1]] = 85
+        # elif warning_to_check[0] == warning_to_check[1]:
+        #     scores[warning_to_check[0], warning_to_check[1]] = 95
 
     # Identify the best matchups
     final_words_in_name_one: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_one)]
@@ -77,18 +93,13 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
     best_combinations = identify_best_matches(scores=scores, list_one=final_words_in_name_one, list_two=final_words_in_name_two)
 
     # For each of the best combinations, we now need to note how many are a combo containing a possible prefix
-    possible_prefixes = [
-        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
-        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
-    ]
-    possible_prefix_count = 0
     for found_combination in best_combinations:
         print(f"Checking the combination {found_combination} for prefixes in Python")
-        if (words_in_name_one[int(found_combination[0])] in possible_prefixes) or (words_in_name_two[int(found_combination[1])] in possible_prefixes):
+        if (words_in_name_one[int(found_combination[0])] in prefix_list) or (words_in_name_two[int(found_combination[1])] in prefix_list):
             print(f"Determined that there was a possible prefix in the combination {found_combination} in Python")
-            possible_prefix_count = possible_prefix_count + 1
+            exception_count = exception_count + 1
 
-    return best_combinations, possible_prefix_count
+    return best_combinations, exception_count
 
 def _determine_score_of_word_matchup(word_one: str, word_two: str) -> tuple[int, bool]:
     """This is a helper function for find_word_matches_and_quality to fix its
@@ -107,29 +118,43 @@ def _determine_score_of_word_matchup(word_one: str, word_two: str) -> tuple[int,
     """
 
     warning_flag = False
+    word_one_lenth = len(word_one)
+    word_two_length = len(word_two)
 
     # If either of the scores is empty, it should be fine to say it's a match
     # with the empty space
-    if (len(word_one) == 0) or (len(word_two) == 0):
+    if (word_one_lenth == 0) or (word_two_length == 0):
         score = 100
 
-    # Assign the score this way if either is initial
-    elif (len(word_one) == 1) or (len(word_two) == 1):
+    # Assign the score this way if both are an initial
+    elif (word_one_lenth == 1 and word_two_length == 1):
         if (word_one[0] == word_two[0]):
             score = 100
             warning_flag = True
         else:
             score = 0
+            
+    # Assign the score this way if only one is an initial
+    elif (word_one_lenth == 1) or (word_two_length == 1):
+        if (word_one[0] == word_two[0]):
+            score_division_helper = max(word_one_lenth, word_two_length)
+            score = round_in_a_normal_way(100 / score_division_helper)
+            warning_flag = True
+        else:
+            score = 0
 
-    # For words longer than 2, either use ratio or partial ratio for score as shown below.
+    # For words longer than 2, either use ratio or partial ratio for score as shown below
     else:
         ratio = round_in_a_normal_way(fuzz_ratio(word_one, word_two, processor=None))
+        print(f"Found the ratio {ratio} for {word_one} and {word_two} in Python")
         if (word_one[0] == word_two[0]):
             partial_ratio_score = round_in_a_normal_way(partial_ratio_with_parity(word_one, word_two))
             print(f"Found the partial ratio {partial_ratio_score} for {word_one} and {word_two} in Python")
-            score = max(ratio, partial_ratio_score)
+            score = round_in_a_normal_way((ratio + partial_ratio_score ) / 2)
         else:
             score = ratio
+
+    print (f"Final score for the ratios of {word_one} and {word_two} in Python is {score}")
 
     return score, warning_flag
 
@@ -187,6 +212,7 @@ def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, 
     # First run a quick check on it to see how the spelling changes line up
     original_word_combos, possible_prefix_count = find_word_matches_and_quality(name_one, name_two)
     edited_word_combos, possible_edited_prefix_count = find_word_matches_and_quality(name_one_edited, name_two_edited)
+    print(f"Word combos for calculating edit improvments in Python: original_word_combos - {original_word_combos} edited_word_combos - {edited_word_combos}")
     if (not original_word_combos) or (not edited_word_combos):
         return 0, original_word_combos, edited_word_combos
     original_average_score = sum(tup[2] for tup in original_word_combos) / len(original_word_combos)
@@ -195,7 +221,19 @@ def calculate_edit_improvement(name_one:str, name_two:str, name_one_edited:str, 
 
     print(f"Checkpoint for calculating edit improvements in Python: name_one - {name_one} name_two - {name_two} original_average_score - {original_average_score} name_one_edited - {name_one_edited} name_two_edited - {name_two_edited} edited_average_score - {edited_average_score} diff - {diff}")
 
-    if diff < 0:
+    # This is used to help determine if a name is an improvement in terms of used sections
+    original_name_one_segments = name_one.split()
+    original_name_two_segments = name_two.split()
+    original_name_unused_segments = max(len(original_name_one_segments), len(original_name_two_segments)) - len(original_word_combos)
+
+    edited_name_one_segments = name_one_edited.split()
+    edited_name_two_segments = name_two_edited.split()
+    edited_name_unused_segments = max(len(edited_name_one_segments), len(edited_name_two_segments)) - len(edited_word_combos)
+
+    how_many_less_segments_in_edit = original_name_unused_segments - edited_name_unused_segments
+
+    # If the edit uses less name segments and the diff isn't *too* massive, we want to keep going instead of stopping here
+    if diff < -33 and how_many_less_segments_in_edit < 1:
         return diff, original_word_combos, edited_word_combos
 
     # If it passes the first set, we want to make sure that it also works with the pronunciations

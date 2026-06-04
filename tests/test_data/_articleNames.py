@@ -782,7 +782,7 @@ articleNames = [
     {
 		'name_one': 'angela d oglesby',
 		'name_two': 'dwayne la vergne oglesby', 
-		'expected': False, 
+		'expected': False,
 		'description': 'angela d oglesby comparison with article'
 	},
     {
@@ -1346,7 +1346,7 @@ articleNames = [
     {
 		'name_one': 'benjamin averbook',
 		'name_two': 'benjamin lewis averbach', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'benjamin averbook comparison with article'
 	},
     {

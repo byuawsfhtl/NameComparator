@@ -5,6 +5,10 @@ from rapidfuzz.fuzz import ratio as fuzz_ratio, partial_ratio as fuzz_partial_ra
 from NameComparator.src.comparisons import compare_spelling
 from NameComparator.src.usefulTools import calculate_edit_improvement, get_matching_words_and_indices, NameEditor
 
+from json import loads as json_loads
+from importlib.resources import files
+prefix_list = json_loads(files('data').joinpath('possiblePrefixList.json').read_text(encoding='utf-8'))
+
 def clean_name(name:str) -> str:
     """Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.
 
@@ -61,7 +65,7 @@ def clean_name(name:str) -> str:
     # Removes "head of household"
     name = name.replace("head of household", "")
 
-    # Remove Common Abbreviations
+    # Remove common abbreviations
     common_abbreviations = {
         'wm': 'william',
         'geo': 'george',
@@ -147,7 +151,18 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
 
     print(f"Names after dealing with Irish 'O's in Python: name_one - {name_one} name_two - {name_two}")
 
-    # Figure out what needs to be done with prefixes in the names and make needed changes
+    # Determine if there is a floating prefix that should be removed before making any other changes
+    name_one_segments = name_one.split()
+    name_two_segments = name_two.split()
+
+    # Compare the first letters. If something looks like a prefix, see if it matches the first letters of 
+    # anything else in the other name. If it doesn't, we can just delete it
+    name_one = _remove_floating_prefix_if_unnecessary(name_one_segments, name_two_segments)
+    name_two = _remove_floating_prefix_if_unnecessary(name_two_segments, name_one_segments) 
+
+    print(f"Names after removing floating prefixes in Python: name_one - {name_one} name_two - {name_two}")
+
+    # Figure out what else needs to be done with prefixes in the names and make needed changes
     name_one, name_two, was_prefix_modified = _handle_prefixes_in_names(name_one, name_two)
 
     print(f"Names after handling prefixes in Python: name_one - {name_one} name_two - {name_two}")
@@ -193,12 +208,6 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str, b
     """
 
     print(f"Handling prefixes in names {name_one} and {name_two} in Python")
-    
-    # Create a list of prefixes to check
-    possible_prefixes = [
-        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
-        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
-    ]
 
     # Deal with any prefixes and optional intros that make the match worse
     name_one = re_sub(r"\s+", " ", name_one)
@@ -207,7 +216,7 @@ def _handle_prefixes_in_names(name_one: str, name_two: str) -> tuple[str, str, b
     name_two = name_two.strip()
     was_a_prefix_modified = False
 
-    for prefix in possible_prefixes:
+    for prefix in prefix_list:
         if (f" {prefix}" in name_one) or (f" {prefix}" in name_two):
 
             did_we_fix_prefixes = False
@@ -275,12 +284,15 @@ def _deal_with_dashes(name_one:str, name_two:str) -> tuple[str, str]:
     # Return the edited names
     return name_one_edited, name_two_edited
 
-def _combine_split_words(name_one:str, name_two:str) -> tuple[bool, str, str]:
+def _combine_split_words(name_one:str, name_two:str, optional_name_one_for_comparisons: str|None = None) -> tuple[bool, str, str]:
     """Combines words within one of the names if that combination is one word in the other name.
 
     Args:
         name_one: The first name to clean
         name_two: The second name to clean
+        optional_name_one_for_comparisons: An optional field that will compare recursive runs
+            of this function to this name rather than whatever is put into the 'name one'
+            variable. Defaults to None
 
     Returns:
         A tuple containing whether or not the names were modified and the modified names
@@ -292,31 +304,39 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[bool, str, str]:
 
     # Do not combine words that are only two in length
     if len(words_in_name_one) < 3:
-        print("Words aren't long enough to combine")
+        print("Words aren't long enough to combine in Python")
         return False, name_one, name_two
     
-    # Do not combine words that are already a good spelling match
-    if compare_spelling(name_one, name_two)[0]:
-        print("Words are not a good spelling match")
-        return False, name_one, name_two
+    # # Do not combine words that are already a good spelling match
+    # if compare_spelling(name_one, name_two)[0]:
+    #     print("Words are already a good spelling match in Python")
+    #     return False, name_one, name_two
     
     for index_one, index_two, word_one, word_two in get_matching_words_and_indices(name_one, name_two):
+
+        print(f"Attempting to combine {word_one} with {word_two} in Python")
+
         # Skip if word_one and word_two are not a good match
         if (fuzz_partial_ratio(word_one, word_two) < 75):
+            print("Skipped combining words because they are a bad match in Python")
             continue
 
         # Skip if either word is only an initial
         if (len(word_one) == 1) or (len(word_two) == 1):
+            print("Skipped combining words one is only an initial in Python")
             continue
 
         # Find the left and right neighbors
         left_neighbor = words_in_name_one[index_one - 1] if index_one - 1 >= 0 else ''
         right_neighbor = words_in_name_one[index_one + 1] if index_one + 1 < len(words_in_name_one) else ''
 
+        print(f"Found the neighbors {left_neighbor} and {right_neighbor} in Python")
+
         # Skip neighbors if they are initials
         left_neighbor = left_neighbor if len(left_neighbor) > 1 else ''
         right_neighbor = right_neighbor if len(right_neighbor) > 1 else ''
         if (not left_neighbor) and (not right_neighbor):
+            print("Names not combined because there were no neighbors to return in Python")
             return False, name_one, name_two
 
         # Choose the neighbor that best matches word_one's match and return needed variables related to it
@@ -324,16 +344,19 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[bool, str, str]:
 
         # Skip if the neighbor is a bad partial match to word_two's match
         if fuzz_partial_ratio(chosen_neighbor, word_two) < 65:
+            print("Skipped combining words because the neigbor was a bad partial match with word two in Python")
             continue
 
         # Check if the compound is significantly better than the original
         original_score = fuzz_ratio(word_one, word_two)
         compound_score = fuzz_ratio(compound, word_two)
         if compound_score < original_score + 20:
+            print("Skipped combining words because the compound score wasn't enough of an improvement in Python")
             continue
         difference_of_original_lengths = abs(len(word_two) - len(word_one))
         difference_of_compound_lengths = abs(len(word_two) - len(compound))
         if difference_of_original_lengths < difference_of_compound_lengths:
+            print("Skipped combining words because it somehow made the word longer in Python")
             continue
 
         # If the compound was a better match, use a name editor to create an edited name_one where the words are combined
@@ -342,12 +365,25 @@ def _combine_split_words(name_one:str, name_two:str) -> tuple[bool, str, str]:
         name_editor_instance.update_name_one(neighbor_index, '')
         name_one_edited, notUsed = name_editor_instance.get_modified_names()
 
+        # If we get to this point, it's worth checking for another neighbor word that may match situationally
+        print("Beginning recursion for better matching of words in Python")
+        did_another_pass_improve_it_more, updated_name_result, ignore = _combine_split_words(name_one_edited, name_two, name_one)
+        if did_another_pass_improve_it_more:
+            name_one_edited = updated_name_result
+
         # If the edited name_one is better, go with the edited version
-        improvement, useless, useless_two = calculate_edit_improvement(name_one, name_two, name_one_edited, name_two)
+        if optional_name_one_for_comparisons:
+            print(f"Determined to use the optional edit improvement calculation in Python. Variable check: name_one - {optional_name_one_for_comparisons}, name_two - {name_two}, name_one_edited - {name_one_edited}")
+            improvement, useless, useless_two = calculate_edit_improvement(optional_name_one_for_comparisons, name_two, name_one_edited, name_two)
+        else:
+            print(f"Determined to use the normal edit improvement calculation in Python. Variable check: name_one - {name_one}, name_two - {name_two}, name_one_edited - {name_one_edited}")
+            improvement, useless, useless_two = calculate_edit_improvement(name_one, name_two, name_one_edited, name_two)
         if improvement > 0:
+            print("Determined that combining some words was beneficial. Returning them in Python")
             return True, name_one_edited, name_two
 
     # If no edits were beneficial, just return the original words
+    print("Combining the words is not beneficial so they weren't combined in Python")
     return False, name_one, name_two
 
 def _fix_related_prefixes(name_one:str, name_two:str, prefix_variant_one:str, prefix_variant_two:str) -> tuple[str, str, bool]:
@@ -390,6 +426,27 @@ def _fix_related_prefixes(name_one:str, name_two:str, prefix_variant_one:str, pr
 
     print(f"Final result of fixing prefixes in Python - name_one: {name_one}  name_two: {name_two}")
     return name_one, name_two, True
+
+def _remove_floating_prefix_if_unnecessary(target_name_segments: list[str], other_name_segments: list[str]) -> str:
+
+    print(f"Check to make sure prefix_list imported correctly in Python: {prefix_list}")
+
+    improved_name_segment_list = []
+
+    for name_segment in target_name_segments:
+        if name_segment in prefix_list:
+            for segment_from_other_name in other_name_segments:
+                if name_segment[0] == segment_from_other_name[0]:
+                    improved_name_segment_list.append(name_segment)
+                    break
+
+        else:
+            improved_name_segment_list.append(name_segment)
+
+    print(f"improved_name_segment_list at the end of removing floating prefixes in Python: {improved_name_segment_list}`")
+
+    return ' '.join(improved_name_segment_list)
+
 
 def _choose_best_neighbor_word(word_one: str, index_one: int, word_two: str, left_neighbor: str, right_neighbor: str) -> tuple[str, str, int]:
     """This function looks at the words that are directly to the right and left of a specific word and then

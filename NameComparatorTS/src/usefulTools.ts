@@ -15,11 +15,14 @@ export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemo
  * @returns A list of lists idenifying the index of the word in the first name,
  *          the index of the word in the second name, and the score of how well 
  *          they match. After that it returns a value representing the number 
- *          of possible prefixes in the name
+ *          of possible prefixes and other odd exceptions in the name
  */
 function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [[string, string, number][], number] {
 
     console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
+
+    // Initialize a variable for exceptions regarding possible prefixes and warning flags we can ignore
+    let exceptionCount = 0;
 
     // Initialize empty list to store scores
     let wordsInNameOne : string[] = nameOne.trim().split(/\s+/);
@@ -58,8 +61,7 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
             console.error(`TypeScript determined score of matchup for ${wordOne} and ${wordTwo} for this run is ${score}`);
             if (warning === true){
                 scoreWarnings.push([i, j]);
-            };
-            if (score >= 95){
+            } else if (score >= 95){
                 notInitialNearlyPerfectScores.push([i, j]);
             };
             // Add the score
@@ -71,13 +73,23 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
     // be a better match than l and love, which is also technically a 100 but less accurate
     // than 'love' and 'love'
     for (const warningToCheck of scoreWarnings){
+        console.error(`Performing warning check with the following variables in TypeScript: warningToCheck - ${warningToCheck} notInitialNearlyPerfectScores - ${notInitialNearlyPerfectScores}`);
         // If there's a perfect full name match, we want to penalize the score of the initial
         // since we want the other nearly perfect matches to take priority
-        if (notInitialNearlyPerfectScores[0].includes(warningToCheck[0])){
+        if ((notInitialNearlyPerfectScores.length >= 1) && (notInitialNearlyPerfectScores[0].includes(warningToCheck[0]))){
             scores[warningToCheck[0]][warningToCheck[1]] = 0;
-        } else if (notInitialNearlyPerfectScores[1].includes(warningToCheck[1])){
+        } else if ((notInitialNearlyPerfectScores.length >= 2) && (notInitialNearlyPerfectScores[1].includes(warningToCheck[1]))){
             scores[warningToCheck[0]][warningToCheck[1]] = 0;
+        // If both of those are fine, we can likely add this warning as a possible odd exception
+        // NOTE: This could possible break some other logic, so just make that check before committing it
+        } else if ((wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]) && (wordsInNameOne[warningToCheck[0]].length === wordsInNameTwo[warningToCheck[1]].length)){
+            scores[warningToCheck[0]][warningToCheck[1]] = 100;
+        } else if (wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]){
+            scores[warningToCheck[0]][warningToCheck[1]] = 85;
         };
+        // } else if (warningToCheck[0] === warningToCheck[1]){
+        //     scores[warningToCheck[0]][warningToCheck[1]] = 95;
+        // };
     };
     
     // Identify the best matchups
@@ -91,14 +103,13 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
         "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
         "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
     ];
-    let possiblePrefixCount = 0;
     for (const foundCombination of bestCombinations){
         if (((possiblePrefixes.includes(wordsInNameOne[Number(foundCombination[0])])) === true) || (possiblePrefixes.includes(wordsInNameTwo[Number(foundCombination[1])]) === true)){
-            possiblePrefixCount = possiblePrefixCount + 1;
+            exceptionCount = exceptionCount + 1;
         };
     };
 
-    return [bestCombinations, possiblePrefixCount];
+    return [bestCombinations, exceptionCount];
 };
 
 /**
@@ -116,31 +127,48 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
 function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): [number, boolean] {
 
     let warningFlag = false;
-
+    const wordOneLength = wordOne.length;
+    const wordTwoLength = wordTwo.length;
     let score: number;
+
     // If either of the scores is empty, it should be fine to say it's a match
     // with the empty space
-    if (wordOne.length === 0 || wordTwo.length === 0) {
+    if (wordOneLength === 0 || wordTwoLength === 0) {
         score = 100;
 
-    } else if (wordOne.length === 1 || wordTwo.length === 1) { // Assign the score this way if either is initial
+    // Assign the score this way if both are an initial
+    } else if (wordOneLength === 1 && wordTwoLength === 1) {
         if (wordOne[0] === wordTwo[0]){
             score = 100;
+            warningFlag = true;
+        } else {
+            score = 0;
+        };
+
+    // Assign the score this way if only one is an initial
+    } else if (wordOneLength === 1 || wordTwoLength === 1) {
+        if (wordOne[0] === wordTwo[0]){
+            const scoreDivisionHelper = Math.max(wordOneLength, wordTwoLength)
+            score = Math.round(100 / scoreDivisionHelper);
             warningFlag = true;
         } else {
             score = 0
         };
 
-    } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
+    // For words longer than 2, either use ratio or partial ratio for score as shown below
+    } else {
         const ratio = fuzzball_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
+        console.error(`Found the ratio ${ratio} for ${wordOne} and ${wordTwo} in TypeScript`)
         if (wordOne[0] === wordTwo[0]) {
             const partialRatioScore = partialRatioWithParity(wordOne, wordTwo);
             console.error(`Found the partial ratio ${partialRatioScore} for ${wordOne} and ${wordTwo} in TypeScript`)
-            score = Math.max(ratio, partialRatioScore);
+            score = Math.round((ratio + partialRatioScore) / 2);
         } else {
             score = ratio;
         };
     };
+
+    console.error(`Final score for the ratios of ${wordOne} and ${wordTwo} in TypeScript is ${score}`);
 
     return [score, warningFlag];
 }
@@ -202,6 +230,7 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
 
     let [originalWordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
     let [editedWordCombos, possibleEditedPrefixCount] = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
+    console.error(`Word combos for calculating edit improvments in TypeScript: originalWordCombos - ${originalWordCombos} editedWordCombos - ${editedWordCombos}`);
     if(!originalWordCombos.length || !editedWordCombos.length) {
         return [0, originalWordCombos, editedWordCombos]
     };
@@ -211,7 +240,17 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
 
     console.error(`Checkpoint for calculating edit improvements in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo} originalAverageScore - ${originalAverageScore} nameOneEdited - ${nameOneEdited} nameTwoEdited - ${nameTwoEdited} editedAverageScore - ${editedAverageScore} diff - ${diff}`);
 
-    if (diff < 0){
+    let originalNameOneSegments: string[] = nameOne.trim().split(/\s+/);
+    let originalNameTwoSegments: string[] = nameTwo.trim().split(/\s+/);
+    let originalNameUnusedSegments: number = Math.max(originalNameOneSegments.length, originalNameTwoSegments.length) - originalWordCombos.length;
+
+    let editedNameOneSegments: string[] = nameOneEdited.trim().split(/\s+/);
+    let editedNameTwoSegments: string[] = nameTwoEdited.trim().split(/\s+/);
+    let editedNameUnusedSegments: number = Math.max(editedNameOneSegments.length, editedNameTwoSegments.length) - editedWordCombos.length;
+
+    let howManyLessSegmentsInEdit: number = originalNameUnusedSegments - editedNameUnusedSegments;
+
+    if (diff < -33 && howManyLessSegmentsInEdit < 1){
         return [diff, originalWordCombos, editedWordCombos];
     };
 

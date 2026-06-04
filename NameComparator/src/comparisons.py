@@ -41,7 +41,7 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
 
     print(f"Word combos for compare spelling in Python: {word_combos}")
 
-    count = 0
+    count = 0 # Or should this be the number of exceptions? We'll have to find out here soon hahaha
     combined_scores = 0
     averaged_scores = 0
 
