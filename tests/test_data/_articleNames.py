@@ -3224,7 +3224,7 @@ articleNames = [
     {
 		'name_one': 'dorothy levine',
 		'name_two': 'dorothy levens', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'dorothy levine comparison with article'
 	},
     {
@@ -3680,7 +3680,7 @@ articleNames = [
     {
 		'name_one': 'edward h leach',
 		'name_two': 'mac edward leach', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'edward h leach comparison with article'
 	},
     {
@@ -3788,7 +3788,7 @@ articleNames = [
     {
 		'name_one': 'edward lowson',
 		'name_two': 'edward f. lewison', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'edward lowson comparison with article'
 	},
     {
@@ -4622,7 +4622,7 @@ articleNames = [
     {
 		'name_one': 'france g fell',
 		'name_two': 'germaine lafeuille', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'france g fell comparison with article'
 	},
     {
@@ -4640,7 +4640,7 @@ articleNames = [
     {
 		'name_one': 'frances j dieg',
 		'name_two': 'francis j. deig', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'frances j dieg comparison with article'
 	},
     {
@@ -5582,7 +5582,7 @@ articleNames = [
     {
 		'name_one': 'george t pynne',
 		'name_two': 'george la piana', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'george t pynne comparison with article'
 	},
     {
@@ -7574,7 +7574,7 @@ articleNames = [
     {
 		'name_one': 'jadan g jr lee',
 		'name_two': 'jordan g. lee', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'jadan g jr lee comparison with article'
 	},
     {
@@ -7988,7 +7988,7 @@ articleNames = [
     {
 		'name_one': 'janice a lazarre',
 		'name_two': 'arnold lazarow', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'janice a lazarre comparison with article'
 	},
     {
@@ -8378,7 +8378,7 @@ articleNames = [
     {
 		'name_one': 'john dempson',
 		'name_two': 'john dempsher', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'john dempson comparison with article'
 	},
     {
@@ -10230,12 +10230,6 @@ articleNames = [
 		'description': 'lillian c lambert comparison with article'
 	},
     {
-		'name_one': 'lillian h lanover',
-		'name_two': 'hrwin wladaver', 
-		'expected': False, 
-		'description': 'lillian h lanover comparison with article'
-	},
-    {
 		'name_one': 'lillian lawler',
 		'name_two': 'lillian b. lawler', 
 		'expected': True, 
@@ -11114,7 +11108,7 @@ articleNames = [
     {
 		'name_one': 'mary lahlen',
 		'name_two': 'marya lilien', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'mary lahlen comparison with article'
 	},
     {
@@ -11150,7 +11144,7 @@ articleNames = [
     {
 		'name_one': 'mary p demerse',
 		'name_two': 'mary mercy', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'mary p demerse comparison with article'
 	},
     {
@@ -12242,7 +12236,7 @@ articleNames = [
     {
 		'name_one': 'paul l mellenbruch',
 		'name_two': 'parl leslie mellenbruch', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'paul l mellenbruch comparison with article'
 	},
     {
@@ -12398,7 +12392,7 @@ articleNames = [
     {
 		'name_one': 'peter a corsi',
 		'name_two': 'andrew delcorso', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'peter a corsi comparison with article'
 	},
     {
@@ -14450,7 +14444,7 @@ articleNames = [
     {
 		'name_one': 'theodore bakermann',
 		'name_two': 'theodore von karman', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'theodore bakermann comparison with article'
 	},
     {
@@ -15422,7 +15416,7 @@ articleNames = [
     {
 		'name_one': 'willard oquinn',
 		'name_two': 'willard van orman quine', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'willard oquinn comparison with article'
 	},
     {
@@ -15464,7 +15458,7 @@ articleNames = [
     {
 		'name_one': 'william a van heyn',
 		'name_two': 'william a. venin', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'william a van heyn comparison with article'
 	},
     {

@@ -469,10 +469,13 @@ function _removeFloatingPrefixIfUnnecessary(targetNameSegments: string[], otherN
 
     var improvedNameSegmentList = [];
 
-    for (var nameSegment of targetNameSegments) {
+    for (var [segmentIndex, nameSegment] of targetNameSegments.entries()) {
         if (prefixList.includes(nameSegment)) {
             for (var segmentFromOtherName of otherNameSegments) {
-                if (nameSegment[0] === segmentFromOtherName[0]){
+                if ((segmentIndex + 2 <= targetNameSegments.length) && ((nameSegment + targetNameSegments[segmentIndex + 1]) === segmentFromOtherName)){
+                    improvedNameSegmentList.push((nameSegment + targetNameSegments[segmentIndex + 1]));
+                    break;
+                } else if (nameSegment[0] === segmentFromOtherName[0]){
                     improvedNameSegmentList.push(nameSegment);
                     break;
                 };
