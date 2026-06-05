@@ -3,6 +3,7 @@ import { identifyBestMatches, findWordMatchesAndQuality } from "./usefulTools.js
 import { min as mathjs_min, matrix as mathjs_matrix_function, Matrix as mathjs_matrix_class, zeros as mathjs_zeros } from 'mathjs';
 
 // Read the various variables from a file
+import prefixList from '../../data/possiblePrefixList.json' with { type: "json"};
 import values from '../../data/variablesForComparisons.json' with { type: "json"};
 const { maxScore, 
         guaranteedPassingScore,
@@ -78,14 +79,18 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
     let numberOfConsonantMatches = 0;
     let combinedScoresBasedOnConsonantFuzzyMatches = 0;
     let averageScore = 0;
+    let increaseToValidChecksNeededForSkip = 0;
+
+    let nameOneFragments = nameOne.trim().split(/\s+/);
+    let nameTwoFragments = nameTwo.trim().split(/\s+/);
 
     console.error(`Determined minimum number of required matches is ${minimumRequiredMatches} in TypeScript`);
 
     // Loop through every word match in the combo
     for (const tup of wordCombos) {
         // Get the matching word data
-        const wordOne = nameOne.trim().split(/\s+/)[parseInt(tup[0])];
-        const wordTwo = nameTwo.trim().split(/\s+/)[parseInt(tup[1])];
+        const wordOne = nameOneFragments[parseInt(tup[0])];
+        const wordTwo = nameTwoFragments[parseInt(tup[1])];
         const originalScoreForWords = Number(tup[2]);
 
         // Get the words as consonants
@@ -100,17 +105,6 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
         if (originalScoreForWords <= guaranteedFailScore) {
             console.error("Below guaranteed fail score in TypeScript");
             continue;
-        // };
-        // if (wordOne.length !== 1 && wordTwo.length !== 1) { // # If neither word is an initial
-        //     const lowestSyllableCount = mathjs_min(
-        //         consonantsInNameOne.split('*').length - 1,
-        //         consonantsInNameTwo.split('*').length - 1
-        //     );
-        //     console.error(`Lowest syllable count for words is ${lowestSyllableCount} in TypeScript`);
-        //     if (lowestSyllableCount < 2) {
-        //         console.error("Syllable count was too low in TypeScript");
-        //         continue;
-        //     };
         } else {
             if ((wordOne.length === 1 && wordOne === wordTwo[0]) || (wordTwo.length === 1 && wordTwo === wordOne[0])){
                 console.error("Updated consonant ratio due to initials in TypeScript");
@@ -121,6 +115,13 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
             console.error(`Failed big check in TypeScript where consonantRatio = ${consonantRatio}, guaranteedPassingScore = ${guaranteedPassingScore}, originalScoreForWords = ${originalScoreForWords}, furtherChecksNeededScore = ${furtherChecksNeededScore}, and maxScore = ${maxScore}`);
             continue;
         };
+
+        // If the name is a prefix that's floating AND is in both names, we want to note that and increase the number of
+        // valid combos to skip further checks so that what's supposed to be one complete name or surname is not considered
+        // several when we're determining if the names are a match
+        if (prefixList.includes(wordOne) && (wordOne === wordTwo)){
+            increaseToValidChecksNeededForSkip = increaseToValidChecksNeededForSkip + 1;
+        }
 
         // If not rejected, increment the number of matches and increase the total score
         numberOfConsonantMatches = numberOfConsonantMatches + 1;
@@ -134,8 +135,8 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
 
     // If there are enough matches, return true and a score. Otherwise return false and a score
     console.error(`Number of consonant matches in TypeScript: ${numberOfConsonantMatches}`);
-    console.error(`Result of consonant comparison in TypeScript: ${[((numberOfConsonantMatches >= minimumRequiredMatches) || (numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks)), averageScore]}`);
-    return [((numberOfConsonantMatches >= minimumRequiredMatches) || (numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks)), averageScore];
+    console.error(`Result of consonant comparison in TypeScript: ${[((numberOfConsonantMatches >= minimumRequiredMatches) || ((numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks + increaseToValidChecksNeededForSkip) && (nameOneFragments[0] === nameTwoFragments[0]))), averageScore]}`);
+    return [((numberOfConsonantMatches >= minimumRequiredMatches) || ((numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks + increaseToValidChecksNeededForSkip) && (nameOneFragments[0] === nameTwoFragments[0]))), averageScore];
 };
 
 /**

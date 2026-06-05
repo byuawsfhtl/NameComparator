@@ -8,6 +8,7 @@ from json import loads as json_loads
 from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality, round_in_a_normal_way
 
 # Read the various variables from a file
+prefix_list = json_loads(files('data').joinpath('possiblePrefixList.json').read_text(encoding='utf-8'))
 comparison_variables_as_dict = json_loads(files('data').joinpath('variablesForComparisons.json').read_text(encoding='utf-8'))
 
 max_score: int = comparison_variables_as_dict.get("maxScore")
@@ -88,14 +89,18 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
     number_of_consonant_matches = 0
     combined_scores_based_on_consonant_fuzzy_matches = 0
     average_score = 0
+    increase_to_valid_checks_needed_for_skip = 0
+
+    name_one_fragments = name_one.split()
+    name_two_fragments = name_two.split()
 
     print(f"Determined the minimum number of required matches is {minimum_required_matches} in Python")
 
     # Loop through every word match in the combo
     for tup in word_combos:
         # Get the matching word data
-        word_one = name_one.split()[int(tup[0])]
-        word_two = name_two.split()[int(tup[1])]
+        word_one = name_one_fragments[int(tup[0])]
+        word_two = name_two_fragments[int(tup[1])]
         original_score_for_words:int = int(tup[2])
 
         # Get the words as consonants
@@ -110,12 +115,6 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         if original_score_for_words <= guaranteed_fail_score:
             print("Below guaranteed fail score in Python")
             continue
-        # if (len(word_one) != 1) and (len(word_two) != 1): # If neither word is an initial
-        #     lowest_syllable_count = min(consonants_in_name_one.count("*"), consonants_in_name_two.count("*"))
-        #     print(f"Lowest syllable count for words is {lowest_syllable_count} in Python")
-        #     if lowest_syllable_count < 2:
-        #         print("Syllable count was too low in Python")
-        #         continue
         else:
             if (len(word_one) == 1 and word_one == word_two[0]) or (len(word_two) == 1 and word_two == word_one[0]):
                 print("Updated consonant ratio due to initials in Python")
@@ -128,14 +127,21 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         number_of_consonant_matches += 1
         combined_scores_based_on_consonant_fuzzy_matches = combined_scores_based_on_consonant_fuzzy_matches + consonant_ratio
 
+        # If the name is a prefix that's floating AND is in both names, we want to note that and increase the number of
+        # valid combos to skip further checks so that what's supposed to be one complete name or surname is not considered
+        # several when we're determining if the names are a match
+        if (word_one in prefix_list) and (word_one == word_two):
+            increase_to_valid_checks_needed_for_skip = increase_to_valid_checks_needed_for_skip + 1
+
+
     # Find the average score of all of the matches, if relevant
     if number_of_consonant_matches > 0:
         average_score = combined_scores_based_on_consonant_fuzzy_matches / number_of_consonant_matches
 
     # If there are enough matches, return true and a score. Otherwise return false and a score
     print(f"Number of consonant matches in Python: {number_of_consonant_matches}")
-    print(f"Result of consonant comparison in Python {((number_of_consonant_matches >= minimum_required_matches) or (number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks)), average_score}")
-    return ((number_of_consonant_matches >= minimum_required_matches) or (number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks)), average_score
+    print(f"Result of consonant comparison in Python {((number_of_consonant_matches >= minimum_required_matches) or ((number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks) and (name_one_fragments[0] == name_two_fragments[0]))), average_score}")
+    return (((number_of_consonant_matches >= minimum_required_matches) or ((number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks + increase_to_valid_checks_needed_for_skip) and (name_one_fragments[0] == name_two_fragments[0]))), average_score)
     
 def _reduce_to_simple_consonants(string:str) -> str:
     """Reduces a string to its simple consonant componants.

@@ -79,7 +79,7 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
         if ((notInitialNearlyPerfectScores.length >= 1) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[0] === specificScore[0]))){
             console.error("Failed the first warning check segment in TypeScript");
             scores[warningToCheck[0]][warningToCheck[1]] = 0;
-        } else if ((notInitialNearlyPerfectScores.length >= 2) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[0] === specificScore[0]))){
+        } else if ((notInitialNearlyPerfectScores.length >= 2) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[1] === specificScore[1]))){
             console.error("Failed the second warning check segment in TypeScript");
             scores[warningToCheck[0]][warningToCheck[1]] = 0;
         // If both of those are fine, we can likely add this warning as a possible odd exception
@@ -102,7 +102,9 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
         "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
     ];
     for (const foundCombination of bestCombinations){
-        if (((possiblePrefixes.includes(wordsInNameOne[Number(foundCombination[0])])) === true) || (possiblePrefixes.includes(wordsInNameTwo[Number(foundCombination[1])]) === true)){
+        console.error(`Checking the combination ${foundCombination} for prefixes in TypeScript`);
+        if ((((possiblePrefixes.includes(wordsInNameOne[Number(foundCombination[0])])) === true) || (possiblePrefixes.includes(wordsInNameTwo[Number(foundCombination[1])]) === true)) && (wordsInNameOne[Number(foundCombination[0])] != wordsInNameTwo[Number(foundCombination[1])])){
+            console.error(`Determined that there was a possible prefix in the combination ${foundCombination} in TypeScript`);
             exceptionCount = exceptionCount + 1;
         };
     };
@@ -158,7 +160,7 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): [number
         const ratio = fuzzball_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
         console.error(`Found the ratio ${ratio} for ${wordOne} and ${wordTwo} in TypeScript`)
         if (wordOne[0] === wordTwo[0]) {
-            const partialRatioScore = partialRatioWithParity(wordOne, wordTwo);
+            const partialRatioScore = Math.round(partialRatioWithParity(wordOne, wordTwo));
             console.error(`Found the partial ratio ${partialRatioScore} for ${wordOne} and ${wordTwo} in TypeScript`)
             score = Math.round((ratio + partialRatioScore) / 2);
         } else {

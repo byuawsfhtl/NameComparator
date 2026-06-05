@@ -12,9 +12,12 @@ def is_worth_continuing(name_one:str, name_two:str) -> bool:
     """        
     word_combos, possible_prefix_count = find_word_matches_and_quality(name_one, name_two)
     one_letter_match_fail_count = 0
+    name_one_as_list = name_one.split()
+    name_two_as_list = name_two.split()
+    print(f"Values in the middle of the is worth continuing check in Python: name_one - {name_one} name_two - {name_two} name_one_as_list - {name_one_as_list} name_two_as_list - {name_two_as_list} word_combos - {word_combos}")
     for match in word_combos:
-        word_one = name_one[int(match[0])]
-        word_two = name_two[int(match[1])]
+        word_one = name_one_as_list[int(match[0])]
+        word_two = name_two_as_list[int(match[1])]
         score = match[2]
         if (score == 0) and ((len(word_one) == 1) or ((len(word_two) == 1))):
             one_letter_match_fail_count += 1

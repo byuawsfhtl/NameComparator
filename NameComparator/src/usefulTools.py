@@ -94,7 +94,7 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
     # For each of the best combinations, we now need to note how many are a combo containing a possible prefix
     for found_combination in best_combinations:
         print(f"Checking the combination {found_combination} for prefixes in Python")
-        if (words_in_name_one[int(found_combination[0])] in prefix_list) or (words_in_name_two[int(found_combination[1])] in prefix_list):
+        if ((words_in_name_one[int(found_combination[0])] in prefix_list) or (words_in_name_two[int(found_combination[1])] in prefix_list)) and (words_in_name_one[int(found_combination[0])] != words_in_name_two[int(found_combination[1])]):
             print(f"Determined that there was a possible prefix in the combination {found_combination} in Python")
             exception_count = exception_count + 1
 

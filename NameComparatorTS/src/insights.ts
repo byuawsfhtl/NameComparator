@@ -10,9 +10,12 @@ import { findWordMatchesAndQuality } from "./usefulTools.js";
 export function isWorthContinuing(nameOne: string, nameTwo: string): boolean {
     const [wordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
     let oneLetterMatchFailCount = 0;
+    const nameOneAsList = nameOne.trim().split(/\s+/);
+    const nameTwoAsList = nameTwo.trim().split(/\s+/);
+    console.error(`Values in the middle of the is worth continuing check in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo} nameOneAsList - ${nameOneAsList} nameTwoAsList - ${nameTwoAsList} wordCombos - ${wordCombos}`)
     for (const match of wordCombos) {
-        const wordOne = nameOne[parseInt(match[0])];
-        const wordTwo = nameTwo[parseInt(match[1])];
+        const wordOne = nameOneAsList[parseInt(match[0])];
+        const wordTwo = nameTwoAsList[parseInt(match[1])];
         const score = match[2];
         if (score === 0 && ((wordOne.length === 1) || (wordTwo.length === 1))) {
             oneLetterMatchFailCount += 1;
