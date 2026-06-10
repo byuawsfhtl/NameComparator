@@ -51,11 +51,11 @@ test_runner = PyScriptTestRunner(path_for_typescript_version, deserializer=types
 test_runner.add_method(compare_two_names, "compareTwoNames", executor = lambda args: compare_two_names(args[0], args[1]))
 
 def test_for_specific_person():
-    test_case = {"input": ["albert le mieux", "albert a lemieux"]}
+    test_case = {"input": ["nina g dean", "nina o. dean"]}
     python_result, typescript_result = test_runner.run("compare_two_names", "compareTwoNames", test_case)
     test_runner.assert_strict_parity(python_result, typescript_result)
-    assert python_result.match == True
-    assert typescript_result.match == True
+    assert python_result.match == False
+    assert typescript_result.match == False
 
 @pytest.mark.parametrize('names_to_test', list_of_names_with_articles, ids=lambda x: x['description'])
 def test_on_names_with_articles(names_to_test):

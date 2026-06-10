@@ -441,7 +441,7 @@ def _remove_floating_prefix_if_unnecessary(target_name_segments: list[str], othe
 
         elif name_segment in prefix_list:
             for segment_from_other_name in other_name_segments:
-                if (target_name_segments[segment_index + 1]) and ((name_segment + target_name_segments[segment_index + 1]) == segment_from_other_name):
+                if (segment_index + 2 <= len(target_name_segments)) and ((name_segment + target_name_segments[segment_index + 1]) == segment_from_other_name):
                     improved_name_segment_list.append((name_segment + target_name_segments[segment_index + 1]))
                     previous_segment_was_merged = True
                     break

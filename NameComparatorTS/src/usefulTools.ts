@@ -69,26 +69,8 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
         };
     };
 
-    // This ensures that in a name pair like ben l love and ben del love the two loves will
-    // be a better match than l and love, which is also technically a 100 but less accurate
-    // than 'love' and 'love'
-    for (const warningToCheck of scoreWarnings){
-        console.error(`Performing warning check with the following variables in TypeScript: warningToCheck - ${warningToCheck} notInitialNearlyPerfectScores - ${notInitialNearlyPerfectScores}`);
-        // If there's a perfect full name match, we want to penalize the score of the initial
-        // since we want the other nearly perfect matches to take priority
-        if ((notInitialNearlyPerfectScores.length >= 1) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[0] === specificScore[0]))){
-            console.error("Failed the first warning check segment in TypeScript");
-            scores[warningToCheck[0]][warningToCheck[1]] = 0;
-        } else if ((notInitialNearlyPerfectScores.length >= 2) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[1] === specificScore[1]))){
-            console.error("Failed the second warning check segment in TypeScript");
-            scores[warningToCheck[0]][warningToCheck[1]] = 0;
-        // If both of those are fine, we can likely add this warning as a possible odd exception
-        } else if ((wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]) && (wordsInNameOne[warningToCheck[0]].length === wordsInNameTwo[warningToCheck[1]].length)){
-            scores[warningToCheck[0]][warningToCheck[1]] = 100;
-        } else if (wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]){
-            scores[warningToCheck[0]][warningToCheck[1]] = 85;
-        };
-    };
+    // Figure out which warnings will and won't be problematic and re-score them accordingly
+    _handleWarningChecks(scoreWarnings, notInitialNearlyPerfectScores, scores, wordsInNameOne, wordsInNameTwo);
     
     // Identify the best matchups
     const finalWordsInNameOne = wordsInNameOne.map((word, i) => ((word !== null && word !== '') ? String(i) : ''));
@@ -111,6 +93,45 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
 
     return [bestCombinations, exceptionCount];
 };
+
+/**
+ * This is a helper function designed to handle updating scores to be accurate
+ * even when a single letter is in the name, based on whether or not it thinks
+ * the single letter should be a strong match. It changes the score to reflect
+ * how likely that single letter is to match something perfectly.
+ * 
+ * @param score_warnings - A list of all of the scores that have a value matching
+ *          with a single letter. We need to iterate through and update the
+ *          scores to be more accurate on these
+ * @param not_initial_nearly_perfect_scores - All of the scores of 100 or higher
+ *          that don't have an initial in the pairing 
+ * @param scores - An array of the scores for all of the possible word matchups
+ *          between name one and name two
+ * @param words_in_name_one - A list of all the words in name one
+ * @param words_in_name_two - A list of all of the words in name two
+ */
+function _handleWarningChecks(scoreWarnings: any[], notInitialNearlyPerfectScores: any[], scores: any[][], wordsInNameOne: string[], wordsInNameTwo: string[]): void {
+    // This ensures that in a name pair like ben l love and ben del love the two loves will
+    // be a better match than l and love, which is also technically a 100 but less accurate
+    // than 'love' and 'love'
+    for (const warningToCheck of scoreWarnings){
+        console.error(`Performing warning check with the following variables in TypeScript: warningToCheck - ${warningToCheck} notInitialNearlyPerfectScores - ${notInitialNearlyPerfectScores}`);
+        // If there's a perfect full name match, we want to penalize the score of the initial
+        // since we want the other nearly perfect matches to take priority
+        if ((notInitialNearlyPerfectScores.length >= 1) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[0] === specificScore[0]))){
+            console.error("Failed the first warning check segment in TypeScript");
+            scores[warningToCheck[0]][warningToCheck[1]] = 0;
+        } else if ((notInitialNearlyPerfectScores.length >= 2) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[1] === specificScore[1]))){
+            console.error("Failed the second warning check segment in TypeScript");
+            scores[warningToCheck[0]][warningToCheck[1]] = 0;
+        // If both of those are fine, we can likely add this warning as a possible odd exception
+        } else if ((wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]) && (wordsInNameOne[warningToCheck[0]].length === wordsInNameTwo[warningToCheck[1]].length)){
+            scores[warningToCheck[0]][warningToCheck[1]] = 100;
+        } else if (wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]){
+            scores[warningToCheck[0]][warningToCheck[1]] = 85;
+        };
+    };
+}
 
 /**
  * This is a helper function for findWordMatchesAndQuality to fix its
@@ -340,7 +361,7 @@ export class NameEditor {
     };
 
     /**
-     * Retrieves the modified names
+     * Retrieves the modified names.
      * 
      * @returns The fist modified name and the second modified name
      */
@@ -358,7 +379,17 @@ export class NameEditor {
     };
 };
 
-export function partialRatioWithParity(stringOne: string, stringTwo:string): number{
+/**
+     * This is an implementation of the same partial ratio function that Python
+     * uses since Python's rapidfuzz uses a custom one that is inconsistent with 
+     * every other package and we needed a custom one to fix that.
+     * 
+     * @param stringOne - The first string to run a levenshtein partial ratio on
+     * @param stringTwo - The second string to run a levenshtein partial ratio on
+     * 
+     * @returns - The best score from the results of comparing the two strings by segments
+     */
+export function partialRatioWithParity(stringOne: string, stringTwo:string): number {
 
     if (stringOne.length > stringTwo.length){
         [stringOne, stringTwo] = [stringTwo, stringOne];
@@ -374,7 +405,19 @@ export function partialRatioWithParity(stringOne: string, stringTwo:string): num
     return Math.round(bestScore);
 };
 
-function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: number = 1e-4){
+/**
+     * This adds small tiebreaker values to the end of matrices before calling
+     * a hungarian algorithm on them to ensure that we get the results we want
+     * and that Python and TypeScript versions behave the same.
+     * 
+     * @param inputMatrix - The matrix that will have it's scores modified
+     * @param epsilonValue - The value by which to change the data in the
+     * matrix. Defaults to 1e-4
+     * 
+     * @returns - An updated matrix, changed to tiebreak matches the same way 
+     * between NameComparator versions and languages
+     */
+function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: number = 1e-4): number[][]{
     const rows = inputMatrix.length;
     const columns = inputMatrix[0].length;
     return inputMatrix.map((row, i) =>
@@ -384,15 +427,27 @@ function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: numb
     );
 };
 
-// This is needed to ensure parity with a Python function's behavior
-function indelNormalizedSimilarity(a: string, b: string): number {
-  const dp: number[][] = Array.from({ length: a.length + 1 }, (_, i) =>
-    Array.from({ length: b.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
+/**
+     * Finds a normalized similarity distance between two strings using an 
+     * Indel algorithm. This is needed instead of a package to ensure 
+     * consistent behavior between Python packages and TypeScript ones.
+     * 
+     * @param stringOne - The first string to be compared in the Indel 
+     * normalized similarity calculation
+     * @param stringTwo - The second string to be compared in the Indel
+     * normalized similarity calculatio
+     * 
+     * @returns - A number representing the distance between two different
+     * strings, according to Indel similarity algorithms
+     */
+function indelNormalizedSimilarity(stringOne: string, stringTwo: string): number {
+  const dp: number[][] = Array.from({ length: stringOne.length + 1 }, (_, i) =>
+    Array.from({ length: stringTwo.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
   );
 
-  for (let i = 1; i <= a.length; i++) {
-    for (let j = 1; j <= b.length; j++) {
-      if (a[i - 1] === b[j - 1]) {
+  for (let i = 1; i <= stringOne.length; i++) {
+    for (let j = 1; j <= stringTwo.length; j++) {
+      if (stringOne[i - 1] === stringTwo[j - 1]) {
         dp[i][j] = dp[i - 1][j - 1];
       } else {
         dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1]); // insert or delete only, no substitution
@@ -400,6 +455,6 @@ function indelNormalizedSimilarity(a: string, b: string): number {
     };
   };
 
-  const editDistance = dp[a.length][b.length];
-  return 1 - editDistance / (a.length + b.length);
+  const editDistance = dp[stringOne.length][stringTwo.length];
+  return 1 - editDistance / (stringOne.length + stringTwo.length);
 };

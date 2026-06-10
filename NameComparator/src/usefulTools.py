@@ -66,6 +66,41 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
                 not_initial_nearly_perfect_scores.append((i, j))
             scores[i, j] = score
 
+    # Figure out which warnings will and won't be problematic and re-score them accordingly
+    _handle_warning_checks(score_warnings, not_initial_nearly_perfect_scores, scores, words_in_name_one, words_in_name_two)
+
+    # Identify the best matchups
+    final_words_in_name_one: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_one)]
+    final_words_in_name_two: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_two)]
+
+    best_combinations = identify_best_matches(scores=scores, list_one=final_words_in_name_one, list_two=final_words_in_name_two)
+
+    # For each of the best combinations, we now need to note how many are a combo containing a possible prefix
+    for found_combination in best_combinations:
+        print(f"Checking the combination {found_combination} for prefixes in Python")
+        if ((words_in_name_one[int(found_combination[0])] in prefix_list) or (words_in_name_two[int(found_combination[1])] in prefix_list)) and (words_in_name_one[int(found_combination[0])] != words_in_name_two[int(found_combination[1])]):
+            print(f"Determined that there was a possible prefix in the combination {found_combination} in Python")
+            exception_count = exception_count + 1
+
+    return best_combinations, exception_count
+
+def _handle_warning_checks(score_warnings: list, not_initial_nearly_perfect_scores: list, scores: ndarray, words_in_name_one: list, words_in_name_two: list) -> None:
+    """This is a helper function designed to handle updating scores to be accurate
+    even when a single letter is in the name, based on whether or not it thinks
+    the single letter should be a strong match. It changes the score to reflect
+    how likely that single letter is to match something perfectly.
+
+    Args:
+        score_warnings - A list of all of the scores that have a value matching
+            with a single letter. We need to iterate through and update the
+            scores to be more accurate on these
+        not_initial_nearly_perfect_scores - All of the scores of 100 or higher
+            that don't have an initial in the pairing 
+        scores - An array of the scores for all of the possible word matchups
+            between name one and name two
+        words_in_name_one - A list of all the words in name one
+        words_in_name_two - A list of all of the words in name two
+    """
     # This ensures that in a name pair like ben l love and ben del love the two loves will
     # be a better match than l and love, which is also technically a 100 but less accurate
     # than 'love' and 'love'
@@ -84,21 +119,6 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
             scores[warning_to_check[0], warning_to_check[1]] = 100
         elif words_in_name_one[warning_to_check[0]][0] == words_in_name_two[warning_to_check[1]][0]:
             scores[warning_to_check[0], warning_to_check[1]] = 85
-
-    # Identify the best matchups
-    final_words_in_name_one: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_one)]
-    final_words_in_name_two: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_two)]
-
-    best_combinations = identify_best_matches(scores=scores, list_one=final_words_in_name_one, list_two=final_words_in_name_two)
-
-    # For each of the best combinations, we now need to note how many are a combo containing a possible prefix
-    for found_combination in best_combinations:
-        print(f"Checking the combination {found_combination} for prefixes in Python")
-        if ((words_in_name_one[int(found_combination[0])] in prefix_list) or (words_in_name_two[int(found_combination[1])] in prefix_list)) and (words_in_name_one[int(found_combination[0])] != words_in_name_two[int(found_combination[1])]):
-            print(f"Determined that there was a possible prefix in the combination {found_combination} in Python")
-            exception_count = exception_count + 1
-
-    return best_combinations, exception_count
 
 def _determine_score_of_word_matchup(word_one: str, word_two: str) -> tuple[int, bool]:
     """This is a helper function for find_word_matches_and_quality to fix its
@@ -321,17 +341,18 @@ class NameEditor():
             name_two = '_'
         return name_one, name_two
     
-def partial_ratio_with_parity(string_one, string_two):
+def partial_ratio_with_parity(string_one: str, string_two: str) -> int:
     """This is an implementation of the same partial ratio function that TypeScript
-    uses since rapidfuzz uses a custom one that is inconsistent with every other
-    package
+    uses since Python's rapidfuzz uses a custom one that is inconsistent with every 
+    other package and we needed a custom one to fix that.
     
     Args:
         string_one - The first string to run a levenshtein partial ratio on
         string_two - The second string to run a levenshtein partial ratio on
     
     Returns:
-        The best score from the results of comparing the two strings by segments"""
+        The best score from the results of comparing the two strings by segments
+    """
     # We need to make sure that whatever is labelled as the first string is shorter
     if len(string_one) > len(string_two):
         string_one, string_two = string_two, string_one
@@ -343,7 +364,20 @@ def partial_ratio_with_parity(string_one, string_two):
         best_score = max(best_score, new_score)
     return round_in_a_normal_way(best_score)
 
-def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 1e-4):
+def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 1e-4) -> ndarray:
+    """ This adds small tiebreaker values to the end of matrices before calling
+    a hungarian algorithm on them to ensure that we get the results we want
+    and that Python and TypeScript versions behave the same.
+
+    Args:
+        input_matrix - The matrix that will have it's scores modified
+        epsilon_value - The value by which to change the data in the
+            matrix. Defaults to 1e-4.
+
+    Returns:
+        An updated matrix, changed to tiebreak matches the same way between
+        NameComparator versions and languages
+    """
     rows, columns = input_matrix.shape
     new_matrix = []
     for i in range(rows):
@@ -357,12 +391,37 @@ def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 
     return numpy_array(new_matrix)
 
 def round_in_a_normal_way(number_to_round: float) -> int:
+    """ Python by defaults rounds numbers using an irregular algorithm that's
+    better for datasets but bad for our application. We want to round in the way
+    that most people are taught, so this function does that.
+
+    Args:
+        number_to_round - The number that we want to round in a normal fashion
+
+    Returns:
+        A number, rounded to the nearest integer
+    """
 
     return math_floor(number_to_round + 0.5)
 
 class MakeMunkresConsistentWithTypeScript(Munkres):
-    def __init__(self):
-        """Create a new instance"""
+    """This is a class designed to override Munkres to have a behavior that's
+    consistent with other packages that do similar things in TypeScript.
+    
+    Attributes:
+        C - An n by n matrix that we want to find the cost of
+        row_covered - Rows that have been used in the formula
+        col_covered - Columns that have been used in the formula
+        n - The length of the sides of the matrix (what is n in the n by n matrix)
+        Z0_r - See the Munkres documentation for information on this
+        Z0_c - See the Munkres documentation for information on this
+        marked - See the Munkres documentation for information on this
+        path - See the Munkres documentation for information on this
+    """
+    def __init__(self) -> None:
+        """Create a new instance of Munkres with overrides that help it to be 
+        consistent with the TypeScript version.
+        """
         self.C = []
         self.row_covered = []
         self.col_covered = []
@@ -372,7 +431,18 @@ class MakeMunkresConsistentWithTypeScript(Munkres):
         self.marked = None
         self.path = None
 
-    def _Munkres__find_a_zero(self, i0: int = 0, j0: int = 0):
+    def _Munkres__find_a_zero(self) -> tuple[int, int]:
+        """This is an override for the algorithm that the Python Munkres package
+        uses to be slightly less optimal, but in a way that is standard to other
+        packages and creates parity with the TypeScript version. It's only used 
+        in the Munkres algorithms and should be ignored unless something is 
+        *really* wrong. Note that this won't be called in our code since it's
+        just an override.
+
+        Returns:
+            This returns a tuple that contains the location of a zero in the
+            munkres Matrix
+        """
         for i in range(self.n):
             for j in range(self.n):
                 if (self.C[i][j] == 0 and
