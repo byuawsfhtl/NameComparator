@@ -431,7 +431,7 @@ class MakeMunkresConsistentWithTypeScript(Munkres):
         self.marked = None
         self.path = None
 
-    def _Munkres__find_a_zero(self, row_val: int, col_val: int) -> tuple[int, int]:
+    def _Munkres__find_a_zero(self, row_val: int, col_val: int) -> tuple[int, int]: # type: ignore N805
         """This is an override for the algorithm that the Python Munkres package
         uses to be slightly less optimal, but in a way that is standard to other
         packages and creates parity with the TypeScript version. It's only used 
