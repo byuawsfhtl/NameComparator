@@ -111,12 +111,10 @@ def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, in
             if len(substring) > 1:
                 ipa_substring, success = _string_pronuncation_ipa_guess(substring)
                 print(f"Variable check for skipping due to conditions in Python: success - {success}, len(ipa_substring) - {len(ipa_substring)} (len(substring) * 2) - {(len(substring) * 2)}, substring_splits_th_sound(substring, word, i, j) - {substring_splits_th_sound(substring, word, i, j)}")
-                if (not success) or (len(ipa_substring) >= (len(substring) * 2)) or (substring_splits_th_sound(substring, word, i, j)): 
-                    print(f"Skipped the substring {substring} due to many conditions in Python")
-                    continue
-                else: 
-                    pronunciation_of_largest_substring = ipa_substring
-                    print(f"Updated largest substring to be {ipa_substring} based on a guess in Python")
+                if (not success) or (len(ipa_substring) >= (len(substring) * 2)) or (substring_splits_th_sound(substring, word, i, j)): continue
+                # print(f"Skipped the substring {substring} due to many conditions in Python")
+                else: pronunciation_of_largest_substring = ipa_substring
+                # print(f"Updated largest substring to be {ipa_substring} based on a guess in Python")
             elif len(substring) == 1:
                 letter_to_pronunciation = {
                     "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",

@@ -1,9 +1,9 @@
-import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
+import { ratio as fuzzball_ratio } from 'fuzzball';
 import munkres from 'munkres-js';
 import memoize from 'memoizee';
-import { string } from 'mathjs';
 import { getIpa } from './ipa.js';
-import { warn } from 'console';
+
+import prefixList from '../../data/possiblePrefixList.json' with { type: "json"};
 
 // Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
 export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemoized, {max: 1000});
@@ -72,26 +72,50 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
     // Figure out which warnings will and won't be problematic and re-score them accordingly
     _handleWarningChecks(scoreWarnings, notInitialNearlyPerfectScores, scores, wordsInNameOne, wordsInNameTwo);
     
-    // Identify the best matchups
-    const finalWordsInNameOne = wordsInNameOne.map((word, i) => ((word !== null && word !== '') ? String(i) : ''));
-    const finalWordsInNameTwo = wordsInNameTwo.map((word, i) => ((word !== null && word !== '') ? String(i) : ''));
+    // Identify the indices of the final words in each name
+    const finalWordsInNameOne = _getFinalWordsForName(wordsInNameOne);
+    const finalWordsInNameTwo = _getFinalWordsForName(wordsInNameTwo);
 
+    // Identify the best matchups
     const bestCombinations = identifyBestMatches(scores, finalWordsInNameOne, finalWordsInNameTwo);
 
     // For each of the best combinations, we now need to note how many are a combo containing a possible prefix
-    const possiblePrefixes = [
-        "d'", "de", "fi", "santa", "san", "de la", "de los", "del", "la", "le", "du", "dela", "los", 
-        "der", "den", "vanden", "vander", "vande", "van", "von", 'di', 'dil', 'mc', 'mac'
-    ];
     for (const foundCombination of bestCombinations){
         console.error(`Checking the combination ${foundCombination} for prefixes in TypeScript`);
-        if ((((possiblePrefixes.includes(wordsInNameOne[Number(foundCombination[0])])) === true) || (possiblePrefixes.includes(wordsInNameTwo[Number(foundCombination[1])]) === true)) && (wordsInNameOne[Number(foundCombination[0])] != wordsInNameTwo[Number(foundCombination[1])])){
+        if ((((prefixList.includes(wordsInNameOne[Number(foundCombination[0])])) === true) || (prefixList.includes(wordsInNameTwo[Number(foundCombination[1])]) === true)) && (wordsInNameOne[Number(foundCombination[0])] != wordsInNameTwo[Number(foundCombination[1])])){
             console.error(`Determined that there was a possible prefix in the combination ${foundCombination} in TypeScript`);
             exceptionCount = exceptionCount + 1;
         };
     };
 
     return [bestCombinations, exceptionCount];
+};
+
+/**
+ * This is a helper function designed to determine the indices of the
+ * positions of words in a name so that the best matches of those words
+ * can be determined later on. Part of it's purpose is to filter out
+ * spaces with removed names, nicknames, prefixes, etc.
+ * 
+ * @param wordsInName - A list of the words in the name, including any 
+ *          removed items
+ * 
+ * @returns A list of indices (as a string data type) that show the location in the
+ *          original name of the kept words
+ */
+function _getFinalWordsForName(wordsInName: string[]): string[]{
+
+    var finalListOfWordIndices = [];
+
+    for (const [index, word] of wordsInName.entries()){
+        if (word !== null && word !== ""){
+            finalListOfWordIndices.push(index.toString());
+        } else {
+            finalListOfWordIndices.push("");
+        };
+    };
+
+    return finalListOfWordIndices;
 };
 
 /**

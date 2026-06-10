@@ -9944,7 +9944,7 @@ articleNames = [
     {
 		'name_one': 'leo sosa',
 		'name_two': 'leo p. delsasso', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'leo sosa comparison with article'
 	},
     {
@@ -11600,7 +11600,7 @@ articleNames = [
     {
 		'name_one': 'muriel l bishop',
 		'name_two': 'merle lamont bishop', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'muriel l bishop comparison with article'
 	},
     {

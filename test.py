@@ -1,4 +1,4 @@
-from NameComparator.NameComparator import compare_two_names
+from NameComparator.src.usefulTools import _get_final_words_for_name
 
 print(compare_two_names("angie t king", "angie lena turner king"))
 

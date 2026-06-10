@@ -121,6 +121,7 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
     """        
 
     should_penalty_apply = False
+    was_prefix_modified = False
     was_irish_o_removed = False
 
     # Return if either name is blank
@@ -147,10 +148,14 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
 
     if (' o ' in name_one) or (" o" in name_one) or (" o" in name_two) or (' o ' in name_two):
         for surname in irish_names_starting_with_o:
+            removed_o_this_run = False
             if (surname in name_one) or (surname in name_two):
-                name_one, name_two, was_irish_o_removed = _remove_irish_o(name_one, name_two, surname)
+                name_one, name_two, removed_o_this_run = _remove_irish_o(name_one, name_two, surname)
+            if removed_o_this_run:
+                was_irish_o_removed = True
 
     print(f"Names after dealing with Irish 'O's in Python: name_one - {name_one} name_two - {name_two}")
+    print(f"Check to see if the variable is correct in Python: was_irish_o_removed - {was_irish_o_removed}")
 
     # Determine if there is a floating prefix that should be removed before making any other changes
     name_one_segments = name_one.split()
@@ -615,6 +620,8 @@ def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str, 
     old_name_two = name_two
     was_o_removed = False
 
+    print(f"Names at the beginning of removing Irish Os in Python: name_one - {name_one} name_two - {name_two} old_name_one - {old_name_one} old_name_two - {old_name_two}")
+
     # Edit the names
     surname_one = name_one.split()[-1]
     if fuzz_ratio(surname_one, surname) > 75:
@@ -624,21 +631,20 @@ def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str, 
                 was_o_removed = True
         else:
             name_one = name_one.replace(f'o {surname_one}', surname)
-            was_o_removed = True
             if (old_name_one != name_one):
                 was_o_removed = True
     surname_two = name_two.split()[-1]
     if fuzz_ratio(surname_two, surname) > 75:
         if surname_two[0] == 'o':
             name_two = name_two.replace(f'{surname_two}', surname)
-            was_o_removed = True
             if (old_name_two != name_two):
                 was_o_removed = True
         else:
             name_two = name_two.replace(f'o {surname_two}', surname)
-            was_o_removed = True
             if (old_name_two != name_two):
                 was_o_removed = True
+
+    print(f"Names at the end of removing Irish Os in Python: name_one - {name_one} name_two - {name_two} old_name_one - {old_name_one} old_name_two - {old_name_two}")
 
     return name_one, name_two, was_o_removed
 

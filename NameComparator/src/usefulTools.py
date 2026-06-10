@@ -69,10 +69,11 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
     # Figure out which warnings will and won't be problematic and re-score them accordingly
     _handle_warning_checks(score_warnings, not_initial_nearly_perfect_scores, scores, words_in_name_one, words_in_name_two)
 
-    # Identify the best matchups
-    final_words_in_name_one: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_one)]
-    final_words_in_name_two: list[str | None] = [str(i) if (word is not None and word != '') else '' for i, word in enumerate(words_in_name_two)]
+    # Identify the indices of the final words in each name
+    final_words_in_name_one = _get_final_words_for_name(words_in_name_one)
+    final_words_in_name_two = _get_final_words_for_name(words_in_name_two)
 
+    # Identify the best matchups
     best_combinations = identify_best_matches(scores=scores, list_one=final_words_in_name_one, list_two=final_words_in_name_two)
 
     # For each of the best combinations, we now need to note how many are a combo containing a possible prefix
@@ -83,6 +84,34 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
             exception_count = exception_count + 1
 
     return best_combinations, exception_count
+
+def _get_final_words_for_name(words_in_name: list) -> list[str | None]:
+    """This is a helper function designed to determine the indices of the
+    positions of words in a name so that the best matches of those words
+    can be determined later on. Part of it's purpose is to filter out
+    spaces with removed names, nicknames, prefixes, etc.
+    
+    Args:
+        words_in_name: A list of the words in the name, including any removed
+            items
+            
+    Returns:
+        A list of indices (as a string data type) that show the location in the
+        original name of the kept words
+    """
+    
+    final_list_of_word_indices = []
+
+    for index, word in enumerate(words_in_name):
+        if word is not None and word != '':
+            final_list_of_word_indices.append(str(index))
+        else:
+            final_list_of_word_indices.append('')
+
+    return final_list_of_word_indices
+
+
+
 
 def _handle_warning_checks(score_warnings: list, not_initial_nearly_perfect_scores: list, scores: ndarray, words_in_name_one: list, words_in_name_two: list) -> None:
     """This is a helper function designed to handle updating scores to be accurate

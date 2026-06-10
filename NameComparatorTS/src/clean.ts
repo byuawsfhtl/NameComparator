@@ -144,11 +144,17 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
 
     if (nameOne.includes(" o ") || nameOne.includes(" o") || nameTwo.includes(" o ") || nameTwo.includes(" o")){
         for (const surname of irishNamesStartingWithO) {
+            var removedOThisRun = false;
             if (nameOne.includes(surname) || nameTwo.includes(surname)){
-                [nameOne, nameTwo, wasIrishORemoved] = _removeIrishO(nameOne, nameTwo, surname);
+                [nameOne, nameTwo, removedOThisRun] = _removeIrishO(nameOne, nameTwo, surname);
             };
+            if (removedOThisRun === true){
+                wasIrishORemoved = true;
+            }
         };
     };
+
+    console.error(`Check to see if the variable is correct in TypeScript: wasIrishORemoved - ${wasIrishORemoved}`);
 
     // Determine if there is a floating prefix that should be removed before making any other changes
     var nameOneSegments = nameOne.trim().split(/\s+/);
@@ -672,12 +678,12 @@ function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [stri
     if (fuzzball_ratio(surnameOne, surname, { full_process: false }) > 75) {
         if (surnameOne[0] == 'o') {
             nameOne = nameOne.replace(surnameOne, surname);
-            if (oldNameOne !== nameOne){
+            if (oldNameOne != nameOne){
                 wasORemoved = true;
             }
         } else {
             nameOne = nameOne.replace(`o ${surnameOne}`, surname);
-            if (oldNameOne !== nameOne){
+            if (oldNameOne != nameOne){
                 wasORemoved = true;
             }
         };
@@ -686,12 +692,12 @@ function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [stri
     if (fuzzball_ratio(surnameTwo, surname, { full_process: false }) > 75) {
         if (surnameTwo[0] == 'o') {
             nameTwo = nameTwo.replace(surnameTwo, surname);
-            if (oldNameTwo !== nameTwo){
+            if (oldNameTwo != nameTwo){
                 wasORemoved = true;
             }
         } else {
             nameTwo = nameTwo.replace(`o ${surnameTwo}`, surname);
-            if (oldNameTwo !== nameTwo){
+            if (oldNameTwo != nameTwo){
                 wasORemoved = true;
             }
         };
