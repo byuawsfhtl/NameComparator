@@ -434,6 +434,20 @@ def _fix_related_prefixes(name_one:str, name_two:str, prefix_variant_one:str, pr
     return name_one, name_two, True
 
 def _remove_floating_prefix_if_unnecessary(target_name_segments: list[str], other_name_segments: list[str]) -> str:
+    """This function deteremines if there is a prefix in the name that is on it's own 
+    (is floating) and then determines if it thinks it will be best to keep the prefix 
+    or to remove it.
+    
+    Args:
+        target_name_segments: All of the words / segments inside of the name that's going to 
+            be modified
+        other_name_segments: All of the words / segments inside of the name that's going to
+            be compared against to see if the target name is going to be modified
+            
+    Returns:
+        The updated target name as a string, updated to have removed any standalone 
+        (floating) prefixes, if necessary
+    """
 
     print(f"Check to make sure prefix_list imported correctly in Python: {prefix_list}")
 

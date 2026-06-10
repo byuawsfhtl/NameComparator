@@ -468,6 +468,20 @@ function _fixRelatedPrefixes(nameOne: string, nameTwo: string, prefixVariantOne:
     return [nameOne, nameTwo, true];
 };
 
+/**
+ * This function deteremines if there is a prefix in the name that is on it's own
+ * (is floating) and then determines if it thinks it will be best to keep the
+ * prefix or to remove it.
+ * 
+ * @param targetNameSegments - All of the words / segments inside of the name 
+ *          that's going to be modified
+ * @param otherNameSegments - All of the words / segments inside of the name 
+ *          that's going to be compared against to see if the target name is 
+ *          going to be modified
+ * 
+ * @returns The updated target name as a string, updated to have removed any 
+ *      standalone (floating) prefixes, if necessary
+ */
 function _removeFloatingPrefixIfUnnecessary(targetNameSegments: string[], otherNameSegments: string[]): string {
     
     console.error(`Check to make sure prefixList imported correctly in TypeScript: ${prefixList}`);

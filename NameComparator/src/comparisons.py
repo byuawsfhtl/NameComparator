@@ -75,6 +75,8 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         name_one: The first name used in the consonant comparison
         name_two: The second name used in the consonant comparison
         word_combos: The word combos of the names, as found in compare_spelling
+        possible_prefix_count: A count of possible prefixes that we need to consider
+            when determining whether or not the names will pass
 
     Returns:
         A tuple containing a boolean representing whether or not the two names 
@@ -115,8 +117,7 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         if original_score_for_words <= guaranteed_fail_score:
             print("Below guaranteed fail score in Python")
             continue
-        else:
-            if (len(word_one) == 1 and word_one == word_two[0]) or (len(word_two) == 1 and word_two == word_one[0]):
+        elif (len(word_one) == 1 and word_one == word_two[0]) or (len(word_two) == 1 and word_two == word_one[0]):
                 print("Updated consonant ratio due to initials in Python")
                 consonant_ratio = 80
         if (((consonant_ratio < guaranteed_passing_score) or (original_score_for_words < further_checks_needed_score)) and (consonant_ratio != max_score)):

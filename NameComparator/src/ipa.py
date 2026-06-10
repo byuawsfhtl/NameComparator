@@ -117,9 +117,9 @@ def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, in
                 # print(f"Updated largest substring to be {ipa_substring} based on a guess in Python")
             elif len(substring) == 1:
                 letter_to_pronunciation = {
-                    "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
-                    "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
-                    "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
+                "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
+                "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
+                "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
                 }
                 pronunciation_of_largest_substring = letter_to_pronunciation.get(substring, largest_substring)
                 print(f"Updated largest substring to be {pronunciation_of_largest_substring} based on the letter to pronunciation table in Python")
