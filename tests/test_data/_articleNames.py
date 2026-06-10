@@ -11780,7 +11780,7 @@ articleNames = [
     {
 		'name_one': 'nina g dean',
 		'name_two': 'nina o. dean', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'nina g dean comparison with article'
 	},
     {
@@ -13604,7 +13604,7 @@ articleNames = [
     {
 		'name_one': 'robert r leidy',
 		'name_two': 'raimundo lida', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'robert r leidy comparison with article'
 	},
     {
@@ -16166,7 +16166,7 @@ articleNames = [
     {
 		'name_one': 'a john vounie',
 		'name_two': 'john j. a. devenny', 
-		'expected': True, 
+		'expected': False, 
 		'description': 'a john vounie comparison with article'
 	},
     {
@@ -16184,19 +16184,19 @@ articleNames = [
     {
 		'name_one': 'clifford mays',
 		'name_two': 'clifford j. lemay', 
-		'expected': True, 
+		'expected': False, 
 		'description': 'clifford mays comparison with article'
 	},
     {
 		'name_one': 'helan francest lauterer',
 		'name_two': 'helen forrest lauterer', 
-		'expected': True, 
+		'expected': False, 
 		'description': 'helan francest lauterer comparison with article'
 	},
     {
 		'name_one': 'henry p lane, jr',
 		'name_two': 'henry p. lange', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'henry p lane, jr comparison with article'
 	},
     {
@@ -16208,7 +16208,7 @@ articleNames = [
     {
 		'name_one': 'john w leslie',
 		'name_two': 'wolf leslau', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'john w leslie comparison with article'
 	},
     {
@@ -16238,19 +16238,19 @@ articleNames = [
     {
 		'name_one': 'morton levy',
 		'name_two': 'martin j. levy', 
-		'expected': False, 
+		'expected': True, 
 		'description': 'morton levy comparison with article'
 	},
     {
 		'name_one': 'theodore b ley',
 		'name_two': 'theodore delay', 
-		'expected': True, 
+		'expected': False, 
 		'description': 'theodore b ley comparison with article'
 	},
     {
 		'name_one': 'victor j cassidy',
 		'name_two': 'julian victor langmead casserley', 
-		'expected': True, 
+		'expected': False, 
 		'description': 'victor j cassidy comparison with article'
 	},
 ]

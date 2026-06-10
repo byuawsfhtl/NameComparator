@@ -121,6 +121,7 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
     """        
 
     should_penalty_apply = False
+    was_irish_o_removed = False
 
     # Return if either name is blank
     if (name_one == '_') or (name_two == '_'):
@@ -147,7 +148,7 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
     if (' o ' in name_one) or (" o" in name_one) or (" o" in name_two) or (' o ' in name_two):
         for surname in irish_names_starting_with_o:
             if (surname in name_one) or (surname in name_two):
-                name_one, name_two = _remove_irish_o(name_one, name_two, surname)
+                name_one, name_two, was_irish_o_removed = _remove_irish_o(name_one, name_two, surname)
 
     print(f"Names after dealing with Irish 'O's in Python: name_one - {name_one} name_two - {name_two}")
 
@@ -185,7 +186,7 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
     name_two = re_sub(r'\s+', ' ', name_two)
     name_two = name_two.strip()
 
-    if was_prefix_modified:
+    if was_prefix_modified or was_irish_o_removed:
         should_penalty_apply = True
 
     # Return the cleaned names
@@ -597,7 +598,7 @@ def _determine_if_skip_names_in_fix_mc_and_mac_names(name_one: str, name_two: st
 
     return ("mc" not in name_one) and ("mac" not in name_one) and ("mc" not in name_two) and ("mac" not in name_two)
 
-def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str]:
+def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str, bool]:
     """Removes the irish O if needed for easier name comparison.
 
     Args:
@@ -606,24 +607,40 @@ def _remove_irish_o(name_one:str, name_two:str, surname:str) -> tuple[str, str]:
         surname: One of the irish surnames that often starts with O'
 
     Returns:
-        A tuple containing the two modified names, with the Irish o removed
-    """        
+        A tuple containing the two modified names with the Irish o removed
+        if appropriate and a boolean representing whether an o was removed
+    """      
+
+    old_name_one = name_one
+    old_name_two = name_two
+    was_o_removed = False
 
     # Edit the names
     surname_one = name_one.split()[-1]
     if fuzz_ratio(surname_one, surname) > 75:
         if surname_one[0] == 'o':
             name_one = name_one.replace(f'{surname_one}', surname)
+            if (old_name_one != name_one):
+                was_o_removed = True
         else:
             name_one = name_one.replace(f'o {surname_one}', surname)
+            was_o_removed = True
+            if (old_name_one != name_one):
+                was_o_removed = True
     surname_two = name_two.split()[-1]
     if fuzz_ratio(surname_two, surname) > 75:
         if surname_two[0] == 'o':
             name_two = name_two.replace(f'{surname_two}', surname)
+            was_o_removed = True
+            if (old_name_two != name_two):
+                was_o_removed = True
         else:
             name_two = name_two.replace(f'o {surname_two}', surname)
+            was_o_removed = True
+            if (old_name_two != name_two):
+                was_o_removed = True
 
-    return name_one, name_two
+    return name_one, name_two, was_o_removed
 
 def _remove_unnecessary_prefixes(prefix:str, name_one:str = "_", name_two:str = "_") -> tuple[str, str, bool]:
     """Removes an unnecessary prefix from either or both of the names if

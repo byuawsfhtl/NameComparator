@@ -117,9 +117,8 @@ export function cleanName(name: string): string {
 export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = "_"): [string, string, boolean] {
 
     var shouldPenaltyApply = false;
-    var wasScottishPrefixRemoved = false;
-    var wasMcOrMacRemoved = false;
     var wasPrefixModified = false;
+    var wasIrishORemoved = false;
 
     // Return if either name is blank
     if (nameOne == "_" || nameTwo == "_") {
@@ -146,7 +145,7 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
     if (nameOne.includes(" o ") || nameOne.includes(" o") || nameTwo.includes(" o ") || nameTwo.includes(" o")){
         for (const surname of irishNamesStartingWithO) {
             if (nameOne.includes(surname) || nameTwo.includes(surname)){
-                [nameOne, nameTwo] = _removeIrishO(nameOne, nameTwo, surname);
+                [nameOne, nameTwo, wasIrishORemoved] = _removeIrishO(nameOne, nameTwo, surname);
             };
         };
     };
@@ -189,7 +188,7 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
     nameTwo = nameTwo.replace(/\s+/g, ' ')
                      .trim();
 
-    if (wasPrefixModified === true){
+    if (wasPrefixModified === true || wasIrishORemoved === true){
         shouldPenaltyApply = true;
     };
 
@@ -659,29 +658,46 @@ function _determineIfSkipNamesInFixMcAndMacNames(nameOne: string, nameTwo: strin
  * @param nameOne - The first name to remove a possible Irish o from
  * @param nameTwo - The second name to remove a possible Irish o from
  * @param surname - one of the irish surnames that often starts with O'
- * @returns The two modified names, with the Irish o removed
+ * @returns The two modified names with the Irish o removed if 
+ *      appropriate and a boolean representing whether an o was removed
  */
-function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [string, string] {
+function _removeIrishO(nameOne: string, nameTwo: string, surname: string): [string, string, boolean] {
+
+    const oldNameOne = nameOne;
+    const oldNameTwo = nameTwo;
+    var wasORemoved = false;
 
     // Edit the names
     const surnameOne = nameOne.trim().split(/\s+/).pop() || '';
     if (fuzzball_ratio(surnameOne, surname, { full_process: false }) > 75) {
         if (surnameOne[0] == 'o') {
             nameOne = nameOne.replace(surnameOne, surname);
+            if (oldNameOne !== nameOne){
+                wasORemoved = true;
+            }
         } else {
             nameOne = nameOne.replace(`o ${surnameOne}`, surname);
+            if (oldNameOne !== nameOne){
+                wasORemoved = true;
+            }
         };
     };
     const surnameTwo = nameTwo.trim().split(/\s+/).pop() || '';
     if (fuzzball_ratio(surnameTwo, surname, { full_process: false }) > 75) {
         if (surnameTwo[0] == 'o') {
             nameTwo = nameTwo.replace(surnameTwo, surname);
+            if (oldNameTwo !== nameTwo){
+                wasORemoved = true;
+            }
         } else {
             nameTwo = nameTwo.replace(`o ${surnameTwo}`, surname);
+            if (oldNameTwo !== nameTwo){
+                wasORemoved = true;
+            }
         };
     };
 
-    return [nameOne, nameTwo];
+    return [nameOne, nameTwo, wasORemoved];
 };
 
 /**

@@ -91,15 +91,15 @@ def _handle_warning_checks(score_warnings: list, not_initial_nearly_perfect_scor
     how likely that single letter is to match something perfectly.
 
     Args:
-        score_warnings - A list of all of the scores that have a value matching
+        score_warnings: A list of all of the scores that have a value matching
             with a single letter. We need to iterate through and update the
             scores to be more accurate on these
-        not_initial_nearly_perfect_scores - All of the scores of 100 or higher
+        not_initial_nearly_perfect_scores: All of the scores of 100 or higher
             that don't have an initial in the pairing 
-        scores - An array of the scores for all of the possible word matchups
+        scores: An array of the scores for all of the possible word matchups
             between name one and name two
-        words_in_name_one - A list of all the words in name one
-        words_in_name_two - A list of all of the words in name two
+        words_in_name_one: A list of all the words in name one
+        words_in_name_two: A list of all of the words in name two
     """
     # This ensures that in a name pair like ben l love and ben del love the two loves will
     # be a better match than l and love, which is also technically a 100 but less accurate
@@ -209,7 +209,7 @@ def identify_best_matches(scores:ndarray, list_one:list[str|None], list_two:list
             continue
         elif (list_one[i] is not None) and (list_two[j] is not None) and (list_one[i] != '') and (list_two[j] != ''):
             # This rounding and typecasting to a float is needed to make it match the TypeScript output in tests
-            matchup_score = float(round_in_a_normal_way(scores[i, j]))
+            matchup_score = float(round_in_a_normal_way(float(scores[i, j])))
             best_combinations.append((list_one[i], list_two[j], matchup_score))
         
     return best_combinations
@@ -347,8 +347,8 @@ def partial_ratio_with_parity(string_one: str, string_two: str) -> int:
     other package and we needed a custom one to fix that.
     
     Args:
-        string_one - The first string to run a levenshtein partial ratio on
-        string_two - The second string to run a levenshtein partial ratio on
+        string_one: The first string to run a levenshtein partial ratio on
+        string_two: The second string to run a levenshtein partial ratio on
     
     Returns:
         The best score from the results of comparing the two strings by segments
@@ -370,8 +370,8 @@ def tiebreak_matches_consistently(input_matrix: ndarray, epsilon_value: float = 
     and that Python and TypeScript versions behave the same.
 
     Args:
-        input_matrix - The matrix that will have it's scores modified
-        epsilon_value - The value by which to change the data in the
+        input_matrix: The matrix that will have it's scores modified
+        epsilon_value: The value by which to change the data in the
             matrix. Defaults to 1e-4.
 
     Returns:
@@ -396,7 +396,7 @@ def round_in_a_normal_way(number_to_round: float) -> int:
     that most people are taught, so this function does that.
 
     Args:
-        number_to_round - The number that we want to round in a normal fashion
+        number_to_round: The number that we want to round in a normal fashion
 
     Returns:
         A number, rounded to the nearest integer
@@ -431,13 +431,17 @@ class MakeMunkresConsistentWithTypeScript(Munkres):
         self.marked = None
         self.path = None
 
-    def _Munkres__find_a_zero(self) -> tuple[int, int]:
+    def _Munkres__find_a_zero(self, row_val: int, col_val: int) -> tuple[int, int]:
         """This is an override for the algorithm that the Python Munkres package
         uses to be slightly less optimal, but in a way that is standard to other
         packages and creates parity with the TypeScript version. It's only used 
         in the Munkres algorithms and should be ignored unless something is 
         *really* wrong. Note that this won't be called in our code since it's
         just an override.
+
+        Args:
+            row_val: The value of a column in which to search for a zero (unused)
+            col_val: The value of the column in which to search for a zero (unused)
 
         Returns:
             This returns a tuple that contains the location of a zero in the
