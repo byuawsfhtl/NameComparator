@@ -468,18 +468,25 @@ function _removeFloatingPrefixIfUnnecessary(targetNameSegments: string[], otherN
     console.error(`Check to make sure prefixList imported correctly in TypeScript: ${prefixList}`);
 
     var improvedNameSegmentList = [];
+    var previousSegmentWasMerged = false;
 
     for (var [segmentIndex, nameSegment] of targetNameSegments.entries()) {
-        if (prefixList.includes(nameSegment)) {
+        if (previousSegmentWasMerged === true){
+            previousSegmentWasMerged = false;
+            continue;
+
+        } else if (prefixList.includes(nameSegment)) {
             for (var segmentFromOtherName of otherNameSegments) {
                 if ((segmentIndex + 2 <= targetNameSegments.length) && ((nameSegment + targetNameSegments[segmentIndex + 1]) === segmentFromOtherName)){
                     improvedNameSegmentList.push((nameSegment + targetNameSegments[segmentIndex + 1]));
+                    previousSegmentWasMerged = true;
                     break;
                 } else if (nameSegment[0] === segmentFromOtherName[0]){
                     improvedNameSegmentList.push(nameSegment);
                     break;
                 };
             };
+
         } else {
             improvedNameSegmentList.push(nameSegment);
         };
