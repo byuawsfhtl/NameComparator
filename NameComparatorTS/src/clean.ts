@@ -129,32 +129,7 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
     [nameOne, nameTwo] = _dealWithDashes(nameOne, nameTwo);
 
     // Deal with just Irish "O" names
-    const irishNamesStartingWithO = [
-        'beirne', 'berry', 'boyle', 'bryant', 'brian', 'brien', 'bryan', 'ceallaigh', 'conner',
-        'connor', 'conor', 'daniel', 'day', 'dean', 'dea', 'doherty', 'donnell', 'donnel', 'donoghue',
-        'donohue', 'donovan', 'dowd', 'driscoll', 'fallon', 'farrell', 'flaherty', 'flanagan', 'flynn',
-        'gara', 'gorman', 'grady', 'guinn', 'guin', 'hagan', 'haire', 'hair', 'halloran', 'hanlon',
-        'hara', 'hare', 'harra', 'harrow', 'haver', 'hearn', 'hern', 'herron', 'higgins', 'hora',
-        'kane', 'keefe', 'keeffe', 'kelley', 'kelly', 'laughlin', 'leary', 'loughlin', 'mahoney',
-        'mahony', 'maley', 'malley', 'mara', 'mary', 'meara', 'melia', 'moore', 'more', 'muir',
-        'murchu', 'mure', 'murphy', 'neall', 'neal', 'neill', 'neil', 'ney', 'niall', 'quinn', 'regan',
-        'reilly', 'riley', 'riordan', 'roark', 'rorke', 'rourke', 'ryan', 'shaughnessy', 'shea',
-        'shields', 'sullivan', 'toole', 'tool',
-    ];
-
-    if (nameOne.includes(" o ") || nameOne.includes(" o") || nameTwo.includes(" o ") || nameTwo.includes(" o")){
-        for (const surname of irishNamesStartingWithO) {
-            var removedOThisRun = false;
-            if (nameOne.includes(surname) || nameTwo.includes(surname)){
-                [nameOne, nameTwo, removedOThisRun] = _removeIrishO(nameOne, nameTwo, surname);
-            };
-            if (removedOThisRun === true){
-                wasIrishORemoved = true;
-            }
-        };
-    };
-
-    console.error(`Check to see if the variable is correct in TypeScript: wasIrishORemoved - ${wasIrishORemoved}`);
+    [nameOne, nameTwo, wasIrishORemoved] = _handleIrishOInNames(nameOne, nameTwo);
 
     // Determine if there is a floating prefix that should be removed before making any other changes
     var nameOneSegments = nameOne.trim().split(/\s+/);
@@ -210,6 +185,50 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
 };
 
 /**
+ * Removes irish 'o's from a name if it's appropriate as part of the name 
+ * cleaning process.
+ * 
+ * @param nameOne - The first name to check for irish 'o's in
+ * @param nameTwo - The second name to check for irish 'o's in
+ * 
+ * @returns A tuple containing the two names after handling the irish 'o's and a boolean
+ *          representing whether or not an o was removed
+ */
+function _handleIrishOInNames(nameOne: string, nameTwo: string): [string, string, boolean] {
+    var wasIrishORemoved = false;
+
+    const irishNamesStartingWithO = [
+        'beirne', 'berry', 'boyle', 'bryant', 'brian', 'brien', 'bryan', 'ceallaigh', 'conner',
+        'connor', 'conor', 'daniel', 'day', 'dean', 'dea', 'doherty', 'donnell', 'donnel', 'donoghue',
+        'donohue', 'donovan', 'dowd', 'driscoll', 'fallon', 'farrell', 'flaherty', 'flanagan', 'flynn',
+        'gara', 'gorman', 'grady', 'guinn', 'guin', 'hagan', 'haire', 'hair', 'halloran', 'hanlon',
+        'hara', 'hare', 'harra', 'harrow', 'haver', 'hearn', 'hern', 'herron', 'higgins', 'hora',
+        'kane', 'keefe', 'keeffe', 'kelley', 'kelly', 'laughlin', 'leary', 'loughlin', 'mahoney',
+        'mahony', 'maley', 'malley', 'mara', 'mary', 'meara', 'melia', 'moore', 'more', 'muir',
+        'murchu', 'mure', 'murphy', 'neall', 'neal', 'neill', 'neil', 'ney', 'niall', 'quinn', 'regan',
+        'reilly', 'riley', 'riordan', 'roark', 'rorke', 'rourke', 'ryan', 'shaughnessy', 'shea',
+        'shields', 'sullivan', 'toole', 'tool',
+    ];
+
+    if (nameOne.includes(" o ") || nameOne.includes(" o") || nameTwo.includes(" o ") || nameTwo.includes(" o")){
+        for (const surname of irishNamesStartingWithO) {
+            var removedOThisRun = false;
+            if (nameOne.includes(surname) || nameTwo.includes(surname)){
+                [nameOne, nameTwo, removedOThisRun] = _removeIrishO(nameOne, nameTwo, surname);
+            };
+            if (removedOThisRun === true){
+                wasIrishORemoved = true;
+            };
+        };
+    };
+
+    console.error(`Names after dealing with Irish 'O's in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo}`);
+    console.error(`Check to see if the variable is correct in TypeScript: wasIrishORemoved - ${wasIrishORemoved}`);
+
+    return [nameOne, nameTwo, wasIrishORemoved];
+}
+
+/**
  * This is a helper function for clean_names_by_comparison that helps manage its
  * cyclomatic complexity. It takes in two names that are going to be compared later
  * on and figures out what needs to be done with prefixes that might be on them to
@@ -217,6 +236,7 @@ export function cleanNamesByComparison(nameOne: string = "_", nameTwo: string = 
  * 
  * @param nameOne - The first name to run prefix checks and handling on
  * @param nameTwo - The second name to run prefix checks and handling on
+ * 
  * @returns A tuple containing the input names, with prefixes modified in a way that 
  *          lets them be standardized later on
  */
@@ -495,16 +515,9 @@ function _removeFloatingPrefixIfUnnecessary(targetNameSegments: string[], otherN
             continue;
 
         } else if (prefixList.includes(nameSegment)) {
-            for (var segmentFromOtherName of otherNameSegments) {
-                if ((segmentIndex + 2 <= targetNameSegments.length) && ((nameSegment + targetNameSegments[segmentIndex + 1]) === segmentFromOtherName)){
-                    improvedNameSegmentList.push((nameSegment + targetNameSegments[segmentIndex + 1]));
-                    previousSegmentWasMerged = true;
-                    break;
-                } else if (nameSegment[0] === segmentFromOtherName[0]){
-                    improvedNameSegmentList.push(nameSegment);
-                    break;
-                };
-            };
+            var add_to_improved_segment_list = [];
+            [add_to_improved_segment_list, previousSegmentWasMerged] = _iterateThroughAndCompareToOtherNameSegments(targetNameSegments, otherNameSegments, segmentIndex, nameSegment);
+            improvedNameSegmentList.push.apply(improvedNameSegmentList, add_to_improved_segment_list);
 
         } else {
             improvedNameSegmentList.push(nameSegment);
@@ -515,6 +528,24 @@ function _removeFloatingPrefixIfUnnecessary(targetNameSegments: string[], otherN
 
     return improvedNameSegmentList.join(' ');
 };
+
+function _iterateThroughAndCompareToOtherNameSegments(targetNameSegments: string[], otherNameSegments: string[], segmentIndex: number, nameSegment: string): [string[], boolean] {
+    var improvedNameSegmentList = [];
+    var previousSegmentWasMerged = false;
+
+    for (var segmentFromOtherName of otherNameSegments) {
+        if ((segmentIndex + 2 <= targetNameSegments.length) && ((nameSegment + targetNameSegments[segmentIndex + 1]) === segmentFromOtherName)){
+            improvedNameSegmentList.push((nameSegment + targetNameSegments[segmentIndex + 1]));
+            previousSegmentWasMerged = true;
+            break;
+        } else if (nameSegment[0] === segmentFromOtherName[0]){
+            improvedNameSegmentList.push(nameSegment);
+            break;
+        };
+    };
+
+    return [improvedNameSegmentList, previousSegmentWasMerged];
+}
 
 /**
  * This function looks at the words that are directly to the right and left of a specific word and then
@@ -595,35 +626,7 @@ function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string, b
 
             console.error(`Attempting ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript`);
 
-            // Skip pair if the prefix is in both words
-            if (wordOne.startsWith(prefix) && wordTwo.startsWith(prefix)) {
-                console.error(`Skipped ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript because they both started with ${prefix}`);
-                continue;
-            };
-
-            // Skip pair if the prefix is not in either of them
-            if (!wordOne.startsWith(prefix) && !wordTwo.startsWith(prefix)) {
-                console.error(`Skipped ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript because neither started with ${prefix}`);
-                continue;
-            };
-
-            // Skip pair if either word is a firstname
-            if (indexOne < 1 || indexTwo < 1) {
-                console.error(`Skipped ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript because one of them is a first name`);
-                continue;
-            };
-
-            // Skip pair if the shortest word is less than 4 characters long
-            if (Math.min(wordOne.length, wordTwo.length) < 4) {
-                console.error(`Skipped ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript because one of them is 4 or less characters long`);
-                continue;
-            };
-
-            // Skip pair if they are already a solid match
-            if (fuzzball_ratio(wordOne, wordTwo, { full_process: false }) > 80) {
-                console.error(`Skipped ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript because they are already a good enough match`);
-                continue;
-            };
+            
 
             // Skip pair if the prefix is removed and not a good fuzzy match
             var updatedWordOne = wordOne;
@@ -660,13 +663,62 @@ function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string, b
 };
 
 /**
+ * This is a helper function for fix_mc_and_mac_names that fixes cyclomatic
+ * complexity by moving all of the initial skip checks at the beginning of
+ * each for loop iteration into its own function.
+ * 
+ * @param wordOne - The first word (name segment) in the for loop iteration
+ * @param wordTwo - The second word (name segment) in the for loop iteration
+ * @param prefix - The prefix to look for in the words
+ * @param indexOne - The index of the first word in the for loop iteration
+ * @param indexTwo - The index of the second word in the for loop iteration
+ * 
+ * @returns A boolean representing if the current for loop iteration should be
+ *          skipped
+ */
+function _checkSkipCasesForSpecificWordPairWhileFixingMcAndMacNames(wordOne: string, wordTwo: string, prefix: string, indexOne: number, indexTwo: number): boolean {
+    // Skip pair if the prefix is in both words
+    if (wordOne.startsWith(prefix) && wordTwo.startsWith(prefix)) {
+        console.error(`Skipped ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript because they both started with ${prefix}`);
+        return true;
+    };
+
+    // Skip pair if the prefix is not in either of them
+    if (!wordOne.startsWith(prefix) && !wordTwo.startsWith(prefix)) {
+        console.error(`Skipped ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript because neither started with ${prefix}`);
+        return true;
+    };
+
+    // Skip pair if either word is a firstname
+    if (indexOne < 1 || indexTwo < 1) {
+        console.error(`Skipped ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript because one of them is a first name`);
+        return true;
+    };
+
+    // Skip pair if the shortest word is less than 4 characters long
+    if (Math.min(wordOne.length, wordTwo.length) < 4) {
+        console.error(`Skipped ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript because one of them is 4 or less characters long`);
+        return true;
+    };
+
+    // Skip pair if they are already a solid match
+    if (fuzzball_ratio(wordOne, wordTwo, { full_process: false }) > 80) {
+        console.error(`Skipped ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript because they are already a good enough match`);
+        return true;
+    };
+
+    return false;
+};
+
+/**
  * A simple function to determine if the prefixes 'mc' or 'mac' are in two selected names to
  * decide if names should be skipped in the _fix_mc_and_mac_names function.
  * 
  * @param nameOne - The first name to check
  * @param nameTwo - The second name to check
- * @returns True if 'mc' and 'mac' are absent from all of the names, indicating that the function can
-            skip them. Otherwise, returns false indicating that they need further checks
+ * 
+ * @returns True if 'mc' and 'mac' are absent from all of the names, indicating that the function can 
+ *          skip them. Otherwise, returns false indicating that they need further checks
  */
 function _determineIfSkipNamesInFixMcAndMacNames(nameOne: string, nameTwo: string): boolean {
     return (!nameOne.includes('mc') && !nameOne.includes("mac") && !nameTwo.includes('mc') && !nameTwo.includes("mac"));
@@ -736,18 +788,7 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
 
     console.error(`Removing unnecessary prefix ${prefix} from ${nameOne} and ${nameTwo} in TypeScript`);
 
-    // If the prefix is not in either names, return the names
-    if (!nameOne.includes(` ${prefix}`) && !nameTwo.includes(` ${prefix}`)) {
-        console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
-        console.error("TypeScript determined the prefix wasn't in either name")
-        return [nameOne, nameTwo, false];
-    };
-    
-    // If the names are already a good match, return the names
-    console.error(`Result of compare spelling on the initial two words in TypeScript: ${compareSpelling(nameOne, nameTwo)}`);
-    if (compareSpelling(nameOne, nameTwo)[0]) {
-        console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
-        console.error("TypeScript determined the names were already a good enough spelling match");
+    if (_checkForEarlyReturnInRemoveUnnecessaryPrefixes(prefix, nameOne, nameTwo) === false){
         return [nameOne, nameTwo, false];
     };
 
@@ -769,14 +810,6 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
         nameTwoEdited = nameTwoEdited.replace(spaceThenPrefixThenSpace, spaceThenPrefix);
         editsMade = true;
     };
-
-    // // If nothing was changed above, this will simply remove the prefixes since they likely don't matter
-    // console.error(`Names before prefix removal in TypeScript: ${nameOneEdited}, ${nameTwoEdited}`);
-    // nameOneEdited = nameOneEdited.replace(spaceThenPrefixThenSpace, " ");
-    // nameTwoEdited = nameTwoEdited.replace(spaceThenPrefixThenSpace, " ");
-    // console.error(`Names after prefix removal in TypeScript: ${nameOneEdited}, ${nameTwoEdited}`);
-    // nameOneEdited = nameOneEdited.replace(/\s+/, " ");
-    // nameTwoEdited = nameTwoEdited.replace(/\s+/, " ");
 
     console.error(`In TypeScript, for the names ${nameOneEdited} and ${nameTwoEdited}, the first edit check has the value ${editsMade}`);
     
@@ -827,6 +860,37 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
 };
 
 /**
+ * This is a helper function designed to reduce cyclomatic complexity in
+ * _remove_unnecessary_prefixes by figuring out the early return cases for it
+ * in a separate function.
+ * 
+ * @param prefix - The prefix to check for in the names
+ * @param nameOne - The first name to check for a prefix that needs to be removed
+ * @param nameTwo - The second name to check for a prefix that needs to be removed
+ * 
+ * @returns A boolean representing whether or not the _remove_unnecessary_prefixes
+ * call would accomplish anything
+ */
+function _checkForEarlyReturnInRemoveUnnecessaryPrefixes(prefix: string, nameOne: string, nameTwo: string): boolean{
+    // If the prefix is not in either names, return the names
+    if (!nameOne.includes(` ${prefix}`) && !nameTwo.includes(` ${prefix}`)) {
+        console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
+        console.error("TypeScript determined the prefix wasn't in either name")
+        return false;
+    };
+    
+    // If the names are already a good match, return the names
+    console.error(`Result of compare spelling on the initial two words in TypeScript: ${compareSpelling(nameOne, nameTwo)}`);
+    if (compareSpelling(nameOne, nameTwo)[0]) {
+        console.error(`Result of removing unnecessary prefixes in TypeScript - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
+        console.error("TypeScript determined the names were already a good enough spelling match");
+        return false;
+    };
+
+    return true;
+};
+
+/**
  * This is a helper function for _remove_unnecessary_prefixes that is intended to help
  * resolve its cyclomatic complexity. This function will remove a prefix from two names 
  * that are identical outside of the prefix.
@@ -834,10 +898,11 @@ function _removeUnnecessaryPrefixes(prefix: string, nameOne: string = "_", nameT
  * @param prefix - The prefix to check to see if it is the only difference
  * @param nameOne - The first name to compare and possibly remove a prefix from
  * @param nameTwo - The second name to compare and possibly remove a prefix from
+ * 
  * @returns A tuple containing two names, modified to remove the prefix if they are 
-            identical, or the names as input if they aren't identical outside of the 
-            prefix. It also has a boolean after this, representing whether or not a 
-            prefix was removed
+ *          identical, or the names as input if they aren't identical outside of the 
+ *          prefix. It also has a boolean after this, representing whether or not a 
+ *          prefix was removed
  */
 function _removePrefixIfPrefixIsOnlyDifferenceInNames(prefix: string, nameOne: string, nameTwo: string): [string, string, boolean]{
 

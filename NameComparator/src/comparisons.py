@@ -113,7 +113,7 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         print(f"Consonants in each name in Python - name_one: {consonants_in_name_one}  name_two: {consonants_in_name_two}")
         print(f"Consonant ratio in Python: {consonant_ratio}")
 
-        # Continue if bad match
+        # Continue if bad match or update to be a proper score in certain cases with initials
         if original_score_for_words <= guaranteed_fail_score:
             print("Below guaranteed fail score in Python")
             continue
@@ -128,12 +128,7 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         number_of_consonant_matches += 1
         combined_scores_based_on_consonant_fuzzy_matches = combined_scores_based_on_consonant_fuzzy_matches + consonant_ratio
 
-        # If the name is a prefix that's floating AND is in both names, we want to note that and increase the number of
-        # valid combos to skip further checks so that what's supposed to be one complete name or surname is not considered
-        # several when we're determining if the names are a match
-        if (word_one in prefix_list) and (word_one == word_two):
-            increase_to_valid_checks_needed_for_skip = increase_to_valid_checks_needed_for_skip + 1
-
+        _increment_valid_checks_needed_for_skip_if_appropriate(word_one, word_two, increase_to_valid_checks_needed_for_skip)
 
     # Find the average score of all of the matches, if relevant
     if number_of_consonant_matches > 0:
@@ -144,6 +139,26 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
     print(f"Result of consonant comparison in Python {((number_of_consonant_matches >= minimum_required_matches) or ((number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks) and (name_one_fragments[0] == name_two_fragments[0]))), average_score}")
     return (((number_of_consonant_matches >= minimum_required_matches) or ((number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks + increase_to_valid_checks_needed_for_skip) and (name_one_fragments[0] == name_two_fragments[0]))), average_score)
     
+def _increment_valid_checks_needed_for_skip_if_appropriate(word_one: str, word_two: str, increase_to_valid_checks_needed_for_skip: int) -> int:
+    """This is a helper function that's designed to modify the number of valid segments needed to skip a few checks.
+    If the name is a prefix that's floating AND is in both names, we want to note that and increase the number of
+    valid combos to skip further checks. This ensures that what's supposed to be one complete name or surname is 
+    not considered several when we're determining if the names are a match.
+
+    Args:
+        word_one: The first word (or name segment) to check for a prefix in
+        word_two: The second word (or name segment) to check for a prefix in
+        increase_to_valid_checks_needed_for_skip: The current value that needs to be applied to the number of
+            valid segments that are needed to skip some checks later on
+
+    Returns:
+        A number that's incremented to be larger if both word one and word two contain the same prefix
+    """
+    if (word_one in prefix_list) and (word_one == word_two):
+        increase_to_valid_checks_needed_for_skip = increase_to_valid_checks_needed_for_skip + 1
+
+    return increase_to_valid_checks_needed_for_skip
+
 def _reduce_to_simple_consonants(string:str) -> str:
     """Reduces a string to its simple consonant componants.
 

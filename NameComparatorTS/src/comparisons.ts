@@ -116,16 +116,11 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
             continue;
         };
 
-        // If the name is a prefix that's floating AND is in both names, we want to note that and increase the number of
-        // valid combos to skip further checks so that what's supposed to be one complete name or surname is not considered
-        // several when we're determining if the names are a match
-        if (prefixList.includes(wordOne) && (wordOne === wordTwo)){
-            increaseToValidChecksNeededForSkip = increaseToValidChecksNeededForSkip + 1;
-        }
-
         // If not rejected, increment the number of matches and increase the total score
         numberOfConsonantMatches = numberOfConsonantMatches + 1;
         combinedScoresBasedOnConsonantFuzzyMatches = combinedScoresBasedOnConsonantFuzzyMatches + consonantRatio;
+
+        _incrementValidChecksNeededForSkipIfAppropriate(wordOne, wordTwo, increaseToValidChecksNeededForSkip);
     };
 
     // Find the average score of all of the matches, if relevant
@@ -137,6 +132,27 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
     console.error(`Number of consonant matches in TypeScript: ${numberOfConsonantMatches}`);
     console.error(`Result of consonant comparison in TypeScript: ${[((numberOfConsonantMatches >= minimumRequiredMatches) || ((numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks + increaseToValidChecksNeededForSkip) && (nameOneFragments[0] === nameTwoFragments[0]))), averageScore]}`);
     return [((numberOfConsonantMatches >= minimumRequiredMatches) || ((numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks + increaseToValidChecksNeededForSkip) && (nameOneFragments[0] === nameTwoFragments[0]))), averageScore];
+};
+
+/**
+ * This is a helper function that's designed to modify the number of valid segments needed to skip a few checks.
+ * If the name is a prefix that's floating AND is in both names, we want to note that and increase the number of
+ * valid combos to skip further checks. This ensures that what's supposed to be one complete name or surname is 
+ * not considered several when we're determining if the names are a match.
+ * 
+ * @param nameOne - The first word (or name segment) to check for a prefix in
+ * @param nameTwo - The second word (or name segment) to check for a prefix in
+ * @param increaseToValidChecksNeededForSkip - The current value that needs to be applied to the number of
+            valid segments that are needed to skip some checks later on
+ * 
+ * @returns A number that's incremented to be larger if both word one and word two contain the same prefix
+ */
+function _incrementValidChecksNeededForSkipIfAppropriate(wordOne: string, wordTwo: string, increaseToValidChecksNeededForSkip: number): number{
+    if (prefixList.includes(wordOne) && (wordOne === wordTwo)){
+        increaseToValidChecksNeededForSkip = increaseToValidChecksNeededForSkip + 1;
+    };
+
+    return increaseToValidChecksNeededForSkip;
 };
 
 /**
