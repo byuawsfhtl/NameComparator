@@ -117,20 +117,20 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   let results = new ResultsOfNameComparison(nameOne, nameTwo);
 
   // Clean the names
-  console.error(`Cleaning nameOne in TypeScript. Name before cleaning: ${nameOne}`);
+  // console.error(`Cleaning nameOne in TypeScript. Name before cleaning: ${nameOne}`);
   nameOne = cleanName(nameOne);
-  console.error(`Cleaning nameTwo in TypeScript. Name before cleaning: ${nameTwo}`);
+  // console.error(`Cleaning nameTwo in TypeScript. Name before cleaning: ${nameTwo}`);
   nameTwo = cleanName(nameTwo);
-  console.error("Cleaning names by comparison in TypeScript");
+  // console.error("Cleaning names by comparison in TypeScript");
   [nameOne, nameTwo, shouldApplyPenalty] = cleanNamesByComparison(nameOne, nameTwo);
-  console.error(`Names after cleaning in TypeScript - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
+  // console.error(`Names after cleaning in TypeScript - nameOne: ${nameOne}  nameTwo: ${nameTwo}`);
 
   if (shouldApplyPenalty === true){
     appliedPenalty = penaltyForMismatchedPrefixes
   };
 
   // Deal with names that are too short
-  console.error("Determining if either name is too short in TypeScript");
+  // console.error("Determining if either name is too short in TypeScript");
   results.tooShort = eitherNameTooShort(nameOne, nameTwo);
   if (!nameOne) {
     nameOne = '_'
@@ -143,15 +143,15 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   } 
 
   // Find the uniqueness of this name matchup (ie. hopefully not 'John Smith' and 'J Smith')
-  console.error("Scoring name uniqueness in TypeScript");
+  // console.error("Scoring name uniqueness in TypeScript");
   results.uniqueness = scoreUniqueness(nameOne, nameTwo, frequencyData);
 
   // Remove nicknames before the actual comparison
-  console.error("Removing nicknames in TypeScript");
+  // console.error("Removing nicknames in TypeScript");
   [nameOne, nameTwo] = removeNicknames(nameOne, nameTwo);
 
   // 1st attempt: Checks if names are a match according to string comparison alone
-  console.error("Starting TypeScript attempt one");
+  // console.error("Starting TypeScript attempt one");
   var [attemptOneMatch, attemptOneWordCombos, attemptOneScore] = compareSpelling(nameOne, nameTwo);
   attemptOneScore = attemptOneScore + appliedPenalty;
   results.attemptOne = new Attempt(nameOne, nameTwo, attemptOneWordCombos, attemptOneScore);
@@ -162,7 +162,7 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
     return results;
   };
 
-  console.error(`Check to make sure the names weren't modified strangely after attempt one in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo}`);
+  // console.error(`Check to make sure the names weren't modified strangely after attempt one in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo}`);
 
   // Failed first attempt. Check if names are even worth continuing
   if (isWorthContinuing(nameOne, nameTwo) === false){
@@ -172,10 +172,10 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
     return results;
   };
 
-  console.error(`Check to make sure the names weren't modified strangely after continuation check in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo}`);
+  // console.error(`Check to make sure the names weren't modified strangely after continuation check in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo}`);
 
   // 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
-  console.error("Starting TypeScript attempt two");
+  // console.error("Starting TypeScript attempt two");
   const [modifiedNameOne, modifiedNameTwo] = modifyNamesTogether(nameOne, nameTwo);
   var [attemptTwoMatch, attemptTwoWordCombos, attemptTwoScore] = compareSpelling(modifiedNameOne, modifiedNameTwo);
   attemptTwoScore = attemptTwoScore + appliedPenalty;
@@ -190,15 +190,15 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   // This is just to help with a test case
   let testModifyOne = getIpa(modifiedNameOne);
   let testModifyTwo = getIpa(modifiedNameTwo);
-  console.error(`Retrieved ipas in TypeScript: nameOne - ${testModifyOne} nameTwo - ${testModifyTwo}`);
+  // console.error(`Retrieved ipas in TypeScript: nameOne - ${testModifyOne} nameTwo - ${testModifyTwo}`);
   
   // 3rd attempt: Checks if modified names are a match according to pronunciation
-  console.error("Starting TypeScript attempt three");
+  // console.error("Starting TypeScript attempt three");
   let ipaOfModifiedNameOne = cleanIpa(getIpa(modifiedNameOne));
   let ipaOfModifiedNameTwo = cleanIpa(getIpa(modifiedNameTwo));
-  console.error(`TypeScript cleaned ipas in attempt three: nameOne - ${ipaOfModifiedNameOne}, nameTwo - ${ipaOfModifiedNameTwo}`);
+  // console.error(`TypeScript cleaned ipas in attempt three: nameOne - ${ipaOfModifiedNameOne}, nameTwo - ${ipaOfModifiedNameTwo}`);
   [ipaOfModifiedNameOne, ipaOfModifiedNameTwo] = modifyIpasByComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo);
-  console.error(`TypeScript ipas after modifying by comparison in attempt three: nameOne - ${ipaOfModifiedNameOne}, nameTwo - ${ipaOfModifiedNameTwo}`);
+  // console.error(`TypeScript ipas after modifying by comparison in attempt three: nameOne - ${ipaOfModifiedNameOne}, nameTwo - ${ipaOfModifiedNameTwo}`);
   var [attemptThreeMatch, attemptThreeWordCombos, attemptThreeScore] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
   attemptThreeScore = attemptThreeScore + appliedPenalty;
   results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, attemptThreeWordCombos, attemptThreeScore);
@@ -210,12 +210,12 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   };
 
   // 4th attempt: Check if original names are a match according to pronunciation
-  console.error("Starting TypeScript attempt four");
+  // console.error("Starting TypeScript attempt four");
   let ipaOfNameOne = cleanIpa(getIpa(nameOne));
   let ipaOfNameTwo = cleanIpa(getIpa(nameTwo));
-  console.error(`TypeScript cleaned ipas in attempt four: nameOne - ${ipaOfNameOne}, nameTwo - ${ipaOfNameTwo}`);
+  // console.error(`TypeScript cleaned ipas in attempt four: nameOne - ${ipaOfNameOne}, nameTwo - ${ipaOfNameTwo}`);
   [ipaOfNameOne, ipaOfNameTwo] = modifyIpasByComparison(ipaOfNameOne, ipaOfNameTwo);
-  console.error(`TypeScript ipas after modifying by comparison in attempt four: nameOne - ${ipaOfNameOne}, nameTwo - ${ipaOfNameTwo}`);
+  // console.error(`TypeScript ipas after modifying by comparison in attempt four: nameOne - ${ipaOfNameOne}, nameTwo - ${ipaOfNameTwo}`);
   var [attemptFourMatch, attemptFourWordCombos, attemptFourScore] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
   attemptFourScore = attemptFourScore + appliedPenalty;
   results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, attemptFourWordCombos, attemptFourScore);

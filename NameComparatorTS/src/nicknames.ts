@@ -24,12 +24,12 @@ export function removeNicknames(nameOne: string, nameTwo: string): [string, stri
     const wordsInNameTwo = nameTwo.trim().split(/\s+/);
     
     for (const wordOne of wordsInNameOne) {
-        console.error(`Looking for nickname data ${wordOne} in TypeScript`);
+        // console.error(`Looking for nickname data ${wordOne} in TypeScript`);
         if (wordsInNameTwo.includes(wordOne)) {
             continue;
         };
         const setOfIds = nicknameToIdDataAsRecord[wordOne.toLowerCase()];
-        console.error(`Got the id ${setOfIds} for looking up the nickname in Python`);
+        // console.error(`Got the id ${setOfIds} for looking up the nickname in Python`);
         if (!setOfIds) {
             continue;
         };

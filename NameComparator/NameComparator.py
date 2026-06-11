@@ -102,19 +102,19 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     results = ResultsOfNameComparison(name_one=name_one, name_two=name_two)
 
     # Clean the names
-    print(f"Cleaning name_one in Python. Name before cleaning: {name_one}")
+    # print(f"Cleaning name_one in Python. Name before cleaning: {name_one}")
     name_one = clean_name(name_one)
-    print(f"Cleaning name_two in Python. Name before cleaning: {name_two}")
+    # print(f"Cleaning name_two in Python. Name before cleaning: {name_two}")
     name_two = clean_name(name_two)
-    print("Cleaning names by comparison in Python")
+    # print("Cleaning names by comparison in Python")
     name_one, name_two, should_penalty_apply = clean_names_by_comparison(name_one, name_two)
-    print(f"Names after cleaning in Python - name_one: {name_one}  name_two: {name_two}")
+    # print(f"Names after cleaning in Python - name_one: {name_one}  name_two: {name_two}")
 
     if should_penalty_apply:
         applied_penalty = penalty_value
 
     # Deal with names that are too short
-    print("Determining if either name is too short in Python")
+    # print("Determining if either name is too short in Python")
     results.too_short = either_name_too_short(name_one, name_two)
     if not name_one:
         name_one = '_'
@@ -124,15 +124,15 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
         return results
     
     # Find the uniqueness of this name matchup (ie. hopefully not 'John Smith' and 'J Smith')
-    print("Scoring name uniqueness in Python")
+    # print("Scoring name uniqueness in Python")
     results.uniqueness = score_uniqueness(name_one, name_two, frequency_data)
 
     # Remove nicknames before the actual comparison
-    print("Removing nicknames in Python")
+    # print("Removing nicknames in Python")
     name_one, name_two = remove_nicknames(name_one, name_two)
 
     # 1st attempt: Checks if names are a match according to string comparison alone
-    print("Starting Python attempt one")
+    # print("Starting Python attempt one")
     attempt_one_match, attempt_one_word_combos, attempt_one_score = compare_spelling(name_one, name_two)
     attempt_one_score = attempt_one_score + applied_penalty
     results.attempt_one = Attempt(name_one, name_two, attempt_one_word_combos, attempt_one_score)
@@ -142,7 +142,7 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
         results.average_score_of_combined_attempts = attempt_one_score
         return results
     
-    print(f"Check to make sure the names weren't modified strangely after attempt one in Python: name_one - {name_one} name_two - {name_two}")
+    # print(f"Check to make sure the names weren't modified strangely after attempt one in Python: name_one - {name_one} name_two - {name_two}")
 
     # Failed first attempt. Check if names are even worth continuing
     if is_worth_continuing(name_one, name_two) is False:
@@ -151,10 +151,10 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
         results.average_score_of_combined_attempts = attempt_one_score
         return results
     
-    print(f"Check to make sure the names weren't modified strangely after continuation check in Python: name_one - {name_one} name_two - {name_two}")
+    # print(f"Check to make sure the names weren't modified strangely after continuation check in Python: name_one - {name_one} name_two - {name_two}")
 
     # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
-    print("Starting Python attempt two")
+    # print("Starting Python attempt two")
     modified_name_one, modified_name_two = modify_names_together(name_one, name_two)
     attempt_two_match, attempt_two_word_combos, attempt_two_score = compare_spelling(modified_name_one, modified_name_two)
     attempt_two_score = attempt_two_score + applied_penalty
@@ -168,15 +168,15 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     # This is just to help with a test case
     test_modify_one = get_ipa(modified_name_one)
     test_modify_two = get_ipa(modified_name_two)
-    print(f"Retrieved ipas in Python: name_one - {test_modify_one} name_two - {test_modify_two}")
+    # print(f"Retrieved ipas in Python: name_one - {test_modify_one} name_two - {test_modify_two}")
         
     # 3rd attempt: Checks if modified names are a match according to pronunciation
-    print("Starting Python attempt three")
+    # print("Starting Python attempt three")
     ipa_of_modified_name_one = clean_ipa(get_ipa(modified_name_one))
     ipa_of_modified_name_two = clean_ipa(get_ipa(modified_name_two))
-    print(f"Python cleaned ipas in attempt three: name_one - {ipa_of_modified_name_one}, name_two - {ipa_of_modified_name_two}")
+    # print(f"Python cleaned ipas in attempt three: name_one - {ipa_of_modified_name_one}, name_two - {ipa_of_modified_name_two}")
     ipa_of_modified_name_one, ipa_of_modified_name_two = modify_ipas_by_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two)
-    print(f"Python ipas after modifying by comparison in attempt three: name_one - {ipa_of_modified_name_one}, name_two - {ipa_of_modified_name_two}")
+    # print(f"Python ipas after modifying by comparison in attempt three: name_one - {ipa_of_modified_name_one}, name_two - {ipa_of_modified_name_two}")
     attempt_three_match, attempt_three_word_combos, attempt_three_score = pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
     attempt_three_score = attempt_three_score + applied_penalty
     results.attempt_three = Attempt(ipa_of_modified_name_one, ipa_of_modified_name_two, attempt_three_word_combos, attempt_three_score)
@@ -187,13 +187,13 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
         return results
 
     # 4th attempt: Check if original names are a match according to pronunciation
-    print("Starting Python attempt four")
-    print(f"Checking that names aren't modified strangely: name_one - {name_one} name_two - {name_two}")
+    # print("Starting Python attempt four")
+    # print(f"Checking that names aren't modified strangely: name_one - {name_one} name_two - {name_two}")
     ipa_of_name_one = clean_ipa(get_ipa(name_one))
     ipa_of_name_two = clean_ipa(get_ipa(name_two))
-    print(f"Python cleaned ipas in attempt four: name_one - {ipa_of_name_one}, name_two - {ipa_of_name_two}")
+    # print(f"Python cleaned ipas in attempt four: name_one - {ipa_of_name_one}, name_two - {ipa_of_name_two}")
     ipa_of_name_one, ipa_of_name_two = modify_ipas_by_comparison(ipa_of_name_one, ipa_of_name_two)
-    print(f"Python ipas after modifying by comparison in attempt four: name_one - {ipa_of_name_one}, name_two - {ipa_of_name_two}")
+    # print(f"Python ipas after modifying by comparison in attempt four: name_one - {ipa_of_name_one}, name_two - {ipa_of_name_two}")
     attempt_four_match, attempt_four_word_combos, attempt_four_score = pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
     attempt_four_score = attempt_four_score + applied_penalty
     results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, attempt_four_word_combos, attempt_four_score)
