@@ -642,7 +642,9 @@ function _fixMcAndMacNames(nameOne: string, nameTwo: string): [string, string, b
 
             // console.error(`Attempting ${prefix} edits for ${wordOne} and ${wordTwo} in TypeScript`);
 
-            
+            if (_checkSkipCasesForSpecificWordPairWhileFixingMcAndMacNames(wordOne, wordTwo, prefix, indexOne, indexTwo) === true){
+                continue;
+            };
 
             // Skip pair if the prefix is removed and not a good fuzzy match
             var updatedWordOne = wordOne;
