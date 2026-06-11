@@ -175,7 +175,7 @@ def clean_names_by_comparison(name_one:str = '_', name_two:str = '_') -> tuple[s
     # Return the cleaned names
     return name_one, name_two, should_penalty_apply
 
-def _handle_irish_o_in_names(name_one: str, name_two: str):
+def _handle_irish_o_in_names(name_one: str, name_two: str) -> tuple[str, str, bool]:
     """Removes irish 'o's from a name if it's appropriate as part of the name 
     cleaning process.
     
@@ -187,7 +187,7 @@ def _handle_irish_o_in_names(name_one: str, name_two: str):
         A tuple containing the two names after handling the irish 'o's and a boolean
         representing whether or not an o was removed
     """
-    
+
     was_irish_o_removed = False
 
     irish_names_starting_with_o = [
@@ -497,6 +497,10 @@ def _iterate_through_and_compare_to_other_name_segments(target_name_segments: li
     if one name is a combination of the others.
     
     Args:
+        target_name_segments: The name segments of the word that we want to modify
+        other_name_segments: The name segments to compare the target word's segments to
+        segment_index: The index of the current segment that's being checked
+        name_segment: The current name segment that's being checked
     
     Returns:
         A tuple containing a list of name segments to append to the final list

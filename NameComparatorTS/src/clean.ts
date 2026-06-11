@@ -529,6 +529,21 @@ function _removeFloatingPrefixIfUnnecessary(targetNameSegments: string[], otherN
     return improvedNameSegmentList.join(' ');
 };
 
+/**
+ * This is a helper function for _remove_floating_prefix_if_unnecessary that
+ * iterates through all of the name segments of the non-target word and then
+ * compares them to possible combinations of segments in the target word to see
+ * if one name is a combination of the others.
+ * 
+ * @param targetNameSegments - The name segments of the word that we want to modify
+ * @param otherNameSegments - The name segments to compare the target word's segments to
+ * @param segmentIndex - The index of the current segment that's being checked
+ * @param nameSegment - The current name segment that's being checked
+ * 
+ * @returns A tuple containing a list of name segments to append to the final list
+ *          of improved name segments and a boolean representing whether or not the
+ *          previous segmetn was merged
+ */
 function _iterateThroughAndCompareToOtherNameSegments(targetNameSegments: string[], otherNameSegments: string[], segmentIndex: number, nameSegment: string): [string[], boolean] {
     var improvedNameSegmentList = [];
     var previousSegmentWasMerged = false;
@@ -557,6 +572,7 @@ function _iterateThroughAndCompareToOtherNameSegments(targetNameSegments: string
  * @param wordTwo - A word used as a reference point in comparison to the selected word
  * @param leftNeighbor - The word to the left of a selected word
  * @param rightNeighbor - The word to the right of a selected word
+ * 
  * @returns Three items, containing the better neighbor word choice, the compound of the selected
             word and the better neighbor, and the index of the word that is selected as a better 
             neighbor 
