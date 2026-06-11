@@ -253,10 +253,10 @@ function _dealWithWrongFirstChar(nameOne: string, nameTwo: string): [string, str
 function _replaceSubstringCentersIfNamesAreSimilar(nameOne: string, nameTwo: string, middleSubstringOptionOne: string, middleSubstringOptionTwo: string, possibleSubstringBeginnings: string[], possibleSubstringEndings: string[], minimumRequiredLetters: number): [string, string] {
     // Return if both middles not in different words
 
-    // console.error(`Determining if the centers should be replaced for the following variables in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo} middleSubstringOptionOne - ${middleSubstringOptionOne} middleSubstringOptionTwo - ${middleSubstringOptionTwo} possibleSubstringBeginnings - ${possibleSubstringBeginnings} possibleSubstringEndings - ${possibleSubstringEndings} minimumRequiredLetters - ${minimumRequiredLetters}`);
+    console.error(`Determining if the centers should be replaced for the following variables in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo} middleSubstringOptionOne - ${middleSubstringOptionOne} middleSubstringOptionTwo - ${middleSubstringOptionTwo} possibleSubstringBeginnings - ${possibleSubstringBeginnings} possibleSubstringEndings - ${possibleSubstringEndings} minimumRequiredLetters - ${minimumRequiredLetters}`);
 
     if ((!nameOne.includes(middleSubstringOptionOne) && !nameOne.includes(middleSubstringOptionTwo)) || (!nameTwo.includes(middleSubstringOptionOne) && !nameTwo.includes(middleSubstringOptionTwo))) {
-        // console.error("No replacements made in TypeScript due to substrings that are already the same");
+        console.error("No replacements made in TypeScript due to substrings that are already the same");
         return [nameOne, nameTwo];
     }
 
@@ -279,8 +279,8 @@ function _replaceSubstringCentersIfNamesAreSimilar(nameOne: string, nameTwo: str
         wordTwo = wordTwo.replace(/-/g, "");
         nameEditorInstance.updateNameOne(indexOne, wordOne);
         nameEditorInstance.updateNameTwo(indexTwo, wordTwo);
-        // console.error(`Updated nameOne with ${wordOne} in TypeScript`);
-        // console.error(`Updated nameTwo with ${wordTwo} in TypeScript`);
+        console.error(`Updated nameOne with ${wordOne} in TypeScript`);
+        console.error(`Updated nameTwo with ${wordTwo} in TypeScript`);
     }
     
     // concatonates the two lists together back into strings

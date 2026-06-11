@@ -24,11 +24,11 @@ def remove_nicknames(name_one:str, name_two:str) -> tuple[str, str]:
     words_in_name_two = name_two.split()
 
     for word_one in words_in_name_one:
-        # print(f"Looking for nickname data for {word_one} in Python")
+        print(f"Looking for nickname data for {word_one} in Python")
         if word_one in words_in_name_two:
             continue
         set_of_ids = nickname_to_id_data_as_dictionary.get(word_one.lower())
-        # print(f"Got the id {set_of_ids} for looking up the nickname in Python")
+        print(f"Got the id {set_of_ids} for looking up the nickname in Python")
         if set_of_ids is None:
             continue
         name_one = _remove_based_on_id_information(set_of_ids, word_one, name_one, words_in_name_one, words_in_name_two)

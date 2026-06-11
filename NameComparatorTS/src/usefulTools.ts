@@ -19,7 +19,7 @@ export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemo
  */
 function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [[string, string, number][], number] {
 
-    // console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
+    console.error(`Entering TypeScript findWordMatchesAndQuality function with the names ${nameOne} and ${nameTwo}`);
 
     // Initialize a variable for exceptions regarding possible prefixes and warning flags we can ignore
     let exceptionCount = 0;
@@ -40,7 +40,7 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
         new Array(wordsInNameTwo.length).fill(0)
     );
 
-    // console.error(`Found the list of words in the names in TypeScript. \nwordsInNameOne: ${wordsInNameOne} \nwordsInNameTwo: ${wordsInNameTwo}`);
+    console.error(`Found the list of words in the names in TypeScript. \nwordsInNameOne: ${wordsInNameOne} \nwordsInNameTwo: ${wordsInNameTwo}`);
 
     // We need to keep track of the matchups that return an initial in case there is another, more complete match
     let scoreWarnings = [];
@@ -58,7 +58,7 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
             };
             // Determine the score of the word pairing
             const [score, warning] = _determineScoreOfWordMatchup(wordOne, wordTwo);
-            // console.error(`TypeScript determined score of matchup for ${wordOne} and ${wordTwo} for this run is ${score} and that the warning value is ${warning}`);
+            console.error(`TypeScript determined score of matchup for ${wordOne} and ${wordTwo} for this run is ${score} and that the warning value is ${warning}`);
             if (warning === true){
                 scoreWarnings.push([i, j]);
             } else if (score >= 95){
@@ -81,9 +81,9 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
 
     // For each of the best combinations, we now need to note how many are a combo containing a possible prefix
     for (const foundCombination of bestCombinations){
-        // console.error(`Checking the combination ${foundCombination} for prefixes in TypeScript`);
+        console.error(`Checking the combination ${foundCombination} for prefixes in TypeScript`);
         if ((((prefixList.includes(wordsInNameOne[Number(foundCombination[0])])) === true) || (prefixList.includes(wordsInNameTwo[Number(foundCombination[1])]) === true)) && (wordsInNameOne[Number(foundCombination[0])] != wordsInNameTwo[Number(foundCombination[1])])){
-            // console.error(`Determined that there was a possible prefix in the combination ${foundCombination} in TypeScript`);
+            console.error(`Determined that there was a possible prefix in the combination ${foundCombination} in TypeScript`);
             exceptionCount = exceptionCount + 1;
         };
     };
@@ -139,14 +139,14 @@ function _handleWarningChecks(scoreWarnings: any[], notInitialNearlyPerfectScore
     // be a better match than l and love, which is also technically a 100 but less accurate
     // than 'love' and 'love'
     for (const warningToCheck of scoreWarnings){
-        // console.error(`Performing warning check with the following variables in TypeScript: warningToCheck - ${warningToCheck} notInitialNearlyPerfectScores - ${notInitialNearlyPerfectScores}`);
+        console.error(`Performing warning check with the following variables in TypeScript: warningToCheck - ${warningToCheck} notInitialNearlyPerfectScores - ${notInitialNearlyPerfectScores}`);
         // If there's a perfect full name match, we want to penalize the score of the initial
         // since we want the other nearly perfect matches to take priority
         if ((notInitialNearlyPerfectScores.length >= 1) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[0] === specificScore[0]))){
-            // console.error("Failed the first warning check segment in TypeScript");
+            console.error("Failed the first warning check segment in TypeScript");
             scores[warningToCheck[0]][warningToCheck[1]] = 0;
         } else if ((notInitialNearlyPerfectScores.length >= 2) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[1] === specificScore[1]))){
-            // console.error("Failed the second warning check segment in TypeScript");
+            console.error("Failed the second warning check segment in TypeScript");
             scores[warningToCheck[0]][warningToCheck[1]] = 0;
         // If both of those are fine, we can likely add this warning as a possible odd exception
         } else if ((wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]) && (wordsInNameOne[warningToCheck[0]].length === wordsInNameTwo[warningToCheck[1]].length)){
@@ -203,17 +203,17 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): [number
     // For words longer than 2, either use ratio or partial ratio for score as shown below
     } else {
         const ratio = fuzzball_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
-        // console.error(`Found the ratio ${ratio} for ${wordOne} and ${wordTwo} in TypeScript`)
+        console.error(`Found the ratio ${ratio} for ${wordOne} and ${wordTwo} in TypeScript`)
         if (wordOne[0] === wordTwo[0]) {
             const partialRatioScore = Math.round(partialRatioWithParity(wordOne, wordTwo));
-            // console.error(`Found the partial ratio ${partialRatioScore} for ${wordOne} and ${wordTwo} in TypeScript`)
+            console.error(`Found the partial ratio ${partialRatioScore} for ${wordOne} and ${wordTwo} in TypeScript`)
             score = Math.round((ratio + partialRatioScore) / 2);
         } else {
             score = ratio;
         };
     };
 
-    // console.error(`Final score for the ratios of ${wordOne} and ${wordTwo} in TypeScript is ${score}`);
+    console.error(`Final score for the ratios of ${wordOne} and ${wordTwo} in TypeScript is ${score}`);
 
     return [score, warningFlag];
 }
@@ -234,13 +234,13 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
 // package for our hungarian algorithm (also known as the munkres algorithm). If it is
 // ever necessary to revert for some reason, see the hungarian.ts file before any of the
 // changes made on 3/16/2026
-    // console.error(`Input lists for identify matches in TypeScript: \nlistOne: ${listOne} \nlistTwo: ${listTwo}`);
+    console.error(`Input lists for identify matches in TypeScript: \nlistOne: ${listOne} \nlistTwo: ${listTwo}`);
     const modifiedScores = tiebreakMatchesConsistently(scores);
-    // console.error(`Making sure that matches tiebreak as expected. TypeScript tiebroken scores: ${modifiedScores}`);
+    console.error(`Making sure that matches tiebreak as expected. TypeScript tiebroken scores: ${modifiedScores}`);
     const negatedScores = modifiedScores.map(row => row.map(score => -score));
-    // console.error(`Checking that negated scores look the same in TypeScript: ${negatedScores}`);
+    console.error(`Checking that negated scores look the same in TypeScript: ${negatedScores}`);
     const hungarian_pairs_list = munkres(negatedScores);
-    // console.error(`Hungarian pairs list in TypeScript: \n${hungarian_pairs_list}`);
+    console.error(`Hungarian pairs list in TypeScript: \n${hungarian_pairs_list}`);
     let bestCombinations: [string, string, number][] = [];
     for (let index = 0; index < hungarian_pairs_list.length; index++) {
         const i = hungarian_pairs_list[index][0];
@@ -275,7 +275,7 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
 
     let [originalWordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
     let [editedWordCombos, possibleEditedPrefixCount] = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
-    // console.error(`Word combos for calculating edit improvments in TypeScript: originalWordCombos - ${originalWordCombos} editedWordCombos - ${editedWordCombos}`);
+    console.error(`Word combos for calculating edit improvments in TypeScript: originalWordCombos - ${originalWordCombos} editedWordCombos - ${editedWordCombos}`);
     if(!originalWordCombos.length || !editedWordCombos.length) {
         return [0, originalWordCombos, editedWordCombos]
     };
@@ -283,7 +283,7 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
     let editedAverageScore = editedWordCombos.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombos.length;
     let diff = editedAverageScore - originalAverageScore;
 
-    // console.error(`Checkpoint for calculating edit improvements in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo} originalAverageScore - ${originalAverageScore} nameOneEdited - ${nameOneEdited} nameTwoEdited - ${nameTwoEdited} editedAverageScore - ${editedAverageScore} diff - ${diff}`);
+    console.error(`Checkpoint for calculating edit improvements in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo} originalAverageScore - ${originalAverageScore} nameOneEdited - ${nameOneEdited} nameTwoEdited - ${nameTwoEdited} editedAverageScore - ${editedAverageScore} diff - ${diff}`);
 
     let originalNameOneSegments: string[] = nameOne.trim().split(/\s+/);
     let originalNameTwoSegments: string[] = nameTwo.trim().split(/\s+/);
@@ -313,7 +313,7 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
     editedAverageScore = editedWordCombos.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombos.length;
     diff = editedAverageScore - originalAverageScore;
 
-    // console.error(`End result of calculating edit improvements in TypeScript: nameOne - ${nameOne} nameOneIpa - ${nameOneIpa} nameTwo - ${nameTwo} nameTwoIpa - ${nameTwoIpa} originalAverageScore - ${originalAverageScore} nameOneEdited - ${nameOneEdited} nameOneEditedIpa - ${nameOneEditedIpa} nameTwoEdited - ${nameTwoEdited} nameTwoEditedIpa - ${nameOneEditedIpa} editedAverageScore - ${editedAverageScore} diff - ${diff}`);
+    console.error(`End result of calculating edit improvements in TypeScript: nameOne - ${nameOne} nameOneIpa - ${nameOneIpa} nameTwo - ${nameTwo} nameTwoIpa - ${nameTwoIpa} originalAverageScore - ${originalAverageScore} nameOneEdited - ${nameOneEdited} nameOneEditedIpa - ${nameOneEditedIpa} nameTwoEdited - ${nameTwoEdited} nameTwoEditedIpa - ${nameOneEditedIpa} editedAverageScore - ${editedAverageScore} diff - ${diff}`);
     return [diff, originalWordCombos, editedWordCombos];
 };
 
@@ -422,7 +422,7 @@ export function partialRatioWithParity(stringOne: string, stringTwo:string): num
     for(var i = 0; i < ((stringTwo.length - stringOne.length) + 1); i++){
         var window = stringTwo.slice(i,i + stringOne.length);
         var newScore = indelNormalizedSimilarity(stringOne, window) * 100;
-        // console.error(`New score in TypeScript: ${newScore}`);
+        console.error(`New score in TypeScript: ${newScore}`);
         bestScore = Math.max(bestScore, newScore);
     };
 
