@@ -9,7 +9,7 @@ from NameComparator.src.ipa import get_ipa
 
 from json import loads as json_loads
 from importlib.resources import files
-prefix_list = json_loads(files('data').joinpath('possiblePrefixList.json').read_text(encoding='utf-8'))
+prefix_list = json_loads(files('NameComparator.data').joinpath('possiblePrefixList.json').read_text(encoding='utf-8'))
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1000)

@@ -7,7 +7,7 @@ from NameComparator.src.usefulTools import calculate_edit_improvement, get_match
 
 from json import loads as json_loads
 from importlib.resources import files
-prefix_list = json_loads(files('data').joinpath('possiblePrefixList.json').read_text(encoding='utf-8'))
+prefix_list = json_loads(files('NameComparator.data').joinpath('possiblePrefixList.json').read_text(encoding='utf-8'))
 
 def clean_name(name:str) -> str:
     """Cleans a singular name to get rid of extra or unhelpful data, and to standardize surnames.

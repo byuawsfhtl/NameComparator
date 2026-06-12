@@ -8,8 +8,8 @@ from json import loads as json_loads
 from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality, round_in_a_normal_way
 
 # Read the various variables from a file
-prefix_list = json_loads(files('data').joinpath('possiblePrefixList.json').read_text(encoding='utf-8'))
-comparison_variables_as_dict = json_loads(files('data').joinpath('variablesForComparisons.json').read_text(encoding='utf-8'))
+prefix_list = json_loads(files('NameComparator.data').joinpath('possiblePrefixList.json').read_text(encoding='utf-8'))
+comparison_variables_as_dict = json_loads(files('NameComparator.data').joinpath('variablesForComparisons.json').read_text(encoding='utf-8'))
 
 max_score: int = comparison_variables_as_dict.get("maxScore")
 guaranteed_passing_score: int = comparison_variables_as_dict.get("guaranteedPassingScore")

@@ -13,11 +13,11 @@ from NameComparator.src.uniqueness import score_uniqueness
 from NameComparator.src.uniqueness import FrequencyData
 
 # This is required to make sure that it reads in the characters correctly
-unparsed_usa_to_1950_surnames = files('data').joinpath('frequency/surnamesUsaTo1950.json').read_text(encoding='utf-8')
-unparsed_usa_to_1950_first_names = files('data').joinpath('frequency/firstNamesUsaTo1950.json').read_text(encoding='utf-8')
+unparsed_usa_to_1950_surnames = files('NameComparator.data').joinpath('frequency/surnamesUsaTo1950.json').read_text(encoding='utf-8')
+unparsed_usa_to_1950_first_names = files('NameComparator.data').joinpath('frequency/firstNamesUsaTo1950.json').read_text(encoding='utf-8')
 
 # Read the penalty variable from a file
-comparison_variables_as_dict = json_loads(files('data').joinpath('variablesForComparisons.json').read_text(encoding='utf-8'))
+comparison_variables_as_dict = json_loads(files('NameComparator.data').joinpath('variablesForComparisons.json').read_text(encoding='utf-8'))
 
 penalty_value: int = comparison_variables_as_dict.get("penaltyForMismatchedPrefixes")
 

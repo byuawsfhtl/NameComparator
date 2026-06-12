@@ -4,8 +4,8 @@ from json import loads as json_loads
 from importlib.resources import files
 
 # This is required to make sure that it reads in the characters correctly
-unparsed_all_ipa_names = files('data').joinpath('pronunciation/ipaAllNames.json').read_text(encoding='utf-8')
-unparsed_common_ipa_word_parts = files('data').joinpath('pronunciation/ipaCommonWordParts.json').read_text(encoding='utf-8')
+unparsed_all_ipa_names = files('NameComparator.data').joinpath('pronunciation/ipaAllNames.json').read_text(encoding='utf-8')
+unparsed_common_ipa_word_parts = files('NameComparator.data').joinpath('pronunciation/ipaCommonWordParts.json').read_text(encoding='utf-8')
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1000)

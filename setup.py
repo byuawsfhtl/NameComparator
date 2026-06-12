@@ -23,7 +23,7 @@ def list_folders(directory: str) -> list:
     folders = []
     for item in os.listdir(directory):
         item_path = os.path.join(directory, item)
-        if os.path.isdir(item_path) and item != "__pycache__":
+        if os.path.isdir(item_path) and item != "__pycache__" and not item.startswith("."):
             folders.append(item_path)
     other_folders = [list_folders(item_path) for item_path in folders]
     for folder in other_folders:

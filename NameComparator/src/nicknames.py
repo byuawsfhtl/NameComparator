@@ -4,8 +4,8 @@ from json import loads as json_loads
 from importlib.resources import files
 
 # This is required to make sure that it reads in the characters correctly
-unparsed_nickname_to_id_data = files('data').joinpath('nicknames/nicknameToId.json').read_text(encoding='utf-8')
-unparsed_id_to_nickname_set = files('data').joinpath('nicknames/nameVariants.json').read_text(encoding='utf-8')
+unparsed_nickname_to_id_data = files('NameComparator.data').joinpath('nicknames/nicknameToId.json').read_text(encoding='utf-8')
+unparsed_id_to_nickname_set = files('NameComparator.data').joinpath('nicknames/nameVariants.json').read_text(encoding='utf-8')
 
 def remove_nicknames(name_one:str, name_two:str) -> tuple[str, str]:
     """Replaces the nickname in one name for the official name found in the other
