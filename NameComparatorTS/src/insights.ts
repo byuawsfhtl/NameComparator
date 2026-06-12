@@ -12,7 +12,6 @@ export function isWorthContinuing(nameOne: string, nameTwo: string): boolean {
     let oneLetterMatchFailCount = 0;
     const nameOneAsList = nameOne.trim().split(/\s+/);
     const nameTwoAsList = nameTwo.trim().split(/\s+/);
-    console.error(`Values in the middle of the is worth continuing check in TypeScript: nameOne - ${nameOne} nameTwo - ${nameTwo} nameOneAsList - ${nameOneAsList} nameTwoAsList - ${nameTwoAsList} wordCombos - ${wordCombos}`)
     for (const match of wordCombos) {
         const wordOne = nameOneAsList[parseInt(match[0])];
         const wordTwo = nameTwoAsList[parseInt(match[1])];

@@ -27,11 +27,7 @@ const { maxScore,
  */
 export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any[], number] {
 
-    console.error(`Comparing spelling for ${nameOne} and ${nameTwo} in TypeScript`);
-
     const [wordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
-
-    console.error(`Word combos for compare spelling in TypeScript: ${wordCombos}`);
 
     let count = 0; // Or should this be the number of exceptions? We'll have to find out here soon hahaha
     let combinedScores = 0;
@@ -51,7 +47,6 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
     };
 
     if (count >= numberOfValidCombosToSkipFurtherChecks && (count >= minimumLength - possiblePrefixCount)) {
-        console.error(`Determined to return true in TypeScript. Current variables: count - ${count} numberOfValidCombosToSkipFurtherChecks - ${numberOfValidCombosToSkipFurtherChecks} minimumLength - ${minimumLength} possiblePrefixCount - ${possiblePrefixCount}`);
         return [true, wordCombos, averagedScores];
     };
 
@@ -71,10 +66,8 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
  * @returns Whether the two names are a match, according to consonant comparison
  */
 function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [string, string, number][], possiblePrefixCount: number): [boolean, number] {
+    
     // Setup
-
-    console.error(`Comparing consonants for ${nameOne} and ${nameTwo} in TypeScript`);
-
     const minimumRequiredMatches = wordCombos.length - possiblePrefixCount;
     let numberOfConsonantMatches = 0;
     let combinedScoresBasedOnConsonantFuzzyMatches = 0;
@@ -83,8 +76,6 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
 
     let nameOneFragments = nameOne.trim().split(/\s+/);
     let nameTwoFragments = nameTwo.trim().split(/\s+/);
-
-    console.error(`Determined minimum number of required matches is ${minimumRequiredMatches} in TypeScript`);
 
     // Loop through every word match in the combo
     for (const tup of wordCombos) {
@@ -97,22 +88,16 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
         const consonantsInNameOne = _reduceToSimpleConsonants(wordOne);
         const consonantsInNameTwo = _reduceToSimpleConsonants(wordTwo);
         let consonantRatio = fuzzball_ratio(consonantsInNameOne, consonantsInNameTwo, { full_process: false });
-
-        console.error(`Consonants in each name in TypeScript - nameOne: ${consonantsInNameOne}  nameTwo: ${consonantsInNameTwo}`);
-        console.error(`Consonant ratio in TypeScript: ${consonantRatio}`);
         
         // Continue if bad match
         if (originalScoreForWords <= guaranteedFailScore) {
-            console.error("Below guaranteed fail score in TypeScript");
             continue;
         } else {
             if ((wordOne.length === 1 && wordOne === wordTwo[0]) || (wordTwo.length === 1 && wordTwo === wordOne[0])){
-                console.error("Updated consonant ratio due to initials in TypeScript");
                 consonantRatio = 80;
             };
         };
         if (((consonantRatio < guaranteedPassingScore) || (originalScoreForWords < furtherChecksNeededScore)) && (consonantRatio !== maxScore)) {
-            console.error(`Failed big check in TypeScript where consonantRatio = ${consonantRatio}, guaranteedPassingScore = ${guaranteedPassingScore}, originalScoreForWords = ${originalScoreForWords}, furtherChecksNeededScore = ${furtherChecksNeededScore}, and maxScore = ${maxScore}`);
             continue;
         };
 
@@ -129,8 +114,6 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
     }
 
     // If there are enough matches, return true and a score. Otherwise return false and a score
-    console.error(`Number of consonant matches in TypeScript: ${numberOfConsonantMatches}`);
-    console.error(`Result of consonant comparison in TypeScript: ${[((numberOfConsonantMatches >= minimumRequiredMatches) || ((numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks + increaseToValidChecksNeededForSkip) && (nameOneFragments[0] === nameTwoFragments[0]))), averageScore]}`);
     return [((numberOfConsonantMatches >= minimumRequiredMatches) || ((numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks + increaseToValidChecksNeededForSkip) && (nameOneFragments[0] === nameTwoFragments[0]))), averageScore];
 };
 
