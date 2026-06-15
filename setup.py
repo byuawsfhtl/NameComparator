@@ -40,7 +40,7 @@ setuptools.setup(
     version=version,
     author='Record Linking Lab',
     author_email='recordlinkinglab@gmail.com',
-    description='This is a library used to make fuzzy date comparisons.',
+    description='This is a library used to compare name similarity.',
     long_description=long_description,
     long_description_content_type="text/markdown",
     url='https://github.com/byuawsfhtl/NameComparator.git',
