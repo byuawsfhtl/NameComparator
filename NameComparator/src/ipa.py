@@ -1,140 +1,171 @@
 from functools import lru_cache
 from unidecode import unidecode
+from json import loads as json_loads
+from importlib.resources import files
 
-import NameComparator.data.pronunciation.ipaAllNames as ipaAllNames
-import NameComparator.data.pronunciation.ipaCommonWordParts as ipaCommonWordParts
+# This is required to make sure that it reads in the characters correctly
+unparsed_all_ipa_names = files('data').joinpath('pronunciation/ipaAllNames.json').read_text(encoding='utf-8')
+unparsed_common_ipa_word_parts = files('data').joinpath('pronunciation/ipaCommonWordParts.json').read_text(encoding='utf-8')
 
-def getIpa(name:str) -> str:
-    """Gets the pronunciation of the name.
+# Note here that lru cache is the python equivalent of memoizee in TypeScript
+@lru_cache(maxsize=1000)
+def get_ipa(name:str) -> str:
+    """Gets the pronunciation of a name.
 
     Args:
-        name (str): a name
+        name: The name to get the pronunciation of
 
     Returns:
-        str: the ipa of the name
+        The ipa pronunciation of the name
     """        
-    pList = []
+    pronunciation_list = []
     for word in name.split():
-        pList.append(_getIpaOfOneWord(word))
-    pronunciationOfName = " ".join(pList)
-    return pronunciationOfName
+        pronunciation_list.append(_get_ipa_of_one_word(word))
+    pronunciation_of_name = " ".join(pronunciation_list)
 
-@lru_cache(maxsize=1_000)
-def _getIpaOfOneWord(word:str) -> str:
-    """Gets the pronunciation of one word.
+    return pronunciation_of_name
+
+# Note here that lru cache is the python equivalent of memoizee in TypeScript
+@lru_cache(maxsize=1000)
+def _get_ipa_of_one_word(word:str) -> str:
+    """Gets the pronunciation of a word.
 
     Args:
-        word (str): a word
+        word: The word to get the pronunciation of
 
     Returns:
-        str: the ipa of the word
+        The ipa pronunciation of the word
     """
+
     # Setup
     word = word.strip()
     word = unidecode(word)
     word = word.lower()
-    pronunciationList = [""] * len(word)
-    def substringSplitsTh(substring:str, word:str, i:int, j:int) -> bool:
-        """Helps to identify poor substring choices for words for ipa.
-
-        Args:
-            substring (str): the ipa dissection
-            word (str): the full word
-            i (int): the start index of the substring
-            j (int): the end index of the substring
-
-        Returns:
-            bool: whether it was a good substring
-        """            
-        if i == j:
-            return False
-        if i >= 0 and substring[0] == 'h' and word[i - 1] == 't':
-            return True
-        if j <= len(word) - 1 and substring[-1] == 't' and word[j] == 'h':
-            return True
-        return False
+    pronunciation_list = [""] * len(word)
 
     # Tries to get the ipa from the plain word
-    firstAttempt, success = _wordPronunciationHailMary(word)
+    first_attempt, success = _word_pronunciation_ipa_guess(word)
     if success:
-        return firstAttempt
+        return first_attempt
 
     # While there are still letters in the word
-    substringAdded = True
-    while substringAdded:
-        # Initialize variables to store the largest matching substring and its length
-        substringAdded = False
-        largestSubstring = ""
-        pronunciationOfLargestSubstring = ""
-        largestSubstringLen = 0
-        beginningIndexOfSubstring = 0
-        endIndexOfSubstring = 0
+    substring_added = True
+    while substring_added:
 
-        # Iterate over every possible substring
-        for i in range(len(word)):
-            for j in range(i + 1, len(word) + 1):
-                substring = word[i:j]
-
-                if len(substring) <= largestSubstringLen:
-                    continue
-                if " " in substring:
-                    continue
-                if len(substring) > 1:
-                    substringIpa, success = _stringPronuncationHailMary(substring)
-                    if (not success) or (len(substringIpa) >= len(substring) * 2) or (substringSplitsTh(substring, word, i, j)):
-                        continue
-                    else:
-                        pronunciationOfLargestSubstring = substringIpa
-                elif len(substring) == 1:
-                    letterToPronunciation = {
-                        "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
-                        "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
-                        "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
-                    }
-                    pronunciationOfLargestSubstring = letterToPronunciation.get(substring, largestSubstring)
-
-                largestSubstring = substring
-                substringAdded = True
-                largestSubstringLen = len(substring)
-                beginningIndexOfSubstring = i
-                endIndexOfSubstring = j
+        substring_added, beginning_index_of_substring, end_index_of_substring, pronunciation_of_largest_substring, largest_substring_length = _iterate_all_possible_substrings(word)
 
         # Adds the substring to the list
-        if substringAdded:
-            pronunciationList[beginningIndexOfSubstring] = pronunciationOfLargestSubstring
-        spaces = " " * largestSubstringLen
+        if substring_added:
+            pronunciation_list[beginning_index_of_substring] = pronunciation_of_largest_substring
+        spaces = " " * largest_substring_length
         word = word.rstrip()
-        word = word[:beginningIndexOfSubstring] + spaces + word[endIndexOfSubstring:]
+        word = word[:beginning_index_of_substring] + spaces + word[end_index_of_substring:]
 
     # Concatenates the list together at the end to get the pronunciation
-    pronunciation = "".join(pronunciationList)
+    pronunciation = "".join(pronunciation_list)
     return pronunciation
 
-def _wordPronunciationHailMary(word:str) -> tuple[str, bool]:
+def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, int]:
+    """ Iterates through all of the possible substrings of a word to find information
+    about which substrings are going to be the best ipa pronunciation representation
+    of the word.
+    
+    Args:
+        word: The word that all the possible substrings of are being iterated through
+    
+    Returns:
+        A tuple containing the following information: A boolean representing if the 
+        substring was added, the beginning index of the substring, the end index of 
+        the substring, the pronunciation of the largest substring, and the length of 
+        the largest substring
+    """
+
+
+    # Initialize variables to store the largest matching substring and its length
+    substring_added = False
+    largest_substring = ""
+    pronunciation_of_largest_substring = ""
+    largest_substring_length = 0
+    beginning_index_of_substring = 0
+    end_index_of_substring = 0
+
+    # Iterate over every possible substring
+    for i in range(len(word)):
+        for j in range(i + 1, len(word) + 1):
+            substring = word[i:j]
+
+            if len(substring) <= largest_substring_length:
+                continue
+            if " " in substring:
+                continue
+            if len(substring) > 1:
+                ipa_substring, success = _string_pronuncation_ipa_guess(substring)
+                if (not success) or (len(ipa_substring) >= (len(substring) * 2)) or (substring_splits_th_sound(substring, word, i, j)): continue
+                else: pronunciation_of_largest_substring = ipa_substring
+            elif len(substring) == 1:
+                letter_to_pronunciation = {
+                "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
+                "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
+                "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
+                }
+                pronunciation_of_largest_substring = letter_to_pronunciation.get(substring, largest_substring)
+
+            largest_substring = substring
+            substring_added = True
+            largest_substring_length = len(substring)
+            beginning_index_of_substring = i
+            end_index_of_substring = j
+
+    return substring_added, beginning_index_of_substring, end_index_of_substring, pronunciation_of_largest_substring, largest_substring_length
+
+def _word_pronunciation_ipa_guess(word:str) -> tuple[str, bool]:
     """Tries to get the pronunciation from the predefined ipa dictionary.
 
     Args:
-        word (str): the regular word
+        word: The word to get the pronunciation of
 
     Returns:
-        tuple[str, bool]: the ipa of the word (or the original word if not found), and whether it was found.
+        A tuple comtaining the ipa of the word (or the original word if not found), and whether it was found.
     """        
-    wordPronuncation = ipaAllNames.data.get(word)
-    if wordPronuncation != None:
-        return wordPronuncation, True
+    word_pronunciation = json_loads(unparsed_all_ipa_names).get(word, '')
+    if word_pronunciation:
+        return word_pronunciation, True
     return word, False
 
-def _stringPronuncationHailMary(string:str) -> tuple[str, bool]:
-    """Helper function of _getIpaOfOneWord.
-    Tries to get the ipa of a string (with more than one letter).
+def _string_pronuncation_ipa_guess(string:str) -> tuple[str, bool]:
+    """Helper function of _get_ipa_of_one_word. Tries to get the ipa of a string 
+    with more than one letter.
 
     Args:
-        string (str): a string that is longer than one letter
+        string: A string that is longer than one letter to get the pronunciation of
 
     Returns:
-        tuple[str, bool]: the ipa of the string (or the original string if not found), and whether it was found.
+        A tuple containing the ipa of the string (or the original string if not found), and whether it was found.
     """        
-    ipaPronunciation = ipaCommonWordParts.data.get(string)
-    if ipaPronunciation != None:
-        return ipaPronunciation, True
+
+    ipa_pronunciation = json_loads(unparsed_common_ipa_word_parts).get(string, '')
+    if ipa_pronunciation:
+        return ipa_pronunciation, True
     return string, False
+
+def substring_splits_th_sound(substring:str, word:str, i:int, j:int) -> bool:
+    """Helps to identify poor substring choices for words for ipa.
+
+    Args:
+        substring: The ipa dissection
+        word: The full word
+        i: The start index of the substring
+        j: The end index of the substring
+
+    Returns:
+        A boolean representing whether or not it was a good substring
+    """      
+
+
+    if i == j:
+        return False
+    if i >= 0 and substring[0] == 'h' and word[i - 1] == 't':
+        return True
+    if j <= len(word) - 1 and substring[-1] == 't' and word[j] == 'h':
+        return True
+    return False

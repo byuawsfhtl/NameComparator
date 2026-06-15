@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "munkres-js": "^1.2.2",
+    "fuzzball": "^2.2.2"
+  }
+}

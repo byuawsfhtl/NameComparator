@@ -1,5 +1,6 @@
-fuzzywuzzy~=0.18.0
-python-Levenshtein~=0.25.1
+rapidfuzz~=3.14.0
 Unidecode~=1.3.8
 numpy~=1.26.4
-scipy~=1.13.1
+munkres~=1.1.4
+pytest~=9.0.2
+git+https://github.com/byuawsfhtl/PyScriptTestUtils.git@dev#egg=PyScriptTestUtils
