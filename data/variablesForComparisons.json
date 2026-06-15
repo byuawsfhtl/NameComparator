@@ -2,10 +2,11 @@
     "maxScore": 100,
     "guaranteedPassingScore": 80,
     "conditionallyPassingScore": 75,
-    "furtherChecksNeededScore": 60,
+    "furtherChecksNeededScore": 56,
     "guaranteedFailScore": 30,
     "fuzzyComparisonWeight": 0.6,
     "consonantComparisonWeight": 0.4,
     "numberOfValidCombosToSkipFurtherChecks": 3,
-    "lengthNeededForConditionallyPassingPronunciationComparison": 3
+    "lengthNeededForConditionallyPassingPronunciationComparison": 3,
+    "penaltyForMismatchedPrefixes": -5
 }

@@ -3,8 +3,9 @@ from re import IGNORECASE
 from json import loads as json_loads
 from importlib.resources import files
 
-unparsed_nickname_to_id_data = files('NameComparator').joinpath('data/nicknames/nicknameToId.json').read_text()
-unparsed_id_to_nickname_set = files('NameComparator').joinpath('data/nicknames/nameVariants.json').read_text()
+# This is required to make sure that it reads in the characters correctly
+unparsed_nickname_to_id_data = files('data').joinpath('nicknames/nicknameToId.json').read_text(encoding='utf-8')
+unparsed_id_to_nickname_set = files('data').joinpath('nicknames/nameVariants.json').read_text(encoding='utf-8')
 
 def remove_nicknames(name_one:str, name_two:str) -> tuple[str, str]:
     """Replaces the nickname in one name for the official name found in the other
@@ -55,7 +56,7 @@ def _remove_based_on_id_information(set_of_ids: set[int], word_one: str, name_on
     breaking = False
 
     for id in set_of_ids:
-        nicknames = id_to_nickname_set_data_as_variable[id].copy()
+        nicknames = id_to_nickname_set_data_as_variable[str(id)].copy()
         nicknames.remove(word_one)
         for nickname in nicknames:
             if (nickname in words_in_name_one) and (nickname in words_in_name_two):

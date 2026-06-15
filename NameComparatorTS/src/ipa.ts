@@ -1,44 +1,54 @@
+import fs from 'fs';
+import path from 'path';
 import memoize from 'memoizee';
 import unidecode from 'unidecode';
-import ipaAllNames from '../../data/pronunciation/ipaAllNames.json';
-import ipaCommonWordParts from '../../data/pronunciation/ipaCommonWordParts.json';
 
-// const memoized = memoize(function, {max: 1000});
+// This is required to make sure that it reads in the characters correctly
+import ipaAllNamesUnparsed from '../../data/pronunciation/ipaAllNames.json' with { type: 'json' };
+const ipaAllNames = ipaAllNamesUnparsed as Record<string, string>;
 
+import ipaCommonWordPartsUnparsed from '../../data/pronunciation/ipaCommonWordParts.json' with { type: 'json'}
+const ipaCommonWordParts = ipaCommonWordPartsUnparsed as Record<string, string>;
+
+// Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
+export const getIpa = memoize(getIpaUnmemoized, {max: 1000});
 /**
  * Gets the pronunciation of a name.
  * 
  * @param name - The name to get the pronunciation of
  * @returns The ipa pronunciation of the name
  */
-export function getIpa(name: string): string {
+function getIpaUnmemoized(name: string): string {
 
     const pronunciationList = [];
-    for (const word of name.split(/\s+/)) {
-        pronunciationList.push(_getIpaOfOneWordMemoized(word));
+    for (const word of name.trim().split(/\s+/)) {
+        pronunciationList.push(_getIpaOfOneWord(word));
     }
+
     return pronunciationList.join(' ');
 }
 
-// Note here that memoizee is the typescript equivalent of lru cache in python
-const _getIpaOfOneWordMemoized = memoize(_getIpaOfOneWord, {max: 1000});
-
+// Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
+const _getIpaOfOneWord = memoize(_getIpaOfOneWordUnmemoized, {max: 1000});
 /**
  * Gets the pronunciation of a word.
  * 
  * @param word - The word to get the pronunciation of
  * @returns The ipa pronunciation of the word
  */
-function _getIpaOfOneWord(word: string): string {
+function _getIpaOfOneWordUnmemoized(word: string): string {
 
-    var wordNormalized = unidecode(word.trim()).toLowerCase();
+    // Setup
+    var wordNormalized = word.trim();
+    wordNormalized = unidecode(wordNormalized);
+    wordNormalized = wordNormalized.toLowerCase();
     const pronunciationList = Array(wordNormalized.length).fill("");
 
     // Tries to get the ipa from the word
     const [firstAttempt, success] = _wordPronunciationIpaGuess(wordNormalized);
     if (success) {
         return firstAttempt;
-    }
+    };
 
     // Initialize variables that will be needed later
     let beginningIndexOfSubstring;
@@ -77,7 +87,7 @@ function _getIpaOfOneWord(word: string): string {
  *          the beginning index of the substring, the end index of the substring, the 
  *          pronunciation of the largest substring, and the length of the largest substring
  */
-function _iterateAllPossibleSubstrings(wordNormalized:string): [boolean, number, number, string, number]{
+function _iterateAllPossibleSubstrings(word:string): [boolean, number, number, string, number]{
 
     // Initialize variables to store the largest matching substring and its length
     let substringAdded = false;
@@ -88,9 +98,9 @@ function _iterateAllPossibleSubstrings(wordNormalized:string): [boolean, number,
     let endIndexOfSubstring = 0;
 
     // Iterate over every possible substring
-    for (let i = 0; i < wordNormalized.length; i++) {
-        for (let j = i + 1; j <= wordNormalized.length + 1; j++) {
-            var substring = wordNormalized.substring(i, j);
+    for (let i = 0; i < word.length; i++) {
+        for (let j = i + 1; j <= word.length + 1; j++) {
+            var substring = word.substring(i, j);
 
             if (substring.length <= largestSubstringLength) {
                 continue;
@@ -100,13 +110,17 @@ function _iterateAllPossibleSubstrings(wordNormalized:string): [boolean, number,
             }
             if (substring.length > 1){
                 const [ipaSubstring, success] = _stringPronunciationIpaGuess(substring);
-                if (!success || (ipaSubstring.length >= substring.length * 2) || (substringSplitsThSound(substring, wordNormalized, i, j))) {continue;}
-                else {pronunciationOfLargestSubstring = ipaSubstring;}
+                if (!success || (ipaSubstring.length >= substring.length * 2) || (substringSplitsThSound(substring, word, i, j))) {
+                    continue;
+                }
+                else {
+                    pronunciationOfLargestSubstring = ipaSubstring;
+                }
             } else if (substring.length === 1) {
                 const letterToPronunciation = {
-                "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
-                "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
-                "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
+                    "a": "æ", "b": "b", "c": "k", "d": "d", "e": "ɛ", "f": "f", "g": "g", "h": "h", "i": "ɪ",
+                    "j": "ʤ", "k": "k", "l": "l", "m": "m", "n": "n", "o": "o", "p": "p", "q": "k", "r": "r",
+                    "s": "s", "t": "t", "u": "u", "v": "v", "w": "w", "x": "ks", "y": "j", "z": "z"
                 };
                 pronunciationOfLargestSubstring = letterToPronunciation[substring as keyof typeof letterToPronunciation] || largestSubstring;
             }
@@ -130,7 +144,7 @@ function _iterateAllPossibleSubstrings(wordNormalized:string): [boolean, number,
  */
 function _wordPronunciationIpaGuess(word: string): [string, boolean] {
 
-    const wordPronunciation = ipaAllNames[word as keyof typeof ipaAllNames];
+    const wordPronunciation = ipaAllNames[word] ?? "";
     if (wordPronunciation) {
         return [wordPronunciation, true];
     }
@@ -146,7 +160,7 @@ function _wordPronunciationIpaGuess(word: string): [string, boolean] {
  */
 function _stringPronunciationIpaGuess(string: string): [string, boolean] {
 
-    const ipaPronunciation = ipaCommonWordParts[string as keyof typeof ipaCommonWordParts];
+    const ipaPronunciation = ipaCommonWordParts[string];
     if (ipaPronunciation) {
         return [ipaPronunciation, true];
     }
@@ -163,13 +177,14 @@ function _stringPronunciationIpaGuess(string: string): [string, boolean] {
 */ 
 function substringSplitsThSound(substring:string, word:string, i:number, j:number): boolean {
 
+
     if (i === j) {
         return false;
     }
-    if (i >= 0 && substring[0] === 'h' && word[i-1] === 't') {
+    if (i >= 0 && substring[0] === 'h' && word.at(i-1) === 't') {
         return true;
     }
-    if (j <= word.length - 1 && substring[substring.length - 1] == 't' && word[j] === 'h') {
+    if (j <= word.length - 1 && substring.at(-1) === 't' && word[j] === 'h') {
         return true;
     }
     return false;

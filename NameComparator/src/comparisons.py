@@ -1,14 +1,15 @@
 from re import sub as re_sub
 from numpy import ndarray
 from numpy import zeros as numpy_zeros
-from fuzzywuzzy.fuzz import ratio as fuzz_ratio
+from rapidfuzz.fuzz import ratio as fuzz_ratio
 from importlib.resources import files
 from json import loads as json_loads
 
-from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality
+from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality, round_in_a_normal_way
 
 # Read the various variables from a file
-comparison_variables_as_dict = json_loads(files('NameComparator').joinpath('data/variablesForComparisons.json').read_text())
+prefix_list = json_loads(files('data').joinpath('possiblePrefixList.json').read_text(encoding='utf-8'))
+comparison_variables_as_dict = json_loads(files('data').joinpath('variablesForComparisons.json').read_text(encoding='utf-8'))
 
 max_score: int = comparison_variables_as_dict.get("maxScore")
 guaranteed_passing_score: int = comparison_variables_as_dict.get("guaranteedPassingScore")
@@ -34,32 +35,33 @@ def compare_spelling(name_one:str, name_two:str) -> tuple[bool, list, float]:
         a score representing the average percentage match of the word combos that are considered 
         valid
     """        
-    word_combos = find_word_matches_and_quality(name_one, name_two)
 
-    count = 0
+    word_combos, possible_prefix_count = find_word_matches_and_quality(name_one, name_two)
+
+    count = 0 # Or should this be the number of exceptions? We'll have to find out here soon hahaha
     combined_scores = 0
     averaged_scores = 0
 
     for tuple in word_combos:
         if tuple[2] >= guaranteed_passing_score:
             count = count + 1
-            combined_scores = combined_scores + tuple[2]
+        combined_scores = combined_scores + tuple[2]
 
     minimum_length = min(len(name_one.split(' ')), len(name_two.split(' ')))
 
-    if (count > 0):
-        averaged_scores = combined_scores / averaged_scores
+    if len(word_combos) >= 1:
+        averaged_scores = combined_scores / len(word_combos)
 
-    if (count >= number_of_valid_combos_to_skip_further_checks) or (count == minimum_length):
+    if (count >= number_of_valid_combos_to_skip_further_checks) and ((count >= minimum_length - possible_prefix_count)):
         return True, word_combos, averaged_scores
     
     # Determine if it matches on consonants or not if the whole fuzzy string comparison is unclear
-    is_consonant_match, consonant_match_score = _consonant_comparison(name_one, name_two, word_combos)
+    is_consonant_match, consonant_match_score = _consonant_comparison(name_one, name_two, word_combos, possible_prefix_count)
 
     # Return the values, averaging the score and slightly favoring the initial fuzzy string match ones
     return is_consonant_match, word_combos, ((averaged_scores * fuzzy_comparison_weight) + (consonant_match_score * consonant_comparison_weight))
 
-def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[str, str, int]]) -> tuple[bool, float]:
+def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[str, str, float]], possible_prefix_count: int) -> tuple[bool, float]:
     """Identifies if two names are a match according to consonant comparison and
     determines a score representing how closely the contonants line up according
     to a fuzzy match comparison for all of the accepted word combos.
@@ -68,51 +70,78 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         name_one: The first name used in the consonant comparison
         name_two: The second name used in the consonant comparison
         word_combos: The word combos of the names, as found in compare_spelling
+        possible_prefix_count: A count of possible prefixes that we need to consider
+            when determining whether or not the names will pass
 
     Returns:
         A tuple containing a boolean representing whether or not the two names 
         are a match according to consonant comparison and a score representing
         the quality of the matches on average
     """        
+
     # Setup
-    minimum_required_matches = len(word_combos)
+    minimum_required_matches = len(word_combos) - possible_prefix_count
     number_of_consonant_matches = 0
     combined_scores_based_on_consonant_fuzzy_matches = 0
     average_score = 0
+    increase_to_valid_checks_needed_for_skip = 0
+
+    name_one_fragments = name_one.split()
+    name_two_fragments = name_two.split()
 
     # Loop through every word match in the combo
     for tup in word_combos:
         # Get the matching word data
-        word_one = name_one.split()[int(tup[0])]
-        word_two = name_two.split()[int(tup[1])]
+        word_one = name_one_fragments[int(tup[0])]
+        word_two = name_two_fragments[int(tup[1])]
         original_score_for_words:int = int(tup[2])
 
         # Get the words as consonants
         consonants_in_name_one = _reduce_to_simple_consonants(word_one)
         consonants_in_name_two = _reduce_to_simple_consonants(word_two)
-        consonant_ratio = fuzz_ratio(consonants_in_name_one, consonants_in_name_two)
+        consonant_ratio = round_in_a_normal_way(fuzz_ratio(consonants_in_name_one, consonants_in_name_two))
 
-        # Continue if bad match
+        # Continue if bad match or update to be a proper score in certain cases with initials
         if original_score_for_words <= guaranteed_fail_score:
             continue
-        if (len(word_one) != 1) and (len(word_two) != 1): # If neither word is an initial
-            lowest_syllable_count = min(consonants_in_name_one.count("*"), consonants_in_name_two.count("*"))
-            if lowest_syllable_count < 2:
-                continue
-        if (consonant_ratio < guaranteed_passing_score or original_score_for_words < further_checks_needed_score) and consonant_ratio != max_score:
+        elif (len(word_one) == 1 and word_one == word_two[0]) or (len(word_two) == 1 and word_two == word_one[0]):
+                consonant_ratio = 80
+        if (((consonant_ratio < guaranteed_passing_score) or (original_score_for_words < further_checks_needed_score)) and (consonant_ratio != max_score)):
             continue
 
         # If not rejected, increment the number of matches and increase the total score
         number_of_consonant_matches += 1
         combined_scores_based_on_consonant_fuzzy_matches = combined_scores_based_on_consonant_fuzzy_matches + consonant_ratio
 
+        increase_to_valid_checks_needed_for_skip = _increment_valid_checks_needed_for_skip_if_appropriate(word_one, word_two, increase_to_valid_checks_needed_for_skip)
+
     # Find the average score of all of the matches, if relevant
     if number_of_consonant_matches > 0:
         average_score = combined_scores_based_on_consonant_fuzzy_matches / number_of_consonant_matches
 
     # If there are enough matches, return true and a score. Otherwise return false and a score
-    return ((number_of_consonant_matches > minimum_required_matches) or (number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks)), average_score
+    return (((number_of_consonant_matches >= minimum_required_matches) or ((number_of_consonant_matches >= number_of_valid_combos_to_skip_further_checks + increase_to_valid_checks_needed_for_skip) and (name_one_fragments[0] == name_two_fragments[0]))), average_score)
     
+def _increment_valid_checks_needed_for_skip_if_appropriate(word_one: str, word_two: str, increase_to_valid_checks_needed_for_skip: int) -> int:
+    """This is a helper function that's designed to modify the number of valid segments needed to skip a few checks.
+    If the name is a prefix that's floating AND is in both names, we want to note that and increase the number of
+    valid combos to skip further checks. This ensures that what's supposed to be one complete name or surname is 
+    not considered several when we're determining if the names are a match.
+
+    Args:
+        word_one: The first word (or name segment) to check for a prefix in
+        word_two: The second word (or name segment) to check for a prefix in
+        increase_to_valid_checks_needed_for_skip: The current value that needs to be applied to the number of
+            valid segments that are needed to skip some checks later on
+
+    Returns:
+        A number that's incremented to be larger if both word one and word two contain the same prefix
+    """
+    if (word_one in prefix_list) and (word_one == word_two):
+        increase_to_valid_checks_needed_for_skip = increase_to_valid_checks_needed_for_skip + 1
+
+    return increase_to_valid_checks_needed_for_skip
+
 def _reduce_to_simple_consonants(string:str) -> str:
     """Reduces a string to its simple consonant componants.
 
@@ -123,7 +152,7 @@ def _reduce_to_simple_consonants(string:str) -> str:
         A string containing only the consonants of the original string, separated
         by asterisks
     """            
-    string = re_sub("a|e|i|o|u|y", "*", string)
+    string = re_sub(r"a|e|i|o|u|y", "*", string)
     string = re_sub(r'\*{2,}', "*", string)
     string = re_sub(r'(.)\1+', r'\1', string)
     return string
@@ -153,13 +182,14 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
     scores = numpy_zeros((len(words_from_ipa_one), len(words_from_ipa_two)))
 
     # Score each matchup
-    word_combos_for_scores = find_word_matches_and_quality(name_one, name_two)
+    word_combos_for_scores, possible_prefix_count = find_word_matches_and_quality(name_one, name_two)
     _matchup_scores(word_combos_for_scores, scores, words_from_ipa_one, words_from_ipa_two)
 
     # Identify the best matchups
     words_from_ipa_one = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_one)]
     words_from_ipa_two = [str(i) if word is not None else None for i, word in enumerate(words_from_ipa_two)]
     word_combos = identify_best_matches(scores=scores, list_one=words_from_ipa_one, list_two=words_from_ipa_two)
+    # This defaults the minimum score to 0 if there is no real minimum score, or sets it to the smalles one otherwise
     lowest_score = min(word_combos, key=lambda tuple: tuple[2])[2] if min(word_combos, key=lambda tuple: tuple[2])[2] else 0
     
     # Return whether pronunciaion match or not
@@ -176,7 +206,7 @@ def pronunciation_comparison(ipa_of_name_one:str, ipa_of_name_two:str, name_one:
     # Default return just in case something gets here
     return False, word_combos, lowest_score
 
-def _matchup_scores(word_combos_for_scores: list[tuple[str, str, int]], scores: ndarray, words_from_ipa_one: list, words_from_ipa_two: list) -> None:
+def _matchup_scores(word_combos_for_scores: list[tuple[str, str, float]], scores: ndarray, words_from_ipa_one: list, words_from_ipa_two: list) -> None:
     """Finds the score for the quality of each matchup of words that are potential matches, in terms of ipa
     pronunciations. It then updates a list of scores to reflect this for later processing in the
     pronunciation_comparison function.
@@ -198,7 +228,7 @@ def _matchup_scores(word_combos_for_scores: list[tuple[str, str, int]], scores: 
             score = _score_word_combos_helper(word_one, word_two, index_one, index_two, word_combos_for_scores)
             scores[index_one, index_two] = score
 
-def _score_word_combos_helper(word_one: str, word_two: str, index_one: int, index_two: int, word_combos_for_scores: list[tuple[str, str, int]]) -> int:
+def _score_word_combos_helper(word_one: str, word_two: str, index_one: int, index_two: int, word_combos_for_scores: list[tuple[str, str, float]]) -> float:
     """This function is a helper function to reduce the nesting depth of _matchup_scores.
     What it does is it compares all of the scores for a word combo and then finds a score
     that is going to be more accurate for them, as opposed to a default score.
