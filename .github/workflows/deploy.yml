@@ -92,19 +92,19 @@ jobs:
       - name: Sync version from _version.py to package.json
         run: |
           VERSION=$(python3 -c "exec(open('_version.py').read()); print(__version__)")
-          cd FlexibleDateTS
+          cd NameComparatorTS
           npm version $VERSION --no-git-tag-version --allow-same-version
       - name: Install dependencies
-        working-directory: ./FlexibleDateTS
+        working-directory: ./NameComparatorTS
         run: npm ci
       - name: Build TypeScript
-        working-directory: ./FlexibleDateTS
+        working-directory: ./NameComparatorTS
         run: npm run build
       - name: Store the TypeScript distribution
         uses: actions/upload-artifact@v4
         with:
           name: typescript-package-distributions
-          path: FlexibleDateTS/
+          path: NameComparatorTS/
 
   publish-to-npm:
     name: Publish TypeScript 📘 Distribution 📦 to NPM
@@ -122,11 +122,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: typescript-package-distributions
-          path: FlexibleDateTS/
+          path: NameComparatorTS/
       - name: Verify dist exists
-        run: ls -l FlexibleDateTS/dist/
+        run: ls -l NameComparatorTS/dist/
       - name: Publish to npm
-        working-directory: ./FlexibleDateTS
+        working-directory: ./NameComparatorTS
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # Token will expire every 90 days. Will have to update this token periodically.
