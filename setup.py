@@ -33,6 +33,7 @@ def list_folders(directory: str) -> list:
 folder_path = "NameComparator"
 folders = list_folders(folder_path)
 folders.append("NameComparator")
+folders.append("data")
 print(folders)
 
 setuptools.setup(
@@ -49,5 +50,5 @@ setuptools.setup(
     },
     packages=folders,
     install_requires=requirements,
-    package_data={"": ["*.json", "*.txt"]},
+    package_data={"": ["**/*.json", "*.txt"]},
 )
