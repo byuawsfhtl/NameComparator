@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["bridge_for_tests.ts"]
+}
