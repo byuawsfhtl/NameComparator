@@ -1,11 +1,11 @@
 from functools import lru_cache
 from unidecode import unidecode
 from json import loads as json_loads
-from importlib.resources import files
+from pathlib import Path
 
 # This is required to make sure that it reads in the characters correctly
-unparsed_all_ipa_names = files('data').joinpath('pronunciation/ipaAllNames.json').read_text(encoding='utf-8')
-unparsed_common_ipa_word_parts = files('data').joinpath('pronunciation/ipaCommonWordParts.json').read_text(encoding='utf-8')
+all_ipa_names = json_loads((Path(__file__).parent.parent.parent / 'data/pronunciation/ipaAllNames.json').read_text(encoding='utf-8'))
+common_ipa_word_parts = json_loads((Path(__file__).parent.parent.parent / 'data/pronunciation/ipaCommonWordParts.json').read_text(encoding='utf-8'))
 
 # Note here that lru cache is the python equivalent of memoizee in TypeScript
 @lru_cache(maxsize=1000)
@@ -127,7 +127,7 @@ def _word_pronunciation_ipa_guess(word:str) -> tuple[str, bool]:
     Returns:
         A tuple comtaining the ipa of the word (or the original word if not found), and whether it was found.
     """        
-    word_pronunciation = json_loads(unparsed_all_ipa_names).get(word, '')
+    word_pronunciation = all_ipa_names.get(word, '')
     if word_pronunciation:
         return word_pronunciation, True
     return word, False
@@ -143,7 +143,7 @@ def _string_pronuncation_ipa_guess(string:str) -> tuple[str, bool]:
         A tuple containing the ipa of the string (or the original string if not found), and whether it was found.
     """        
 
-    ipa_pronunciation = json_loads(unparsed_common_ipa_word_parts).get(string, '')
+    ipa_pronunciation = common_ipa_word_parts.get(string, '')
     if ipa_pronunciation:
         return ipa_pronunciation, True
     return string, False

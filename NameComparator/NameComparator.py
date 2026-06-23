@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import NamedTuple
 from json import loads as json_loads
-from importlib.resources import files
+from pathlib import Path
 
 from NameComparator.src.clean import clean_name, clean_names_by_comparison, clean_ipa
 from NameComparator.src.nicknames import remove_nicknames
@@ -13,11 +13,11 @@ from NameComparator.src.uniqueness import score_uniqueness
 from NameComparator.src.uniqueness import FrequencyData
 
 # This is required to make sure that it reads in the characters correctly
-unparsed_usa_to_1950_surnames = files('data').joinpath('frequency/surnamesUsaTo1950.json').read_text(encoding='utf-8')
-unparsed_usa_to_1950_first_names = files('data').joinpath('frequency/firstNamesUsaTo1950.json').read_text(encoding='utf-8')
+usa_to_1950_surnames = json_loads((Path(__file__).parent.parent / 'data/frequency/surnamesUsaTo1950.json').read_text(encoding='utf-8'))
+usa_to_1950_first_names = json_loads((Path(__file__).parent.parent / 'data/frequency/firstNamesUsaTo1950.json').read_text(encoding='utf-8'))
 
 # Read the penalty variable from a file
-comparison_variables_as_dict = json_loads(files('data').joinpath('variablesForComparisons.json').read_text(encoding='utf-8'))
+comparison_variables_as_dict = json_loads((Path(__file__).parent.parent / 'data/variablesForComparisons.json').read_text(encoding='utf-8'))
 
 penalty_value: int = comparison_variables_as_dict.get("penaltyForMismatchedPrefixes")
 
@@ -90,7 +90,7 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
 
     # Deal with the optional frequency_data argument
     if not frequency_data:
-        frequency_data = FrequencyData(json_loads(unparsed_usa_to_1950_first_names), json_loads(unparsed_usa_to_1950_surnames))
+        frequency_data = FrequencyData(usa_to_1950_first_names, usa_to_1950_surnames)
 
     # Data validation
     if not isinstance(name_one, str) or not isinstance(name_two, str):
