@@ -1,14 +1,14 @@
 from re import sub as re_sub
 from re import search as re_search
 from json import loads as json_loads
-from importlib.resources import files
+from pathlib import Path
 
 from rapidfuzz.fuzz import ratio as fuzz_ratio
 from NameComparator.src.usefulTools import find_word_matches_and_quality, get_matching_words_and_indices, NameEditor
 
 # This is required to make sure that it reads in the characters correctly
-unparsed_spelling_rules = files('data').joinpath('rules/rulesSpelling.json').read_text(encoding='utf-8')
-unparsed_ipa_rules = files('data').joinpath('rules/rulesIpa.json').read_text(encoding='utf-8')
+spelling_rules = json_loads((Path(__file__).parent.parent.parent / 'data/rules/rulesSpelling.json').read_text(encoding='utf-8'))
+ipa_rules = json_loads((Path(__file__).parent.parent.parent / 'data/rules/rulesIpa.json').read_text(encoding='utf-8'))
 
 def modify_names_together(name_one:str, name_two:str) -> tuple[str,str]:
     """Modifies the name together, changing them in a way that is much more intense than simply cleaning together.
@@ -26,7 +26,7 @@ def modify_names_together(name_one:str, name_two:str) -> tuple[str,str]:
     name_one, name_two = _fix_vowel_mistakes(name_one, name_two)
     name_one, name_two = _fix_swapped_characters(name_one, name_two)
     name_one, name_two = _deal_with_wrong_first_char(name_one, name_two)
-    for middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters in json_loads(unparsed_spelling_rules):
+    for middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters in spelling_rules:
         name_one, name_two = _replace_substring_centers_if_names_are_similar(name_one, name_two, middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters)
     name_one = re_sub(r'\s+', ' ', name_one)
     name_two = re_sub(r'\s+', ' ', name_two)
@@ -345,6 +345,6 @@ def modify_ipas_by_comparison(ipa_one:str, ipa_two:str) -> tuple[str,str]:
     Returns:
         A tuple containing the modified ipas of two words or names
     """
-    for middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters in json_loads(unparsed_ipa_rules):
+    for middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters in ipa_rules:
         ipa_one, ipa_two = _replace_substring_centers_if_names_are_similar(ipa_one, ipa_two, middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters)
     return ipa_one, ipa_two
