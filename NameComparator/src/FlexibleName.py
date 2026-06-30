@@ -2,7 +2,7 @@ from NameComparator.src.name_extrapolation import clean_name_list
 from pydantic import BaseModel
 
 class FlexibleName(BaseModel):
-    """ This class represents a name in a way that allows for more
+    """This class represents a name in a way that allows for more
     flexible comparison and for determining the most complete and full
     version of a name when given a list of possible name inputs.
 

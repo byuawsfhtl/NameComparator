@@ -1,3 +1,5 @@
+from NameComparator.src.name_extrapolation import clean_name_list, extrapolate_best_full_name
+
 # TODO: NOTE: This file is not yet finished. It is mostly created thus far
 # to track a specific test case that will likely be very insightful. This
 # will be updated later to be comprehensive and actually include meaningful
@@ -6,6 +8,11 @@
 full_final_name = 'John Jacob Jingleheimer Schmidtt'
 
 list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J. S.', 'Jacob Jingleheimer Schmidtt']
+
+cleaned_list_of_names = clean_name_list(list_of_input_names)
+print("Extrapolating name for the first test case:")
+print("Final result of name extrapolation: " + extrapolate_best_full_name(cleaned_list_of_names))
+print("\n\n")
 
 # TODO: NOTE: What do we want to do with this next one? It won't be possible 
 # to get the full final name and it will be difficult to determine where
@@ -18,6 +25,11 @@ another_full_final_name = 'John Jacob Jingleheimer Schmidtt'
 returned_still_unknown_names = [] # Empty because there should be no unknowns left
 
 list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J. S.']
+
+cleaned_list_of_names = clean_name_list(list_of_input_names)
+print("Extrapolating name for the second test case:")
+print(extrapolate_best_full_name(cleaned_list_of_names))
+print("\n\n")
 
 # TODO: NOTE: For this next one if there are two possible names with an unclear 'winner',
 # we should probably just take the initial of the name and use that for now
@@ -33,6 +45,11 @@ returned_still_unknown_names = ['John', 'Jacob'] # We would hold on to these as 
                                                  # like an add name function for FlexibleName
 
 list_of_input_names = ['J J J S', 'John Jingleheimer Schmidtt', 'Jacob Jingleheimer Schmidtt']
+
+cleaned_list_of_names = clean_name_list(list_of_input_names)
+print("Extrapolating name for the third test case:")
+print(extrapolate_best_full_name(cleaned_list_of_names))
+print("\n\n")
 
 # TODO: NOTE: None of these cases figure out what we should do with abbreviations or titles
 # you will need to figure out how to handle those. I think we should probably just have a list
@@ -55,6 +72,11 @@ returned_unkown_names_for_unusual_situation = ['Jacob', 'Jangle'] # Do we want t
                                                                   # fairly situational to something odd like this though
 
 list_of_input_names = ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jangle Jingleheimer Schmidtt']
+
+cleaned_list_of_names = clean_name_list(list_of_input_names)
+print("Extrapolating name for the fourth test case:")
+print(extrapolate_best_full_name(cleaned_list_of_names))
+print("\n\n")
 
 # NOTE: Fortunately, I think that it would be best to not factor the above test case when it comes to a new name being
 # added to an already finished FlexibleName. The only exception to that woud be if it would slot into an unkown space in the
