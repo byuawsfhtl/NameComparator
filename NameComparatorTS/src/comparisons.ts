@@ -1,22 +1,21 @@
 import { ratio as fuzzball_ratio} from "fuzzball";
-import { identifyBestMatches, findWordMatchesAndQuality } from "./usefulTools";
+import { identifyBestMatches, findWordMatchesAndQuality } from "./usefulTools.js";
 import { min as mathjs_min, matrix as mathjs_matrix_function, Matrix as mathjs_matrix_class, zeros as mathjs_zeros } from 'mathjs';
 
 // Read the various variables from a file
-import comparisonVariablesAsDict from '../../data/variablesForComparisons.json';
-
-const maxScore = comparisonVariablesAsDict["maxScore" as keyof typeof comparisonVariablesAsDict]
-const guaranteedPassingScore = comparisonVariablesAsDict["guaranteedPassingScore" as keyof typeof comparisonVariablesAsDict]
-const conditionallyPassingScore = comparisonVariablesAsDict["conditionallyPassingScore" as keyof typeof comparisonVariablesAsDict]
-const furtherChecksNeededScore = comparisonVariablesAsDict["furtherChecksNeededScore" as keyof typeof comparisonVariablesAsDict]
-const guaranteedFailScore = comparisonVariablesAsDict["guaranteedFailScore" as keyof typeof comparisonVariablesAsDict]
-
-const fuzzyComparisonWeight = comparisonVariablesAsDict["fuzzyComparisonWeight" as keyof typeof comparisonVariablesAsDict]
-const consonantComparisonWeight = comparisonVariablesAsDict["consonantComparisonWeight" as keyof typeof comparisonVariablesAsDict]
-
-const numberOfValidCombosToSkipFurtherChecks = comparisonVariablesAsDict["numberOfValidCombosToSkipFurtherChecks" as keyof typeof comparisonVariablesAsDict]
-const lengthNeededForConditionallyPassingPronunciationComparison = comparisonVariablesAsDict["lengthNeededForConditionallyPassingPronunciationComparison" as keyof typeof comparisonVariablesAsDict]
-
+import prefixList from '../../data/possiblePrefixList.json' with { type: "json"};
+import values from '../../data/variablesForComparisons.json' with { type: "json"};
+const { maxScore, 
+        guaranteedPassingScore,
+        conditionallyPassingScore,
+        furtherChecksNeededScore,
+        guaranteedFailScore,
+        fuzzyComparisonWeight,
+        consonantComparisonWeight,
+        numberOfValidCombosToSkipFurtherChecks,
+        lengthNeededForConditionallyPassingPronunciationComparison,
+        penaltyForMismatchedPrefixes
+    } = values;
 
 /**
  * Identifies if two names are a match according to a comparison based soley on spelling.
@@ -27,31 +26,32 @@ const lengthNeededForConditionallyPassingPronunciationComparison = comparisonVar
  * @returns Whether the names are a match and the resulting word combo
  */
 export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any[], number] {
-    const wordCombos = findWordMatchesAndQuality(nameOne, nameTwo);
 
-    let count = 0;
+    const [wordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
+
+    let count = 0; // Or should this be the number of exceptions? We'll have to find out here soon hahaha
     let combinedScores = 0;
     let averagedScores = 0;
 
     for (const tuple of wordCombos){
         if (tuple[2] >= guaranteedPassingScore){
             count = count + 1;
-            combinedScores = combinedScores + tuple[2]
         };
+        combinedScores = combinedScores + tuple[2];
     };
 
     const minimumLength = mathjs_min(nameOne.split(' ').length, nameTwo.split(' ').length);
 
-    if (count > 0){
-        averagedScores = combinedScores / count;
+    if (wordCombos.length >= 1){
+        averagedScores = combinedScores / wordCombos.length;
     };
 
-    if (count >= numberOfValidCombosToSkipFurtherChecks || count === minimumLength) {
+    if (count >= numberOfValidCombosToSkipFurtherChecks && (count >= minimumLength - possiblePrefixCount)) {
         return [true, wordCombos, averagedScores];
     };
 
     // Determine if it matches on consonants or not if the whole fuzzy string comparison is unclear
-    const [isConsonantMatch, consonantMatchScore] = _consonantComparison(nameOne, nameTwo, wordCombos);
+    const [isConsonantMatch, consonantMatchScore] = _consonantComparison(nameOne, nameTwo, wordCombos, possiblePrefixCount);
 
     // Return the values, averaging the score and slightly favoring the initial fuzzy string match ones
     return [isConsonantMatch, wordCombos, ((averagedScores * fuzzyComparisonWeight) + (consonantMatchScore * consonantComparisonWeight))];
@@ -65,45 +65,47 @@ export function compareSpelling(nameOne: string, nameTwo: string): [boolean, any
  * @param wordCombos - The word combos of the names, as found in compare_spelling
  * @returns Whether the two names are a match, according to consonant comparison
  */
-function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [string, string, number][]): [boolean, number] {
+function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [string, string, number][], possiblePrefixCount: number): [boolean, number] {
+    
     // Setup
-    const minimumRequiredMatches = wordCombos.length;
+    const minimumRequiredMatches = wordCombos.length - possiblePrefixCount;
     let numberOfConsonantMatches = 0;
     let combinedScoresBasedOnConsonantFuzzyMatches = 0;
     let averageScore = 0;
+    let increaseToValidChecksNeededForSkip = 0;
+
+    let nameOneFragments = nameOne.trim().split(/\s+/);
+    let nameTwoFragments = nameTwo.trim().split(/\s+/);
 
     // Loop through every word match in the combo
     for (const tup of wordCombos) {
         // Get the matching word data
-        const wordOne = nameOne.split(' ')[parseInt(tup[0])];
-        const wordTwo = nameTwo.split(' ')[parseInt(tup[1])];
+        const wordOne = nameOneFragments[parseInt(tup[0])];
+        const wordTwo = nameTwoFragments[parseInt(tup[1])];
         const originalScoreForWords = Number(tup[2]);
 
         // Get the words as consonants
         const consonantsInNameOne = _reduceToSimpleConsonants(wordOne);
         const consonantsInNameTwo = _reduceToSimpleConsonants(wordTwo);
-        const consonantRatio = fuzzball_ratio(consonantsInNameOne, consonantsInNameTwo);
+        let consonantRatio = fuzzball_ratio(consonantsInNameOne, consonantsInNameTwo, { full_process: false });
         
         // Continue if bad match
         if (originalScoreForWords <= guaranteedFailScore) {
             continue;
-        };
-        if (wordOne.length !== 1 && wordTwo.length !== 1) { // # If neither word is an initial
-            const lowestSyllableCount = mathjs_min(
-                consonantsInNameOne.split('я').length - 1,
-                consonantsInNameTwo.split('я').length - 1
-            );
-            if (lowestSyllableCount < 2) {
-                continue
+        } else {
+            if ((wordOne.length === 1 && wordOne === wordTwo[0]) || (wordTwo.length === 1 && wordTwo === wordOne[0])){
+                consonantRatio = 80;
             };
         };
-        if (consonantRatio < guaranteedPassingScore || (originalScoreForWords < furtherChecksNeededScore && consonantRatio !== maxScore)) {
+        if (((consonantRatio < guaranteedPassingScore) || (originalScoreForWords < furtherChecksNeededScore)) && (consonantRatio !== maxScore)) {
             continue;
         };
 
         // If not rejected, increment the number of matches and increase the total score
         numberOfConsonantMatches = numberOfConsonantMatches + 1;
         combinedScoresBasedOnConsonantFuzzyMatches = combinedScoresBasedOnConsonantFuzzyMatches + consonantRatio;
+
+        increaseToValidChecksNeededForSkip = _incrementValidChecksNeededForSkipIfAppropriate(wordOne, wordTwo, increaseToValidChecksNeededForSkip);
     };
 
     // Find the average score of all of the matches, if relevant
@@ -112,7 +114,28 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
     }
 
     // If there are enough matches, return true and a score. Otherwise return false and a score
-    return [((numberOfConsonantMatches > minimumRequiredMatches) || (numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks)), averageScore];
+    return [((numberOfConsonantMatches >= minimumRequiredMatches) || ((numberOfConsonantMatches >= numberOfValidCombosToSkipFurtherChecks + increaseToValidChecksNeededForSkip) && (nameOneFragments[0] === nameTwoFragments[0]))), averageScore];
+};
+
+/**
+ * This is a helper function that's designed to modify the number of valid segments needed to skip a few checks.
+ * If the name is a prefix that's floating AND is in both names, we want to note that and increase the number of
+ * valid combos to skip further checks. This ensures that what's supposed to be one complete name or surname is 
+ * not considered several when we're determining if the names are a match.
+ * 
+ * @param nameOne - The first word (or name segment) to check for a prefix in
+ * @param nameTwo - The second word (or name segment) to check for a prefix in
+ * @param increaseToValidChecksNeededForSkip - The current value that needs to be applied to the number of
+            valid segments that are needed to skip some checks later on
+ * 
+ * @returns A number that's incremented to be larger if both word one and word two contain the same prefix
+ */
+function _incrementValidChecksNeededForSkipIfAppropriate(wordOne: string, wordTwo: string, increaseToValidChecksNeededForSkip: number): number{
+    if (prefixList.includes(wordOne) && (wordOne === wordTwo)){
+        increaseToValidChecksNeededForSkip = increaseToValidChecksNeededForSkip + 1;
+    };
+
+    return increaseToValidChecksNeededForSkip;
 };
 
 /**
@@ -127,7 +150,7 @@ function _reduceToSimpleConsonants(string: string): string {
     return string
         .replace(/[aeiouy]/g, '*')
         .replace(/\*{2,}/g, '*')
-        .replace(/(.)\1+/g, '$1');
+        .replace(/(.)\1+/g, `$1`);
 };
 
 /**
@@ -140,11 +163,11 @@ function _reduceToSimpleConsonants(string: string): string {
  * 
  * @returns Whether or not the name was a match and the word combo
  */
-export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: string, nameOne: string, nameTwo: string): [boolean, [string, string, number][]] {
+export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: string, nameOne: string, nameTwo: string): [boolean, [string, string, number][], number] {
 
     // Initialize empty list to store scores
-    var wordsFromIpaOne = ipaOfNameOne.split(/\s+/);
-    var wordsFromIpaTwo = ipaOfNameTwo.split(/\s+/);
+    var wordsFromIpaOne = ipaOfNameOne.trim().split(/\s+/);
+    var wordsFromIpaTwo = ipaOfNameTwo.trim().split(/\s+/);
     if (wordsFromIpaOne.length < wordsFromIpaTwo.length) {
         wordsFromIpaOne.push(...Array(wordsFromIpaTwo.length - wordsFromIpaOne.length).fill(null));
     } else if (wordsFromIpaOne.length > wordsFromIpaTwo.length) {
@@ -155,7 +178,7 @@ export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: stri
     let scores = mathjs_matrix_function(mathjs_zeros([wordsFromIpaOne.length, wordsFromIpaTwo.length])) as mathjs_matrix_class;
     
     // Score each matchup
-    var wordCombosForScores = findWordMatchesAndQuality(nameOne, nameTwo);
+    var [wordCombosForScores, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
     _matchupScores(wordCombosForScores, scores, wordsFromIpaOne, wordsFromIpaTwo);
     
     // Identify the best matchups
@@ -165,25 +188,26 @@ export function pronunciationComparison(ipaOfNameOne: string, ipaOfNameTwo: stri
     // shennanigans. It's functionally the same
     let scoreMatrix : number[][] = scores.toArray() as number[][];
     let wordCombos = identifyBestMatches(scoreMatrix, wordsFromIpaOne, wordsFromIpaTwo);
-    const lowestScore = mathjs_min(...wordCombos.map((tuple: [string, string, number]) => tuple[2]));
+    // This defaults the minimum score to 0 if there is no real minimum score, or sets it to the smalles one otherwise
+    const lowestScore = wordCombos.length > 0 ? mathjs_min(...wordCombos.map((tuple: [string, string, number]) => tuple[2])) : 0;
     
     // Return whether pronunciation match or not
-    const minimumLength = mathjs_min(ipaOfNameOne.split(/\s+/).length, ipaOfNameTwo.split(/\s+/).length);
+    const minimumLength = mathjs_min(ipaOfNameOne.trim().split(/\s+/).length, ipaOfNameTwo.trim().split(/\s+/).length);
     if (minimumLength < lengthNeededForConditionallyPassingPronunciationComparison) {
         if (lowestScore >= guaranteedPassingScore) {
-            return [true, wordCombos];
+            return [true, wordCombos, lowestScore];
         };
-        return [false, wordCombos];
+        return [false, wordCombos, lowestScore];
     };
     if (minimumLength >= lengthNeededForConditionallyPassingPronunciationComparison) {
         if (lowestScore >= conditionallyPassingScore) {
-            return [true, wordCombos];
+            return [true, wordCombos, lowestScore];
         };
-        return [false, wordCombos];
+        return [false, wordCombos, lowestScore];
     };
     
     // Default return just in case something gets here
-    return [false, wordCombos];
+    return [false, wordCombos, lowestScore];
 };
 
 /**
@@ -233,7 +257,7 @@ function _matchupScores(wordCombosForScores: [string, string, number][], scores:
  */
 function _scoreWordCombosHelper(wordOne: string, wordTwo: string, indexOne: number, indexTwo: number, wordCombosForScores: [string, string, number][]): number {
 
-    let score = fuzzball_ratio(wordOne, wordTwo);
+    let score = fuzzball_ratio(wordOne, wordTwo, { full_process: false });
     for (let i = 0; i < wordCombosForScores.length; i++){
         const [wordCombosForScoresIndexOne, wordCombosForScoresIndexTwo, initialScore] = wordCombosForScores[i];
         // Use initial score for initials (bad pun)

@@ -1,19 +1,30 @@
-import { ratio as fuzzball_ratio, partial_ratio as fuzzball_partial_ratio} from 'fuzzball';
-import { munkres } from 'munkres';
+import { ratio as fuzzball_ratio } from 'fuzzball';
+import munkres from 'munkres-js';
+import memoize from 'memoizee';
+import { getIpa } from './ipa.js';
 
+import prefixList from '../../data/possiblePrefixList.json' with { type: "json"};
+
+// Note here that memoizee (and the memoize function) is the typescript equivalent of lru cache in python
+export const findWordMatchesAndQuality = memoize(findWordMatchesAndQualityUnmemoized, {max: 1000});
 /**
  * Identifies which words in either name are a match, and how well they match.
  * 
  * @param nameOne - The first name to check for matches
  * @param nameTwo - The second name to check for matches
- * @returns A list of tuples idenifying the index of the word in the first name,
-            the index of the word in the second name, and the score of how well they match
+ * @returns A list of lists idenifying the index of the word in the first name,
+ *          the index of the word in the second name, and the score of how well 
+ *          they match. After that it returns a value representing the number 
+ *          of possible prefixes and other odd exceptions in the name
  */
-export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [string, string, number][] {
+function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [[string, string, number][], number] {
+
+    // Initialize a variable for exceptions regarding possible prefixes and warning flags we can ignore
+    let exceptionCount = 0;
 
     // Initialize empty list to store scores
-    let wordsInNameOne : string[] = nameOne.split(/\s+/);
-    let wordsInNameTwo : string[] = nameTwo.split(/\s+/);
+    let wordsInNameOne : string[] = nameOne.trim().split(/\s+/);
+    let wordsInNameTwo : string[] = nameTwo.trim().split(/\s+/);
     if (wordsInNameOne.length !== wordsInNameTwo.length) {
         if (wordsInNameOne.length < wordsInNameTwo.length) {
             wordsInNameOne = wordsInNameOne.concat(new Array(wordsInNameTwo.length - wordsInNameOne.length).fill(""));
@@ -22,9 +33,14 @@ export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [str
         };
     };
 
+    // Initialize an array of the proper size, filled with zeros
     let scores: number[][] = Array.from({ length: wordsInNameOne.length }, () =>
         new Array(wordsInNameTwo.length).fill(0)
     );
+
+    // We need to keep track of the matchups that return an initial in case there is another, more complete match
+    let scoreWarnings = [];
+    let notInitialNearlyPerfectScores = [];
 
     // Score each matchup
     for (let i = 0; i < wordsInNameOne.length; i++) {
@@ -33,19 +49,103 @@ export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [str
             const wordTwo = wordsInNameTwo[j];
             // Assign a very low finite score to dummy pairings
             scores[i][j] = -1e9
-            if (wordOne == null || wordTwo == null) {
+            if (wordOne === null || wordTwo === null || wordOne === "" || wordTwo === "") {
                 continue;
             };
             // Determine the score of the word pairing
-            const score = _determineScoreOfWordMatchup(wordOne, wordTwo);
+            const [score, warning] = _determineScoreOfWordMatchup(wordOne, wordTwo);
+            if (warning === true){
+                scoreWarnings.push([i, j]);
+            } else if (score >= 95){
+                notInitialNearlyPerfectScores.push([i, j]);
+            };
             // Add the score
             scores[i][j] = score;
         };
     };
-    const finalWordsInNameOne = wordsInNameOne.map((word, i) => (word !== '' ? String(i) : ''));
-    const finalWordsInNameTwo = wordsInNameTwo.map((word, i) => (word !== '' ? String(i) : ''));        
-    return identifyBestMatches(scores, finalWordsInNameOne, finalWordsInNameTwo);
+
+    // Figure out which warnings will and won't be problematic and re-score them accordingly
+    _handleWarningChecks(scoreWarnings, notInitialNearlyPerfectScores, scores, wordsInNameOne, wordsInNameTwo);
+    
+    // Identify the indices of the final words in each name
+    const finalWordsInNameOne = _getFinalWordsForName(wordsInNameOne);
+    const finalWordsInNameTwo = _getFinalWordsForName(wordsInNameTwo);
+
+    // Identify the best matchups
+    const bestCombinations = identifyBestMatches(scores, finalWordsInNameOne, finalWordsInNameTwo);
+
+    // For each of the best combinations, we now need to note how many are a combo containing a possible prefix
+    for (const foundCombination of bestCombinations){
+        if ((((prefixList.includes(wordsInNameOne[Number(foundCombination[0])])) === true) || (prefixList.includes(wordsInNameTwo[Number(foundCombination[1])]) === true)) && (wordsInNameOne[Number(foundCombination[0])] != wordsInNameTwo[Number(foundCombination[1])])){
+            exceptionCount = exceptionCount + 1;
+        };
+    };
+
+    return [bestCombinations, exceptionCount];
 };
+
+/**
+ * This is a helper function designed to determine the indices of the
+ * positions of words in a name so that the best matches of those words
+ * can be determined later on. Part of it's purpose is to filter out
+ * spaces with removed names, nicknames, prefixes, etc.
+ * 
+ * @param wordsInName - A list of the words in the name, including any 
+ *          removed items
+ * 
+ * @returns A list of indices (as a string data type) that show the location in the
+ *          original name of the kept words
+ */
+function _getFinalWordsForName(wordsInName: string[]): string[]{
+
+    var finalListOfWordIndices = [];
+
+    for (const [index, word] of wordsInName.entries()){
+        if (word !== null && word !== ""){
+            finalListOfWordIndices.push(index.toString());
+        } else {
+            finalListOfWordIndices.push("");
+        };
+    };
+
+    return finalListOfWordIndices;
+};
+
+/**
+ * This is a helper function designed to handle updating scores to be accurate
+ * even when a single letter is in the name, based on whether or not it thinks
+ * the single letter should be a strong match. It changes the score to reflect
+ * how likely that single letter is to match something perfectly.
+ * 
+ * @param score_warnings - A list of all of the scores that have a value matching
+ *          with a single letter. We need to iterate through and update the
+ *          scores to be more accurate on these
+ * @param not_initial_nearly_perfect_scores - All of the scores of 100 or higher
+ *          that don't have an initial in the pairing 
+ * @param scores - An array of the scores for all of the possible word matchups
+ *          between name one and name two
+ * @param words_in_name_one - A list of all the words in name one
+ * @param words_in_name_two - A list of all of the words in name two
+ */
+function _handleWarningChecks(scoreWarnings: any[], notInitialNearlyPerfectScores: any[], scores: any[][], wordsInNameOne: string[], wordsInNameTwo: string[]): void {
+    // This ensures that in a name pair like ben l love and ben del love the two loves will
+    // be a better match than l and love, which is also technically a 100 but less accurate
+    // than 'love' and 'love'
+    for (const warningToCheck of scoreWarnings){
+        // If there's a perfect full name match, we want to penalize the score of the initial
+        // since we want the other nearly perfect matches to take priority
+        if ((notInitialNearlyPerfectScores.length >= 1) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[0] === specificScore[0]))){
+            scores[warningToCheck[0]][warningToCheck[1]] = 0;
+        } else if ((notInitialNearlyPerfectScores.length >= 2) && (notInitialNearlyPerfectScores.some(specificScore => warningToCheck[1] === specificScore[1]))){
+            scores[warningToCheck[0]][warningToCheck[1]] = 0;
+        // If both of those are fine, we can likely add this warning as a possible odd exception
+        } else if ((wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]) && (wordsInNameOne[warningToCheck[0]].length === wordsInNameTwo[warningToCheck[1]].length)){
+            scores[warningToCheck[0]][warningToCheck[1]] = 100;
+        } else if (wordsInNameOne[warningToCheck[0]][0] === wordsInNameTwo[warningToCheck[1]][0]){
+            scores[warningToCheck[0]][warningToCheck[1]] = 85;
+        };
+    };
+}
 
 /**
  * This is a helper function for findWordMatchesAndQuality to fix its
@@ -59,23 +159,49 @@ export function findWordMatchesAndQuality(nameOne:string, nameTwo:string) : [str
  * 
  * @returns An integer representing the score to be added to the word pairing
  */
-function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number {
+function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): [number, boolean] {
 
+    let warningFlag = false;
+    const wordOneLength = wordOne.length;
+    const wordTwoLength = wordTwo.length;
     let score: number;
-    // Assign the score this way if either is initial
-    if (wordOne.length === 1 || wordTwo.length === 1) {
-        score = wordOne[0] === wordTwo[0] ? 100 : 0;
-    } else { // For words longer than 2, either use ratio or partial ratio for score as shown below.
-        const ratio = fuzzball_ratio(wordOne, wordTwo);
+
+    // If either of the scores is empty, it should be fine to say it's a match
+    // with the empty space
+    if (wordOneLength === 0 || wordTwoLength === 0) {
+        score = 100;
+
+    // Assign the score this way if both are an initial
+    } else if (wordOneLength === 1 && wordTwoLength === 1) {
+        if (wordOne[0] === wordTwo[0]){
+            score = 100;
+            warningFlag = true;
+        } else {
+            score = 0;
+        };
+
+    // Assign the score this way if only one is an initial
+    } else if (wordOneLength === 1 || wordTwoLength === 1) {
+        if (wordOne[0] === wordTwo[0]){
+            const scoreDivisionHelper = Math.max(wordOneLength, wordTwoLength)
+            score = Math.round(100 / scoreDivisionHelper);
+            warningFlag = true;
+        } else {
+            score = 0
+        };
+
+    // For words longer than 2, either use ratio or partial ratio for score as shown below
+    } else {
+        const ratio = fuzzball_ratio(wordOne, wordTwo, {useCollator: false, full_process: false});
         if (wordOne[0] === wordTwo[0]) {
-            const partialRatioScore = fuzzball_partial_ratio(wordOne, wordTwo);
-            score = Math.max(ratio, partialRatioScore);
+            const partialRatioScore = Math.round(partialRatioWithParity(wordOne, wordTwo));
+            score = Math.round((ratio + partialRatioScore) / 2);
         } else {
             score = ratio;
         };
     };
 
-    return score;
+    return [score, warningFlag];
 }
 
 /**
@@ -89,27 +215,31 @@ function _determineScoreOfWordMatchup(wordOne: string, wordTwo: string): number 
  * @returns A list of lists containing the two words that are the best match 
  *          and a score representing how closely they match
  */
-export function identifyBestMatches(scores: number[][], listOne: string[], listTwo: string[]) : [string, string, number][] {
+export function identifyBestMatches(scores: number[][], listOne: string[], listTwo: string[]) : [string, string, number][]{
 // Note that as a part of updating this function, I opted for a more well-tested external
 // package for our hungarian algorithm (also known as the munkres algorithm). If it is
 // ever necessary to revert for some reason, see the hungarian.ts file before any of the
 // changes made on 3/16/2026
-    const negatedScores = scores.map(row => row.map(score => -score));
-    const hungairan_pairs_list = munkres(negatedScores);
-    let bestCombination: [string, string, number][] = [];
-    for (let index = 0; index < hungairan_pairs_list.length; index++) {
-        const i = hungairan_pairs_list[index][0];
-        const j = hungairan_pairs_list[index][1];
+    const modifiedScores = tiebreakMatchesConsistently(scores);
+    const negatedScores = modifiedScores.map(row => row.map(score => -score));
+    const hungarian_pairs_list = munkres(negatedScores);
+    let bestCombinations: [string, string, number][] = [];
+    for (let index = 0; index < hungarian_pairs_list.length; index++) {
+        const i = hungarian_pairs_list[index][0];
+        const j = hungarian_pairs_list[index][1];
     
         const wordOne = listOne[i];
         const wordTwo = listTwo[j];
-        if (wordOne !== "" && wordTwo !== "") {
+        // This first if statement quickly removes any possible out of scope results from the matrix padding
+        if (i >= listOne.length || j >= listTwo.length){
+            continue;
+        } else if (wordOne !== null && wordTwo !== null && wordOne !== "" && wordTwo !== "") {
           const matchupScore = scores[i][j];
-          bestCombination.push([wordOne, wordTwo, matchupScore]);
+          bestCombinations.push([wordOne, wordTwo, matchupScore]);
         };
     };
 
-    return bestCombination;
+    return bestCombinations;
 };
 
 /**
@@ -124,14 +254,43 @@ export function identifyBestMatches(scores: number[][], listOne: string[], listT
  *          the word combos of the original, and the word combos of the edited version
  */
 export function calculateEditImprovement(nameOne : string, nameTwo : string, nameOneEdited :string, nameTwoEdited : string): [number, [string, string, number][], [string, string, number][]] {
-    let originalWordCombos = findWordMatchesAndQuality(nameOne, nameTwo);
-    let editedWordCombos = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
+
+    let [originalWordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
+    let [editedWordCombos, possibleEditedPrefixCount] = findWordMatchesAndQuality(nameOneEdited, nameTwoEdited);
     if(!originalWordCombos.length || !editedWordCombos.length) {
         return [0, originalWordCombos, editedWordCombos]
     };
-    const originalAverageScore = originalWordCombos.reduce((sum, [, , score]) => sum + score, 0) / originalWordCombos.length;
-    const editedAverageScore = editedWordCombos.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombos.length;
-    const diff = editedAverageScore - originalAverageScore;
+    let originalAverageScore = originalWordCombos.reduce((sum, [, , score]) => sum + score, 0) / originalWordCombos.length;
+    let editedAverageScore = editedWordCombos.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombos.length;
+    let diff = editedAverageScore - originalAverageScore;
+
+    let originalNameOneSegments: string[] = nameOne.trim().split(/\s+/);
+    let originalNameTwoSegments: string[] = nameTwo.trim().split(/\s+/);
+    let originalNameUnusedSegments: number = Math.max(originalNameOneSegments.length, originalNameTwoSegments.length) - originalWordCombos.length;
+
+    let editedNameOneSegments: string[] = nameOneEdited.trim().split(/\s+/);
+    let editedNameTwoSegments: string[] = nameTwoEdited.trim().split(/\s+/);
+    let editedNameUnusedSegments: number = Math.max(editedNameOneSegments.length, editedNameTwoSegments.length) - editedWordCombos.length;
+
+    let howManyLessSegmentsInEdit: number = originalNameUnusedSegments - editedNameUnusedSegments;
+
+    if (diff < -33 && howManyLessSegmentsInEdit < 1){
+        return [diff, originalWordCombos, editedWordCombos];
+    };
+
+    // If it passes the first set, we want to make sure that it also works with the pronunciations
+    const nameOneIpa = getIpa(nameOne);
+    const nameTwoIpa = getIpa(nameTwo);
+    [originalWordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOneIpa, nameTwoIpa);
+    const nameOneEditedIpa = getIpa(nameOneEdited);
+    const nameTwoEditedIpa = getIpa(nameTwoEdited);
+    [editedWordCombos, possibleEditedPrefixCount] = findWordMatchesAndQuality(nameOneEditedIpa, nameTwoEditedIpa);
+    if(!originalWordCombos.length || !editedWordCombos.length) {
+        return [0, originalWordCombos, editedWordCombos]
+    };
+    originalAverageScore = originalWordCombos.reduce((sum, [, , score]) => sum + score, 0) / originalWordCombos.length;
+    editedAverageScore = editedWordCombos.reduce((sum, [, , score]) => sum + score, 0) / editedWordCombos.length;
+    diff = editedAverageScore - originalAverageScore;
 
     return [diff, originalWordCombos, editedWordCombos];
 };
@@ -147,18 +306,20 @@ export function calculateEditImprovement(nameOne : string, nameTwo : string, nam
  *          word in name_two
  */
 export function getMatchingWordsAndIndices(nameOne : string, nameTwo : string): [number, number, string, string][] {
-    let combo = findWordMatchesAndQuality(nameOne, nameTwo);
-    let wordsInNameOne = nameOne.split(/\s+/);
-    let wordsInNameTwo = nameTwo.split(/\s+/);
+    let [combo, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
+    let wordsInNameOne = nameOne.trim().split(/\s+/);
+    let wordsInNameTwo = nameTwo.trim().split(/\s+/);
     let matchIndices : [number, number][] = combo.map(
         ([a, b]) => [parseInt(a), parseInt(b)]
     );
-    const matchIndicesWithWords = matchIndices.map(([i, j]) => [
-        i,
-        j,
-        wordsInNameOne[i],
-        wordsInNameTwo[j]
-    ] as [number, number, string, string]);
+
+    let matchIndicesWithWords:[number, number, string, string][] = [];
+
+    for (let i = 0; i < matchIndices.length; i++){
+        if ((matchIndices[i][0] < wordsInNameOne.length) && (matchIndices[i][1] < wordsInNameTwo.length)) {
+            matchIndicesWithWords.push([matchIndices[i][0], matchIndices[i][1], wordsInNameOne[matchIndices[i][0]], wordsInNameTwo[matchIndices[i][1]]]);
+        };
+    };
     
     return matchIndicesWithWords;
 };
@@ -177,8 +338,8 @@ export class NameEditor {
      * @param nameTwo - The second name to edit
      */
     constructor(nameOne : string, nameTwo : string){
-        this.wordsInNameOne = nameOne.split(' ');
-        this.wordsInNameTwo = nameTwo.split(' ');
+        this.wordsInNameOne = nameOne.trim().split(/\s+/);
+        this.wordsInNameTwo = nameTwo.trim().split(/\s+/);
     };
 
     /**
@@ -202,7 +363,7 @@ export class NameEditor {
     };
 
     /**
-     * Retrieves the modified names
+     * Retrieves the modified names.
      * 
      * @returns The fist modified name and the second modified name
      */
@@ -220,3 +381,81 @@ export class NameEditor {
     };
 };
 
+/**
+     * This is an implementation of the same partial ratio function that Python
+     * uses since Python's rapidfuzz uses a custom one that is inconsistent with 
+     * every other package and we needed a custom one to fix that.
+     * 
+     * @param stringOne - The first string to run a levenshtein partial ratio on
+     * @param stringTwo - The second string to run a levenshtein partial ratio on
+     * 
+     * @returns - The best score from the results of comparing the two strings by segments
+     */
+export function partialRatioWithParity(stringOne: string, stringTwo:string): number {
+
+    if (stringOne.length > stringTwo.length){
+        [stringOne, stringTwo] = [stringTwo, stringOne];
+    };
+    var bestScore = 0;
+    for(var i = 0; i < ((stringTwo.length - stringOne.length) + 1); i++){
+        var window = stringTwo.slice(i,i + stringOne.length);
+        var newScore = indelNormalizedSimilarity(stringOne, window) * 100;
+        bestScore = Math.max(bestScore, newScore);
+    };
+
+    return Math.round(bestScore);
+};
+
+/**
+     * This adds small tiebreaker values to the end of matrices before calling
+     * a hungarian algorithm on them to ensure that we get the results we want
+     * and that Python and TypeScript versions behave the same.
+     * 
+     * @param inputMatrix - The matrix that will have it's scores modified
+     * @param epsilonValue - The value by which to change the data in the
+     * matrix. Defaults to 1e-4
+     * 
+     * @returns - An updated matrix, changed to tiebreak matches the same way 
+     * between NameComparator versions and languages
+     */
+function tiebreakMatchesConsistently(inputMatrix: number[][], epsilonValue: number = 1e-4): number[][]{
+    const rows = inputMatrix.length;
+    const columns = inputMatrix[0].length;
+    return inputMatrix.map((row, i) =>
+        // There is a match bonus in the Python version. It is functionally the same as
+        // this line of code but looks different due to language differences
+        row.map((val, j) => val + epsilonValue * ((columns - j) * rows + i) + (i === j ? 0.005 : 0))
+    );
+};
+
+/**
+     * Finds a normalized similarity distance between two strings using an 
+     * Indel algorithm. This is needed instead of a package to ensure 
+     * consistent behavior between Python packages and TypeScript ones.
+     * 
+     * @param stringOne - The first string to be compared in the Indel 
+     * normalized similarity calculation
+     * @param stringTwo - The second string to be compared in the Indel
+     * normalized similarity calculatio
+     * 
+     * @returns - A number representing the distance between two different
+     * strings, according to Indel similarity algorithms
+     */
+function indelNormalizedSimilarity(stringOne: string, stringTwo: string): number {
+  const dp: number[][] = Array.from({ length: stringOne.length + 1 }, (_, i) =>
+    Array.from({ length: stringTwo.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
+  );
+
+  for (let i = 1; i <= stringOne.length; i++) {
+    for (let j = 1; j <= stringTwo.length; j++) {
+      if (stringOne[i - 1] === stringTwo[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1]); // insert or delete only, no substitution
+      };
+    };
+  };
+
+  const editDistance = dp[stringOne.length][stringTwo.length];
+  return 1 - editDistance / (stringOne.length + stringTwo.length);
+};

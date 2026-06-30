@@ -1,5 +1,13 @@
-import nicknameToIdData from "../../data/nicknames/nicknameTold.json";
-import idToNicknameSetData from "../../data/nicknames/nameVariants.json";
+import fs from 'fs';
+import path from 'path';
+
+// This is required to make sure that it reads in the characters correctly
+import nicknameToIdDataUnparsed from '../../data/nicknames/nicknameToId.json' with {type: 'json'};
+const nicknameToIdData = nicknameToIdDataUnparsed as Record<string, number[]>;
+
+import idToNicknameSetDataUnparsed from '../../data/nicknames/nameVariants.json' with {type: 'json'};
+const idToNicknameSetData = idToNicknameSetDataUnparsed as Record<number, string[]>;
+
 
 /**
  * Replaces the nickname in one name for the official name found in the other
@@ -12,8 +20,8 @@ import idToNicknameSetData from "../../data/nicknames/nameVariants.json";
 export function removeNicknames(nameOne: string, nameTwo: string): [string, string] {
 
     const nicknameToIdDataAsRecord: Record<string, number[]> = nicknameToIdData;
-    const wordsInNameOne = nameOne.split(/\s+/);
-    const wordsInNameTwo = nameTwo.split(/\s+/);
+    const wordsInNameOne = nameOne.trim().split(/\s+/);
+    const wordsInNameTwo = nameTwo.trim().split(/\s+/);
     
     for (const wordOne of wordsInNameOne) {
         if (wordsInNameTwo.includes(wordOne)) {

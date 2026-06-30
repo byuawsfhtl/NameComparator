@@ -1,4 +1,4 @@
-import { findWordMatchesAndQuality } from "./usefulTools";
+import { findWordMatchesAndQuality } from "./usefulTools.js";
 
 /**
  * Identifies if a name comparison will always prove false.
@@ -8,11 +8,13 @@ import { findWordMatchesAndQuality } from "./usefulTools";
  * @returns Whether the names are worth working on further
  */
 export function isWorthContinuing(nameOne: string, nameTwo: string): boolean {
-    const wordCombos = findWordMatchesAndQuality(nameOne, nameTwo);
+    const [wordCombos, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
     let oneLetterMatchFailCount = 0;
+    const nameOneAsList = nameOne.trim().split(/\s+/);
+    const nameTwoAsList = nameTwo.trim().split(/\s+/);
     for (const match of wordCombos) {
-        const wordOne = nameOne[parseInt(match[0])];
-        const wordTwo = nameTwo[parseInt(match[1])];
+        const wordOne = nameOneAsList[parseInt(match[0])];
+        const wordTwo = nameTwoAsList[parseInt(match[1])];
         const score = match[2];
         if (score === 0 && ((wordOne.length === 1) || (wordTwo.length === 1))) {
             oneLetterMatchFailCount += 1;
@@ -32,7 +34,7 @@ export function isWorthContinuing(nameOne: string, nameTwo: string): boolean {
  * @returns If either name was too short
  */
 export function eitherNameTooShort(nameOne: string, nameTwo: string): boolean {
-    const combo = findWordMatchesAndQuality(nameOne, nameTwo);
+    const [combo, possiblePrefixCount] = findWordMatchesAndQuality(nameOne, nameTwo);
     const shortestWordCount = combo.length;
     return shortestWordCount < 2;
 }

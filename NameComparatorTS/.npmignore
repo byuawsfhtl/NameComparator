@@ -1,0 +1,8 @@
+*.ts
+!*.d.ts
+tsconfig.json
+bridge_for_tests.ts
+bridge_for_tests.js
+node_modules/
+tests/
+*/tests/

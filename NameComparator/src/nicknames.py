@@ -1,10 +1,11 @@
 from re import sub as re_sub
 from re import IGNORECASE
 from json import loads as json_loads
-from importlib.resources import files
+from pathlib import Path
 
-unparsed_nickname_to_id_data = files('NameComparator').joinpath('data/nicknames/nicknameToId.json').read_text()
-unparsed_id_to_nickname_set = files('NameComparator').joinpath('data/nicknames/nameVariants.json').read_text()
+# This is required to make sure that it reads in the characters correctly
+nickname_to_id_data = json_loads((Path(__file__).parent.parent.parent / 'data/nicknames/nicknameToId.json').read_text(encoding='utf-8'))
+id_to_nickname_set = json_loads((Path(__file__).parent.parent.parent / 'data/nicknames/nameVariants.json').read_text(encoding='utf-8'))
 
 def remove_nicknames(name_one:str, name_two:str) -> tuple[str, str]:
     """Replaces the nickname in one name for the official name found in the other
@@ -18,7 +19,7 @@ def remove_nicknames(name_one:str, name_two:str) -> tuple[str, str]:
         A tuple containing the names, possibly modified with a nickname replaced
     """        
 
-    nickname_to_id_data_as_dictionary = json_loads(unparsed_nickname_to_id_data)
+    nickname_to_id_data_as_dictionary = nickname_to_id_data
     words_in_name_one = name_one.split()
     words_in_name_two = name_two.split()
 
@@ -51,11 +52,11 @@ def _remove_based_on_id_information(set_of_ids: set[int], word_one: str, name_on
         A modified version of name_one with nicknames that are removed    
     """
     
-    id_to_nickname_set_data_as_variable = json_loads(unparsed_id_to_nickname_set)
+    id_to_nickname_set_data_as_variable = id_to_nickname_set
     breaking = False
 
     for id in set_of_ids:
-        nicknames = id_to_nickname_set_data_as_variable[id].copy()
+        nicknames = id_to_nickname_set_data_as_variable[str(id)].copy()
         nicknames.remove(word_one)
         for nickname in nicknames:
             if (nickname in words_in_name_one) and (nickname in words_in_name_two):

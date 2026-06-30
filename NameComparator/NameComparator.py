@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import NamedTuple
 from json import loads as json_loads
-from importlib.resources import files
+from pathlib import Path
 
 from NameComparator.src.clean import clean_name, clean_names_by_comparison, clean_ipa
 from NameComparator.src.nicknames import remove_nicknames
@@ -12,8 +12,14 @@ from NameComparator.src.ipa import get_ipa
 from NameComparator.src.uniqueness import score_uniqueness
 from NameComparator.src.uniqueness import FrequencyData
 
-unparsed_usa_to_1950_surnames = files('NameComparator').joinpath('data/frequency/surnamesUsaTo1950.json').read_text()
-unparsed_usa_to_1950_first_names = files('NameComparator').joinpath('data/frequency/firstNamesUsaTo1950.json').read_text()
+# This is required to make sure that it reads in the characters correctly
+usa_to_1950_surnames = json_loads((Path(__file__).parent.parent / 'data/frequency/surnamesUsaTo1950.json').read_text(encoding='utf-8'))
+usa_to_1950_first_names = json_loads((Path(__file__).parent.parent / 'data/frequency/firstNamesUsaTo1950.json').read_text(encoding='utf-8'))
+
+# Read the penalty variable from a file
+comparison_variables_as_dict = json_loads((Path(__file__).parent.parent / 'data/variablesForComparisons.json').read_text(encoding='utf-8'))
+
+penalty_value: int = comparison_variables_as_dict.get("penaltyForMismatchedPrefixes")
 
 class Attempt(NamedTuple):
     """Represents an attempt at name comparison (often used for debugging).
@@ -48,6 +54,8 @@ class ResultsOfNameComparison:
             that was made while comparing the names
         average_score_of_combined_attempts: The average percent confidence score from all of the
             attempts that were made while comparing the names
+        not_worth_continuing: Whether or not NameComparator determined if the name was not worth
+            running more checks on after the first check
     """
     name_one: str
     name_two: str
@@ -58,8 +66,9 @@ class ResultsOfNameComparison:
     attempt_two: Attempt | None = None
     attempt_three: Attempt | None = None
     attempt_four: Attempt | None = None
-    most_recent_attempt_score: float = 0
-    average_score_of_combined_attempts: float = 0
+    most_recent_attempt_score: float = 0.0
+    average_score_of_combined_attempts: float = 0.0
+    not_worth_continuing: bool = False
 
 def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|None = None) -> ResultsOfNameComparison:
     """Compares two names to identify whether or not they are a match.
@@ -76,9 +85,12 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
         both names is too short, and the attempt data for each different 
         comparison method used
     """        
+
+    applied_penalty = 0
+
     # Deal with the optional frequency_data argument
     if not frequency_data:
-        frequency_data = FrequencyData(json_loads(unparsed_usa_to_1950_first_names), json_loads(unparsed_usa_to_1950_surnames))
+        frequency_data = FrequencyData(usa_to_1950_first_names, usa_to_1950_surnames)
 
     # Data validation
     if not isinstance(name_one, str) or not isinstance(name_two, str):
@@ -92,7 +104,10 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     # Clean the names
     name_one = clean_name(name_one)
     name_two = clean_name(name_two)
-    name_one, name_two = clean_names_by_comparison(name_one, name_two)
+    name_one, name_two, should_penalty_apply = clean_names_by_comparison(name_one, name_two)
+
+    if should_penalty_apply:
+        applied_penalty = penalty_value
 
     # Deal with names that are too short
     results.too_short = either_name_too_short(name_one, name_two)
@@ -110,9 +125,10 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     name_one, name_two = remove_nicknames(name_one, name_two)
 
     # 1st attempt: Checks if names are a match according to string comparison alone
-    match, word_combos, attempt_one_score = compare_spelling(name_one, name_two)
-    results.attempt_one = Attempt(name_one, name_two, word_combos, attempt_one_score)
-    if match:
+    attempt_one_match, attempt_one_word_combos, attempt_one_score = compare_spelling(name_one, name_two)
+    attempt_one_score = attempt_one_score + applied_penalty
+    results.attempt_one = Attempt(name_one, name_two, attempt_one_word_combos, attempt_one_score)
+    if attempt_one_match:
         results.match = True
         results.most_recent_attempt_score = attempt_one_score
         results.average_score_of_combined_attempts = attempt_one_score
@@ -120,25 +136,34 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
 
     # Failed first attempt. Check if names are even worth continuing
     if is_worth_continuing(name_one, name_two) is False:
+        results.not_worth_continuing = True
+        results.most_recent_attempt_score = attempt_one_score
+        results.average_score_of_combined_attempts = attempt_one_score
         return results
 
     # 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
     modified_name_one, modified_name_two = modify_names_together(name_one, name_two)
-    match, word_combos, attempt_two_score = compare_spelling(modified_name_one, modified_name_two)
-    results.attempt_two = Attempt(modified_name_one, modified_name_two, word_combos, attempt_two_score)
-    if match:
+    attempt_two_match, attempt_two_word_combos, attempt_two_score = compare_spelling(modified_name_one, modified_name_two)
+    attempt_two_score = attempt_two_score + applied_penalty
+    results.attempt_two = Attempt(modified_name_one, modified_name_two, attempt_two_word_combos, attempt_two_score)
+    if attempt_two_match:
         results.match = True
         results.most_recent_attempt_score = attempt_two_score
         results.average_score_of_combined_attempts = ((attempt_two_score + attempt_one_score) / 2)
         return results
+
+    # This is just to help with a test case
+    test_modify_one = get_ipa(modified_name_one)
+    test_modify_two = get_ipa(modified_name_two)
         
     # 3rd attempt: Checks if modified names are a match according to pronunciation
     ipa_of_modified_name_one = clean_ipa(get_ipa(modified_name_one))
     ipa_of_modified_name_two = clean_ipa(get_ipa(modified_name_two))
     ipa_of_modified_name_one, ipa_of_modified_name_two = modify_ipas_by_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two)
-    match, word_combos, attempt_three_score = pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
-    results.attempt_three = Attempt(ipa_of_modified_name_one, ipa_of_modified_name_two, word_combos, attempt_three_score)
-    if match:
+    attempt_three_match, attempt_three_word_combos, attempt_three_score = pronunciation_comparison(ipa_of_modified_name_one, ipa_of_modified_name_two, modified_name_one, modified_name_two)
+    attempt_three_score = attempt_three_score + applied_penalty
+    results.attempt_three = Attempt(ipa_of_modified_name_one, ipa_of_modified_name_two, attempt_three_word_combos, attempt_three_score)
+    if attempt_three_match:
         results.match = True
         results.most_recent_attempt_score = attempt_three_score
         results.average_score_of_combined_attempts = ((attempt_three_score + attempt_two_score + attempt_one_score) / 3)
@@ -148,10 +173,18 @@ def compare_two_names(name_one:str, name_two:str, frequency_data:FrequencyData|N
     ipa_of_name_one = clean_ipa(get_ipa(name_one))
     ipa_of_name_two = clean_ipa(get_ipa(name_two))
     ipa_of_name_one, ipa_of_name_two = modify_ipas_by_comparison(ipa_of_name_one, ipa_of_name_two)
-    match, word_combos, attempt_four_score = pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
-    results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, word_combos, attempt_four_score)
-    if match:
-        results.match = True
+    attempt_four_match, attempt_four_word_combos, attempt_four_score = pronunciation_comparison(ipa_of_name_one, ipa_of_name_two, name_one, name_two)
+    attempt_four_score = attempt_four_score + applied_penalty
+    results.attempt_four = Attempt(ipa_of_name_one, ipa_of_name_two, attempt_four_word_combos, attempt_four_score)
+
+    if attempt_four_match:
         results.most_recent_attempt_score = attempt_four_score
         results.average_score_of_combined_attempts = ((attempt_four_score + attempt_three_score + attempt_two_score + attempt_one_score) / 4)
+        results.match = True
+        return results
+
+    # Since we want the return values to be right, we need the last check to be a default case for them
+    results.most_recent_attempt_score = attempt_four_score
+    results.average_score_of_combined_attempts = ((attempt_four_score + attempt_three_score + attempt_two_score + attempt_one_score) / 4)
+
     return results

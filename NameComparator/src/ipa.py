@@ -1,11 +1,14 @@
 from functools import lru_cache
 from unidecode import unidecode
 from json import loads as json_loads
-from importlib.resources import files
+from pathlib import Path
 
-unparsed_all_ipa_names = files('NameComparator').joinpath('data/pronunciation/ipaAllNames.json').read_text()
-unparsed_common_ipa_word_parts = files('NameComparator').joinpath('data/pronunciation/ipaCommonWordParts.json').read_text()
+# This is required to make sure that it reads in the characters correctly
+all_ipa_names = json_loads((Path(__file__).parent.parent.parent / 'data/pronunciation/ipaAllNames.json').read_text(encoding='utf-8'))
+common_ipa_word_parts = json_loads((Path(__file__).parent.parent.parent / 'data/pronunciation/ipaCommonWordParts.json').read_text(encoding='utf-8'))
 
+# Note here that lru cache is the python equivalent of memoizee in TypeScript
+@lru_cache(maxsize=1000)
 def get_ipa(name:str) -> str:
     """Gets the pronunciation of a name.
 
@@ -19,10 +22,11 @@ def get_ipa(name:str) -> str:
     for word in name.split():
         pronunciation_list.append(_get_ipa_of_one_word(word))
     pronunciation_of_name = " ".join(pronunciation_list)
+
     return pronunciation_of_name
 
-# Note here that lru cache is the python equivalent of memoizee in typescript
-@lru_cache(maxsize=1_000)
+# Note here that lru cache is the python equivalent of memoizee in TypeScript
+@lru_cache(maxsize=1000)
 def _get_ipa_of_one_word(word:str) -> str:
     """Gets the pronunciation of a word.
 
@@ -32,6 +36,7 @@ def _get_ipa_of_one_word(word:str) -> str:
     Returns:
         The ipa pronunciation of the word
     """
+
     # Setup
     word = word.strip()
     word = unidecode(word)
@@ -95,7 +100,7 @@ def _iterate_all_possible_substrings(word: str) -> tuple[bool, int, int, str, in
                 continue
             if len(substring) > 1:
                 ipa_substring, success = _string_pronuncation_ipa_guess(substring)
-                if (not success) or (len(ipa_substring) >= len(substring) * 2) or (substring_splits_th_sound(substring, word, i, j)): continue
+                if (not success) or (len(ipa_substring) >= (len(substring) * 2)) or (substring_splits_th_sound(substring, word, i, j)): continue
                 else: pronunciation_of_largest_substring = ipa_substring
             elif len(substring) == 1:
                 letter_to_pronunciation = {
@@ -122,7 +127,7 @@ def _word_pronunciation_ipa_guess(word:str) -> tuple[str, bool]:
     Returns:
         A tuple comtaining the ipa of the word (or the original word if not found), and whether it was found.
     """        
-    word_pronunciation = json_loads(unparsed_all_ipa_names).get(word, '')
+    word_pronunciation = all_ipa_names.get(word, '')
     if word_pronunciation:
         return word_pronunciation, True
     return word, False
@@ -137,7 +142,8 @@ def _string_pronuncation_ipa_guess(string:str) -> tuple[str, bool]:
     Returns:
         A tuple containing the ipa of the string (or the original string if not found), and whether it was found.
     """        
-    ipa_pronunciation = json_loads(unparsed_common_ipa_word_parts).get(string, '')
+
+    ipa_pronunciation = common_ipa_word_parts.get(string, '')
     if ipa_pronunciation:
         return ipa_pronunciation, True
     return string, False
@@ -153,7 +159,9 @@ def substring_splits_th_sound(substring:str, word:str, i:int, j:int) -> bool:
 
     Returns:
         A boolean representing whether or not it was a good substring
-    """            
+    """      
+
+
     if i == j:
         return False
     if i >= 0 and substring[0] == 'h' and word[i - 1] == 't':

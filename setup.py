@@ -3,13 +3,13 @@ import os
 from _version import __version__ as version
 
 with open("README.md", "r", encoding="utf-8") as fh:
-    read_long_description = fh.read()
+    long_description = fh.read()
 
-unsplit_requirements = ""
+requirements = ""
 with open("NameComparator/requirements.txt", "r", encoding="utf-8") as fh:
-    unsplit_requirements = fh.read()
+    requirements = fh.read()
 
-requirements = unsplit_requirements.split("\n")
+requirements = requirements.split("\n")
 
 def list_folders(directory: str) -> list:
     """Creates a list of all the folders in a directory.
@@ -33,6 +33,7 @@ def list_folders(directory: str) -> list:
 folder_path = "NameComparator"
 folders = list_folders(folder_path)
 folders.append("NameComparator")
+folders.append("data")
 print(folders)
 
 setuptools.setup(
@@ -40,8 +41,8 @@ setuptools.setup(
     version=version,
     author='Record Linking Lab',
     author_email='recordlinkinglab@gmail.com',
-    description='This is a library used to make fuzzy name comparisons across census records.',
-    long_description=read_long_description,
+    description='This is a library used to compare name similarity.',
+    long_description=long_description,
     long_description_content_type="text/markdown",
     url='https://github.com/byuawsfhtl/NameComparator.git',
     project_urls = {
@@ -49,5 +50,5 @@ setuptools.setup(
     },
     packages=folders,
     install_requires=requirements,
-    package_data={"": ["*.json", "*.txt"]},
+    package_data={"": ["**/*.json", "*.txt"]},
 )

@@ -1,13 +1,14 @@
 from re import sub as re_sub
 from re import search as re_search
 from json import loads as json_loads
-from importlib.resources import files
+from pathlib import Path
 
 from fuzzywuzzy.fuzz import ratio as fuzz_ratio
 from NameComparator.src.useful_tools import find_word_matches_and_quality, get_matching_words_and_indices, NameEditor
 
-unparsed_spelling_rules = files('NameComparator').joinpath('data/rules/rulesSpelling.json').read_text()
-unparsed_ipa_rules = files('NameComparator').joinpath('data/rules/rulesIpa.json').read_text()
+# This is required to make sure that it reads in the characters correctly
+spelling_rules = json_loads((Path(__file__).parent.parent.parent / 'data/rules/rulesSpelling.json').read_text(encoding='utf-8'))
+ipa_rules = json_loads((Path(__file__).parent.parent.parent / 'data/rules/rulesIpa.json').read_text(encoding='utf-8'))
 
 def modify_names_together(name_one:str, name_two:str) -> tuple[str,str]:
     """Modifies the name together, changing them in a way that is much more intense than simply cleaning together.
@@ -25,7 +26,7 @@ def modify_names_together(name_one:str, name_two:str) -> tuple[str,str]:
     name_one, name_two = _fix_vowel_mistakes(name_one, name_two)
     name_one, name_two = _fix_swapped_characters(name_one, name_two)
     name_one, name_two = _deal_with_wrong_first_char(name_one, name_two)
-    for middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters in json_loads(unparsed_spelling_rules):
+    for middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters in spelling_rules:
         name_one, name_two = _replace_substring_centers_if_names_are_similar(name_one, name_two, middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters)
     name_one = re_sub(r'\s+', ' ', name_one)
     name_two = re_sub(r'\s+', ' ', name_two)
@@ -66,7 +67,7 @@ def remove_word_or_from_names(name_one:str, name_two:str) -> tuple[str, str]:
 
         if not right_name_one:
             right_name_one = '_'
-        right_word_combos = find_word_matches_and_quality(right_name_one, name_two)
+        right_word_combos, possible_right_prefix_count = find_word_matches_and_quality(right_name_one, name_two)
         right_average_score = sum(tup[2] for tup in right_word_combos) / len(right_word_combos)
 
         # Gets the score for if the word after 'or' is removed
@@ -74,7 +75,7 @@ def remove_word_or_from_names(name_one:str, name_two:str) -> tuple[str, str]:
 
         if not left_name_one:
             left_name_one = '_'
-        left_word_combos =  find_word_matches_and_quality(left_name_one, name_two)
+        left_word_combos, possible_left_prefix_count =  find_word_matches_and_quality(left_name_one, name_two)
         left_average_score = sum(tup[2] for tup in left_word_combos) / len(left_word_combos)
 
         # Return the higher one
@@ -88,14 +89,14 @@ def remove_word_or_from_names(name_one:str, name_two:str) -> tuple[str, str]:
 
         if not right_name_two:
             right_name_two = '_'
-        right_word_combos = find_word_matches_and_quality(right_name_two, name_one)
+        right_word_combos, possible_right_prefix_count = find_word_matches_and_quality(right_name_two, name_one)
         right_average_score = sum(tup[2] for tup in right_word_combos) / len(right_word_combos)
 
         # Gets the score for if the word after 'or' is removed
         left_name_two = re_sub(" or [a-z]+", " ", name_two)
         if not left_name_two:
             left_name_two = '_'
-        left_word_combos =  find_word_matches_and_quality(left_name_two, name_one)
+        left_word_combos, possible_left_prefix_count =  find_word_matches_and_quality(left_name_two, name_one)
         left_average_score = sum(tup[2] for tup in left_word_combos) / len(left_word_combos)
 
         # Return the higher one
@@ -237,6 +238,8 @@ def _replace_substring_centers_if_names_are_similar(name_one:str, name_two:str, 
     Returns:
         A tuple containing the names, modified to have the same substrings in the center (if applicable)
     """        
+
+
     # Return if both middles not in different words
     if (middle_substring_option_one not in name_one and middle_substring_option_two not in name_one) or (middle_substring_option_one not in name_two and middle_substring_option_two not in name_two):
         return name_one, name_two
@@ -330,7 +333,7 @@ def _overwrite_with_substring(string:str, replacement:str, start_index:int, end_
     Returns:
         A new string, with the specified indices replaced by the replacement string
     """
-    return string[:start_index] + replacement + string[(end_index + 1):]
+    return string[:start_index] + replacement + string[(end_index):]
 
 def modify_ipas_by_comparison(ipa_one:str, ipa_two:str) -> tuple[str,str]:
     """Modifies two ipas by comparing them to each other.
@@ -342,6 +345,6 @@ def modify_ipas_by_comparison(ipa_one:str, ipa_two:str) -> tuple[str,str]:
     Returns:
         A tuple containing the modified ipas of two words or names
     """
-    for middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters in json_loads(unparsed_ipa_rules):
+    for middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters in ipa_rules:
         ipa_one, ipa_two = _replace_substring_centers_if_names_are_similar(ipa_one, ipa_two, middle_substring_option_one, middle_substring_option_two, substring_beginnings, substring_endings, minimum_letters)
     return ipa_one, ipa_two

@@ -1,13 +1,33 @@
-import { cleanName, cleanNamesByComparison, cleanIpa } from './src/clean';
-import { removeNicknames } from './src/nicknames';
-import { isWorthContinuing, eitherNameTooShort } from './src/insights';
-import { compareSpelling, pronunciationComparison } from './src/comparisons';
-import { modifyNamesTogether, modifyIpasByComparison } from './src/modify';
-import { getIpa } from './src/ipa';
-import { scoreUniqueness } from './src/uniqueness';
-import { FrequencyData } from './src/uniqueness';
-import usaTo1950Surnames from '../data/frequency/surnamesUsaTo1950.json';
-import usaTo1950FirstNames from '../data/frequency/firstNamesUsaTo1950.json';
+import fs from 'fs';
+import path from 'path';
+import { cleanName, cleanNamesByComparison, cleanIpa } from './src/clean.js';
+import { removeNicknames } from './src/nicknames.js';
+import { isWorthContinuing, eitherNameTooShort } from './src/insights.js';
+import { compareSpelling, pronunciationComparison } from './src/comparisons.js';
+import { modifyNamesTogether, modifyIpasByComparison } from './src/modify.js';
+import { getIpa } from './src/ipa.js';
+import { scoreUniqueness, FrequencyData } from './src/uniqueness.js';
+
+// This is required to make sure that it reads in the characters correctly
+import usaTo1950SurnamesUnparsed from '../data/frequency/surnamesUsaTo1950.json' with {type: 'json'};
+const usaTo1950Surnames = usaTo1950SurnamesUnparsed as Record<string, number>;
+
+import usaTo1950FirstNamesUnparsed from '../data/frequency/firstNamesUsaTo1950.json' with  {type: 'json'};
+const usaTo1950FirstNames = usaTo1950FirstNamesUnparsed as Record<string, number>;
+
+// Read the penalty variable from a file
+import values from '../data/variablesForComparisons.json' with { type: "json"};
+const { maxScore, 
+        guaranteedPassingScore,
+        conditionallyPassingScore,
+        furtherChecksNeededScore,
+        guaranteedFailScore,
+        fuzzyComparisonWeight,
+        consonantComparisonWeight,
+        numberOfValidCombosToSkipFurtherChecks,
+        lengthNeededForConditionallyPassingPronunciationComparison,
+        penaltyForMismatchedPrefixes
+  } = values;
 
 /**
  * Represents an attempt at name comparison (often used for debugging).
@@ -42,6 +62,8 @@ export class Attempt {
  *                                             was made while comparing the names
  * @property {number} averageScoreOfCombinedAttempts - The average percent confidence score from all of the attempts that 
  *                                                     were made while comparing the names
+ * @property {boolean} notWorthContinuing - Whether or not NameComparator determined if the name was not worth
+ *                                          running more checks on after the first check
  */
 export class ResultsOfNameComparison {
   constructor(
@@ -54,8 +76,9 @@ export class ResultsOfNameComparison {
     public attemptTwo: Attempt | null = null,
     public attemptThree: Attempt | null = null,
     public attemptFour: Attempt | null = null,
-    public mostRecentAttemptScore: number = 0,
-    public averageScoreOfCombinedAttempts: number = 0
+    public mostRecentAttemptScore: number = 0.0,
+    public averageScoreOfCombinedAttempts: number = 0.0,
+    public notWorthContinuing: boolean = false
   ) {}
 }
 
@@ -73,6 +96,10 @@ export class ResultsOfNameComparison {
  *          comparison method used
  */
 export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData: FrequencyData | null = null): ResultsOfNameComparison {
+
+  var appliedPenalty: number = 0;
+  var shouldApplyPenalty = false;
+
   // Deal with the optional frequencyData argument
   if (!frequencyData) {
     frequencyData = new FrequencyData(usaTo1950FirstNames, usaTo1950Surnames);
@@ -92,7 +119,11 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   // Clean the names
   nameOne = cleanName(nameOne);
   nameTwo = cleanName(nameTwo);
-  [nameOne, nameTwo] = cleanNamesByComparison(nameOne, nameTwo);
+  [nameOne, nameTwo, shouldApplyPenalty] = cleanNamesByComparison(nameOne, nameTwo);
+
+  if (shouldApplyPenalty === true){
+    appliedPenalty = penaltyForMismatchedPrefixes
+  };
 
   // Deal with names that are too short
   results.tooShort = eitherNameTooShort(nameOne, nameTwo);
@@ -113,46 +144,72 @@ export function compareTwoNames(nameOne: string, nameTwo: string, frequencyData:
   [nameOne, nameTwo] = removeNicknames(nameOne, nameTwo);
 
   // 1st attempt: Checks if names are a match according to string comparison alone
-  let [match, wordCombos] = compareSpelling(nameOne, nameTwo);
-  results.attemptOne = new Attempt(nameOne, nameTwo, wordCombos);
-  if (match) {
+  var [attemptOneMatch, attemptOneWordCombos, attemptOneScore] = compareSpelling(nameOne, nameTwo);
+  attemptOneScore = attemptOneScore + appliedPenalty;
+  results.attemptOne = new Attempt(nameOne, nameTwo, attemptOneWordCombos, attemptOneScore);
+  if (attemptOneMatch) {
     results.match = true;
+    results.mostRecentAttemptScore = attemptOneScore;
+    results.averageScoreOfCombinedAttempts = attemptOneScore;
     return results;
-  }
+  };
 
   // Failed first attempt. Check if names are even worth continuing
   if (isWorthContinuing(nameOne, nameTwo) === false){
+    results.notWorthContinuing = true;
+    results.mostRecentAttemptScore = attemptOneScore;
+    results.averageScoreOfCombinedAttempts = attemptOneScore;
     return results;
-  } 
+  };
 
   // 2nd attempt: Modify names via spelling rules, then check again if match according to string comparison
-  let [modifiedNameOne, modifiedNameTwo] = modifyNamesTogether(nameOne, nameTwo);
-  [match, wordCombos] = compareSpelling(modifiedNameOne, modifiedNameTwo);
-  results.attemptTwo = new Attempt(modifiedNameOne, modifiedNameTwo, wordCombos);
-  if (match) {
+  const [modifiedNameOne, modifiedNameTwo] = modifyNamesTogether(nameOne, nameTwo);
+  var [attemptTwoMatch, attemptTwoWordCombos, attemptTwoScore] = compareSpelling(modifiedNameOne, modifiedNameTwo);
+  attemptTwoScore = attemptTwoScore + appliedPenalty;
+  results.attemptTwo = new Attempt(modifiedNameOne, modifiedNameTwo, attemptTwoWordCombos, attemptTwoScore);
+  if (attemptTwoMatch) {
     results.match = true;
+    results.mostRecentAttemptScore = attemptTwoScore;
+    results.averageScoreOfCombinedAttempts = ((attemptTwoScore + attemptOneScore) / 2);
     return results;
-  }
+  };
+
+  // This is just to help with a test case
+  let testModifyOne = getIpa(modifiedNameOne);
+  let testModifyTwo = getIpa(modifiedNameTwo);
   
   // 3rd attempt: Checks if modified names are a match according to pronunciation
   let ipaOfModifiedNameOne = cleanIpa(getIpa(modifiedNameOne));
   let ipaOfModifiedNameTwo = cleanIpa(getIpa(modifiedNameTwo));
   [ipaOfModifiedNameOne, ipaOfModifiedNameTwo] = modifyIpasByComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo);
-  [match, wordCombos] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
-  results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, wordCombos);
-  if (match) {
+  var [attemptThreeMatch, attemptThreeWordCombos, attemptThreeScore] = pronunciationComparison(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, modifiedNameOne, modifiedNameTwo);
+  attemptThreeScore = attemptThreeScore + appliedPenalty;
+  results.attemptThree = new Attempt(ipaOfModifiedNameOne, ipaOfModifiedNameTwo, attemptThreeWordCombos, attemptThreeScore);
+  if (attemptThreeMatch) {
     results.match = true;
+    results.mostRecentAttemptScore = attemptThreeScore;
+    results.averageScoreOfCombinedAttempts = ((attemptThreeScore + attemptTwoScore + attemptOneScore) / 3);
     return results;
-  }
+  };
 
   // 4th attempt: Check if original names are a match according to pronunciation
   let ipaOfNameOne = cleanIpa(getIpa(nameOne));
   let ipaOfNameTwo = cleanIpa(getIpa(nameTwo));
   [ipaOfNameOne, ipaOfNameTwo] = modifyIpasByComparison(ipaOfNameOne, ipaOfNameTwo);
-  [match, wordCombos] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
-  results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, wordCombos);
-  if (match) {
+  var [attemptFourMatch, attemptFourWordCombos, attemptFourScore] = pronunciationComparison(ipaOfNameOne, ipaOfNameTwo, nameOne, nameTwo);
+  attemptFourScore = attemptFourScore + appliedPenalty;
+  results.attemptFour = new Attempt(ipaOfNameOne, ipaOfNameTwo, attemptFourWordCombos, attemptFourScore);
+
+  if (attemptFourMatch) {
     results.match = true;
-  }
+    results.mostRecentAttemptScore = attemptFourScore;
+    results.averageScoreOfCombinedAttempts = ((attemptFourScore + attemptThreeScore + attemptTwoScore + attemptOneScore) / 4);
+    return results;
+  };
+
+  // Since we want the return values to be right, we need the last check to be a default case for them
+  results.mostRecentAttemptScore = attemptFourScore;
+  results.averageScoreOfCombinedAttempts = ((attemptFourScore + attemptThreeScore + attemptTwoScore + attemptOneScore) / 4);
+
   return results;
-}
+};

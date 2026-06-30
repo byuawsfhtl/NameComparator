@@ -1,8 +1,14 @@
+import fs from 'fs';
+import path from 'path';
 import { ratio as fuzzball_ratio } from "fuzzball";
+import { findWordMatchesAndQuality, getMatchingWordsAndIndices, NameEditor } from "./usefulTools.js";
 
-import { findWordMatchesAndQuality, getMatchingWordsAndIndices, NameEditor } from "./usefulTools";
-import spellingRules from "../../data/rules/rulesSpelling.json";
-import ipaRules from "../../data/rules/rulesIpa.json";
+// This is required to make sure that it reads in the characters correctly
+import spellingRulesUnparsed from '../../data/rules/rulesSpelling.json' with {type: 'json'};
+const spellingRules = spellingRulesUnparsed as [string, string, string[], string[], number][];
+
+import ipaRulesUnparsed from '../../data/rules/rulesIpa.json' with {type: 'json'};
+const ipaRules = ipaRulesUnparsed as [string, string, string[], string[], number][];
 
 /** 
  * Modifies the name together, changing them in a way that is much more intense than simply cleaning together.
@@ -18,7 +24,7 @@ export function modifyNamesTogether(nameOne: string, nameTwo: string): [string, 
     [nameOne, nameTwo] = _fixVowelMistakes(nameOne, nameTwo);
     [nameOne, nameTwo] = _fixSwappedCharacters(nameOne, nameTwo);
     [nameOne, nameTwo] = _dealWithWrongFirstChar(nameOne, nameTwo);
-    for (const[middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of spellingRules as [string, string, string[], string[], number][]) {
+    for (const[middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of spellingRules) {
         [nameOne, nameTwo] = _replaceSubstringCentersIfNamesAreSimilar(nameOne, nameTwo, middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters);
     }
     nameOne = nameOne.replace(/\s+/g, " ");
@@ -64,7 +70,7 @@ function _removeWordOrFromNames(nameOne: string, nameTwo: string): [string, stri
         if (!rightNameOne) {
             rightNameOne = "_";
         }
-        const rightWordCombos = findWordMatchesAndQuality(rightNameOne, nameTwo);
+        const [rightWordCombos, possibleRightPrefixCount] = findWordMatchesAndQuality(rightNameOne, nameTwo);
         const rightAverageScore = rightWordCombos.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / rightWordCombos.length;
         
         // Gets the score for if the word after 'or' is removed
@@ -73,7 +79,7 @@ function _removeWordOrFromNames(nameOne: string, nameTwo: string): [string, stri
         if (!leftnameOne) {
             leftnameOne = "_";
         }
-        const leftWordCombos = findWordMatchesAndQuality(leftnameOne, nameTwo);
+        const [leftWordCombos, possibleLeftPrefixCount] = findWordMatchesAndQuality(leftnameOne, nameTwo);
         const leftAverageScore = leftWordCombos.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / leftWordCombos.length;
 
         // Return the higher one
@@ -91,7 +97,7 @@ function _removeWordOrFromNames(nameOne: string, nameTwo: string): [string, stri
         if (!rightnameTwo) {
             rightnameTwo = "_";
         }
-        const rightWordCombos = findWordMatchesAndQuality(rightnameTwo, nameOne);
+        const [rightWordCombos, possibleRightPrefixCount] = findWordMatchesAndQuality(rightnameTwo, nameOne);
         const rightAverageScore = rightWordCombos.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / rightWordCombos.length;
         
         // Gets the score for if the word after 'or' is removed
@@ -99,7 +105,7 @@ function _removeWordOrFromNames(nameOne: string, nameTwo: string): [string, stri
         if (!leftNameTwo) {
             leftNameTwo = "_";
         }
-        const leftWordCombos = findWordMatchesAndQuality(leftNameTwo, nameOne);
+        const [leftWordCombos, possibleLeftPrefixCount] = findWordMatchesAndQuality(leftNameTwo, nameOne);
         const leftAverageScore = leftWordCombos.reduce((sum: number, [nothing, nothing2, score]: [string, string, number]) => sum + score, 0) / leftWordCombos.length;
         
         // Return the higher one
@@ -172,7 +178,7 @@ function _fixSwappedCharacters(nameOne: string, nameTwo: string): [string, strin
     const nameEditorInstance = new NameEditor(nameOne, nameTwo);
     for (const [indexOne, _, wordOne, wordTwo] of getMatchingWordsAndIndices(nameOne, nameTwo)) {
         // Skip if the words are not 5 long, are different length, or not fuzzy 80
-        if (wordOne.length !== 5 || wordOne.length !== wordTwo.length || fuzzball_ratio(wordOne, wordTwo) !== 80) {
+        if (wordOne.length !== 5 || wordOne.length !== wordTwo.length || fuzzball_ratio(wordOne, wordTwo, { full_process: false }) !== 80) {
             continue;
         }
 
@@ -245,6 +251,7 @@ function _dealWithWrongFirstChar(nameOne: string, nameTwo: string): [string, str
  * @returns The names, modified to have the same substrings in the center (if applicable)
  */
 function _replaceSubstringCentersIfNamesAreSimilar(nameOne: string, nameTwo: string, middleSubstringOptionOne: string, middleSubstringOptionTwo: string, possibleSubstringBeginnings: string[], possibleSubstringEndings: string[], minimumRequiredLetters: number): [string, string] {
+    
     // Return if both middles not in different words
     if ((!nameOne.includes(middleSubstringOptionOne) && !nameOne.includes(middleSubstringOptionTwo)) || (!nameTwo.includes(middleSubstringOptionOne) && !nameTwo.includes(middleSubstringOptionTwo))) {
         return [nameOne, nameTwo];
@@ -301,7 +308,7 @@ function _handleSubstringReplacementsAndChecks(wordOne: string, wordTwo: string,
         for (const substringEnding of possibleSubstringEndings) {
             if (!wordOne.includes(substringEnding) || !wordTwo.includes(substringEnding)) {
                 continue;
-            }
+            };
 
             // Skip the beginnings and ends if the pattern is not found in both,
             // if the middles are the same, or if the patterns are too far appart
@@ -309,9 +316,13 @@ function _handleSubstringReplacementsAndChecks(wordOne: string, wordTwo: string,
             const resultListOne = pattern.exec(wordOne);
             const resultListTwo = pattern.exec(wordTwo);
 
-            if (!resultListOne || !resultListTwo) continue;
+            if (!resultListOne || !resultListTwo) {
+                continue
+            };
 
-            if (resultListOne[0] === resultListTwo[0]) continue;
+            if (resultListOne[0] === resultListTwo[0]) {
+                continue
+            };
 
             const startIndexOfListOneSpan = resultListOne.index;
             const endIndexOfListOneSpan = startIndexOfListOneSpan + resultListOne[0].length;
@@ -356,7 +367,7 @@ function _overwriteWithSubstring(string: string, replacement: string, startIndex
  * @returns The modified ipas of two words or names
  */
 export function modifyIpasByComparison(ipaOne: string, ipaTwo: string): [string, string] {
-    for (const [middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of ipaRules as [string, string, string[], string[], number][]) {
+    for (const [middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters] of ipaRules) {
         [ipaOne, ipaTwo] = _replaceSubstringCentersIfNamesAreSimilar(ipaOne, ipaTwo, middleSubstringOptionOne, middleSubstringOptionTwo, substringBeginnings, substringEndings, minimumLetters);
     }
     return [ipaOne, ipaTwo];

@@ -10,3 +10,4 @@ NameComparator.egg-info/
 **/node_modules
 **/dist
 venv
+output.txt
