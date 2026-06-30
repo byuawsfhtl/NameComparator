@@ -84,10 +84,10 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
             fragment_index = 0
             for specific_fragment in broken_name['fragment_list']:
                 # Probably turn this into a helper function eventually but for now I'm just going to let it be gross
-                if specific_fragment['edited_fragment'][0] == list(best_name_as_fragments[fragment_index])[0]:
-                    if specific_fragment['edited_fragment_length'] > len(best_name_as_fragments[fragment_index]):
+                if specific_fragment['edited_fragment'][0] == best_name_as_fragments[fragment_index]['edited_fragment'][0]:
+                    if specific_fragment['edited_fragment_length'] > best_name_as_fragments[fragment_index]['edited_fragment_length']:
                         # TODO: NOTE: WARNING: Will this return true for an initial? If not, it may cause issues
-                        if compare_two_names(specific_fragment['edited_fragment'], best_name_as_fragments[fragment_index]).match:
+                        if compare_two_names(specific_fragment['edited_fragment'], best_name_as_fragments[fragment_index]['edited_fragment']).match:
                             best_name_as_fragments[fragment_index] = specific_fragment
                             # TODO: NOTE: It would probably be best to add this to a list of 'potential names' or
                             # something like that so that later on if there is a conflict and it's unclear which
@@ -106,15 +106,17 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
                     # name option, list it as a possible match. If it doesn't match any, list it as an
                     # unknown location
                     print(f"Comparing the fragment {specific_fragment} to the fragment {fragment_of_best_name} from the current best name")
-                    if specific_fragment['edited_fragment'][0] == list(fragment_of_best_name)[0]:
+                    if specific_fragment['edited_fragment'][0] == fragment_of_best_name['edited_fragment'][0]:
                         possible_name_matches_for_specific_fragment.append(index_of_fragment_in_best_name_list) # Note that this only tracks the possible fragment location matches (thier indices)
+                        print(f"Updated possible name matches for the specific fragment with the index {index_of_fragment_in_best_name_list}")
                     index_of_fragment_in_best_name_list = index_of_fragment_in_best_name_list + 1
+
                 
                 # If there's only one possible matching slot, we're just going to take that one given that the new fragment is better
                 if len(possible_name_matches_for_specific_fragment) == 1:
-                    if len(specific_fragment['edited_fragment']) > len(best_name_as_fragments[possible_name_matches_for_specific_fragment[0]]):
+                    if len(specific_fragment['edited_fragment']) > len(best_name_as_fragments[possible_name_matches_for_specific_fragment[0]]['edited_fragment']):
                         # TODO: NOTE: WARNING: Will this return true for an initial? If not, it may cause issues
-                        if compare_two_names(specific_fragment['edited_fragment'], best_name_as_fragments[possible_name_matches_for_specific_fragment[0]]).match:
+                        if compare_two_names(specific_fragment['edited_fragment'], best_name_as_fragments[possible_name_matches_for_specific_fragment[0]]['edited_fragment']).match:
                             best_name_as_fragments[possible_name_matches_for_specific_fragment[0]] = specific_fragment
 
                 # If there are several possible matching slots, we need to store that info for later use
@@ -132,7 +134,7 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
 
                     # If the item in the name fragments is still an initial, we should definitely look at it
                     print(f"Quick check on the best_name_as_fragments list: {best_name_as_fragments}")
-                    check_for_initial_in_name_fragment = best_name_as_fragments[index_key].strip().replace('.', '').replace(',', '')
+                    check_for_initial_in_name_fragment = best_name_as_fragments[index_key]["edited_fragment"]
                     if len(check_for_initial_in_name_fragment) > 1:
 
                         # We need to make sure there are no other names that are an initial that matches the letter
@@ -155,8 +157,8 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
                             # to make sure that the frequencies haven't changed and demoted a particular name's status / confidence in it's
                             # match to be incomplete and result in an initial again
                             else:
-                                check_for_initial_in_other_name_fragment = other_name_fragment.strip().replace('.', '').replace(',', '')
-                                if check_for_initial_in_other_name_fragment > 1:
+                                check_for_initial_in_other_name_fragment = other_name_fragment['edited_fragment']
+                                if len(check_for_initial_in_other_name_fragment) > 1:
                                     index_of_other_name_fragment = index_of_other_name_fragment + 1
                                     continue
                                 else:
@@ -183,7 +185,7 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
                             # Search to see if there's another fragment that matches this particular name
                             found_matching_fragment_in_other_location = False
                             for currently_accepted_name_fragment in best_name_as_fragments:
-                                fragments_are_likely_the_same = compare_two_names(fragment_to_test_for_belonging, currently_accepted_name_fragment).match
+                                fragments_are_likely_the_same = compare_two_names(fragment_to_test_for_belonging['edited_fragment'], currently_accepted_name_fragment['edited_fragment']).match
                                 if fragments_are_likely_the_same:
                                     found_matching_fragment_in_other_location = True
                                     break
