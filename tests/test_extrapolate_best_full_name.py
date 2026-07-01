@@ -11,7 +11,8 @@ list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J
 
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the first test case:")
-print("Final result of name extrapolation: " + extrapolate_best_full_name(cleaned_list_of_names))
+name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
+print(f"Final result of name extrapolation: name - {name_result} leftover fragments - {leftover_fragments}")
 print("\n\n")
 
 # TODO: NOTE: What do we want to do with this next one? It won't be possible 
@@ -28,7 +29,8 @@ list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J
 
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the second test case:")
-print(extrapolate_best_full_name(cleaned_list_of_names))
+name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
+print(f"Final result of name extrapolation: name - {name_result} leftover fragments - {leftover_fragments}")
 print("\n\n")
 
 # TODO: NOTE: For this next one if there are two possible names with an unclear 'winner',
@@ -48,7 +50,8 @@ list_of_input_names = ['J J J S', 'John Jingleheimer Schmidtt', 'Jacob Jinglehei
 
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the third test case:")
-print(extrapolate_best_full_name(cleaned_list_of_names))
+name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
+print(f"Final result of name extrapolation: name - {name_result} leftover fragments - {leftover_fragments}")
 print("\n\n")
 
 # TODO: NOTE: None of these cases figure out what we should do with abbreviations or titles
@@ -75,7 +78,8 @@ list_of_input_names = ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jang
 
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the fourth test case:")
-print(extrapolate_best_full_name(cleaned_list_of_names))
+name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
+print(f"Final result of name extrapolation: name - {name_result} leftover fragments - {leftover_fragments}")
 print("\n\n")
 
 # NOTE: Fortunately, I think that it would be best to not factor the above test case when it comes to a new name being

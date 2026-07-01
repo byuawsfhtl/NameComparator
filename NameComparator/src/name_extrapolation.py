@@ -10,7 +10,7 @@ from re import split as re_split
 # or rejected yet due to uncertainty. This will help with the 
 # FlexibleName stuff later on
 
-def extrapolate_best_full_name(cleaned_list_of_names) -> str:
+def extrapolate_best_full_name(cleaned_list_of_names) -> tuple[str, dict]:
     """This function takes in a list of cleaned names for a single person
     and then determines what the most likely best full name is based on 
     that list, favoring having full names instead of initials or 
@@ -23,7 +23,8 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
     
     Returns:
         A string representing the best or most complete version of a name,
-        based on all of the input names
+        based on all of the input names and a dictionary containing all of
+        the name fragments that haven't been used yet
     """
     
     # If there is nothing left in the cleaned names, we can't
@@ -70,7 +71,7 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
         if add_spaces_index_checker < len(best_name_as_fragments):
             complete_extrapolated_name = complete_extrapolated_name + ' '
 
-    return complete_extrapolated_name
+    return complete_extrapolated_name, multiple_possible_matches_dictionary
 
 
 def _break_names_into_fragments(cleaned_list_of_names: list) -> tuple[list[dict], int]:
