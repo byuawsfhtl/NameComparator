@@ -5,10 +5,10 @@ from re import split as re_split
 # to determine possible full names for a person when a nickname or
 # shorthand version is used
 
-# TODO: It may be worth also having this return a list of all of the
-# possible names for different segments that haven't been accepted
-# or rejected yet due to uncertainty. This will help with the 
-# FlexibleName stuff later on
+# TODO: This function should probably also take in a dictionary of
+# previously unused fragments and default to an empty dictionary if there
+# aren't any so that it has better compatibility with other FlexibleName
+# functions that I want to make later on
 
 def extrapolate_best_full_name(cleaned_list_of_names) -> tuple[str, dict]:
     """This function takes in a list of cleaned names for a single person
@@ -30,13 +30,13 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> tuple[str, dict]:
     # If there is nothing left in the cleaned names, we can't
     # determine the best name so return an empty string
     if not cleaned_list_of_names:
-        return ''
+        return '', {}
     
     # If there is only one name in the cleaned names, we can
     # safely say that's the best name in the list. Just
     # return it
     if len(cleaned_list_of_names) == 1:
-        return cleaned_list_of_names[0]
+        return cleaned_list_of_names[0], {}
     
     # Break all of the names into a collection of pieces I'm calling fragments
     broken_name_list, index_of_name_with_most_fragments = _break_names_into_fragments(cleaned_list_of_names)
