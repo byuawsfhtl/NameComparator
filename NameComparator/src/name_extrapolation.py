@@ -1,7 +1,30 @@
 from NameComparator.NameComparator import compare_two_names
 from re import split as re_split
 
+# TODO: Consider coming up with logic that can use the list of nicknames
+# to determine possible full names for a person when a nickname or
+# shorthand version is used
+
+# TODO: It may be worth also having this return a list of all of the
+# possible names for different segments that haven't been accepted
+# or rejected yet due to uncertainty. This will help with the 
+# FlexibleName stuff later on
+
 def extrapolate_best_full_name(cleaned_list_of_names) -> str:
+    """This function takes in a list of cleaned names for a single person
+    and then determines what the most likely best full name is based on 
+    that list, favoring having full names instead of initials or 
+    abbreviations when possible.
+
+    Args:
+        cleaned_list_of_names: A list of names, cleaned by using one of the
+            cleaning functions, that contains variations of a name for a 
+            particular person
+    
+    Returns:
+        A string representing the best or most complete version of a name,
+        based on all of the input names
+    """
     
     # If there is nothing left in the cleaned names, we can't
     # determine the best name so return an empty string
@@ -14,61 +37,12 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
     if len(cleaned_list_of_names) == 1:
         return cleaned_list_of_names[0]
     
-    broken_name_list = []
-    current_index_in_name_list = 0
-    index_of_name_with_most_fragments = 0
-    fragments_in_name_with_most_fragments = 0
-    for name in cleaned_list_of_names:
-
-        print(f"Name before split: {name}")
-
-        # Split the name by likely indicators of different names (eg, surname, first name, etc)
-        unfiltered_split_name = re_split(r'[. ,]\s*', name.strip())
-        split_name = list(filter(None, unfiltered_split_name))
-
-        print(f"Name after split: {split_name}")
-
-        total_name_fragments = len(split_name)
-
-        if fragments_in_name_with_most_fragments < total_name_fragments:
-            fragments_in_name_with_most_fragments = total_name_fragments
-            index_of_name_with_most_fragments = current_index_in_name_list
-
-        # Create a dictionary to add to a list for later comparison of fragments
-        dictionary_to_add_to_broken_name_list = {
-            'complete_name': name,
-            'complete_name_position_in_list': current_index_in_name_list,
-            'total_fragments': total_name_fragments,
-            'fragment_list': []
-        }
-
-        # Remove spaces, commas, and periods from name fragments to get accurate info on them
-        for name_fragment in split_name:
-            initial_fragment = name_fragment
-            edited_name_fragment = name_fragment.strip()
-            edited_name_fragment = edited_name_fragment.replace('.', '')
-            edited_name_fragment = edited_name_fragment.replace(',', '')
-            length_of_fragment = len(name_fragment)
-            length_of_edited_fragment = len(list(edited_name_fragment))
-
-            # Add the fragment to the list of fragments in the name
-            fragment_to_add = {
-                'unedited_fragment': initial_fragment,
-                'edited_fragment': edited_name_fragment,
-                'length_of_unedited_fragment': length_of_fragment,
-                'edited_fragment_length': length_of_edited_fragment
-            }
-            dictionary_to_add_to_broken_name_list['fragment_list'].append(fragment_to_add)
-            print(f"Added the fragment {fragment_to_add}")
-
-        # Add the fully constructed dictionary to the list of broken up names
-        broken_name_list.append(dictionary_to_add_to_broken_name_list)
-
-        # Update this so we know where we are in the cleaned list of names    
-        current_index_in_name_list = current_index_in_name_list + 1
+    # Break all of the names into a collection of pieces I'm calling fragments
+    broken_name_list, index_of_name_with_most_fragments = _break_names_into_fragments(cleaned_list_of_names)
 
     # Populate an initial array of strings equal to the length of the name with the most
     # fragments, using the fragments from that name as the starting point
+    fragments_count_of_name_with_most_fragments = len(broken_name_list[index_of_name_with_most_fragments]['fragment_list'])
     best_name_as_fragments = []
     for initial_name_fragment in broken_name_list[index_of_name_with_most_fragments]['fragment_list']:
         best_name_as_fragments.append(initial_name_fragment)
@@ -80,18 +54,8 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
         
         # If the number of fragments matches the max number of fragments, we can probably safely assume that
         # the names have similar positions as long as their first letters match.
-        if len(broken_name['fragment_list']) == fragments_in_name_with_most_fragments:
-            fragment_index = 0
-            for specific_fragment in broken_name['fragment_list']:
-                # Probably turn this into a helper function eventually but for now I'm just going to let it be gross
-                if specific_fragment['edited_fragment'][0] == best_name_as_fragments[fragment_index]['edited_fragment'][0]:
-                    if specific_fragment['edited_fragment_length'] > best_name_as_fragments[fragment_index]['edited_fragment_length']:
-                        # TODO: NOTE: WARNING: Will this return true for an initial? If not, it may cause issues
-                        if compare_two_names(specific_fragment['edited_fragment'], best_name_as_fragments[fragment_index]['edited_fragment']).match:
-                            best_name_as_fragments[fragment_index] = specific_fragment
-                            # TODO: NOTE: It would probably be best to add this to a list of 'potential names' or
-                            # something like that so that later on if there is a conflict and it's unclear which
-                            # name should 'win' in a space we can detect if it should just be an initial or not
+        if len(broken_name['fragment_list']) == fragments_count_of_name_with_most_fragments:
+            best_name_as_fragments = _extrapolate_names_from_equal_length_fragments(broken_name, best_name_as_fragments)
 
         # If the number of fragments doesn't match the max number of fragments, we'll need to handle the logic
         # a little bit differently
@@ -130,7 +94,7 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
                 # Now that we have more info, we need to go through each name fragment with an unknown slot
                 # and determine if any of them have a more clear location or if they have something equivalent
                 # that's been figured out
-                for index_key in multiple_possible_matches_dictionary:
+                for index_key in list(multiple_possible_matches_dictionary):
 
                     # If the item in the name fragments is still an initial, we should definitely look at it
                     print(f"Quick check on the best_name_as_fragments list: {best_name_as_fragments}")
@@ -236,6 +200,117 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> str:
             complete_extrapolated_name = complete_extrapolated_name + ' '
 
     return complete_extrapolated_name
+
+
+def _break_names_into_fragments(cleaned_list_of_names: list) -> tuple[list[dict], int]:
+    """This function takes in a list of cleaned names and breaks them
+    up based on spaces and punctuation into their various parts, which
+    are being labelled as fragments. It also determines which of those
+    names has the most total fragments.
+    
+    Args:
+        cleaned_list_of_names: A list of names, cleaned by using one of 
+            the cleaning functions, that contains variations of a name 
+            for a particular person
+
+    Returns:
+        A list of dictionaries where each entry is a name and the
+        dictionary within it contains all of the info on the name
+        fragments. It also returns an integer representing the
+        index of the name inside of the list that has the most
+        total fragments in it
+    """
+
+    broken_name_list = []
+    current_index_in_name_list = 0
+    index_of_name_with_most_fragments = 0
+    fragments_in_name_with_most_fragments = 0
+    for name in cleaned_list_of_names:
+
+        print(f"Name before split: {name}")
+
+        # Split the name by likely indicators of different names (eg, surname, first name, etc)
+        unfiltered_split_name = re_split(r'[. ,]\s*', name.strip())
+        split_name = list(filter(None, unfiltered_split_name))
+
+        print(f"Name after split: {split_name}")
+
+        total_name_fragments = len(split_name)
+
+        if fragments_in_name_with_most_fragments < total_name_fragments:
+            fragments_in_name_with_most_fragments = total_name_fragments
+            index_of_name_with_most_fragments = current_index_in_name_list
+
+        # Create a dictionary to add to a list for later comparison of fragments
+        dictionary_to_add_to_broken_name_list = {
+            'complete_name': name,
+            'complete_name_position_in_list': current_index_in_name_list,
+            'total_fragments': total_name_fragments,
+            'fragment_list': []
+        }
+
+        # Remove spaces, commas, and periods from name fragments to get accurate info on them
+        for name_fragment in split_name:
+            initial_fragment = name_fragment
+            edited_name_fragment = name_fragment.strip()
+            edited_name_fragment = edited_name_fragment.replace('.', '')
+            edited_name_fragment = edited_name_fragment.replace(',', '')
+            length_of_fragment = len(name_fragment)
+            length_of_edited_fragment = len(list(edited_name_fragment))
+
+            # Add the fragment to the list of fragments in the name
+            fragment_to_add = {
+                'unedited_fragment': initial_fragment,
+                'edited_fragment': edited_name_fragment,
+                'length_of_unedited_fragment': length_of_fragment,
+                'edited_fragment_length': length_of_edited_fragment
+            }
+            dictionary_to_add_to_broken_name_list['fragment_list'].append(fragment_to_add)
+            print(f"Added the fragment {fragment_to_add}")
+
+        # Add the fully constructed dictionary to the list of broken up names
+        broken_name_list.append(dictionary_to_add_to_broken_name_list)
+
+        # Update this so we know where we are in the cleaned list of names    
+        current_index_in_name_list = current_index_in_name_list + 1
+
+    return broken_name_list, index_of_name_with_most_fragments
+
+
+def _extrapolate_names_from_equal_length_fragments(broken_name: dict, best_name_as_fragments: list[dict]) -> list[dict]:
+    """This function is a helper function for extrapolate_best_full_name that will take in a 
+    name that's been broken into it's name fragments and the currently determined best name,
+    also broken into it's fragments. Then it compares the fragments to each other to determine
+    if the fragment from the broken name is a better match than the currently known best
+    fragment.
+
+    Args:
+        broken_name: A dictionary containing all of the info on a specific name and all of
+            it's fragments
+        best_name_as_fragments: A list of name fragments (which are dictionaries) for the
+            best final name result as calculated so far
+
+    Returns:
+        A list of name fragments (which are dictionaries) representing the newly updated
+        calculation for the best final name result
+    """
+
+    # TODO: This currently won't update anything to fall under the multiple possible name matches
+    # variable when maybe it should. Look into this and consider implementing it as a part of
+    # the check
+
+    fragment_index = 0
+    for specific_fragment in broken_name['fragment_list']:
+        # Probably turn this into a helper function eventually but for now I'm just going to let it be gross
+        if (specific_fragment['edited_fragment'][0] == best_name_as_fragments[fragment_index]['edited_fragment'][0]) and (specific_fragment['edited_fragment_length'] > best_name_as_fragments[fragment_index]['edited_fragment_length']):
+            # TODO: NOTE: WARNING: Will this return true for an initial? If not, it may cause issues
+            if compare_two_names(specific_fragment['edited_fragment'], best_name_as_fragments[fragment_index]['edited_fragment']).match:
+                best_name_as_fragments[fragment_index] = specific_fragment
+                # TODO: NOTE: It would probably be best to add this to a list of 'potential names' or
+                # something like that so that later on if there is a conflict and it's unclear which
+                # name should 'win' in a space we can detect if it should just be an initial or not
+
+    return best_name_as_fragments
                             
 
 def clean_name_list(input_list_of_names) -> list[str]:
