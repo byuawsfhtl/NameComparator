@@ -41,7 +41,7 @@ print("\n\n")
 
 yet_another_full_final_name = 'John Jacob Jingleheimer Schmidtt'
 
-intended_final_result_if_no_new_info = 'J. J. Jingleheimer Schmidtt' # This works since we know that Jingleheimer has to be after both John and Jacob to work
+intended_final_result_if_no_new_info = 'J J Jingleheimer Schmidtt' # This works since we know that Jingleheimer has to be after both John and Jacob to work
 
 returned_still_unknown_names = ['John', 'Jacob'] # We would hold on to these as having an unknown position in case we get more information later, in something
                                                  # like an add name function for FlexibleName
