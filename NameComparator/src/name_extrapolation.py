@@ -219,12 +219,15 @@ def _extrapolate_names_from_different_length_fragments(broken_name: dict, best_n
     """
 
     first_accepted_index_of_previous_fragment = -1
-    for specific_fragment_index, specific_fragment in enumerate(broken_name['fragment_list']):
+    for specific_fragment in broken_name['fragment_list']:
         print(f"Handling logic for the fragment {specific_fragment} from the list {broken_name['fragment_list']}")
         index_of_fragment_in_best_name_list = 0
         possible_name_matches_for_specific_fragment = []
         found_first_accepted_index = False
         print(f"Note that the current best name fragment list looks as follows: {best_name_as_fragments}")
+
+        if specific_fragment in best_name_as_fragments:
+            continue
 
         # If the first letter of the fragment matches the first letter of a fragment from the best
         # name option, list it as a possible match. If it doesn't match any, list it as an
@@ -233,7 +236,7 @@ def _extrapolate_names_from_different_length_fragments(broken_name: dict, best_n
             accepted_a_fragment_this_iteration = False
             print(f"Comparing the fragment {specific_fragment} to the fragment {fragment_of_best_name} from the current best name")
             print(f"Result of compare two names on the fragments: {compare_two_names(specific_fragment['edited_fragment'], fragment_of_best_name['edited_fragment']).match}")
-            if (index_of_fragment_in_best_name_list > first_accepted_index_of_previous_fragment) and (specific_fragment['edited_fragment'][0] == fragment_of_best_name['edited_fragment'][0]) and (len(specific_fragment['edited_fragment']) != 1) and (specific_fragment['edited_fragment'] != fragment_of_best_name['edited_fragment']) and (compare_two_names(specific_fragment['edited_fragment'], fragment_of_best_name['edited_fragment']).match):
+            if (index_of_fragment_in_best_name_list > first_accepted_index_of_previous_fragment) and (specific_fragment['edited_fragment'][0] == fragment_of_best_name['edited_fragment'][0]) and (len(specific_fragment['edited_fragment']) != 1) and (specific_fragment['edited_fragment'] != fragment_of_best_name['edited_fragment']) and (compare_two_names(specific_fragment['edited_fragment'], fragment_of_best_name['edited_fragment']).match) and (specific_fragment not in multiple_possible_matches_dictionary[index_of_fragment_in_best_name_list] if multiple_possible_matches_dictionary.get(index_of_fragment_in_best_name_list, '') else True):
                 possible_name_matches_for_specific_fragment.append(index_of_fragment_in_best_name_list) # Note that this only tracks the possible fragment location matches (thier indices)
                 accepted_a_fragment_this_iteration = True
                 print(f"Updated possible name matches for the specific fragment with the index {index_of_fragment_in_best_name_list}")
