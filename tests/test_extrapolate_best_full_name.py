@@ -1,3 +1,7 @@
+from pyscripttestutils import PyScriptTestRunner
+import pytest
+from pathlib import Path
+
 from NameComparator.src.name_extrapolation import clean_name_list, extrapolate_best_full_name
 
 # TODO: NOTE: This file is not yet finished. It is mostly created thus far
@@ -9,10 +13,13 @@ full_final_name = 'John Jacob Jingleheimer Schmidtt'
 
 list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J. S.', 'Jacob Jingleheimer Schmidtt']
 
+returned_still_unknown_names: list = [] # Empty because there should be no unknowns left
+
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the first test case:")
 name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
-print(f"Final result of name extrapolation: name - {name_result} leftover fragments - {leftover_fragments}")
+print(f"leftover_fragments - {leftover_fragments}")
+print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
 
 # TODO: NOTE: What do we want to do with this next one? It won't be possible 
@@ -21,16 +28,17 @@ print("\n\n")
 # overlap with the test case after this one, at least in terms of figuring
 # out the logic
 
-another_full_final_name = 'John Jacob Jingleheimer Schmidtt'
+another_full_final_name = 'John J J Schmidtt'
 
-returned_still_unknown_names = [] # Empty because there should be no unknowns left
+returned_still_unknown_names = ['Jingleheimer'] # Empty because there should be no unknowns left
 
 list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J. S.']
 
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the second test case:")
 name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
-print(f"Final result of name extrapolation: name - {name_result} leftover fragments - {leftover_fragments}")
+print(f"leftover_fragments - {leftover_fragments}")
+print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
 
 # TODO: NOTE: For this next one if there are two possible names with an unclear 'winner',
@@ -38,8 +46,7 @@ print("\n\n")
 
 # TODO: NOTE: This next test case would also be a *GREAT* one to use for the add another
 # name function to help clarify more information as part of the flexible name
-
-yet_another_full_final_name = 'John Jacob Jingleheimer Schmidtt'
+# yet_another_full_final_name = 'John Jacob Jingleheimer Schmidtt'
 
 intended_final_result_if_no_new_info = 'J J Jingleheimer Schmidtt' # This works since we know that Jingleheimer has to be after both John and Jacob to work
 
@@ -51,7 +58,8 @@ list_of_input_names = ['J J J S', 'John Jingleheimer Schmidtt', 'Jacob Jinglehei
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the third test case:")
 name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
-print(f"Final result of name extrapolation: name - {name_result} leftover fragments - {leftover_fragments}")
+print(f"leftover_fragments - {leftover_fragments}")
+print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
 
 # TODO: NOTE: None of these cases figure out what we should do with abbreviations or titles
@@ -79,7 +87,8 @@ list_of_input_names = ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jang
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the fourth test case:")
 name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
-print(f"Final result of name extrapolation: name - {name_result} leftover fragments - {leftover_fragments}")
+print(f"leftover_fragments - {leftover_fragments}")
+print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
 
 # NOTE: Fortunately, I think that it would be best to not factor the above test case when it comes to a new name being
@@ -116,3 +125,18 @@ print("\n\n")
 # last name. A good test case for this might be something like [Juanita M Sanchez, Juanita M Maria, Juanita Maria M,
 # Juanita Maria S, Juanita Maria Maria Sanchez, Juanita M M-S, Juanita Maria-Sanchez] or something similar. Possibly
 # reorder that to make it cleaner though
+
+path_for_typescript_version = Path(__file__).resolve().parent.parent / "NameComparatorTS" / "dist" / "NameComparatorTS" / "bridge_for_tests.js"
+
+test_runner = PyScriptTestRunner(path_for_typescript_version)
+
+test_runner.add_method(extrapolate_best_full_name, "extrapolateBestFullName", executor = lambda args: extrapolate_best_full_name(args[0], args[1]))
+
+@pytest.mark.parametrize('names_to_test', ai_generated_name_lists, ids=lambda x: x['description'])
+def test_extrapolate_from_ai_generated_name_lists(names_to_test):
+
+    test_case = {"input": [names_to_test["name_one"], names_to_test["name_two"]]}
+    python_result, typescript_result = test_runner.run("compare_two_names", "compareTwoNames", test_case)
+    test_runner.assert_strict_parity(python_result, typescript_result)
+    assert python_result.match == names_to_test["expected"]
+    assert typescript_result.match == names_to_test["expected"]

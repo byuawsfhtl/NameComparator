@@ -10,7 +10,7 @@ from re import split as re_split
 # aren't any so that it has better compatibility with other FlexibleName
 # functions that I want to make later on
 
-def extrapolate_best_full_name(cleaned_list_of_names) -> tuple[str, dict]:
+def extrapolate_best_full_name(cleaned_list_of_names: list, multiple_possible_matches_dictionary: dict | None = None) -> tuple[str, dict]:
     """This function takes in a list of cleaned names for a single person
     and then determines what the most likely best full name is based on 
     that list, favoring having full names instead of initials or 
@@ -54,9 +54,11 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> tuple[str, dict]:
 
     # Go through each of the name fragments and compare them to the current list of best fragments
     # to determine if there is a better possible name. Store unknown data to parse through later
-    multiple_possible_matches_dictionary: dict = {}
+    if not multiple_possible_matches_dictionary:
+        multiple_possible_matches_dictionary = {}
+
     for broken_name in broken_name_list:
-        print("\nLooking at fragments for a new name \n")
+        print(f"\nLooking at fragments for a new name: {broken_name['complete_name']} \n")
         # If the number of fragments matches the max number of fragments, we can probably safely assume that
         # the names have similar positions as long as their first letters match.
         if len(broken_name['fragment_list']) == fragments_count_of_name_with_most_fragments:
@@ -69,7 +71,7 @@ def extrapolate_best_full_name(cleaned_list_of_names) -> tuple[str, dict]:
             best_name_as_fragments, multiple_possible_matches_dictionary = _extrapolate_names_from_different_length_fragments(broken_name, best_name_as_fragments, multiple_possible_matches_dictionary)
             print(f"Best name as fragments after extrapolating from different length segments: {best_name_as_fragments}")
 
-        print(f"Variables after this iteration: broken_name (that was checked) - {broken_name} multiple_possible_matches_dictionary - {multiple_possible_matches_dictionary}")
+        print(f"Variables after this iteration: broken_name (that was checked) - {broken_name} multiple_possible_matches_dictionary - {multiple_possible_matches_dictionary} best_name_as_fragments - {best_name_as_fragments}")
 
     # After everything else is done, recompile the name fragments into one complete name and return it as a string
     complete_extrapolated_name = ''
@@ -240,8 +242,9 @@ def _extrapolate_names_from_different_length_fragments(broken_name: dict, best_n
                 possible_name_matches_for_specific_fragment.append(index_of_fragment_in_best_name_list) # Note that this only tracks the possible fragment location matches (thier indices)
                 accepted_a_fragment_this_iteration = True
                 print(f"Updated possible name matches for the specific fragment with the index {index_of_fragment_in_best_name_list}")
-            if not found_first_accepted_index and not accepted_a_fragment_this_iteration:
+            if not found_first_accepted_index and accepted_a_fragment_this_iteration:
                 first_accepted_index_of_previous_fragment = index_of_fragment_in_best_name_list
+                print(f"Set the previous name fragment's accepted index to {first_accepted_index_of_previous_fragment}")
                 found_first_accepted_index = True
 
         print(f"All possible matches for this specific fragment: {possible_name_matches_for_specific_fragment}")
@@ -289,9 +292,9 @@ def _check_for_newly_discovered_matches(best_name_as_fragments: list[dict], mult
     """
     for index_key in list(multiple_possible_matches_dictionary):
         # If the item in the name fragments is still an initial, we should definitely look at it
-        print(f"Quick check on the best_name_as_fragments list: {best_name_as_fragments}")
+        print(f"Quick check on the best_name_as_fragments list during the iteration through index key {index_key}: {best_name_as_fragments}")
         check_for_initial_in_name_fragment = best_name_as_fragments[index_key]["edited_fragment"]
-        if len(check_for_initial_in_name_fragment) > 1:
+        if len(check_for_initial_in_name_fragment) == 1:
 
             # We need to make sure there are no other names that are an initial that matches the letter
             # that the index key names start with
@@ -310,14 +313,12 @@ def _check_for_newly_discovered_matches(best_name_as_fragments: list[dict], mult
                 # stuff that we can. Rather than doing it here. This will also introduce a need for more weirdness at the end though
                 # to make sure that the frequencies haven't changed and demoted a particular name's status / confidence in it's
                 # match to be incomplete and result in an initial again
-                else:
-                    check_for_initial_in_other_name_fragment = other_name_fragment['edited_fragment']
-                    if len(check_for_initial_in_other_name_fragment) > 1:
-                        continue
-                    else:
-                        if check_for_initial_in_other_name_fragment == check_for_initial_in_name_fragment:
-                            two_or_more_fragments_are_the_same_initial = True
-                            break
+                check_for_initial_in_other_name_fragment = other_name_fragment['edited_fragment']
+                if len(check_for_initial_in_other_name_fragment) > 1:
+                    continue
+                if check_for_initial_in_other_name_fragment == check_for_initial_in_name_fragment:
+                    two_or_more_fragments_are_the_same_initial = True
+                    break
 
             # If there are two or more fragments with the same initial, we'll want to shelve the rest of the
             # efforts to determine this segment of the name for now
@@ -339,18 +340,20 @@ def _check_for_newly_discovered_matches(best_name_as_fragments: list[dict], mult
                 found_matching_fragment_in_other_location = False
                 for currently_accepted_name_fragment in best_name_as_fragments:
                     fragments_are_likely_the_same = compare_two_names(fragment_to_test_for_belonging['edited_fragment'], currently_accepted_name_fragment['edited_fragment']).match
-                    if fragments_are_likely_the_same:
+                    if fragments_are_likely_the_same and len(currently_accepted_name_fragment['edited_fragment']) > 1:
                         found_matching_fragment_in_other_location = True
                         break
                 # If there is another matching fragment, we don't really want to put it here since it's
                 # unlikely to belong in this slot
                 if found_matching_fragment_in_other_location:
+                    print(f"A fragment matching {fragment_to_test_for_belonging['edited_fragment']} was found in another name and is being cut from the multiple possible matches dictionary")
                     for current_index in multiple_possible_matches_dictionary:
                         multiple_possible_matches_dictionary[current_index].remove(fragment_to_test_for_belonging)
                     continue
                 # If it doesn't match anything else, it probably does go in that slot NOTE: (unless there's 
                 # a more frequent alternative maybe?)
                 else:
+                    print(f"Since there was no other matching fragment for {fragment_to_test_for_belonging['edited_fragment']}, it's being added to a space and cut from the multiple possible matches dictionary")
                     best_name_as_fragments[index_key] = fragment_to_test_for_belonging
                     found_an_initial_replacement = True
                     for current_index in multiple_possible_matches_dictionary:
@@ -363,6 +366,7 @@ def _check_for_newly_discovered_matches(best_name_as_fragments: list[dict], mult
             if found_an_initial_replacement:
                 for fragment_to_test_as_better_option in multiple_possible_matches_dictionary[index_key]:
                     if len(fragment_to_test_as_better_option) > len(best_name_as_fragments[index_key]):
+                        print(f"Since we found a space for {fragment_to_test_as_better_option['edited_fragment']}, it's being cut from the multiple possible matches dictionary")
                         if compare_two_names(fragment_to_test_as_better_option, best_name_as_fragments[index_key]).match:
                             best_name_as_fragments[index_key] = fragment_to_test_as_better_option
                         for current_index in multiple_possible_matches_dictionary:
