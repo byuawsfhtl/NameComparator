@@ -1,6 +1,7 @@
 from pyscripttestutils import PyScriptTestRunner
 import pytest
 from pathlib import Path
+from tests.test_data._ai_generated_unextrapolated_names import ai_generated_name_lists_for_extrapolation
 
 from NameComparator.src.name_extrapolation import clean_name_list, extrapolate_best_full_name
 
@@ -132,11 +133,11 @@ test_runner = PyScriptTestRunner(path_for_typescript_version)
 
 test_runner.add_method(extrapolate_best_full_name, "extrapolateBestFullName", executor = lambda args: extrapolate_best_full_name(args[0], args[1]))
 
-@pytest.mark.parametrize('names_to_test', ai_generated_name_lists, ids=lambda x: x['description'])
-def test_extrapolate_from_ai_generated_name_lists(names_to_test):
+@pytest.mark.parametrize('names_to_test', ai_generated_name_lists_for_extrapolation, ids=lambda x: f"extrapolate to {x['expected_full_name']}")
+def test_extrapolate_from_ai_generated_name_lists(name_to_test):
 
-    test_case = {"input": [names_to_test["name_one"], names_to_test["name_two"]]}
-    python_result, typescript_result = test_runner.run("compare_two_names", "compareTwoNames", test_case)
+    test_case = {"input": name_to_test['list_of_variations']}
+    python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
     test_runner.assert_strict_parity(python_result, typescript_result)
-    assert python_result.match == names_to_test["expected"]
-    assert typescript_result.match == names_to_test["expected"]
+    assert python_result.match == name_to_test["expected_full_name"]
+    assert typescript_result.match == name_to_test["expected_full_name"]

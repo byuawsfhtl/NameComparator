@@ -4,7 +4,7 @@ expected outcome of each. The current version of NameComparator has a high
 level of accuracy at predicting the expected outcome, though it is not 
 perfect."""
 
-articleNames = [
+article_names = [
     {
 		'name_one': 'a bertram lemon',
 		'name_two': 'a. bertram lemon', 

@@ -1,5 +1,5 @@
 import pytest
-from test_data._articleNames import articleNames as list_of_names_with_articles
+from tests.test_data._article_names import articleNames as list_of_names_with_articles
 from pyscripttestutils import PyScriptTestRunner
 from NameComparator.NameComparator import compare_two_names, ResultsOfNameComparison, Attempt
 from pathlib import Path
