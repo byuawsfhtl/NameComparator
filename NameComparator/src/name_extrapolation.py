@@ -10,16 +10,15 @@ from re import split as re_split
 # aren't any so that it has better compatibility with other FlexibleName
 # functions that I want to make later on
 
-def extrapolate_best_full_name(cleaned_list_of_names: list, multiple_possible_matches_dictionary: dict | None = None, name_fragments_and_frequency: list | None = None) -> tuple[str, dict, list]:
-    """This function takes in a list of cleaned names for a single person
+def extrapolate_best_full_name(input_list_of_names: list, multiple_possible_matches_dictionary: dict | None = None, name_fragments_and_frequency: list | None = None) -> tuple[str, dict, list]:
+    """This function takes in a list of names for a single person
     and then determines what the most likely best full name is based on 
     that list, favoring having full names instead of initials or 
     abbreviations when possible.
 
     Args:
-        cleaned_list_of_names: A list of names, cleaned by using one of the
-            cleaning functions, that contains variations of a name for a 
-            particular person
+        cleaned_list_of_names: A list of names that contains variations of a 
+            name for a particular person
         multiple_possible_matches_dictionary: A dictionary of all of the
             possible name fragment matches and positions that are undetermined 
             for a particular name at the time of the start of this function
@@ -44,8 +43,10 @@ def extrapolate_best_full_name(cleaned_list_of_names: list, multiple_possible_ma
     
     # If there is nothing left in the cleaned names, we can't
     # determine the best name so return an empty string
-    if not cleaned_list_of_names:
+    if not input_list_of_names:
         return '', {}, []
+    
+    cleaned_list_of_names = clean_name_list(input_list_of_names)
     
     # If there is only one name in the cleaned names, we can
     # safely say that's the best name in the list. Just

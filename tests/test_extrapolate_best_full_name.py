@@ -20,6 +20,7 @@ cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the first test case:")
 name_result, leftover_fragments, ignored_fragment_frequency_list = extrapolate_best_full_name(cleaned_list_of_names)
 print(f"leftover_fragments - {leftover_fragments}")
+print(f"frequency list at end: {ignored_fragment_frequency_list}")
 print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
 
@@ -31,7 +32,7 @@ print("\n\n")
 
 another_full_final_name = 'John J J Schmidtt'
 
-returned_still_unknown_names = ['Jingleheimer'] # Empty because there should be no unknowns left
+returned_still_unknown_names = ['Jingleheimer']
 
 list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J. S.']
 
@@ -39,6 +40,7 @@ cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the second test case:")
 name_result, leftover_fragments, ignored_fragment_frequency_list = extrapolate_best_full_name(cleaned_list_of_names)
 print(f"leftover_fragments - {leftover_fragments}")
+print(f"frequency list at end: {ignored_fragment_frequency_list}")
 print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
 
@@ -60,6 +62,7 @@ cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the third test case:")
 name_result, leftover_fragments, ignored_fragment_frequency_list = extrapolate_best_full_name(cleaned_list_of_names)
 print(f"leftover_fragments - {leftover_fragments}")
+print(f"frequency list at end: {ignored_fragment_frequency_list}")
 print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
 
@@ -89,6 +92,7 @@ cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the fourth test case:")
 name_result, leftover_fragments, ignored_fragment_frequency_list = extrapolate_best_full_name(cleaned_list_of_names)
 print(f"leftover_fragments - {leftover_fragments}")
+print(f"frequency list at end: {ignored_fragment_frequency_list}")
 print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
 
@@ -137,7 +141,6 @@ def test_simple_solveable_name_case():
     full_final_name = 'John Jacob Jingleheimer Schmidtt'
 
     test_case = {"input": ['J J J S', 'John Schmidtt', 'J Jingleheimer', 'John J J S', 'Jacob Jingleheimer Schmidtt']}
-
     python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
 
     test_runner.assert_strict_parity(python_result, typescript_result)
@@ -145,8 +148,161 @@ def test_simple_solveable_name_case():
     assert typescript_result[0] == full_final_name
     assert python_result[1] == {}
     assert typescript_result[1] == {}
+    assert python_result[2] == [{'unedited_fragment': 'J', 'edited_fragment': 'J', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 6}, 
+                                {'unedited_fragment': 'S', 'edited_fragment': 'S', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 2}, 
+                                {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 2}, 
+                                {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 2}, 
+                                {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
+                                {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}]
+    assert typescript_result[2] == [{'unedited_fragment': 'J', 'edited_fragment': 'J', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 6}, 
+                                    {'unedited_fragment': 'S', 'edited_fragment': 'S', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}]
+    
+
+def test_case_with_unknown_location():
+    full_final_name = 'John J J Schmidtt'
+
+    test_case = {"input": ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J. S.']}
+    python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
+
+    test_runner.assert_strict_parity(python_result, typescript_result)
     assert python_result[0] == full_final_name
     assert typescript_result[0] == full_final_name
+    assert python_result[1] == {
+                                    1: 
+                                        [
+                                            {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 1}
+                                        ], 
+                                    2:  
+                                        [
+                                            {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 1}
+                                        ]
+                                }
+    assert typescript_result[1] == {
+                                        1: 
+                                            [
+                                                {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 1}
+                                            ], 
+                                        2:  
+                                            [
+                                                {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 1}
+                                            ]
+                                    }
+    assert python_result[2] == [{'unedited_fragment': 'J', 'edited_fragment': 'J', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 6}, 
+                                {'unedited_fragment': 'S', 'edited_fragment': 'S', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 2}, 
+                                {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 2}, 
+                                {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 1}, 
+                                {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 1}]
+    assert typescript_result[2] == [{'unedited_fragment': 'J', 'edited_fragment': 'J', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 6}, 
+                                    {'unedited_fragment': 'S', 'edited_fragment': 'S', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 1}, 
+                                    {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 1}]
+
+
+def test_case_with_uneven_name_lengths():
+    full_final_name = 'J J J Schmidtt'
+
+    test_case = {"input": ['J J J S', 'John Jingleheimer Schmidtt', 'Jacob Jingleheimer Schmidtt']}
+    python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
+
+    test_runner.assert_strict_parity(python_result, typescript_result)
+    assert python_result[0] == full_final_name
+    assert typescript_result[0] == full_final_name
+    assert python_result[1] ==  {
+                                    0:  
+                                        [
+                                            {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 1}, 
+                                            {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}
+                                        ], 
+                                    1:  
+                                        [
+                                            {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 1}, 
+                                            {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
+                                            {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1} 
+                                        ], 
+                                    2: 
+                                        [
+                                            {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 1}, 
+                                            {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
+                                            {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}
+                                        ]
+                                }
+    assert typescript_result[1] ==  {
+                                        0:  
+                                            [
+                                                {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 1}, 
+                                                {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}
+                                            ], 
+                                        1:  
+                                            [
+                                                {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 1}, 
+                                                {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
+                                                {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1} 
+                                            ], 
+                                        2: 
+                                            [
+                                                {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 1}, 
+                                                {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
+                                                {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}
+                                            ]
+                                    }
+    assert python_result[2] ==  [{'unedited_fragment': 'J', 'edited_fragment': 'J', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 3}, 
+                                 {'unedited_fragment': 'S', 'edited_fragment': 'S', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 1}, 
+                                 {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 1}, 
+                                 {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
+                                 {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 2}, 
+                                 {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}]
+    assert typescript_result[2] == [{'unedited_fragment': 'J', 'edited_fragment': 'J', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 3}, 
+                                    {'unedited_fragment': 'S', 'edited_fragment': 'S', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 1}, 
+                                    {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 1}, 
+                                    {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}]
+
+
+def test_case_with_conflicting_name_fragments():
+    full_final_name = 'John J Jingleheimer Schmidtt'
+
+    test_case = {"input": ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jangle Jingleheimer Schmidtt']}
+    python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
+
+    test_runner.assert_strict_parity(python_result, typescript_result)
+    assert python_result[0] == full_final_name
+    assert typescript_result[0] == full_final_name
+    assert python_result[1] == {
+                                    1: 
+                                        [
+                                            {'unedited_fragment': 'Jangle', 'edited_fragment': 'Jangle', 'length_of_unedited_fragment': 6, 'edited_fragment_length': 6, 'fragment_frequency': 1}, 
+                                            {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}
+                                        ]
+                                }
+    assert typescript_result[1] ==  {
+                                        1: 
+                                            [
+                                                {'unedited_fragment': 'Jangle', 'edited_fragment': 'Jangle', 'length_of_unedited_fragment': 6, 'edited_fragment_length': 6, 'fragment_frequency': 1}, 
+                                                {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}
+                                            ]
+                                    }
+    assert python_result[2] == [{'unedited_fragment': 'J', 'edited_fragment': 'J', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 3}, 
+                                {'unedited_fragment': 'S', 'edited_fragment': 'S', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 1}, 
+                                {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 2}, 
+                                {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}, 
+                                {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
+                                {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 2}, 
+                                {'unedited_fragment': 'Jangle', 'edited_fragment': 'Jangle', 'length_of_unedited_fragment': 6, 'edited_fragment_length': 6, 'fragment_frequency': 1}]
+    assert typescript_result[2] == [{'unedited_fragment': 'J', 'edited_fragment': 'J', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 3}, 
+                                    {'unedited_fragment': 'S', 'edited_fragment': 'S', 'length_of_unedited_fragment': 1, 'edited_fragment_length': 1, 'fragment_frequency': 1}, 
+                                    {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}, 
+                                    {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 2}, 
+                                    {'unedited_fragment': 'Jangle', 'edited_fragment': 'Jangle', 'length_of_unedited_fragment': 6, 'edited_fragment_length': 6, 'fragment_frequency': 1}]
+
+
 
 @pytest.mark.parametrize('names_to_test', ai_generated_name_lists_for_extrapolation, ids=lambda x: f"extrapolate to {x['expected_full_name']}")
 def test_extrapolate_from_ai_generated_name_lists(name_to_test):
