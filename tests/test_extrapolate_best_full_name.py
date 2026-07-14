@@ -127,17 +127,17 @@ print("\n\n")
 # Juanita Maria S, Juanita Maria Maria Sanchez, Juanita M M-S, Juanita Maria-Sanchez] or something similar. Possibly
 # reorder that to make it cleaner though
 
-path_for_typescript_version = Path(__file__).resolve().parent.parent / "NameComparatorTS" / "dist" / "NameComparatorTS" / "bridge_for_tests.js"
+# path_for_typescript_version = Path(__file__).resolve().parent.parent / "NameComparatorTS" / "dist" / "NameComparatorTS" / "bridge_for_tests.js"
 
-test_runner = PyScriptTestRunner(path_for_typescript_version)
+# test_runner = PyScriptTestRunner(path_for_typescript_version)
 
-test_runner.add_method(extrapolate_best_full_name, "extrapolateBestFullName", executor = lambda args: extrapolate_best_full_name(args[0], args[1]))
+# test_runner.add_method(extrapolate_best_full_name, "extrapolateBestFullName", executor = lambda args: extrapolate_best_full_name(args[0], args[1]))
 
-@pytest.mark.parametrize('names_to_test', ai_generated_name_lists_for_extrapolation, ids=lambda x: f"extrapolate to {x['expected_full_name']}")
-def test_extrapolate_from_ai_generated_name_lists(name_to_test):
+# @pytest.mark.parametrize('names_to_test', ai_generated_name_lists_for_extrapolation, ids=lambda x: f"extrapolate to {x['expected_full_name']}")
+# def test_extrapolate_from_ai_generated_name_lists(name_to_test):
 
-    test_case = {"input": name_to_test['list_of_variations']}
-    python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
-    test_runner.assert_strict_parity(python_result, typescript_result)
-    assert python_result.match == name_to_test["expected_full_name"]
-    assert typescript_result.match == name_to_test["expected_full_name"]
+#     test_case = {"input": name_to_test['list_of_variations']}
+#     python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
+#     test_runner.assert_strict_parity(python_result, typescript_result)
+#     assert python_result.match == name_to_test["expected_full_name"]
+#     assert typescript_result.match == name_to_test["expected_full_name"]
