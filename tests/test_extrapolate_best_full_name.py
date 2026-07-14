@@ -18,7 +18,7 @@ returned_still_unknown_names: list = [] # Empty because there should be no unkno
 
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the first test case:")
-name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
+name_result, leftover_fragments, ignored_fragment_frequency_list = extrapolate_best_full_name(cleaned_list_of_names)
 print(f"leftover_fragments - {leftover_fragments}")
 print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
@@ -37,7 +37,7 @@ list_of_input_names = ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J
 
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the second test case:")
-name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
+name_result, leftover_fragments, ignored_fragment_frequency_list = extrapolate_best_full_name(cleaned_list_of_names)
 print(f"leftover_fragments - {leftover_fragments}")
 print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
@@ -58,7 +58,7 @@ list_of_input_names = ['J J J S', 'John Jingleheimer Schmidtt', 'Jacob Jinglehei
 
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the third test case:")
-name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
+name_result, leftover_fragments, ignored_fragment_frequency_list = extrapolate_best_full_name(cleaned_list_of_names)
 print(f"leftover_fragments - {leftover_fragments}")
 print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
@@ -78,7 +78,7 @@ print("\n\n")
 
 unusual_situation_full_name = 'John Jacob Jingleheimer Schmidtt'
 
-intended_final_result_of_unusual_situation = 'John J. Jingleheimer Schmidtt'
+intended_final_result_of_unusual_situation = 'J J J Schmidtt'
 
 returned_unkown_names_for_unusual_situation = ['Jacob', 'Jangle'] # Do we want to include an expected index for all of these to help with this process? This would probably be
                                                                   # fairly situational to something odd like this though
@@ -87,7 +87,7 @@ list_of_input_names = ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jang
 
 cleaned_list_of_names = clean_name_list(list_of_input_names)
 print("Extrapolating name for the fourth test case:")
-name_result, leftover_fragments = extrapolate_best_full_name(cleaned_list_of_names)
+name_result, leftover_fragments, ignored_fragment_frequency_list = extrapolate_best_full_name(cleaned_list_of_names)
 print(f"leftover_fragments - {leftover_fragments}")
 print(f"Final result of name extrapolation: name - {name_result}")
 print("\n\n")
@@ -127,17 +127,32 @@ print("\n\n")
 # Juanita Maria S, Juanita Maria Maria Sanchez, Juanita M M-S, Juanita Maria-Sanchez] or something similar. Possibly
 # reorder that to make it cleaner though
 
-# path_for_typescript_version = Path(__file__).resolve().parent.parent / "NameComparatorTS" / "dist" / "NameComparatorTS" / "bridge_for_tests.js"
+path_for_typescript_version = Path(__file__).resolve().parent.parent / "NameComparatorTS" / "dist" / "NameComparatorTS" / "bridge_for_tests.js"
 
-# test_runner = PyScriptTestRunner(path_for_typescript_version)
+test_runner = PyScriptTestRunner(path_for_typescript_version)
 
-# test_runner.add_method(extrapolate_best_full_name, "extrapolateBestFullName", executor = lambda args: extrapolate_best_full_name(args[0], args[1]))
+test_runner.add_method(extrapolate_best_full_name, "extrapolateBestFullName", executor = lambda args: extrapolate_best_full_name(args[0], args[1]))
 
-# @pytest.mark.parametrize('names_to_test', ai_generated_name_lists_for_extrapolation, ids=lambda x: f"extrapolate to {x['expected_full_name']}")
-# def test_extrapolate_from_ai_generated_name_lists(name_to_test):
+def test_simple_solveable_name_case():
+    full_final_name = 'John Jacob Jingleheimer Schmidtt'
 
-#     test_case = {"input": name_to_test['list_of_variations']}
-#     python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
-#     test_runner.assert_strict_parity(python_result, typescript_result)
-#     assert python_result.match == name_to_test["expected_full_name"]
-#     assert typescript_result.match == name_to_test["expected_full_name"]
+    test_case = {"input": ['J J J S', 'John Schmidtt', 'J Jingleheimer', 'John J J S', 'Jacob Jingleheimer Schmidtt']}
+
+    python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
+
+    test_runner.assert_strict_parity(python_result, typescript_result)
+    assert python_result[0] == full_final_name
+    assert typescript_result[0] == full_final_name
+    assert python_result[1] == {}
+    assert typescript_result[1] == {}
+    assert python_result[0] == full_final_name
+    assert typescript_result[0] == full_final_name
+
+@pytest.mark.parametrize('names_to_test', ai_generated_name_lists_for_extrapolation, ids=lambda x: f"extrapolate to {x['expected_full_name']}")
+def test_extrapolate_from_ai_generated_name_lists(name_to_test):
+
+    test_case = {"input": name_to_test['list_of_variations']}
+    python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
+    test_runner.assert_strict_parity(python_result, typescript_result)
+    assert python_result[0].match == name_to_test["expected_full_name"]
+    assert typescript_result[0].match == name_to_test["expected_full_name"]
