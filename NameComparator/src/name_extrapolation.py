@@ -58,18 +58,17 @@ def extrapolate_best_full_name(input_list_of_names: list, multiple_possible_matc
 
     # Populate an initial array of strings equal to the length of the name with the most
     # fragments, using the fragments from that name as the starting point
-    fragments_count_of_name_with_most_fragments = len(broken_name_list[index_of_name_with_most_fragments]['fragment_list'])
+    fragment_count_of_name_with_most_fragments = len(broken_name_list[index_of_name_with_most_fragments]['fragment_list'])
     best_name_as_fragments: list[dict] = []
     for initial_name_fragment in broken_name_list[index_of_name_with_most_fragments]['fragment_list']:
         best_name_as_fragments.append(initial_name_fragment)
 
     # Go through each of the name fragments and compare them to the current list of best fragments
     # to determine if there is a better possible name. Store unknown data to parse through later
-
     for broken_name in broken_name_list:
         # If the number of fragments matches the max number of fragments, we can probably safely assume that
-        # the names have similar positions as long as their first letters match.
-        if len(broken_name['fragment_list']) == fragments_count_of_name_with_most_fragments:
+        # the names have similar positions as long as their first letters match
+        if len(broken_name['fragment_list']) == fragment_count_of_name_with_most_fragments:
             best_name_as_fragments, multiple_possible_matches_dictionary = _extrapolate_names_from_equal_length_fragments(broken_name, best_name_as_fragments, multiple_possible_matches_dictionary, name_fragments_and_frequency)
             print(f"Best name as fragments after extrapolating from equal length segments: {best_name_as_fragments}")
 

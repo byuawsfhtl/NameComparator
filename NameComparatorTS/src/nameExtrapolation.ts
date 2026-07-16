@@ -23,7 +23,7 @@ import { compareTwoNames } from "../nameComparator.js";
  *          fragments. Then a list of all the name fragments and how 
  *          frequently they appear
  */
-function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMatchesDictionary: Record<number, Record<string, string | number>> | null, nameFragmentsAndFrequency: Record<string, string | number>[] | null): [string, Record<number, Record<string, string | number>>, Record<string, string | number>[]]{
+function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMatchesDictionary: Record<number, NameFragment> | null, nameFragmentsAndFrequency: NameFragment[] | null): [string, Record<number, Record<string, string | number>>, Record<string, string | number>[]]{
     // If variables are None at the start of the function, set them to
     // a more appropriate empty dictionary or list
     if (multiplePossibleMatchesDictionary === null){
@@ -50,6 +50,31 @@ function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMat
     };
 
     // Break all of the names into a collection of pieces I'm calling fragments
+    var brokenNameList: BrokenNameDictionary[]
+    var indexOfNameWithMostFragments: number;
+    [brokenNameList, indexOfNameWithMostFragments, nameFragmentsAndFrequency] = _breakNamesIntoFragments(cleanedListOfNames, nameFragmentsAndFrequency);
+
+    // Order the list of names according to the number of fragments in each name (from
+    // largest to smalles) to ensure that the names are sorted as expected
+    brokenNameList = [...brokenNameList].sort((a, b) => Number(b['total_fragments']) - Number(a['total_fragments']));
+
+    // Populate an initial array of strings equal to the length of the name with the most
+    // fragments, using the fragments from that name as the starting point
+    const fragmentCountOfNameWithMostFragments = (brokenNameList[indexOfNameWithMostFragments]['fragment_list']).length; // Note that the as unknown[] isn't an issue since we can guarantee this field is always a list
+    var bestNameAsFragments: NameFragment[] = [];
+    for (const initialNameFragment of (brokenNameList[indexOfNameWithMostFragments]['fragment_list'])){
+        bestNameAsFragments.push(initialNameFragment);
+    };
+
+    // Go through each of the name fragments and compare them to the current list of best fragments
+    // to determine if there is a better possible name. Store unknown data to parse through later
+    for (const brokenName of brokenNameList){
+        // If the number of fragments matches the max number of fragments, we can probably safely assume that
+        // the names have similar positions as long as their first letters match
+        if (brokenName['fragment_list'].length === fragmentCountOfNameWithMostFragments){
+            [bestNameAsFragments, multiplePossibleMatchesDictionary] = 
+        }
+    }
 };
 
 /**
@@ -72,7 +97,7 @@ function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMat
  *          total fragments in it and a list of all the name fragments 
  *          and how frequently they appear
  */
-function _breakNamesIntoFragments(cleanedListOfNames: string[], nameFragmentsAndFrequency: Record<string, string | number>[]): [Record<string, string | number | Record<string, string | number>[]>[], number, Record<string, string | number>[]]{
+function _breakNamesIntoFragments(cleanedListOfNames: string[], nameFragmentsAndFrequency: NameFragment[]): [BrokenNameDictionary[], number, NameFragment[]]{
     var brokenNameList = [];
     var currentIndexInNameList = 0;
     var indexOfNameWithMostFragments = 0;
@@ -89,8 +114,8 @@ function _breakNamesIntoFragments(cleanedListOfNames: string[], nameFragmentsAnd
         };
 
         // Create a dictionary to add to a list for later comparison of fragments
-        const emptyList: Record<string, string | number>[] = [];
-        var dictionaryToAddToBrokenNameList = {
+        const emptyList: NameFragment[] = [];
+        var dictionaryToAddToBrokenNameList: BrokenNameDictionary = {
             'complete_name': name,
             'complete_name_position_in_list': currentIndexInNameList,
             'total_fragments': totalNameFragments,
@@ -107,7 +132,7 @@ function _breakNamesIntoFragments(cleanedListOfNames: string[], nameFragmentsAnd
             const lengthOfEditedFragment = editedNameFragment.length;
 
             // Add the fragment to the list of fragments in the name
-            var fragmentToAdd = {
+            var fragmentToAdd: NameFragment = {
                 'unedited_fragment': initialFragment,
                 'edited_fragment': editedNameFragment,
                 'length_of_unedited_fragment': lengthOfFragment,
@@ -138,6 +163,10 @@ function _breakNamesIntoFragments(cleanedListOfNames: string[], nameFragmentsAnd
 
     return [brokenNameList, indexOfNameWithMostFragments, nameFragmentsAndFrequency];
 };
+
+function _extrapolateNamesFromEqualLengthFragments(){
+    
+}
 
 /**
  * This function takes in a list of names to prepare for name extrapolation,
@@ -269,3 +298,22 @@ function removeItemFromList(listToRemoveFrom: string[], itemToRemove: string): s
 
     return listToRemoveFrom;
 };
+
+// This interface guarantees that the typing works to prevent errors with typing
+// in any section of this code involving a name fragment
+interface NameFragment{
+    unedited_fragment: string,
+    edited_fragment: string,
+    length_of_unedited_fragment: number,
+    edited_fragment_length: number,
+    fragment_frequency: number
+}
+
+// This interface guarantees that the typing works to prevent errors with typing
+// in any section of this code involving a dictionary for a broken name
+interface BrokenNameDictionary{
+    complete_name: string,
+    complete_name_position_in_list: number,
+    total_fragments: number,
+    fragment_list: NameFragment[]
+}
