@@ -195,7 +195,6 @@ def _extrapolate_names_from_equal_length_fragments(broken_name: dict, best_name_
         fragments that have multiple possible locations or matches as updated during this 
         call of the function
     """
-
     for fragment_index, specific_fragment in enumerate(broken_name['fragment_list']):
         # Probably turn this into a helper function eventually but for now I'm just going to let it be gross
         if (specific_fragment['edited_fragment'][0] == best_name_as_fragments[fragment_index]['edited_fragment'][0]) and (specific_fragment['edited_fragment_length'] > best_name_as_fragments[fragment_index]['edited_fragment_length'] and compare_two_names(specific_fragment['edited_fragment'], best_name_as_fragments[fragment_index]['edited_fragment']).match):
@@ -232,6 +231,7 @@ def _extrapolate_names_from_equal_length_fragments(broken_name: dict, best_name_
                     multiple_possible_matches_dictionary[fragment_index].append(specific_fragment)
                 else:
                     multiple_possible_matches_dictionary[fragment_index] = [specific_fragment]
+                    
                 multiple_possible_matches_dictionary[fragment_index].append(best_name_as_fragments[fragment_index])
                 best_name_as_fragments[fragment_index] = {
                     'unedited_fragment': specific_fragment['edited_fragment'][0],

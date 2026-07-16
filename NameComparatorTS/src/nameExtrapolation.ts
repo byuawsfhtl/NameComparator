@@ -23,7 +23,7 @@ import { compareTwoNames } from "../nameComparator.js";
  *          fragments. Then a list of all the name fragments and how 
  *          frequently they appear
  */
-function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMatchesDictionary: Record<number, NameFragment> | null, nameFragmentsAndFrequency: NameFragment[] | null): [string, Record<number, Record<string, string | number>>, Record<string, string | number>[]]{
+function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMatchesDictionary: Record<number, NameFragment[]> | null, nameFragmentsAndFrequency: NameFragment[] | null): [string, Record<number, Record<string, string | number>>, Record<string, string | number>[]]{
     // If variables are None at the start of the function, set them to
     // a more appropriate empty dictionary or list
     if (multiplePossibleMatchesDictionary === null){
@@ -72,9 +72,15 @@ function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMat
         // If the number of fragments matches the max number of fragments, we can probably safely assume that
         // the names have similar positions as long as their first letters match
         if (brokenName['fragment_list'].length === fragmentCountOfNameWithMostFragments){
-            [bestNameAsFragments, multiplePossibleMatchesDictionary] = 
-        }
-    }
+            [bestNameAsFragments, multiplePossibleMatchesDictionary] = _extrapolateNamesFromEqualLengthFragments(brokenName, bestNameAsFragments, multiplePossibleMatchesDictionary, nameFragmentsAndFrequency);
+        } else {
+        // If the number of fragments doesn't match the max number of fragments, we'll need to handle the logic
+        // a little bit differently
+
+        };
+    };
+
+    
 };
 
 /**
@@ -164,9 +170,94 @@ function _breakNamesIntoFragments(cleanedListOfNames: string[], nameFragmentsAnd
     return [brokenNameList, indexOfNameWithMostFragments, nameFragmentsAndFrequency];
 };
 
-function _extrapolateNamesFromEqualLengthFragments(){
-    
-}
+/**
+ * This function is a helper function for extrapolate_best_full_name that will take in a 
+ * name that's been broken into it's name fragments and the currently determined best name,
+ * also broken into it's fragments. Then it compares the fragments to each other to 
+ * determine if the fragment from the broken name is a better match than the currently known 
+ * best fragment.
+ * 
+ * @param brokenName - A dictionary containing all of the info on a specific name and all 
+ *                     of it's fragments
+ * @param bestNameAsFragments - A list of name fragments (which are dictionaries) for the 
+ *                              best final name result as calculated so far
+ * @param multiplePossibleMatchesDictionary - A dictionary containing all of the name 
+ *                              fragments that have multiple possible locations that they 
+ *                              could fit in. It's used to help determine locations of 
+ *                              names later on
+ * @param nameFragmentsAndFrequency - A dictionary of all of the name fragments that have 
+ *                                    been used for the name so far, their positions, and 
+ *                                    their frequencies
+ * 
+ * @returns A list of name fragments (which are dictionaries) representing the newly updated
+ *          calculation for the best final name result. It also returns a list of all of the 
+ *          fragments that have multiple possible locations or matches as updated during this 
+ *          call of the function
+ */
+function _extrapolateNamesFromEqualLengthFragments(brokenName: BrokenNameDictionary, bestNameAsFragments: NameFragment[], multiplePossibleMatchesDictionary: Record<number, NameFragment[]>, nameFragmentsAndFrequency: NameFragment[]): [NameFragment[], Record<number, NameFragment[]>]{
+    for (const [fragmentIndex, specificFragment] of brokenName['fragment_list'].entries()){
+        if (specificFragment['edited_fragment'][0] === bestNameAsFragments[fragmentIndex]['edited_fragment'][0] && specificFragment['edited_fragment_length'] > bestNameAsFragments[fragmentIndex]['edited_fragment_length'] && compareTwoNames(specificFragment['edited_fragment'], bestNameAsFragments[fragmentIndex]['edited_fragment']).match === true){
+            bestNameAsFragments[fragmentIndex] = specificFragment;
+            for (const currentIndex in multiplePossibleMatchesDictionary){
+                if (multiplePossibleMatchesDictionary[currentIndex].includes(specificFragment)){
+                    multiplePossibleMatchesDictionary[currentIndex] = removeItemFromList(multiplePossibleMatchesDictionary[currentIndex], specificFragment);
+                };
+            };
+        } else {
+        //In the event that it isn't a great match but has the same positioning, it might be good to look
+        // at it's occurence count in the name_fragments_and_frequency list. If another name has a higher
+        // frequency, it's more likely to be correct so we'll take that one
+
+            //Find the frequency of both names
+            var bestNameFragmentFrequency = 0;
+            var brokenNameFragmentFrequency = 0;
+            for (const frequencyFragment of nameFragmentsAndFrequency){
+                if (frequencyFragment['edited_fragment'] === specificFragment['edited_fragment']){
+                    brokenNameFragmentFrequency = frequencyFragment['fragment_frequency'];
+                };
+                if (frequencyFragment['edited_fragment'] === bestNameAsFragments[fragmentIndex]['edited_fragment']){
+                    bestNameFragmentFrequency = frequencyFragment['fragment_frequency'];
+                };
+            };
+            // If the new fragment is an initial, we'll just ignore it since we'd want a better name than an initial anyways
+            if (specificFragment['edited_fragment'].length === 1 || specificFragment['edited_fragment'] === bestNameAsFragments[fragmentIndex]['edited_fragment']){
+                continue;
+            };
+            // If the new fragment option has more versions, take that
+            if (brokenNameFragmentFrequency > bestNameFragmentFrequency){
+                bestNameAsFragments[fragmentIndex] = specificFragment;
+                for (const currentIndex in multiplePossibleMatchesDictionary){
+                    if (multiplePossibleMatchesDictionary[currentIndex].includes(specificFragment)){
+                        multiplePossibleMatchesDictionary[currentIndex] = removeItemFromList(multiplePossibleMatchesDictionary[currentIndex], specificFragment);
+                    };
+                };
+            } else if (brokenNameFragmentFrequency === bestNameFragmentFrequency && specificFragment['edited_fragment'][0] === bestNameAsFragments[fragmentIndex]['edited_fragment'][0]) {
+            // If they have an equal number and the same initial, just leave an empty intial
+            // fragment and add them both to the multiple possible matches dictionary
+                if (fragmentIndex in multiplePossibleMatchesDictionary){
+                    multiplePossibleMatchesDictionary[fragmentIndex].push(specificFragment);
+                } else {
+                    multiplePossibleMatchesDictionary[fragmentIndex] = [specificFragment];
+                };
+
+                multiplePossibleMatchesDictionary[fragmentIndex].push(bestNameAsFragments[fragmentIndex]);
+                var tempIndexTypeEnforcer: NameFragment = {
+                    'unedited_fragment': specificFragment['edited_fragment'][0],
+                    'edited_fragment': specificFragment['edited_fragment'][0],
+                    'length_of_unedited_fragment': 1,
+                    'edited_fragment_length': 1,
+                    'fragment_frequency': 0
+                };
+                bestNameAsFragments[fragmentIndex] = tempIndexTypeEnforcer;
+            };
+
+            // If the best name one has more versions do nothing and leave the best name as is
+        };
+    };
+
+    return [bestNameAsFragments, multiplePossibleMatchesDictionary];
+
+};
 
 /**
  * This function takes in a list of names to prepare for name extrapolation,
@@ -290,7 +381,7 @@ function cleanNameList(inputListOfNames: string[]): string[]{
  * @returns A list of items that is equivalent to the input
  *          listToRemoveFrom, but without itemToRemove inside of it
  */
-function removeItemFromList(listToRemoveFrom: string[], itemToRemove: string): string[]{
+function removeItemFromList<T>(listToRemoveFrom: T[], itemToRemove: T): T[]{
 
     const indexOfItemToRemove = listToRemoveFrom.indexOf(itemToRemove);
 
