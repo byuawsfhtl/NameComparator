@@ -5,11 +5,6 @@ from re import split as re_split
 # to determine possible full names for a person when a nickname or
 # shorthand version is used
 
-# TODO: This function should probably also take in a dictionary of
-# previously unused fragments and default to an empty dictionary if there
-# aren't any so that it has better compatibility with other FlexibleName
-# functions that I want to make later on
-
 def extrapolate_best_full_name(input_list_of_names: list, multiple_possible_matches_dictionary: dict | None = None, name_fragments_and_frequency: list | None = None) -> tuple[str, dict, list]:
     """This function takes in a list of names for a single person
     and then determines what the most likely best full name is based on 
@@ -17,12 +12,12 @@ def extrapolate_best_full_name(input_list_of_names: list, multiple_possible_matc
     abbreviations when possible.
 
     Args:
-        cleaned_list_of_names: A list of names that contains variations of a 
+        input_list_of_names: A list of names that contains variations of a 
             name for a particular person
         multiple_possible_matches_dictionary: A dictionary of all of the
             possible name fragment matches and positions that are undetermined 
             for a particular name at the time of the start of this function
-        name_fragments_and_frequency: A dictionary of all of the name fragments
+        name_fragments_and_frequency: A list of all of the name fragments
             that have been used for the name so far, their positions, and their
             frequencies
     
@@ -34,14 +29,14 @@ def extrapolate_best_full_name(input_list_of_names: list, multiple_possible_matc
         of all the name fragments and how frequently they appear
     """
     # If variables are None at the start of the function, set them to
-    # a more appropriate empty dictionary
+    # a more appropriate empty dictionary or list
     if not multiple_possible_matches_dictionary:
         multiple_possible_matches_dictionary = {}
 
     if not name_fragments_and_frequency:
         name_fragments_and_frequency = []
     
-    # If there is nothing left in the cleaned names, we can't
+    # If there is nothing in the list of names, we can't
     # determine the best name so return an empty string
     if not input_list_of_names:
         return '', {}, []
@@ -105,6 +100,9 @@ def _break_names_into_fragments(cleaned_list_of_names: list, name_fragments_and_
         cleaned_list_of_names: A list of names, cleaned by using one of 
             the cleaning functions, that contains variations of a name 
             for a particular person
+        name_fragments_and_frequency: A list of all of the name fragments
+            that have been used for the name so far, their positions, and 
+            their frequencies
 
     Returns:
         A list of dictionaries where each entry is a name and the
@@ -114,7 +112,6 @@ def _break_names_into_fragments(cleaned_list_of_names: list, name_fragments_and_
         total fragments in it and a list of all the name fragments 
         and how frequently they appear
     """
-
     broken_name_list = []
     current_index_in_name_list = 0
     index_of_name_with_most_fragments = 0
@@ -168,7 +165,7 @@ def _break_names_into_fragments(cleaned_list_of_names: list, name_fragments_and_
         # Add the fully constructed dictionary to the list of broken up names
         broken_name_list.append(dictionary_to_add_to_broken_name_list)
 
-        # Update this so we know where we are in the cleaned list of names    
+        # Update this so we know where we are in the cleaned list of names
         current_index_in_name_list = current_index_in_name_list + 1
 
     return broken_name_list, index_of_name_with_most_fragments, name_fragments_and_frequency
@@ -200,9 +197,6 @@ def _extrapolate_names_from_equal_length_fragments(broken_name: dict, best_name_
         call of the function
     """
 
-    # TODO: This currently won't update anything to fall under the multiple possible name matches
-    # variable when maybe it should. Look into this and consider implementing it as a part of
-    # the check
     for fragment_index, specific_fragment in enumerate(broken_name['fragment_list']):
         # Probably turn this into a helper function eventually but for now I'm just going to let it be gross
         if (specific_fragment['edited_fragment'][0] == best_name_as_fragments[fragment_index]['edited_fragment'][0]) and (specific_fragment['edited_fragment_length'] > best_name_as_fragments[fragment_index]['edited_fragment_length'] and compare_two_names(specific_fragment['edited_fragment'], best_name_as_fragments[fragment_index]['edited_fragment']).match):
@@ -211,9 +205,6 @@ def _extrapolate_names_from_equal_length_fragments(broken_name: dict, best_name_
             for current_index in multiple_possible_matches_dictionary:
                 if specific_fragment in multiple_possible_matches_dictionary[current_index]:
                     multiple_possible_matches_dictionary[current_index].remove(specific_fragment)
-                # TODO: NOTE: It would probably be best to add this to a list of 'potential names' or
-                # something like that so that later on if there is a conflict and it's unclear which
-                # name should 'win' in a space we can detect if it should just be an initial or not
         # In the event that it isn't a great match but has the same positioning, it might be good to look
         # at it's occurence count in the name_fragments_and_frequency list. If another name has a higher
         # frequency, it's more likely to be correct so we'll take that one
@@ -440,7 +431,18 @@ def _check_for_newly_discovered_matches(best_name_as_fragments: list[dict], mult
     return best_name_as_fragments, multiple_possible_matches_dictionary
 
 
-def clean_name_list(input_list_of_names) -> list[str]:
+def clean_name_list(input_list_of_names: list[str]) -> list[str]:
+    """This function takes in a list of names to prepare for name extrapolation,
+    then standardizes them by doing a few initial comparisons to each other and
+    removing any unusual punctuation that's in them.
+    
+    Args:
+        input_list_of_names: A list of names that need to be cleaned
+        
+    Returns:
+        A list of all of the names, now cleaned and ready to be used for
+        name extrapolation
+    """
 
     list_of_matches = []
     list_of_non_matches = []
@@ -453,7 +455,6 @@ def clean_name_list(input_list_of_names) -> list[str]:
         return []
 
     for item in input_list_of_names:
-
         # Skip the first name because there isn't anything to compare to yet
         if index_count == 0:
             index_count = index_count + 1
@@ -477,11 +478,9 @@ def clean_name_list(input_list_of_names) -> list[str]:
             # If there haven't been any matches, compare to the list of non-matches
             # to see if this name matches any of them
             if not list_of_matches:
-
                 got_an_initial_match = False
 
                 for not_a_match in list_of_non_matches:
-
                     # If we already found a basis from which to create a match list, we don't need to run this anymore
                     if got_an_initial_match:
                         break
@@ -502,16 +501,15 @@ def clean_name_list(input_list_of_names) -> list[str]:
             # Otherwise, compare the new name to the list of matches to see if it
             # matches any of the ones there
             else:
-
                 matches_another_match = False
 
                 for already_a_match in list_of_matches:
-
                     # If it already matches something, we can just skip the rest of the cycle
                     if matches_another_match:
                         break
 
                     result_of_comparison_with_match = compare_two_names(item, already_a_match).match
+
                     # If the name matches another match, add it into the list of matches
                     if result_of_comparison_with_match:
                         matches_another_match = True
