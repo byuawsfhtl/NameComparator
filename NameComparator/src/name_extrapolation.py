@@ -86,7 +86,7 @@ def extrapolate_best_full_name(input_list_of_names: list, multiple_possible_matc
         if add_spaces_index_checker < len(best_name_as_fragments):
             complete_extrapolated_name = complete_extrapolated_name + ' '
 
-    return complete_extrapolated_name, multiple_possible_matches_dictionary, name_fragments_and_frequency
+    return complete_extrapolated_name.strip(), multiple_possible_matches_dictionary, name_fragments_and_frequency
 
 
 def _break_names_into_fragments(cleaned_list_of_names: list, name_fragments_and_frequency: list) -> tuple[list[dict], int, list]:

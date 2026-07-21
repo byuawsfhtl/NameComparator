@@ -135,15 +135,30 @@ path_for_typescript_version = Path(__file__).resolve().parent.parent / "NameComp
 
 test_runner = PyScriptTestRunner(path_for_typescript_version)
 
-test_runner.add_method(extrapolate_best_full_name, "extrapolateBestFullName", executor = lambda args: extrapolate_best_full_name(args[0], args[1]))
+test_runner.add_method(extrapolate_best_full_name, "extrapolateBestFullName", executor = lambda args: extrapolate_best_full_name(args[0]))
+
+def test_run_case_in_just_python():
+    full_final_name: str = "John Jacob Jingleheimer Schmidtt"
+    input_list_of_names = ['J J J S', 'John Schmidtt', 'J Jingleheimer', 'John J J S', 'Jacob Jingleheimer Schmidtt']
+
+    result_of_extrapolation = extrapolate_best_full_name(input_list_of_names)
+
+    print("Result of Python only run, for reference:")
+    print(result_of_extrapolation)
+
+    assert result_of_extrapolation[0] == full_final_name
 
 def test_simple_solveable_name_case():
     full_final_name = 'John Jacob Jingleheimer Schmidtt'
 
-    test_case = {"input": ['J J J S', 'John Schmidtt', 'J Jingleheimer', 'John J J S', 'Jacob Jingleheimer Schmidtt']}
+    test_case = {"input": [['J J J S', 'John Schmidtt', 'J Jingleheimer', 'John J J S', 'Jacob Jingleheimer Schmidtt']]}
     python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
 
-    test_runner.assert_strict_parity(python_result, typescript_result)
+    print("Python result appearance, for reference:")
+    print(python_result)
+    print("TypeScript result appearance, for reference:")
+    print(typescript_result)
+
     assert python_result[0] == full_final_name
     assert typescript_result[0] == full_final_name
     assert python_result[1] == {}
@@ -160,15 +175,15 @@ def test_simple_solveable_name_case():
                                     {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 2}, 
                                     {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
                                     {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}]
+    test_runner.assert_strict_parity(python_result, typescript_result)
     
 
 def test_case_with_unknown_location():
     full_final_name = 'John J J Schmidtt'
 
-    test_case = {"input": ['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J. S.']}
+    test_case = {"input": [['J J J S', 'John Schmidtt', 'J. Jingleheimer', 'John J. J. S.']]}
     python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
 
-    test_runner.assert_strict_parity(python_result, typescript_result)
     assert python_result[0] == full_final_name
     assert typescript_result[0] == full_final_name
     assert python_result[1] == {
@@ -201,15 +216,15 @@ def test_case_with_unknown_location():
                                     {'unedited_fragment': 'John', 'edited_fragment': 'John', 'length_of_unedited_fragment': 4, 'edited_fragment_length': 4, 'fragment_frequency': 2}, 
                                     {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 1}, 
                                     {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 1}]
+    test_runner.assert_strict_parity(python_result, typescript_result)
 
 
 def test_case_with_uneven_name_lengths():
     full_final_name = 'J J J Schmidtt'
 
-    test_case = {"input": ['J J J S', 'John Jingleheimer Schmidtt', 'Jacob Jingleheimer Schmidtt']}
+    test_case = {"input": [['J J J S', 'John Jingleheimer Schmidtt', 'Jacob Jingleheimer Schmidtt']]}
     python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
 
-    test_runner.assert_strict_parity(python_result, typescript_result)
     assert python_result[0] == full_final_name
     assert typescript_result[0] == full_final_name
     assert python_result[1] ==  {
@@ -262,15 +277,15 @@ def test_case_with_uneven_name_lengths():
                                     {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
                                     {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 2}, 
                                     {'unedited_fragment': 'Jacob', 'edited_fragment': 'Jacob', 'length_of_unedited_fragment': 5, 'edited_fragment_length': 5, 'fragment_frequency': 1}]
+    test_runner.assert_strict_parity(python_result, typescript_result)
 
 
 def test_case_with_conflicting_name_fragments():
     full_final_name = 'John J Jingleheimer Schmidtt'
 
-    test_case = {"input": ['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jangle Jingleheimer Schmidtt']}
+    test_case = {"input": [['J J J S', 'John Jacob Jingleheimer Schmidtt', 'John Jangle Jingleheimer Schmidtt']]}
     python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
 
-    test_runner.assert_strict_parity(python_result, typescript_result)
     assert python_result[0] == full_final_name
     assert typescript_result[0] == full_final_name
     assert python_result[1] == {
@@ -301,14 +316,15 @@ def test_case_with_conflicting_name_fragments():
                                     {'unedited_fragment': 'Jingleheimer', 'edited_fragment': 'Jingleheimer', 'length_of_unedited_fragment': 12, 'edited_fragment_length': 12, 'fragment_frequency': 2}, 
                                     {'unedited_fragment': 'Schmidtt', 'edited_fragment': 'Schmidtt', 'length_of_unedited_fragment': 8, 'edited_fragment_length': 8, 'fragment_frequency': 2}, 
                                     {'unedited_fragment': 'Jangle', 'edited_fragment': 'Jangle', 'length_of_unedited_fragment': 6, 'edited_fragment_length': 6, 'fragment_frequency': 1}]
+    test_runner.assert_strict_parity(python_result, typescript_result)
 
 
 
-@pytest.mark.parametrize('names_to_test', ai_generated_name_lists_for_extrapolation, ids=lambda x: f"extrapolate to {x['expected_full_name']}")
+@pytest.mark.parametrize("name_to_test", ai_generated_name_lists_for_extrapolation, ids=lambda x: f"extrapolate to {x['expected_full_name']}")
 def test_extrapolate_from_ai_generated_name_lists(name_to_test):
 
-    test_case = {"input": name_to_test['list_of_variations']}
+    test_case = {"input": [name_to_test["list_of_variations"]]}
     python_result, typescript_result = test_runner.run("extrapolate_best_full_name", "extrapolateBestFullName", test_case)
-    test_runner.assert_strict_parity(python_result, typescript_result)
     assert python_result[0].match == name_to_test["expected_full_name"]
     assert typescript_result[0].match == name_to_test["expected_full_name"]
+    test_runner.assert_strict_parity(python_result, typescript_result)

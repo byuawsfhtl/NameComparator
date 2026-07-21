@@ -23,7 +23,7 @@ import { compareTwoNames } from "../nameComparator.js";
  *          fragments. Then a list of all the name fragments and how 
  *          frequently they appear
  */
-function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMatchesDictionary: Record<number, NameFragment[]> | null, nameFragmentsAndFrequency: NameFragment[] | null): [string, Record<number, NameFragment[]>, NameFragment[]]{
+export function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMatchesDictionary: Record<number, NameFragment[]> | null = null, nameFragmentsAndFrequency: NameFragment[] | null = null): [string, Record<number, NameFragment[]>, NameFragment[]]{
     // If variables are None at the start of the function, set them to
     // a more appropriate empty dictionary or list
     if (multiplePossibleMatchesDictionary === null){
@@ -90,7 +90,7 @@ function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMat
         }
     };
 
-    return [completeExtrapolatedName, multiplePossibleMatchesDictionary, nameFragmentsAndFrequency];
+    return [completeExtrapolatedName.trim(), multiplePossibleMatchesDictionary, nameFragmentsAndFrequency];
 };
 
 /**
