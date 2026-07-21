@@ -311,7 +311,7 @@ function _extrapolateNamesFromDifferentLengthFragments(brokenName: BrokenNameDic
         // unknown location
         for (const [indexOfFragmentInBestNameList, fragmentOfBestName] of bestNameAsFragments.entries()){
             var acceptedAFragmentThisIteration = false;
-            if ((indexOfFragmentInBestNameList > firstAcceptedIndexOfPreviousFragment) && (specificFragment['edited_fragment'][0] === fragmentOfBestName['edited_fragment'][0]) && (specificFragment['edited_fragment'] !== fragmentOfBestName['edited_fragment']) && (compareTwoNames(specificFragment['edited_fragment'], fragmentOfBestName['edited_fragment']).match === true) && ((indexOfFragmentInBestNameList in multiplePossibleMatchesDictionary) && !(specificFragment in multiplePossibleMatchesDictionary[indexOfFragmentInBestNameList]))){
+            if ((indexOfFragmentInBestNameList > firstAcceptedIndexOfPreviousFragment) && (specificFragment['edited_fragment'][0] === fragmentOfBestName['edited_fragment'][0]) && (specificFragment['edited_fragment'] !== fragmentOfBestName['edited_fragment']) && (compareTwoNames(specificFragment['edited_fragment'], fragmentOfBestName['edited_fragment']).match === true) && ((indexOfFragmentInBestNameList in Object.keys(multiplePossibleMatchesDictionary).map(Number)) && (multiplePossibleMatchesDictionary[indexOfFragmentInBestNameList].includes(specificFragment) === false))){
                 possibleNameMatchesForSpecificFragment.push(indexOfFragmentInBestNameList); // Note that this only tracks the possible fragment location matches (by thier indices)
                 acceptedAFragmentThisIteration = true;
             };
