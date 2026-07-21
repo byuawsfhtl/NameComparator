@@ -23,7 +23,7 @@ import { compareTwoNames } from "../nameComparator.js";
  *          fragments. Then a list of all the name fragments and how 
  *          frequently they appear
  */
-function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMatchesDictionary: Record<number, NameFragment[]> | null, nameFragmentsAndFrequency: NameFragment[] | null): [string, Record<number, Record<string, string | number>>, Record<string, string | number>[]]{
+function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMatchesDictionary: Record<number, NameFragment[]> | null, nameFragmentsAndFrequency: NameFragment[] | null): [string, Record<number, NameFragment[]>, NameFragment[]]{
     // If variables are None at the start of the function, set them to
     // a more appropriate empty dictionary or list
     if (multiplePossibleMatchesDictionary === null){
@@ -76,11 +76,21 @@ function extrapolateBestFullName(inputListOfNames: string[], multiplePossibleMat
         } else {
         // If the number of fragments doesn't match the max number of fragments, we'll need to handle the logic
         // a little bit differently
-
+            [bestNameAsFragments, multiplePossibleMatchesDictionary] = _extrapolateNamesFromDifferentLengthFragments(brokenName, bestNameAsFragments, multiplePossibleMatchesDictionary);
         };
     };
 
-    
+    // After everything else is done, recompile the name fragments into one complete name and return it as a string
+    var completeExtrapolatedName = "";
+    var addSpacesIndexChecker = 1;
+    for (const bestFragment of bestNameAsFragments){
+        completeExtrapolatedName = completeExtrapolatedName + bestFragment['edited_fragment'];
+        if (addSpacesIndexChecker < bestNameAsFragments.length){
+            completeExtrapolatedName = completeExtrapolatedName + " ";
+        }
+    };
+
+    return [completeExtrapolatedName, multiplePossibleMatchesDictionary, nameFragmentsAndFrequency];
 };
 
 /**
@@ -252,6 +262,207 @@ function _extrapolateNamesFromEqualLengthFragments(brokenName: BrokenNameDiction
             };
 
             // If the best name one has more versions do nothing and leave the best name as is
+        };
+    };
+
+    return [bestNameAsFragments, multiplePossibleMatchesDictionary];
+
+};
+
+/**
+ * This is a helper function for extrapolate_best_full_name that's used to determine which name
+ * fragments belong in the best final name conclusion when the fragments have a different length.
+ * It uses a collection of logic to determine if a name fragment is better than a currently accepted
+ * one, if there's a conflict, and to determine the order of fragments. This is all used to return
+ * an updated list of the best fragments to be included in the conclusion for the final full name.
+ * 
+ * @param brokenName - A dictionary containing all of the info on a specific name and all 
+ *                     of it's fragments
+ * @param bestNameAsFragments - A list of name fragments (which are dictionaries) for the 
+ *                              best final name result as calculated so far
+ * @param multiplePossibleMatchesDictionary - A dictionary containing all of the name 
+ *                              fragments that have multiple possible locations that they 
+ *                              could fit in. It's used to help determine locations of 
+ *                              names later on
+ * 
+ * 
+ * In the future, it will also include:
+ * @param nameFragmentsAndFrequency - A dictionary of all of the name fragments that have 
+ *                                    been used for the name so far, their positions, and 
+ *                                    their frequencies
+ * 
+ * @returns A list of name fragments (which are dictionaries) representing the newly updated
+ *          calculation for the best final name result. It also returns a list of all of the 
+ *          fragments that have multiple possible locations or matches as updated during this 
+ *          call of the function
+ */
+function _extrapolateNamesFromDifferentLengthFragments(brokenName: BrokenNameDictionary, bestNameAsFragments: NameFragment[], multiplePossibleMatchesDictionary: Record<number, NameFragment[]>): [NameFragment[], Record<number, NameFragment[]>]{
+    var firstAcceptedIndexOfPreviousFragment = -1;
+    for (const specificFragment of brokenName['fragment_list']){
+        var possibleNameMatchesForSpecificFragment = [];
+        var foundFirstAcceptedIndex = false;
+
+        if (bestNameAsFragments.includes(specificFragment)){
+            continue;
+        };
+
+        // If the first letter of the fragment matches the first letter of a fragment from the best
+        // name option, list it as a possible match. If it doesn't match any, list it as an
+        // unknown location
+        for (const [indexOfFragmentInBestNameList, fragmentOfBestName] of bestNameAsFragments.entries()){
+            var acceptedAFragmentThisIteration = false;
+            if ((indexOfFragmentInBestNameList > firstAcceptedIndexOfPreviousFragment) && (specificFragment['edited_fragment'][0] === fragmentOfBestName['edited_fragment'][0]) && (specificFragment['edited_fragment'] !== fragmentOfBestName['edited_fragment']) && (compareTwoNames(specificFragment['edited_fragment'], fragmentOfBestName['edited_fragment']).match === true) && ((indexOfFragmentInBestNameList in multiplePossibleMatchesDictionary) && !(specificFragment in multiplePossibleMatchesDictionary[indexOfFragmentInBestNameList]))){
+                possibleNameMatchesForSpecificFragment.push(indexOfFragmentInBestNameList); // Note that this only tracks the possible fragment location matches (by thier indices)
+                acceptedAFragmentThisIteration = true;
+            };
+            if (foundFirstAcceptedIndex === false && acceptedAFragmentThisIteration === true){
+                firstAcceptedIndexOfPreviousFragment = indexOfFragmentInBestNameList;
+                foundFirstAcceptedIndex = true;
+            };
+        };
+
+        // If there's only one possible matching slot, we're just going to take that one given that the new fragment is better
+        if (possibleNameMatchesForSpecificFragment.length === 1){
+            if (specificFragment['edited_fragment'].length > bestNameAsFragments[possibleNameMatchesForSpecificFragment[0]]['edited_fragment'].length){
+                if (compareTwoNames(specificFragment['edited_fragment'], bestNameAsFragments[possibleNameMatchesForSpecificFragment[0]]['edited_fragment']).match === true){
+                    bestNameAsFragments[possibleNameMatchesForSpecificFragment[0]] = specificFragment;
+                };
+            };
+        }
+
+        // If there are several possible matching slots, we need to store that info for later use
+        else if (possibleNameMatchesForSpecificFragment.length > 1) {
+            for (const index of possibleNameMatchesForSpecificFragment){
+                if (index in multiplePossibleMatchesDictionary) {
+                    multiplePossibleMatchesDictionary[index].push(specificFragment);
+                } else {
+                    multiplePossibleMatchesDictionary[index] = [specificFragment];
+                };
+            };
+        };
+
+        // Now that we have more info, we need to go through each name fragment with an unknown slot
+        // and determine if any of them have a more clear location or if they have something equivalent
+        // that's been figured out
+        [bestNameAsFragments, multiplePossibleMatchesDictionary] = _checkForNewlyDiscoveredMatches(bestNameAsFragments, multiplePossibleMatchesDictionary);
+
+    };
+
+    return [bestNameAsFragments, multiplePossibleMatchesDictionary];
+};
+
+/**
+ * This is a helper function for _extrapolate_names_from_different_length_fragments
+ * that takes in a list of all of the matches with more than one possible location for
+ * a name and deteremines if we have the information to place them in a proper
+ * place in the final name yet or not.
+ * 
+ * @param bestNameAsFragments - A list of name fragments (which are dictionaries) for 
+ *                              the best final name result as calculated so far
+ * @param multiplePossibleMatchesDictionary - A dictionary containing all of the name 
+ *                                            fragments that have multiple possible 
+ *                                            locations that they could fit in
+ * 
+ * @returns A list of name fragments (which are dictionaries) representing the newly 
+ *          updated calculation for the best final name result. It also returns a 
+ *          dictionary containing all the possible remaining name fragments (if any) 
+ *          with an unkown location in the final name calculation
+ */
+function _checkForNewlyDiscoveredMatches(bestNameAsFragments: NameFragment[], multiplePossibleMatchesDictionary: Record<number, NameFragment[]>): [NameFragment[], Record<number, NameFragment[]>]{
+    for (const indexKey of Object.keys(multiplePossibleMatchesDictionary).map(Number)){
+        // If the item in the name fragments is still an initial, we should definitely look at it
+        var checkForInitialInNameFragment = bestNameAsFragments[indexKey]['edited_fragment'];
+        if (checkForInitialInNameFragment.length === 1){
+            // We need to make sure there are no other names that are an initial that matches the letter
+            // that the index key names start with
+            var twoOrMoreFragmentsAreTheSameInitial = false;
+            for (const [indexOfOtherNameFragment, otherNameFragment] of bestNameAsFragments.entries()){
+                // Make sure that we aren't accidentally reading in the same fragment a second time
+                if (indexOfOtherNameFragment === indexKey){
+                    continue;
+                };
+
+                // If it's not, find out if the other name fragment in an initial. If it's not, we can move on. If it is
+                // we need to note that there's another name that could possibly have this one as a match that's just an
+                // initial, so we'll need to move on and skip this particular name fragment check for now.
+                var checkForInitialInOtherNameFragment = otherNameFragment['edited_fragment'];
+                if (checkForInitialInOtherNameFragment.length > 1){
+                    continue;
+                };
+                if (checkForInitialInOtherNameFragment[0] === checkForInitialInNameFragment[0]){
+                    twoOrMoreFragmentsAreTheSameInitial = true;
+                    break;
+                };
+            };
+
+            // If there are two or more fragments with the same initial, we'll want to shelve the rest of the
+            // efforts to determine this segment of the name for now
+            if (twoOrMoreFragmentsAreTheSameInitial === true){
+                continue;
+            };
+
+            // If there are no others that are just an initial, we can check each item inside of the index
+            // key to see if it matches the other name fragments that are currently accepted
+            var foundAnInitialReplacement = false;
+            for (const fragmentToTestForBelonging of multiplePossibleMatchesDictionary[indexKey]){
+                // Search to see if there's another fragment that matches this particular name
+                var foundMatchingFragmentInOtherLocation = false;
+                for (const currentlyAcceptedNameFragment of bestNameAsFragments){
+                    const fragmentsAreLikelyTheSame = compareTwoNames(fragmentToTestForBelonging['edited_fragment'], currentlyAcceptedNameFragment['edited_fragment']).match;
+                    if (fragmentsAreLikelyTheSame === true && currentlyAcceptedNameFragment['edited_fragment'].length > 1){
+                        foundMatchingFragmentInOtherLocation = true;
+                        break;
+                    };
+                };
+                // If there is another matching fragment, we don't really want to put it here since it's
+                // unlikely to belong in this slot
+                if (foundMatchingFragmentInOtherLocation === true){
+                    for (const currentIndex of Object.keys(multiplePossibleMatchesDictionary).map(Number)){
+                        if (multiplePossibleMatchesDictionary[currentIndex].includes(fragmentToTestForBelonging) === true){
+                            var fragmentToRemoveIndex = multiplePossibleMatchesDictionary[currentIndex].indexOf(fragmentToTestForBelonging);
+                            multiplePossibleMatchesDictionary[currentIndex].splice(1, fragmentToRemoveIndex);
+                        };
+                    };
+                    continue;
+                }
+                // If it doesn't match anything else, it probably does go in that slot NOTE: (unless there's 
+                // a more frequent alternative maybe?)
+                else {
+                    bestNameAsFragments[indexKey] = fragmentToTestForBelonging;
+                    foundAnInitialReplacement = true;
+                    for (const currentIndex of Object.keys(multiplePossibleMatchesDictionary).map(Number)){
+                        if (multiplePossibleMatchesDictionary[currentIndex].includes(fragmentToTestForBelonging)){
+                            var fragmentToRemoveIndex = multiplePossibleMatchesDictionary[currentIndex].indexOf(fragmentToTestForBelonging);
+                            multiplePossibleMatchesDictionary[currentIndex].splice(1, fragmentToRemoveIndex);
+                        };
+                    };
+                    break;
+                };
+            };
+
+            // If we found any replacements in the previous step, we need to iterate through the remaining
+            // possible matches in the dictionary to determine if any of them are a more complete version
+            // of the name than the one we took in as a replacement for the initial
+            if (foundAnInitialReplacement === true){
+                for (const fragmentToTestAsBetterOption of multiplePossibleMatchesDictionary[indexKey]){
+                    if (fragmentToTestAsBetterOption['edited_fragment'].length > bestNameAsFragments[indexKey]['edited_fragment'].length) {
+                        if (compareTwoNames(fragmentToTestAsBetterOption['edited_fragment'], bestNameAsFragments[indexKey]['edited_fragment']).match === true){
+                            bestNameAsFragments[indexKey] = fragmentToTestAsBetterOption;
+                        };
+                        for (const currentIndex of Object.keys(multiplePossibleMatchesDictionary).map(Number)){
+                            if (multiplePossibleMatchesDictionary[currentIndex].includes(fragmentToTestAsBetterOption)){
+                                 var fragmentToRemoveIndex = multiplePossibleMatchesDictionary[currentIndex].indexOf(fragmentToTestAsBetterOption);
+                                multiplePossibleMatchesDictionary[currentIndex].splice(1, fragmentToRemoveIndex);
+                            };
+                        };
+                    };
+                };
+            };
+        };
+
+        // At the end of this, if there is nothing left in the key, we want to completely remove the key
+        if (multiplePossibleMatchesDictionary[indexKey].length === 0){
+            delete multiplePossibleMatchesDictionary[indexKey];
         };
     };
 
