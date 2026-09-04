@@ -36,7 +36,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: '3.13'
       
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -48,8 +48,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RLL_BOT_PA_TOKEN }}
         run: |
           python -m pip install --upgrade pip
-          pip install -r NameComparator/requirements.txt
-          pip install -r dev-requirements.txt
+          pip install ".[dev]"
 
       - name: Install npm dependencies
         run: |
@@ -62,5 +61,5 @@ jobs:
         uses: byuawsfhtl/TestCoverageAction@v1.0.0
         with:
           test_paths: tests/
-          exclude_paths: NameComparatorTS/, tests/, **/test_*.py, **/__init__.py, **/_version.py, setup.py, .github/*
+          exclude_paths: NameComparatorTS/, tests/, **/test_*.py, **/__init__.py, **/_version.py, .github/*
           fail_on_low_coverage: false

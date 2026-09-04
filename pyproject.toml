@@ -1,3 +1,45 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "NameComparator"
+dynamic = ["version"]
+description = "This is a library used to compare name similarity."
+readme = "README.md"
+requires-python = ">=3.13"
+authors = [
+    { name = "Record Linking Lab", email = "recordlinkinglab@gmail.com" },
+]
+dependencies = [
+    "rapidfuzz~=3.14.0",
+    "Unidecode~=1.3.8",
+    "numpy>=2.1",
+    "munkres~=1.1.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pyscripttestutils~=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/byuawsfhtl/NameComparator.git"
+"Bug Tracker" = "https://github.com/byuawsfhtl/NameComparator/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "_version.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["NameComparator", "NameComparator.*", "data", "data.*"]
+exclude = ["NameComparatorTS", "NameComparatorTS.*", "tests", "tests.*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.txt", "py.typed"]
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
