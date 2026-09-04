@@ -7,7 +7,6 @@ omit =
     **/__init__.py
     **/_version.py
     _version.py
-    setup.py
     .github/*
 
 [report]
