@@ -12,7 +12,7 @@ from NameComparator.src.ipa import get_ipa
 from NameComparator.src.uniqueness import score_uniqueness
 from NameComparator.src.uniqueness import FrequencyData
 
-# This is required to make sure that it reads in the characters correctly
+# This is required to make sure that it reads in the characters correctly.
 usa_to_1950_surnames = json_loads((Path(__file__).parent.parent / 'data/frequency/surnamesUsaTo1950.json').read_text(encoding='utf-8'))
 usa_to_1950_first_names = json_loads((Path(__file__).parent.parent / 'data/frequency/firstNamesUsaTo1950.json').read_text(encoding='utf-8'))
 
