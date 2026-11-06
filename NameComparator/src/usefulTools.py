@@ -73,10 +73,24 @@ def find_word_matches_and_quality(name_one:str, name_two:str) -> tuple[list[tupl
 
     # For each of the best combinations, we now need to note how many are a combo containing a possible prefix
     for found_combination in best_combinations:
-        if ((words_in_name_one[int(found_combination[0])] in prefix_list) or (words_in_name_two[int(found_combination[1])] in prefix_list)) and (words_in_name_one[int(found_combination[0])] != words_in_name_two[int(found_combination[1])]):
+        if is_possible_prefix_pair(words_in_name_one[int(found_combination[0])], words_in_name_two[int(found_combination[1])]):
             exception_count = exception_count + 1
 
     return best_combinations, exception_count
+
+def is_possible_prefix_pair(word_one: str, word_two: str) -> bool:
+    """Identifies whether a pair of words is two different words, at least one of which
+    is a possible prefix (e.g. 'de' and 'do'). Such a pair lowers the number of word matches
+    that are required for the names to match, so it must never count as a match itself.
+
+    Args:
+        word_one: The word from the first name
+        word_two: The word from the second name
+
+    Returns:
+        True if either word is a possible prefix and the words are different
+    """
+    return ((word_one in prefix_list) or (word_two in prefix_list)) and (word_one != word_two)
 
 def _get_final_words_for_name(words_in_name: list) -> list[str | None]:
     """This is a helper function designed to determine the indices of the
