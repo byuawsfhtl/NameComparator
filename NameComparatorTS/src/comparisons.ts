@@ -1,5 +1,5 @@
 import { ratio as fuzzball_ratio} from "fuzzball";
-import { identifyBestMatches, findWordMatchesAndQuality } from "./usefulTools.js";
+import { identifyBestMatches, findWordMatchesAndQuality, isPossiblePrefixPair } from "./usefulTools.js";
 import { min as mathjs_min, matrix as mathjs_matrix_function, Matrix as mathjs_matrix_class, zeros as mathjs_zeros } from 'mathjs';
 
 // Read the various variables from a file
@@ -89,8 +89,10 @@ function _consonantComparison(nameOne: string, nameTwo: string, wordCombos: [str
         const consonantsInNameTwo = _reduceToSimpleConsonants(wordTwo);
         let consonantRatio = fuzzball_ratio(consonantsInNameOne, consonantsInNameTwo, { full_process: false });
         
-        // Continue if bad match
-        if (originalScoreForWords <= guaranteedFailScore) {
+        // Continue if bad match.
+        // A pair of different prefixes (e.g. 'de' and 'do') already lowered the minimum required
+        // matches, so it must not also count as a match
+        if ((originalScoreForWords <= guaranteedFailScore) || isPossiblePrefixPair(wordOne, wordTwo)) {
             continue;
         } else {
             if ((wordOne.length === 1 && wordOne === wordTwo[0]) || (wordTwo.length === 1 && wordTwo === wordOne[0])){
