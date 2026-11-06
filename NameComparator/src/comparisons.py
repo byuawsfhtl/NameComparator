@@ -5,7 +5,7 @@ from rapidfuzz.fuzz import ratio as fuzz_ratio
 from pathlib import Path
 from json import loads as json_loads
 
-from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality, round_in_a_normal_way
+from NameComparator.src.usefulTools import identify_best_matches, find_word_matches_and_quality, round_in_a_normal_way, is_possible_prefix_pair
 
 # Read the various variables from a file
 prefix_list = json_loads((Path(__file__).parent.parent.parent / 'data/possiblePrefixList.json').read_text(encoding='utf-8'))
@@ -101,8 +101,10 @@ def _consonant_comparison(name_one:str, name_two:str, word_combos: list[tuple[st
         consonants_in_name_two = _reduce_to_simple_consonants(word_two)
         consonant_ratio = round_in_a_normal_way(fuzz_ratio(consonants_in_name_one, consonants_in_name_two))
 
-        # Continue if bad match or update to be a proper score in certain cases with initials
-        if original_score_for_words <= guaranteed_fail_score:
+        # Continue if bad match or update to be a proper score in certain cases with initials.
+        # A pair of different prefixes (e.g. 'de' and 'do') already lowered the minimum required
+        # matches, so it must not also count as a match
+        if (original_score_for_words <= guaranteed_fail_score) or is_possible_prefix_pair(word_one, word_two):
             continue
         elif (len(word_one) == 1 and word_one == word_two[0]) or (len(word_two) == 1 and word_two == word_one[0]):
                 consonant_ratio = 80
