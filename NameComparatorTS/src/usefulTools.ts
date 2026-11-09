@@ -76,12 +76,24 @@ function findWordMatchesAndQualityUnmemoized(nameOne:string, nameTwo:string) : [
 
     // For each of the best combinations, we now need to note how many are a combo containing a possible prefix
     for (const foundCombination of bestCombinations){
-        if ((((prefixList.includes(wordsInNameOne[Number(foundCombination[0])])) === true) || (prefixList.includes(wordsInNameTwo[Number(foundCombination[1])]) === true)) && (wordsInNameOne[Number(foundCombination[0])] != wordsInNameTwo[Number(foundCombination[1])])){
+        if (isPossiblePrefixPair(wordsInNameOne[Number(foundCombination[0])], wordsInNameTwo[Number(foundCombination[1])])){
             exceptionCount = exceptionCount + 1;
         };
     };
 
     return [bestCombinations, exceptionCount];
+};
+
+/**
+ * Identifies whether a pair of words is two different words, at least one of which
+ * is a possible prefix (e.g. 'de' and 'do'). Such a pair lowers the number of word matches
+ * that are required for the names to match, so it must never count as a match itself.
+ * @param wordOne The word from the first name
+ * @param wordTwo The word from the second name
+ * @returns True if either word is a possible prefix and the words are different
+ */
+export function isPossiblePrefixPair(wordOne: string, wordTwo: string): boolean {
+    return (prefixList.includes(wordOne) || prefixList.includes(wordTwo)) && (wordOne !== wordTwo);
 };
 
 /**
